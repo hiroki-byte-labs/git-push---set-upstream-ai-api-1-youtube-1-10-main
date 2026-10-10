@@ -1,0 +1,21 @@
+## sample
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-ecdfd639/sample.mp4
+completed ['mock.fixture', 'mock.sine-cues', 'local.appkit-ffmpeg', 'publisher.disabled']
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+## serve
+/ 200
+/sample.mp4 range 206
+## tests
+ℹ tests 36
+ℹ pass 36
+ℹ fail 0
+ℹ skipped 0
+## tsc
+tsc 0 errors
+## help
+scripts/run src/cli.ts tickets | next | check | sample | serve

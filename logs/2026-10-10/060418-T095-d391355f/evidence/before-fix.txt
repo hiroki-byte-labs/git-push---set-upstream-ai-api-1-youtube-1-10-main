@@ -1,0 +1,323 @@
+✖ 承認後にタイトルを見直すと失効する (3.679667ms)
+✖ 承認後に概要欄が変わると失効する (1.359708ms)
+✖ 承認後にタグが変わると失効する (1.524417ms)
+✖ 承認後にチャプターが変わると失効する (1.212459ms)
+✖ 承認後に字幕が変わると失効する (1.109208ms)
+✖ 承認後にサムネイルの1案が変わると失効する (1.197416ms)
+✖ 承認後にサムネイルの欠落が変わると失効する (1.123125ms)
+✖ 承認後に字幕の欠落が変わると失効する (1.3905ms)
+✖ 承認後にmetadata.jsonの欠落が変わると失効する (1.11525ms)
+✔ 承認後に動画が変わると失効する (1.074542ms)
+✔ 確認対象外の変更（見直し履歴・検査記録・job.jsonの付帯情報・候補タイトル・再計算）では失効しない (1.428708ms)
+✖ 変更前の版での承認は記録しない（CLI/関数） (1.07725ms)
+✖ 動画だけのハッシュ（旧形式の版）では承認できない (0.959416ms)
+✖ 旧形式の承認（動画のハッシュのみ）は一式へ拡張せず再確認を求める (0.957417ms)
+✖ 確認画面: 表示した版で承認、旧画面の版・動画だけのハッシュは409 (13.254042ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 2
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.671625
+
+✖ failing tests:
+
+test at tests/approval.test.ts:24:1
+✖ 承認後にタイトルを見直すと失効する (3.679667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:24:140
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後に概要欄が変わると失効する (1.359708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後にタグが変わると失効する (1.524417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後にチャプターが変わると失効する (1.212459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後に字幕が変わると失効する (1.109208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後にサムネイルの1案が変わると失効する (1.197416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後にサムネイルの欠落が変わると失効する (1.123125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後に字幕の欠落が変わると失効する (1.3905ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:35:13
+✖ 承認後にmetadata.jsonの欠落が変わると失効する (1.11525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:35:81
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:43:1
+✖ 変更前の版での承認は記録しない（CLI/関数） (1.07725ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:43:118
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /異なる/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:44:1
+✖ 動画だけのハッシュ（旧形式の版）では承認できない (0.959416ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:44:52
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /異なる/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:45:1
+✖ 旧形式の承認（動画のハッシュのみ）は一式へ拡張せず再確認を求める (0.957417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'approved'
+  - 'expired'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:47:31
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:145)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'approved',
+    expected: 'expired',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/approval.test.ts:49:1
+✖ 確認画面: 表示した版で承認、旧画面の版・動画だけのハッシュは409 (13.254042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - '5d50d66fa9e75c6eed0a2820906493db5ccf57321ebfad1d0db18d45080f6e16'
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:53:147
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/approval.test.ts:10:139)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: '5d50d66fa9e75c6eed0a2820906493db5ccf57321ebfad1d0db18d45080f6e16',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+EXIT=1

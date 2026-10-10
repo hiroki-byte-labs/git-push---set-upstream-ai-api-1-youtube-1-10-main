@@ -1,0 +1,16 @@
+[
+  {
+    "name": "routine-to-skill",
+    "source": ".agents/skills/routine-to-skill/SKILL.md",
+    "installed": "/Users/hongj/.codex/skills/routine-to-skill/SKILL.md",
+    "sha256": "fdd07849a0e64e9936fd162e466a366f446870dcb48d775400301484e5ac50e7",
+    "identical": true
+  },
+  {
+    "name": "repository-task-closeout",
+    "source": ".agents/skills/repository-task-closeout/SKILL.md",
+    "installed": "/Users/hongj/.codex/skills/repository-task-closeout/SKILL.md",
+    "sha256": "38c9d7ed0af34374691d1a75d9eb2f7d2bba1bb9a0802fa4a06b2ed20c5d91a8",
+    "identical": true
+  }
+]

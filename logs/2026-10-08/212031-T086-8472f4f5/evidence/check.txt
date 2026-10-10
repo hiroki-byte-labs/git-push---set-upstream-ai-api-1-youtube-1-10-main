@@ -1,0 +1,7 @@
+## 列数
+      22
+## 文書のリンク
+templates/topic-candidates.csv
+topic-candidates.csv
+## 参照ID
+ok G11

@@ -1,0 +1,63 @@
+## docs/HANDOFF.md 0章・4章の手順を実行（2026-10-08、NODE_BIN指定）
+## ./scripts/verify（作業回の途中のため、checkはopenセッションで失敗する想定。テストと型検査は個別に実行）
+ℹ tests 77
+ℹ pass 77
+ℹ fail 0
+ℹ skipped 0
+tsc 0 errors
+## next
+
+私が次に行う作業
+T007 サンプルを視聴し制作方針を決める
+T015 Gitの作成者設定と初回コミット
+review: 
+
+AIエージェントが着手可能な作業
+なし
+review: 
+## lint
+安全検査: error 0 / warning 0
+安全検査: error 0 / warning 0
+## jobs（先頭3件）
+reflection-demo-c9a32a3f  completed  2026-10-08T20:24:02.472Z  36秒  確認:pending
+bias-check-demo-14025bab  completed  2026-10-08T20:23:45.568Z  48秒  確認:rejected
+bias-check-demo-58b038aa  completed  2026-10-08T20:21:59.936Z  48秒  確認:pending
+## jobs clean（表示のみ）
+退避候補: ジョブ0件（failed/abandoned → outputs/_trash/）、直下ファイル0件（→ outputs/_archive/日付/）
+（表示のみ。移動するには --apply）
+## review
+bias-check-demo-9233f7b6: approved（承認済み（現在のファイルと一致））
+現在の版: 8390fa5599904ef73ee177b980e9f33713bd22887083db09762fde0fe3a6f850
+## help
+scripts/run src/cli.ts <command>
+  tickets | next | check
+  lint [--plan 台本.json]
+  sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限]
+  serve                                  127.0.0.1:4173 でジョブ一覧・確認画面
+  jobs | jobs abandon <id> [--note 文] | jobs clean [--apply]
+  review <id> | review <id> approve|reject --hash <sha256> [--note 文] [--reviewer 名前]
+## 文書内のファイル参照の実在確認
+ok src/plan.ts
+ok src/lint.ts
+ok src/timeline.ts
+ok src/media.ts
+ok src/connections.ts
+ok src/commands/sample.ts
+ok src/review.ts
+ok src/jobs.ts
+ok src/commands/serve.ts
+ok scripts/render.swift
+ok fixtures/sample-v2.json
+ok tests/media.test.ts
+ok tickets/T015.md
+ok docs/OPERATIONS.md
+ok .node-version
+ok scripts/verify
+ok log 201018-T014-88f3c2d9
+ok log 201216-T041-9f9d938d
+ok log 201429-T042-344c5ddb
+ok log 201552-T043-cbc47a86
+ok log 201926-T044-8be9ad66
+ok log 202302-T024-dcca2f1c
+ok log 202425-T033-13d3f3aa
+ok log 202817-T016-3103d27b

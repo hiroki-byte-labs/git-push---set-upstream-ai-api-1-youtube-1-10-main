@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-10-08T19:14:50.592Z",
+  "timezone": "America/Los_Angeles",
+  "localRecordedAt": "2026-10-08 12:14:50 GMT−7",
+  "author": {
+    "agent": "Codex",
+    "model": "GPT-6 Astra",
+    "modelLabelSource": "user-specified"
+  },
+  "ticket": "T009",
+  "previousSession": {
+    "date": "2026-10-08",
+    "type": "retrospective",
+    "exactActionTimesKnown": false,
+    "sources": [
+      "visible conversation",
+      "repository documents",
+      "tickets"
+    ]
+  },
+  "currentSession": {
+    "type": "contemporaneous",
+    "codeChanged": false,
+    "videoRegenerated": false,
+    "browserRetried": false
+  },
+  "secretsIncluded": false
+}

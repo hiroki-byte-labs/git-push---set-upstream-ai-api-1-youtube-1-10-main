@@ -1,0 +1,10 @@
+## tests
+ℹ tests 77
+ℹ pass 77
+ℹ fail 0
+ℹ skipped 0
+tsc 0 errors
+## browser（組み込みブラウザー）
+- /job/bias-check-demo-9233f7b6: track=日本語、cues=12、mode=showing、5秒付近のactiveCue『登場する場面はすべて架空の例です。』、mediaErrorなし
+- 節: 確認（承認/差戻しボタン）、安全検査 error 0、媒体検査 1152/1152・PSNR 39.7・-24.3 LUFS・字幕soft、台本の表
+- / 一覧: 17件、14025bab=差戻し、9233f7b6=承認済み、他は未確認

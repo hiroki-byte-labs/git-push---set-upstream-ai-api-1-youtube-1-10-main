@@ -1,0 +1,25 @@
+## lint OK fixtures
+安全検査: error 0 / warning 0
+exit=0
+安全検査: error 0 / warning 0
+exit=0
+## lint NG (scratchpad/lint-ng.json: v2サンプルに違反文を3か所注入)
+ERROR [guarantee] 場面2/ナレーション: 利益や値上がりを保証する表現 「今すぐ買うべきです。必ず儲かります。」
+ERROR [recommendation] 場面2/ナレーション: 売買の推奨・勧誘 「今すぐ買うべきです。必ず儲かります。」
+ERROR [unsourced-number] 場面3/字幕1: 数値表現には出典（scene.sources）が必要 「年率5%の運用例です。」
+安全検査: error 3 / warning 0
+exit=1
+## sample NG → 生成前に停止
+ERROR [unsourced-number] 場面3/字幕1: 数値表現には出典（scene.sources）が必要 「年率5%の運用例です。」
+安全検査: error 3 / warning 0
+exit=0
+failed {'ok': False, 'errors': 3, 'warnings': 0} ['lint-checked']
+job.json
+lint.json
+plan.json
+## tests
+ℹ tests 58
+ℹ pass 58
+ℹ fail 0
+ℹ skipped 0
+tsc 0 errors

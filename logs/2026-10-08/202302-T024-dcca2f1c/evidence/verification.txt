@@ -1,0 +1,17 @@
+## sample --plan fixtures/sample-v2.json --budget-usd 0 → bias-check-demo-14025bab
+completed
+{"currency": "USD", "limit": 0, "committed": 0, "reserved": 0, "basis": "mock/local only（実API未接続）"}
+{"domain": "script", "provider": "mock.fixture", "model": "none", "mode": "mock", "requestId": "mock-mock.fixture-1", "inputUnits": 0, "outputUnits": 0, "costUsd": 0, "attempts": 1}
+{"domain": "audio", "provider": "mock.sine-cues", "model": "none", "mode": "mock", "requestId": "mock-mock.sine-cues-1", "inputUnits": 0, "outputUnits": 48, "costUsd": 0, "attempts": 1}
+{"domain": "visual", "provider": "local.appkit-ffmpeg", "model": "none", "mode": "local", "requestId": "local-local.appkit-ffmpeg-1", "inputUnits": 0, "outputUnits": 48, "costUsd": 0, "attempts": 1}
+## 既定（v1）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-c9a32a3f/sample.mp4
+reflection-demo-c9a32a3f completed ['mock', 'mock', 'local'] 0
+## 不正な上限
+Error: 不明な引数: --budget-usd（sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限]）
+## tests
+ℹ tests 70
+ℹ pass 70
+ℹ fail 0
+ℹ skipped 0
+tsc 0 errors

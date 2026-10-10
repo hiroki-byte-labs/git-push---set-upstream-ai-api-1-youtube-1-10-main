@@ -1,0 +1,36 @@
+## v1 sample reflection-demo-53422256: scene-N.png vs 7f46324e
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+## v2 sample bias-check-demo-75e1b521
+completed ['lint-checked', 'audio-ready', 'video-checked']
+segments 21 frames 1152
+fit records 136 not fitted 0 shrunk 0
+## overflow (scratchpad/overflow, 見出し192字を直接レンダラーへ)
+文字が枠に収まりません（1件。render-report.json参照）
+exit=0
+## shrink (30字見出し・14字×4項目)
+Rendered 1 images
+見出し 41 44 True
+図解 25 25 True
+図解 25 25 True
+図解 25 25 True
+図解 25 25 True
+字幕 29 29 True
+## tests
+ℹ tests 65
+ℹ pass 65
+ℹ fail 0
+ℹ skipped 0
+tsc 0 errors
+## v1 再生成（分岐図修正後の最終render.swift）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-3eac00aa/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same

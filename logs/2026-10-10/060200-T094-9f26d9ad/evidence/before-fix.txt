@@ -1,0 +1,104 @@
+✖ 同日に同名ファイルを再退避しても旧内容を上書きしない (1.417042ms)
+✖ ディレクトリの衝突（空の退避先も含む）は拒否 (0.735666ms)
+✔ _trashの同名衝突は拒否し、退避済みジョブを残す (1.447916ms)
+✖ 複数候補の一部が衝突したら、どれも移動しない (1.107041ms)
+✖ 途中で失敗したら、移動済みの項目と元の場所を報告する (0.504667ms)
+✔ 正常な退避と再実行 (1.46175ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 2
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 58.426334
+
+✖ failing tests:
+
+test at tests/jobs.test.ts:7:1
+✖ 同日に同名ファイルを再退避しても旧内容を上書きしない (1.417042ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:11:9
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:4:105)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /退避先が既に存在.*_archive\/2026-10-10\/report\.txt/s,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/jobs.test.ts:16:1
+✖ ディレクトリの衝突（空の退避先も含む）は拒否 (0.735666ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:19:9
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:4:105)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /退避先が既に存在/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/jobs.test.ts:28:1
+✖ 複数候補の一部が衝突したら、どれも移動しない (1.107041ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:31:9
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:4:105)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /b\.txt/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/jobs.test.ts:35:1
+✖ 途中で失敗したら、移動済みの項目と元の場所を報告する (0.504667ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  Error: ENOENT: no such file or directory, rename '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/jobs-KlaxfV/missing.txt' -> '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/jobs-KlaxfV/_archive/2026-10-10/missing.txt'
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:37:9
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:4:105)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: ENOENT: no such file or directory, rename '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/jobs-KlaxfV/missing.txt' -> '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/jobs-KlaxfV/_archive/2026-10-10/missing.txt'
+        at renameSync (node:fs:1074:11)
+        at applyClean (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/jobs.ts:74:5)
+        at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:37:20
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:37:9
+        at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/jobs.test.ts:4:105)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:960:18),
+    operator: 'throws',
+    diff: 'simple'
+  }
+EXIT=1

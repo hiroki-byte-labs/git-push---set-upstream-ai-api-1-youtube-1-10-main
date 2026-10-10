@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+node_modules/
+work/
+outputs/*
+!outputs/.gitkeep
+*.sqlite*
+*.db
+*.mp4
+*.mov
+*.wav
+*.aiff
+.DS_Store

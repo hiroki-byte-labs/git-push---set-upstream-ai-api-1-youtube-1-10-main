@@ -1,0 +1,126 @@
+✔ 同梱の台本（v1/v2）は合格 (1.5835ms)
+✔ 禁止表現: guarantee「この方法なら必ず儲かります。」 (0.265584ms)
+✔ 禁止表現: guarantee「元本保証なので安心です。」 (0.166708ms)
+✔ 禁止表現: recommendation「今すぐ買うのが正解です。」 (0.131125ms)
+✔ 禁止表現: recommendation「おすすめ銘柄を紹介します。」 (0.140709ms)
+✔ 禁止表現: specific-security「証券コード 1234 に注目。」 (0.154458ms)
+✔ 禁止表現: hype「これで爆上げを狙います。」 (0.129083ms)
+✔ 字幕・図解の文言も検査対象 (0.203667ms)
+✔ 数値表現は出典なしでerror、出典ありで合格 (0.36275ms)
+✔ 最終場面の免責がなければerror (0.211792ms)
+✔ 免責文自体は誤検出しない (0.131ms)
+✔ 未使用の出典はwarningのみ (0.165416ms)
+✔ 冒頭構成（T075）: v2サンプルは合格、promise・hook・問いの欠落を指摘 (0.284542ms)
+✔ 冒頭構成（T075）: 30秒より後のhookは数えない、本番尺ではerror (0.186375ms)
+✔ 章（T080）: 未分割・長すぎ・まとめなしを指摘 (0.296042ms)
+✔ 物語と具体例（T081）: サンプルは合格、出典も架空表示もない具体例はerror (0.186625ms)
+✔ 物語と具体例（T081）: 例えばの未指定・順序違い・欠落・物語なし (0.505791ms)
+✔ 会話調（T082）: 語りかけなし・である調をwarning (0.266917ms)
+✔ 用語の先出し（T083）: 「とは」かglossary場面で合格、後出し・未使用はwarning (0.270333ms)
+✔ 強調語（T078）: ナレーションにない語はwarning (0.089792ms)
+✔ 免責の判定（T097）: 正規免責（サンプルの文） (0.090709ms)
+✔ 免責の判定（T097）: チャンネル設定の免責文 (0.065541ms)
+✔ 免責の判定（T097）: 別々の否定文 (0.061792ms)
+✔ 免責の判定（T097）: 完全欠落 (0.065958ms)
+✔ 免責の判定（T097）: 推奨側だけ (0.055834ms)
+✔ 免責の判定（T097）: 保証側だけ (0.054417ms)
+✖ 免責の判定（T097）: 両方肯定（T093の再現） (0.435042ms)
+✖ 免責の判定（T097）: 否定文に肯定の保証文が併存 (0.106042ms)
+✖ 免責の判定（T097）: 一文の中で否定と肯定 (0.1035ms)
+✖ 免責の判定（T097）: ナレーションだけ・字幕だけはerror、字幕は複数cueに分けてよい (1.479834ms)
+✔ 免責の判定（T097）: v1サンプル（字幕＝ナレーション）は合格 (0.089042ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 27
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.842166
+
+✖ failing tests:
+
+test at tests/lint.test.ts:37:13
+✖ 免責の判定（T097）: 両方肯定（T093の再現） (0.435042ms)
+  AssertionError [ERR_ASSERTION]: []
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/lint.test.ts:37:93)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/lint.test.ts:37:13
+✖ 免責の判定（T097）: 否定文に肯定の保証文が併存 (0.106042ms)
+  AssertionError [ERR_ASSERTION]: []
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/lint.test.ts:37:93)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/lint.test.ts:37:13
+✖ 免責の判定（T097）: 一文の中で否定と肯定 (0.1035ms)
+  AssertionError [ERR_ASSERTION]: []
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/lint.test.ts:37:93)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/lint.test.ts:38:1
+✖ 免責の判定（T097）: ナレーションだけ・字幕だけはerror、字幕は複数cueに分けてよい (1.479834ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(disclaimerErrors(closing(ok,[none])).some(f=>f.where.includes('字幕')))
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/lint.test.ts:40:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+EXIT=1

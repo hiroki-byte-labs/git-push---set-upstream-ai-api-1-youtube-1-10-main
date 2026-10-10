@@ -1,0 +1,6 @@
+記録者: Codex / GPT-6 Astra（ユーザー指定）
+PASS: logs内のMarkdown相対リンク
+PASS: ソース・文書 44ファイルのSHA-256
+PASS: 主要ログの記録者・モデル表示
+PASS: checkは17件（evidence/check.txt）
+NOTE: 新たな動画生成・ブラウザー再生・単体テストは今回実施していない

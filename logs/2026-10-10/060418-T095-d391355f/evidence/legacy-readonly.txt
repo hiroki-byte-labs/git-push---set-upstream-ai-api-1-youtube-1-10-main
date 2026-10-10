@@ -1,0 +1,9 @@
+f9a6f0217340e4eda043047a95a6d6cfc1627192  outputs/bias-check-demo-9233f7b6/review.json
+bias-check-demo-9233f7b6: expired（旧形式の承認（動画のみ）。タイトル・概要欄・字幕・サムネイルを含む一式の再確認が必要）
+現在の版（確認対象一式）: d9d015650c886618d448e18e0059c984dbcad33637a38f8fcfd111f33f7f3b63
+  動画 8390fa5599904ef73ee177b980e9f33713bd22887083db09762fde0fe3a6f850
+  字幕 fad5bff14d2b5d2e5caaa4ea97ae15d02117034fc282f38c0750f66fc9d4f266
+  タイトル なし
+  サムネイル なし
+EXIT=0
+f9a6f0217340e4eda043047a95a6d6cfc1627192  outputs/bias-check-demo-9233f7b6/review.json

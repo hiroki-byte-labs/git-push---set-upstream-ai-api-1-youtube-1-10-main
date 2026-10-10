@@ -1,0 +1,19 @@
+## sample v2
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/bias-check-demo-d71fb6a5/sample.mp4
+bias-check-demo-d71fb6a5 completed {'ok': True, 'errors': 0, 'warnings': 0} 1152 39.8
+## v1 不変
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-9731bf01/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+## tests
+ℹ tests 85
+ℹ pass 85
+ℹ fail 0
+tsc 0 errors
+## 札の位置修正後の再生成
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/bias-check-demo-7ca555a9/sample.mp4
+bias-check-demo-7ca555a9 completed 1152 39.8

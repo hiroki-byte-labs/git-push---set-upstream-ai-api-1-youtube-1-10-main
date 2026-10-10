@@ -1,0 +1,33 @@
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:1:# T010 エージェント中立化と終了ログ検査
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:2:- 実施者・記録者: Codex
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:3:- モデル: GPT-6 Astra（user-specified / ユーザー指定表記、実行基盤のIDを独立検証していない）
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:5:- 記録種別: 同時記録。開始調査と新CLIの初期作成後に、このCLIで今回のsessionを作成した。新CLIが存在する前の操作も本ログに含む。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:9:リポジトリ整備・実装・ローカル検証。契約・課金・push・投稿の既存境界は維持。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:12:開始時にAGENTS/README/SPEC/STATUS、T009と関連チケット、check/next、Git状態を確認。開始時17チケット検証成功。Codex限定ownerとscripts/runの端末専用Node自動フォールバックを発見。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:15:- src/worklog.ts / worklog-cli.ts: startでopen記録、finishでcompleted/paused、checkで本文・証跡・ソースの整合性検査。任意agent名、モデルと情報源を記録。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:16:- src/cli.ts checkへ終了ログ検査を接続。未終了時に成功しない。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:20:- AGENTS/CONTRIBUTING/README/docs/AGENT-WORKFLOW/SPEC/STATUS/DECISIONS/logsの入口とテンプレートを更新。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:21:- outputsの案内とソース/ログ配布zipを更新予定。これらはGitとハッシュ対象外の引き渡しコピー。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:25:2. 指示文だけでなく、開始/終了の状態とファイルハッシュを使う。本文や記録後のコード変更を検知する。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:28:5. 作業回を閉じることとチケットdoneは区別。人待ちでも事実と残件を記録して作業回を閉じる。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:32:## 検証コマンド・結果・証跡
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:34:チケット一覧とnextはevidenceに保存。終了前のcheckは18チケットの検査成功後、未終了sessionを検出してexit 1。すべて記録後にfinishとcheckを実施する。終了結果・ファイルハッシュはsession.jsonに記録される。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:37:T006の実再生は未確認のまま。モデル本人性、各AI製品の実機連携、Windows実機、外部CIは未検証。秘密が一般文書へ書かれた場合の自動検出・署名付き監査はない。フックを故意に無効化することは技術的に可能。単一作業ツリー1未終了作業の運用であり、分散排他ロックは実装していない。
+logs/2026-10-08/191903-T010-69b2aea8/WORKLOG.md:40:humanはT007で視聴、agentはT006を制約解消後に検証。独立してT020/T030の具体化・公式調査が可能。今後はREADME→AGENTS→共通ワークフローを読み、start→作業/結果記録→finish→checkを使用。終了後の修正は新session。通常PATHにNodeがない本端末ではdocs/STATUS.mdの明示NODE_BINを使用する。
+logs/2026-10-08/002-traceability/WORKLOG.md:2:- 記録日: 2026-10-08 / America/Los_Angeles。保存時刻はmetadata.json。
+logs/2026-10-08/002-traceability/WORKLOG.md:3:- 実施者・記録者: Codex / GPT-6 Astra（ユーザー指定のモデル名）。
+logs/2026-10-08/002-traceability/WORKLOG.md:4:- 記録種別: 今回作業は同時記録、001-m0-m1は回顧記録。
+logs/2026-10-08/002-traceability/WORKLOG.md:5:- ユーザー依頼: 作った内容・TODO・指示を他AIがトレースできる詳細ログと、誰が記録したかの表示。
+logs/2026-10-08/002-traceability/WORKLOG.md:9:AGENTS.md、README.md、docs/SPEC.md、docs/STATUS.md、T006/T007/T020/T030と依存を確認。checkは16件成功、nextはhuman=T007、codex=T020/T030、review=T006。Gitは既存成果物が未追跡の初期状態。既存コード・生成動画は変更しない。
+logs/2026-10-08/002-traceability/WORKLOG.md:12:- logs/README.md: 索引、ログの正本/スナップショット区別、継続方法、記録者表示の根拠。
+logs/2026-10-08/002-traceability/WORKLOG.md:13:- logs/TEMPLATE.md: 記録者・モデル・日時・依頼・変更・判断・試験・TODO・再開のひな型。
+logs/2026-10-08/002-traceability/WORKLOG.md:15:- 001-m0-m1/WORKLOG.md: 調査、権限、実装、失敗、代替案、生成・検証・残件、ファイルと要求の対応。
+logs/2026-10-08/002-traceability/WORKLOG.md:16:- 本ディレクトリ/TODO.md、tickets-snapshot.txt、next-snapshot.txt: チケットから生成した時点記録。手動の別管理台帳ではない。
+logs/2026-10-08/002-traceability/WORKLOG.md:17:- evidence/: 今回実行したcheck/next、既存検証資料のコピー。動画生成を再実行した証拠ではない。
+logs/2026-10-08/002-traceability/WORKLOG.md:18:- repository-manifest.json: 記録終了時の関連ファイルのSHA-256とサイズ。ログ自身は循環を避け対象外。
+logs/2026-10-08/002-traceability/WORKLOG.md:19:- metadata.json: 記録者、モデル名の情報源、タイムゾーン、記録時刻、対象チケット、履歴の限界。
+logs/2026-10-08/002-traceability/WORKLOG.md:20:- T009追加、AGENTS.mdに継続記録、README/STATUSに導線追加。
+logs/2026-10-08/002-traceability/WORKLOG.md:23:## 検証と結果
+logs/2026-10-08/002-traceability/WORKLOG.md:25:コードや動作の変更を伴わないため、動画再生成と既存の12テストは今回再実行しない。12件成功は初回のdocs/VERIFICATION.mdの記録であり今回の試験と混同しない。
+logs/2026-10-08/002-traceability/WORKLOG.md:28:T006はreview、T007はreadyのまま。今回の環境情報でファイルシステム権限が変わったが、保存済みブラウザー拒否設定の解消は未確認。今回ブラウザーを再試行していない。T020/T030は着手可能だが今回のログ依頼では着手していない。次回はREADME→SPEC→STATUS→対象チケット→check/next→logsの順に確認。
+logs/2026-10-08/002-traceability/WORKLOG.md:30:## 記録の限界

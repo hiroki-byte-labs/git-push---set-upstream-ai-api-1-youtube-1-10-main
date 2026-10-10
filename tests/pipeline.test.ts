@@ -1,0 +1,6 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,readFileSync,rmSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';
+import {FixtureScript,CueAudio,DisabledPublisher,validatePlan} from '../src/providers.ts';
+import {validatePlanV2} from '../src/plan.ts';
+test('企画・場面検証',async()=>{const p=await new FixtureScript().create();assert.equal(p.scenes.reduce((n,s)=>n+s.seconds,0),36);assert.throws(()=>validatePlanV2({...p,id:'../escape'}));assert.throws(()=>validatePlanV2({...p,scenes:[{...p.scenes[0],seconds:-1}]}));const v1=JSON.parse(readFileSync('fixtures/sample.json','utf8'));assert.throws(()=>validatePlan({...v1,scenes:[{...v1.scenes[0],subtitle:'a'.repeat(56)}]}))});
+test('音声は36秒PCM・非無音・決定的',async()=>{const d=mkdtempSync(join(tmpdir(),'audio-test-'));try{const p=await new FixtureScript().create(),a=new CueAudio();await a.create(p,join(d,'a.wav'));await a.create(p,join(d,'b.wav'));const b=readFileSync(join(d,'a.wav'));assert.equal(b.length,44+36*24000*2);assert.equal(b.toString('ascii',0,4),'RIFF');assert.deepEqual(b,readFileSync(join(d,'b.wav')));assert.ok(b.subarray(44).some(n=>n!==0))}finally{rmSync(d,{recursive:true,force:true})}});
+test('投稿を拒否',async()=>assert.rejects(()=>new DisabledPublisher().publish(),/未実装・未承認/));

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+TASK_NODE=${NODE_BIN:-node}
+if ! command -v "$TASK_NODE" >/dev/null 2>&1; then
+  echo 'Node.js 24以上（.node-version参照）をPATHに配置するか、NODE_BIN=/path/to/node を指定してください。' >&2
+  exit 1
+fi
+"$TASK_NODE" -e 'if(Number(process.versions.node.split(".")[0])<24){console.error("Node.js 24以上が必要です");process.exit(1)}'
+exec "$TASK_NODE" "$@"

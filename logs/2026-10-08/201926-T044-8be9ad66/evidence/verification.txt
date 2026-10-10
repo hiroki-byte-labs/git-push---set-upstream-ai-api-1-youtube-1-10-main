@@ -1,0 +1,23 @@
+## 修正前のフレーム数（T043までの書出し方式）
+reflection-demo-7f46324e frame=  863
+reflection-demo-3eac00aa frame=  777
+bias-check-demo-75e1b521 frame= 1066
+(期待: 864 / 864 / 1152。7f46324eはM1当初の方式、3eac00aaと75e1b521はT043の区間方式)
+## 修正後（T044）media-check.json
+reflection-demo-591adf71 burn frames 864 / 864 subStreams 0 psnrMin 39.6 checked 18 / 18 LUFS -24.3 truePeak -15.9
+bias-check-demo-8cc5bf3e burn frames 1152 / 1152 subStreams 0 psnrMin 39.6 checked 21 / 21 LUFS -24.3 truePeak -15.9
+bias-check-demo-9233f7b6 soft frames 1152 / 1152 subStreams 1 psnrMin 39.7 checked 21 / 21 LUFS -24.3 truePeak -15.9
+bias-check-demo-58b038aa both frames 1152 / 1152 subStreams 1 psnrMin 39.6 checked 21 / 21 LUFS -24.3 truePeak -15.9
+## VTT（cue単位・ミリ秒）
+WEBVTT
+
+00:00:00.000 --> 00:00:04.000
+判断の前に、自分の考え方を確かめる練習をします。
+
+00:00:04.000 --> 00:00:08.000
+## tests
+ℹ tests 67
+ℹ pass 67
+ℹ fail 0
+ℹ skipped 0
+tsc 0 errors

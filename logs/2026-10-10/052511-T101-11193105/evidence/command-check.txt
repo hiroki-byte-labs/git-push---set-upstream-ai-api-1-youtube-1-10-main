@@ -1,0 +1,30 @@
+## NODE_BINの実在
+-rwxr-xr-x@ /Users/hongj/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node
+## sampleの引数解釈（--plan fixtures/sample-v2.json --resolution 1080）
+{"plan":"fixtures/sample-v2.json","resolution":1080}
+fixtures/sample-v2.json
+## git status（コミット対象に秘密・動画・生成物がないか）
+該当なし（.env、outputs、mp4、workは対象外）
+     282
+.gitignore:6:outputs/*	outputs/latest.json
+.gitignore:5:work/	work/render
+.gitignore:1:.env	.env
+## pre-commitとhooksPath
+.githooks
+-rwxr-xr-x@
+## 参照先の実在
+ok docs/RESEARCH-GROWTH.md
+ok config/channel.json
+ok tickets/T070.md
+ok tickets/T007.md
+ok tickets/T015.md
+ok tickets/T089.md
+ok tickets/T092.md
+ok tickets/T025.md
+ok tickets/T027.md
+ok tickets/T031.md
+1
+## worklog startの引数（--model human --model-source unknown）が受理される形式か（文字列・unknownは許可値）
+['runtime','user-specified','unknown']
+## check（この作業回がopenの間は失敗する想定）
+Error: 未終了作業: 052511-T101-11193105

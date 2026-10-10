@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+current=$(git config --get core.hooksPath || true)
+if [ -n "$current" ] && [ "$current" != '.githooks' ]; then
+  echo "既存のhooksPath=$current があるため変更しません。docs/AGENT-WORKFLOW.mdに従って統合してください。" >&2
+  exit 1
+fi
+if [ -z "$current" ] && [ -f "$(git rev-parse --git-path hooks/pre-commit)" ]; then
+  echo '既存のpre-commitがあります。上書きせず手動統合してください。' >&2
+  exit 1
+fi
+git config --local core.hooksPath .githooks
+chmod +x .githooks/pre-commit
+printf '%s\n' 'ローカルのコミット前ログ検査を有効化しました。'

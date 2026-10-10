@@ -1,0 +1,199 @@
+{
+ "schema": 2,
+ "id": "bias-check-demo",
+ "title": "投資と心理｜判断の前に確かめること",
+ "version": 1,
+ "sources": [],
+ "scenes": [
+  {
+   "title": "判断の前に、確かめること",
+   "seconds": 8,
+   "narration": "判断の前に、何を確かめればよいのでしょうか？このデモでは考え方を確かめる練習をします。場面は架空の例です。",
+   "cues": [
+    {
+     "text": "判断の前に、自分の考え方を確かめる練習をします。",
+     "seconds": 4
+    },
+    {
+     "text": "登場する場面はすべて架空の例です。",
+     "seconds": 4
+    }
+   ],
+   "diagram": {
+    "type": "flow",
+    "items": [
+     "出来事",
+     "気持ち",
+     "判断"
+    ]
+   },
+   "sources": [],
+   "role": "hook",
+   "chapter": "導入",
+   "emphasis": [
+    "確かめる"
+   ]
+  },
+  {
+   "title": "気持ちが先に動くとき",
+   "seconds": 8,
+   "narration": "価格が大きく動くと、気持ちが先に反応することがあります。まずは、そのことに気づくのが第一歩です。",
+   "cues": [
+    {
+     "text": "価格が動くと、気持ちが先に反応することがあります。",
+     "seconds": 4.5
+    },
+    {
+     "text": "まず、そのことに気づくのが第一歩です。",
+     "seconds": 3.5
+    }
+   ],
+   "diagram": {
+    "type": "branch",
+    "question": "いま、急いで決めたい？",
+    "yes": "ひと呼吸おいて記録",
+    "no": "手順どおりに確認"
+   },
+   "sources": [],
+   "chapter": "気持ちと事実",
+   "role": "example",
+   "beat": "situation",
+   "fictional": true,
+   "emphasis": [
+    "気持ち",
+    "反応"
+   ]
+  },
+  {
+   "title": "事実と解釈を分ける",
+   "seconds": 8,
+   "narration": "解釈とは、見たことから自分が考えたことです。分けて書きましょう。あなたが最近見た事実は何でしたか？",
+   "cues": [
+    {
+     "text": "見たことと、考えたことを分けて書きます。",
+     "seconds": 4
+    },
+    {
+     "text": "分けておくと、後からふり返りやすくなります。",
+     "seconds": 4
+    }
+   ],
+   "diagram": {
+    "type": "compare",
+    "left": "事実",
+    "right": "解釈",
+    "leftItems": [
+     "価格が下がった",
+     "ニュースを見た"
+    ],
+    "rightItems": [
+     "もっと下がりそう",
+     "みんな売っている"
+    ]
+   },
+   "sources": [],
+   "chapter": "気持ちと事実",
+   "role": "question",
+   "beat": "conflict",
+   "fictional": true,
+   "emphasis": [
+    "解釈",
+    "事実"
+   ]
+  },
+  {
+   "title": "確認する観点は三つ",
+   "seconds": 8,
+   "narration": "このデモでは、記録するときの観点を三つに絞ります。出来事、気持ち、そして判断の理由です。",
+   "cues": [
+    {
+     "text": "記録する観点を三つに絞ります。",
+     "seconds": 3.5
+    },
+    {
+     "text": "出来事、気持ち、そして判断の理由です。",
+     "seconds": 4.5
+    }
+   ],
+   "diagram": {
+    "type": "number",
+    "value": "3つ",
+    "label": "記録する観点",
+    "note": "出来事・気持ち・判断の理由"
+   },
+   "sources": [],
+   "chapter": "確かめ方",
+   "emphasis": [
+    "三つ"
+   ]
+  },
+  {
+   "title": "反対の見方も書いてみる",
+   "seconds": 8,
+   "narration": "自分と反対の見方も、一行でよいので書いてみます。どんな見方がありそうですか？",
+   "cues": [
+    {
+     "text": "反対の見方も、一行でよいので書いてみます。",
+     "seconds": 4
+    },
+    {
+     "text": "考えを確かめる助けになります。",
+     "seconds": 4
+    }
+   ],
+   "diagram": {
+    "type": "flow",
+    "items": [
+     "最初の考え",
+     "反対の見方",
+     "もう一度確認",
+     "記録に残す"
+    ]
+   },
+   "sources": [],
+   "chapter": "確かめ方",
+   "role": "question",
+   "beat": "insight",
+   "emphasis": [
+    "反対の見方"
+   ]
+  },
+  {
+   "title": "今日のメモを、次の判断へ。",
+   "seconds": 8,
+   "narration": "記録は次の判断の材料になります。これは学習用のデモで、個別銘柄の推奨や利益の保証はしません。",
+   "cues": [
+    {
+     "text": "記録は、次の判断の材料になります。",
+     "seconds": 3.5
+    },
+    {
+     "text": "学習用のデモです。個別銘柄の推奨や利益の保証はしません。",
+     "seconds": 4.5
+    }
+   ],
+   "diagram": {
+    "type": "flow",
+    "items": [
+     "記録する",
+     "ふり返る",
+     "学びを残す"
+    ]
+   },
+   "sources": [],
+   "chapter": "まとめ",
+   "role": "recap",
+   "beat": "lesson",
+   "emphasis": [
+    "次の判断"
+   ]
+  }
+ ],
+ "promise": "判断の前に考え方を確かめる3つの観点",
+ "glossary": [
+  {
+   "term": "解釈",
+   "definition": "見た事実から、自分が考えたこと"
+  }
+ ]
+}

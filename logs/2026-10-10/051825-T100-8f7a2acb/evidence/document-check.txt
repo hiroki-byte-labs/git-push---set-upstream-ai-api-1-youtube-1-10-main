@@ -1,0 +1,6 @@
+{
+  "document": "docs/CLAUDE-REPAIR-INSTRUCTIONS.md",
+  "existingReferences": 39,
+  "tickets": 6,
+  "result": "PASS"
+}

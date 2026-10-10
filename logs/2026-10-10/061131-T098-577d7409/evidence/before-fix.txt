@@ -1,0 +1,127 @@
+✔ 見積り (0.404292ms)
+✔ 単価・確認日欠落と不正数量を拒否 (0.100375ms)
+✔ 上限: 境界は許可、超過は拒否、見込みを含めて判定 (0.097916ms)
+✔ 有限再試行: 429/5xxは再試行、SAFETYは再試行しない、上限で停止 (0.583792ms)
+✔ callWithBudget: 上限超過の見積りは呼び出す前に拒否（T024） (0.139042ms)
+✔ callWithBudget: 成功で精算しusageを記録、失敗で予約を解放（T024） (0.339833ms)
+✖ T098: 初回が処理後の応答喪失なら、不明額0.6を保持し、上限1を超える再送をしない (0.299542ms)
+✖ T098: 明確な未処理の失敗は予約を解放して再試行する (0.180458ms)
+✖ T098: 最後まで不明なら有限回で止まり、不明額を解放しない（429/SERVERの既定は不明） (1.503666ms)
+✖ T098: 照合で費用が判明したら一度だけ精算し、二重計上しない (0.162709ms)
+✖ T098: 照合で不明のままなら保持する。SAFETYは再試行しない (0.10775ms)
+✖ T098: mock/localの正常系と手元処理の失敗は費用0で確定し、不明額を残さない (0.161709ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 6
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 58.123833
+
+✖ failing tests:
+
+test at tests/budget.test.ts:43:1
+✖ T098: 初回が処理後の応答喪失なら、不明額0.6を保持し、上限1を超える再送をしない (0.299542ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/budget.test.ts:46:2)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /費用不明.*上限/s,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/budget.test.ts:50:1
+✖ T098: 明確な未処理の失敗は予約を解放して再試行する (0.180458ms)
+  AssertionError [ERR_ASSERTION]: undefined == 0
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/budget.test.ts:54:33)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 0,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/budget.test.ts:58:1
+✖ T098: 最後まで不明なら有限回で止まり、不明額を解放しない（429/SERVERの既定は不明） (1.503666ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(Math.abs(b.unknown-1.8)<1e-9)
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/budget.test.ts:62:33)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/budget.test.ts:65:1
+✖ T098: 照合で費用が判明したら一度だけ精算し、二重計上しない (0.162709ms)
+  AssertionError [ERR_ASSERTION]: 0 == 1
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/budget.test.ts:69:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/budget.test.ts:72:1
+✖ T098: 照合で不明のままなら保持する。SAFETYは再試行しない (0.10775ms)
+  AssertionError [ERR_ASSERTION]: 0 == 1
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/budget.test.ts:76:33)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/budget.test.ts:78:1
+✖ T098: mock/localの正常系と手元処理の失敗は費用0で確定し、不明額を残さない (0.161709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be loosely deep-equal:
+  
+  []
+  
+  should loosely deep-equal
+  
+  [
+    [
+      'success',
+      'confirmed',
+      0
+    ],
+    [
+      'failed',
+      'none',
+      0
+    ]
+  ]
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/budget.test.ts:82:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ [ 'success', 'confirmed', 0 ], [ 'failed', 'none', 0 ] ],
+    operator: 'deepEqual',
+    diff: 'simple'
+  }
+EXIT=1

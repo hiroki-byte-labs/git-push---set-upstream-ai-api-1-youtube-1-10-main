@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+# 作業ツリーが正しくても、実際にコミットされるindexに証跡がなければ拒否。
+./scripts/run src/worklog-cli.ts check --staged

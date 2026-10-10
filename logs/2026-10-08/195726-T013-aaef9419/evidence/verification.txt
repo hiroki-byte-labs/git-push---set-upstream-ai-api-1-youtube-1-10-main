@@ -1,0 +1,17 @@
+## tests
+ℹ tests 32
+ℹ pass 32
+ℹ fail 0
+## tsc
+tsc exit=0
+## sample job.json (789ff307)
+completed ['mock.fixture', 'mock.sine-cues', 'local.appkit-ffmpeg', 'publisher.disabled'] {'plan': 1, 'rendererSource': '16d171ae5b6f84fbc1cc786644f7eb36513f6f4c52a4a576ce759246047816a8', 'ffmpeg': 'ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers', 'node': 'v24.19.0'}
+## scene PNG sha256 old(7f46324e) vs new(789ff307)
+scene-1 SAME 6f200486e541bee0737bccfc2f234d38fc5eca6d23687a224249a30e564e01a1
+scene-2 SAME aa124744d71a71a0b24bd6b5f1a0c34d2b58e8cd9e2e2b3685dbe97b855bdb7b
+scene-3 SAME 9695d85ffbe18d6968a5f1a99ea8122760277af2d10fd4032993eca92cd0c193
+scene-4 SAME 682353177d337adbf4b48e4396c90ccb4813639e9111018067364b25bf02eadc
+scene-5 SAME 26706decb38bad950f14a46207e9e42fcd69e6e27125cb870542352ae5d6b772
+scene-6 SAME 222a67e3182dba9cf753ee8650f250ff867934f7501a24de57a23914e8b93f7b
+## render-source欠落時: rm work/render-source → sample 成功 reflection-demo-5c5ac021、render-source再生成
+completed

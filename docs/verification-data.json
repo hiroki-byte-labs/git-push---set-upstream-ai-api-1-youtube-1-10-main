@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-08",
+  "runs": [
+    {
+      "id": "reflection-demo-78d5244d",
+      "status": "completed",
+      "inputHash": "aa94fcb69fbeac4a511c2beb280835a2c2d76f99e6975e4bc990bb148636881e",
+      "outputHash": "a738b2fde1769c7ee372b24795336fcfdfd3ed6d4f15574142c27ce45dfb7538"
+    },
+    {
+      "id": "reflection-demo-7f46324e",
+      "status": "completed",
+      "inputHash": "aa94fcb69fbeac4a511c2beb280835a2c2d76f99e6975e4bc990bb148636881e",
+      "outputHash": "14802c4c10b1e4630c545cab20ca09e1f5b3c6bae561e162da8dfb1757250c74"
+    }
+  ],
+  "sameInput": true,
+  "sameOutput": false,
+  "media": {
+    "expectedDuration": 36,
+    "decodedAudioDuration": 36.010666666666665,
+    "fullDecode": "passed",
+    "audioPeak": 5246,
+    "audioRms": 775.0199851774876,
+    "nonzeroSamples": 99907,
+    "cuePeaks": [
+      5242,
+      5246,
+      5240,
+      5244,
+      5242,
+      5243
+    ],
+    "framesExtracted": 6,
+    "renderer": "AppKit + FFmpeg H264/AAC",
+    "narration": false
+  },
+  "browserPlayback": "NOT VERIFIED: saved permission denied"
+}

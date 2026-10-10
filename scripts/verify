@@ -1,0 +1,7 @@
+#!/bin/sh
+# コミット前の手動一括検証（T013）。pre-commitはログ検査のみで、テスト・型検査はここで実行する。
+set -eu
+cd "$(dirname "$0")/.."
+./scripts/run src/cli.ts check
+./scripts/run --test tests/*.test.ts
+if [ -f node_modules/typescript/bin/tsc ]; then ./scripts/run node_modules/typescript/bin/tsc --noEmit; else echo 'typecheck未実行: pnpm install --frozen-lockfile が必要' >&2; exit 1; fi

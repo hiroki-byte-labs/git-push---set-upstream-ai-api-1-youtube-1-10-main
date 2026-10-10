@@ -1,0 +1,19 @@
+# 隔離コピー（scratchpad/t096-gen）で sample --plan bad.json（v2のthumbnail削除・title=必ず儲かる）
+Error: 安全検査に失敗:
+ERROR [guarantee] サムネイル: 利益や値上がりを保証する表現（描画する文言。titleから） 「必ず儲かる」
+安全検査: error 1 / warning 0
+EXIT=1
+# 生成されたファイル
+job.json
+lint.json
+plan.json
+# job.jsonのstatus/events
+  "status": "failed",
+  "createdAt": "2026-10-10T06:07:40.673Z",
+  "pid": 8244,
+  "providers": [
+--
+  "events": [
+    "lint-checked"
+  ],
+  "lint": {

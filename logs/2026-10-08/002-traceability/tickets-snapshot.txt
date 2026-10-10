@@ -1,0 +1,17 @@
+T001 codex done        P0 M0 deps=- 仕様・規約・ロードマップの整備
+T002 codex done        P0 M0 deps=T001 開発チケット一覧と依存関係検証
+T003 codex done        P0 M0 deps=T001 起動・試験・復旧の手順
+T004 codex done        P0 M1 deps=T001 企画fixtureと交換可能な制作接続
+T005 codex done        P0 M1 deps=T004 字幕・図解・音声を統合して動画を生成
+T006 codex review      P0 M1 deps=T002,T003,T004,T005 サンプルの再生検証と結果保存
+T007 human ready       P1 M1 deps=T005 サンプルを視聴し制作方針を決める
+T008 codex backlog     P3 M1 deps=T006 静的型検査の導入計画
+T009 codex done        P1 M0 deps=T001,T002 他エージェント向けの指示・実施・TODOログを整備
+T020 codex ready       P1 M2 deps=T005 AI接続を公式調査し具体チケットに分解
+T021 human backlog     P1 M2 deps=T020 採用サービスの契約・ローカルキー設定
+T022 codex backlog     P1 M2 deps=T020,T021 AI接続・再生成・予算制御の実装と試験
+T030 codex ready       P1 M3 deps=T005 YouTube公開制限と認証審査の先行調査
+T031 human backlog     P1 M3 deps=T030 チャンネルとYouTube認証の設定
+T032 codex backlog     P1 M3 deps=T022,T031 版に結び付く承認と非公開・予約投稿
+T040 codex backlog     P2 M4 deps=T022 図解・編集と継続制作を拡充
+T050 codex backlog     P2 M5 deps=T032,T040 例外通知だけで進む無人運用

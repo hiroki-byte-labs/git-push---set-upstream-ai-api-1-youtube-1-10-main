@@ -1,0 +1,7 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';
+import {loadChannel,sourcesText,stanceText} from '../src/channel.ts';
+import {loadPlan} from '../src/plan.ts';
+const v2=()=>loadPlan(JSON.parse(readFileSync('fixtures/sample-v2.json','utf8')));
+test('出典一覧（T072）: 出典なし・場面の初出順・未参照は末尾',()=>{assert.match(sourcesText(v2()),/出典: なし/);const p=v2();p.sources=[{id:'a',title:'資料A',url:'https://example.org/a',accessedAt:'2026-10-01'},{id:'b',title:'資料B',url:'https://example.org/b',accessedAt:'2026-10-02'},{id:'c',title:'資料C',url:'https://example.org/c',accessedAt:'2026-10-03'}];p.scenes[0].sources=['b'];p.scenes[3].sources=['a','b'];const t=sourcesText(p);assert.deepEqual(t.split('\n').slice(1).map(l=>l.slice(0,5)),['1. 資料','2. 資料','3. 資料']);assert.match(t,/1\. 資料B（確認日 2026-10-02） https:\/\/example.org\/b/);assert.match(t,/3\. 資料C/)});
+test('立場（T072）: 同梱設定は未確定と明示、確定後は注記なし',()=>{const c=loadChannel();assert.equal(c.decided,false);assert.match(stanceText(c),/未確定/);assert.match(stanceText(c),/推奨や利益の保証/);assert.doesNotMatch(stanceText({...c,decided:true}),/未確定/)});
+test('立場（T072）: 必須項目の欠落を拒否',()=>{const d=mkdtempSync(join(tmpdir(),'ch-'));try{writeFileSync(join(d,'c.json'),JSON.stringify({decided:true,channelName:'x',stance:'',conflictsOfInterest:'x',disclaimer:'x'}));assert.throws(()=>loadChannel(join(d,'c.json')),/stance/)}finally{rmSync(d,{recursive:true,force:true})}});

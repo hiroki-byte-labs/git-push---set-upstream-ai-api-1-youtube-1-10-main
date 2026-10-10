@@ -1,0 +1,11 @@
+## 文書が参照するID・ファイルの実在確認
+ok E2
+ok E12
+ok E13
+ok E17
+ok G19
+ok G20
+ok docs/ASSETS.md
+ok docs/RESEARCH-AI.md
+ok scripts/render.swift
+2:> 2026-10-08のエンハンス（台本v2、安全検査、図解4種、字幕選択、媒体検査、確認画面、ジョブ管理）の全体像は [docs/HANDOFF.md](docs/HANDOFF.md) を参照。演出を追加するときは [docs/PRODUCTION-GUIDELINES.md](docs/PRODUCTION-GUIDELINES.md) に従う。

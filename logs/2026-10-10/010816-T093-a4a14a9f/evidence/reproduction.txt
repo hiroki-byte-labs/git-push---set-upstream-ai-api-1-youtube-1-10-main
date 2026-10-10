@@ -1,0 +1,5 @@
+approval-after-title-edit: approved
+archive-first-content-overwritten: second content
+forbidden-fallback-thumbnail: {"lintOk":true,"thumbs":[{"file":"thumbnail-a.png","variant":"a","headline":"必ず儲かる","sub":"判断の前に考え方を確かめる3つの観点","scene":1},{"file":"thumbnail-b.png","variant":"b","headline":"必ず儲かる","sub":"判断の前に考え方を確かめる3つの観点","scene":1},{"file":"thumbnail-c.png","variant":"c","headline":"必ず儲かる","sub":"判断の前に考え方を確かめる3つの観点","scene":1}]}
+affirmative-guarantee-disclaimer-lint: true
+retry-cost-ledger: {"calls":2,"committed":0.6,"reserved":0,"usage":[{"domain":"script","provider":"isolated-fake","model":"none","mode":"mock","requestId":"second","inputUnits":0,"outputUnits":0,"costUsd":0.6,"attempts":2}],"simulatedCostIfBothCharged":1.2}

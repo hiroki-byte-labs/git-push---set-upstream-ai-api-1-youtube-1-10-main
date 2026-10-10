@@ -1,0 +1,56 @@
+## tickets T070-T092
+T070 human ready       P0 M3 deps=T017 動画ごとの独自性と人の創作工程の方針を決める
+T071 agent backlog     P1 M3 deps=T074 AI利用と人の監修を概要欄・開示設定に表示する
+T072 agent ready       P1 M3 deps=T041 出典・立場・利害関係を画面と概要欄に表示する
+T073 agent ready       P1 M3 deps=T043 サムネイル画像の生成
+T074 agent ready       P1 M3 deps=T041 タイトル・概要欄・チャプターの生成と、公開後の見直し記録
+T075 agent ready       P1 M4 deps=T042 冒頭30秒の構成ルール（約束・問い・予告）
+T076 agent backlog     P2 M5 deps=T031,T032 視聴データ（維持率・CTR・満足度）を取得し次の制作に活かす
+T077 agent backlog     P1 M4 deps=T028 声の要件（話速・間・声質）と制御
+T078 agent ready       P1 M4 deps=T044 全文字幕の重複を避け、キーワードで強調する
+T079 agent ready       P2 M4 deps=T043 注目を誘導する演出（強調・動的描画・場面転換）
+T080 agent ready       P1 M4 deps=T041 章立てと途中のまとめ・問いかけ
+T081 agent ready       P1 M4 deps=T041 物語の構成と具体例
+T082 agent ready       P2 M4 deps=T041 会話調の台本
+T083 agent ready       P2 M4 deps=T041 用語の先出し説明（事前学習）
+T084 agent backlog     P2 M4 deps=T074 実践につながる内容（判断直前に使える道具）
+T085 agent ready       P2 M4 deps=T017 演出を追加するときの指針（誘惑的詳細の回避）
+T086 agent ready       P2 M5 deps=T030 題材選び（検索需要・競合）の調査方法
+T087 human backlog     P2 M5 deps=T032 公開時刻と告知の方針（初日の反応）
+T088 agent backlog     P2 M5 deps=T026,T028 一定の頻度で作れる量産体制
+T089 human ready       P2 M5 deps=T017 長尺とショート動画の方針
+T090 agent backlog     P3 M5 deps=T032 シリーズ化・再生リスト・終了画面
+T091 agent ready       P2 M4 deps=T043 高年齢層・TV視聴に合わせた見やすさ
+T092 human ready       P3 M4 deps=T017 顔出し・アバターの方針
+## next
+
+私が次に行う作業
+T007 サンプルを視聴し制作方針を決める
+T015 Gitの作成者設定と初回コミット
+T070 動画ごとの独自性と人の創作工程の方針を決める
+T089 長尺とショート動画の方針
+T092 顔出し・アバターの方針
+review: 
+
+AIエージェントが着手可能な作業
+T072 出典・立場・利害関係を画面と概要欄に表示する
+T073 サムネイル画像の生成
+T074 タイトル・概要欄・チャプターの生成と、公開後の見直し記録
+T075 冒頭30秒の構成ルール（約束・問い・予告）
+T078 全文字幕の重複を避け、キーワードで強調する
+T079 注目を誘導する演出（強調・動的描画・場面転換）
+T080 章立てと途中のまとめ・問いかけ
+T081 物語の構成と具体例
+T082 会話調の台本
+T083 用語の先出し説明（事前学習）
+T085 演出を追加するときの指針（誘惑的詳細の回避）
+T086 題材選び（検索需要・競合）の調査方法
+T091 高年齢層・TV視聴に合わせた見やすさ
+review: 
+## 文献ID数
+      73
+## チケットの参照する文献IDが本文に存在するか
+   1 ok G9
+   1 ok G7
+   1 ok G6
+(MISSINGが無ければ全参照が存在)

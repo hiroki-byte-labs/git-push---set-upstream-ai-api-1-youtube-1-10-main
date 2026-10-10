@@ -1,0 +1,16 @@
+## v2 既定（soft）bias-check-demo-7181ae22 / burn bias-check-demo-d60be8b6
+bias-check-demo-7181ae22 soft completed 1 1152 39.7
+bias-check-demo-d60be8b6 burn completed 0 1152 39.6
+## v1 --subtitles burn（M1互換の比較）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-27365093/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+## tests
+ℹ tests 104
+ℹ pass 104
+ℹ fail 0
+tsc 0 errors

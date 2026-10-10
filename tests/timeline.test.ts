@@ -1,0 +1,15 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+import {buildSegments,buildRenderSpec,diagramSteps,revealInterval,FPS} from '../src/timeline.ts';
+import {loadPlan,totalSeconds} from '../src/plan.ts';
+import {framesList} from '../src/media.ts';
+const v1=loadPlan(JSON.parse(readFileSync('fixtures/sample.json','utf8')));
+const v2=loadPlan(JSON.parse(readFileSync('fixtures/sample-v2.json','utf8')));
+test('区間は隙間なく総フレーム数を覆う',()=>{for(const p of [v1,v2]){const g=buildSegments(p);assert.equal(g.reduce((n,x)=>n+x.frames,0),totalSeconds(p)*FPS);let f=0;for(const x of g){assert.equal(x.startFrame,f);assert.ok(x.frames>0);f+=x.frames}}});
+test('段数: flowは要素数、compare/branchは2、numberは1',()=>{assert.deepEqual(v2.scenes.map(s=>diagramSteps(s.diagram)),[3,2,2,1,4,3])});
+test('段階表示: 場面の最初は1段目、全段は前半40%以内に出そろう',()=>{for(const p of [v1,v2]){const g=buildSegments(p);p.scenes.forEach((s,i)=>{const mine=g.filter(x=>x.scene===i);assert.equal(mine[0].step,1);const full=mine.find(x=>x.step===diagramSteps(s.diagram))!;const sceneStart=mine[0].startFrame;assert.ok(full.startFrame-sceneStart<=Math.ceil(s.seconds*0.4*FPS))})}});
+test('字幕cueの切替時点で区間が切れる',()=>{const g=buildSegments(v2).filter(x=>x.scene===0);const c2=g.find(x=>x.cue===1)!;assert.equal(c2.startFrame,4*FPS)});
+test('間隔は最大1秒',()=>{assert.equal(revealInterval(30,3),1);assert.equal(revealInterval(2,4),0.2)});
+test('描画仕様: 重複なし＋各場面の完成画像',()=>{const g=buildSegments(v2);const spec=buildRenderSpec(v2,g);const files=spec.frames.map(f=>f.file);assert.equal(new Set(files).size,files.length);for(let i=1;i<=v2.scenes.length;i++)assert.ok(files.includes(`scene-${i}.png`));assert.ok(buildRenderSpec(v2,g,'none').frames.every(f=>f.cue===null))});
+test('frames.txtは区間の秒数を使う',()=>{const t=framesList(v2,[{file:'a.png',frames:36},{file:'b.png',frames:12}]);assert.equal(t,"file 'a.png'\nduration 1.5\nfile 'b.png'\nduration 0.5\nfile 'b.png'\n")});
+test('フェードと強調（T079）: 段の出現直後に2フレームずつ1/3・2/3、1秒間強調、完成状態は従来名',async()=>{const {FADE_STEPS,HIGHLIGHT_FRAMES}=await import('../src/timeline.ts');const g=buildSegments(v2).filter(x=>x.scene===0);assert.deepEqual(g.slice(0,3).map(x=>[x.step,x.fade,x.frames]),[[1,FADE_STEPS[0],2],[1,FADE_STEPS[1],2],[1,1,HIGHLIGHT_FRAMES-4]]);assert.ok(g[0].highlight&&g[2].highlight);const full=g.filter(x=>x.step===3&&!x.highlight);assert.ok(full.length&&full.every(x=>x.fade===1&&/^s1-st3-c\d\.png$/.test(x.file)));assert.equal(g.reduce((n,x)=>n+x.frames,0),8*FPS)});
+test('フェードと強調（T079）: style.transitions=falseで従来の区間に戻る',()=>{const p=JSON.parse(JSON.stringify(v2));p.style={transitions:false};const g=buildSegments(p);assert.ok(g.every(x=>x.fade===1&&!x.highlight&&!/-f\d/.test(x.file)));assert.equal(g.reduce((n,x)=>n+x.frames,0),totalSeconds(v2)*FPS)});

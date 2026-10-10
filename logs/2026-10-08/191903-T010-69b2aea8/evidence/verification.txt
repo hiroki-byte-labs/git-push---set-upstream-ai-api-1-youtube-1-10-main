@@ -1,0 +1,27 @@
+記録者: Codex / GPT-6 Astra（user-specified）
+対象: T010 / 2026-10-08
+記録種別: 本作業で実行したツール結果の要約。全生出力のコピーではない。
+
+コマンド: NODE_BIN=<本端末のNode v24実行ファイル> ./scripts/run --test tests/*.test.ts
+結果: tests 24 / pass 24 / fail 0 / cancelled 0 / skipped 0
+- 従来12件のチケット・制作データ試験に回帰なし。
+- ログなし、未終了、二重開始、ひな型未記入を拒否。
+- 任意のエージェント名（Codex / Claude / Gemini / Local custom agent）が同じ処理で記録・終了可能。これらの製品本体を起動して試験したわけではない。
+- ソース追加/変更/削除と終了後の本文/添付証跡変更を拒否。
+- pausedで記録を閉じ新しい作業回を開始可能。
+- 存在しないチケットと必須情報不足を拒否。
+- .env・生成物をスナップショット対象から除外。
+- ステージにログがない場合とステージのコードが終了時点と異なる場合を拒否。
+- 隔離した一時Git内で実pre-commit実行。証跡なしcommitは失敗、整合するindexのcommitは成功。実リポジトリではcommitしていない。
+- 終了済みsessionを再終了できない。
+
+コマンド: ./scripts/install-hooks
+結果: このcloneのcore.hooksPathを.githooksへ設定（既存設定なし）。
+コマンド: git config --get core.hooksPath
+結果: .githooks
+
+コマンド: NODE_BIN=<本端末Node> ./scripts/run src/cli.ts check
+終了前結果: OK: 18 tickets / Error: 未終了作業: 191903-T010-69b2aea8 / exit 1
+この失敗は意図した検査の証跡。作業ログ終了後に再度検査する。
+
+未実施: 各AI製品の実機検証、外部CI、リモート公開・push、動画再生成、ブラウザー実再生、有料API。

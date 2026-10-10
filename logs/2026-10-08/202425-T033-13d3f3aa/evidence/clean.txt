@@ -1,0 +1,54 @@
+## jobs clean --apply
+退避候補: ジョブ5件（failed/abandoned → outputs/_trash/）、直下ファイル8件（→ outputs/_archive/日付/）
+  job  lint-ng-demo-a131b4a5 (failed)
+  job  reflection-demo-16b69acb (failed)
+  job  reflection-demo-93d9f090 (failed)
+  job  reflection-demo-9fcf5bfe (failed)
+  job  reflection-demo-fe502624 (failed)
+  file LOGS-INDEX.md
+  file SKILLS.md
+  file START-HERE.md
+  file UNIVERSAL-WORKFLOW.md
+  file contact-sheet.png
+  file logs.zip
+  file skills.zip
+  file source.zip
+移動: lint-ng-demo-a131b4a5 → _trash/lint-ng-demo-a131b4a5
+移動: reflection-demo-16b69acb → _trash/reflection-demo-16b69acb
+移動: reflection-demo-93d9f090 → _trash/reflection-demo-93d9f090
+移動: reflection-demo-9fcf5bfe → _trash/reflection-demo-9fcf5bfe
+移動: reflection-demo-fe502624 → _trash/reflection-demo-fe502624
+移動: LOGS-INDEX.md → _archive/2026-10-08/LOGS-INDEX.md
+移動: SKILLS.md → _archive/2026-10-08/SKILLS.md
+移動: START-HERE.md → _archive/2026-10-08/START-HERE.md
+移動: UNIVERSAL-WORKFLOW.md → _archive/2026-10-08/UNIVERSAL-WORKFLOW.md
+移動: contact-sheet.png → _archive/2026-10-08/contact-sheet.png
+移動: logs.zip → _archive/2026-10-08/logs.zip
+移動: skills.zip → _archive/2026-10-08/skills.zip
+移動: source.zip → _archive/2026-10-08/source.zip
+## 移動後
+.
+..
+.DS_Store
+.gitkeep
+_archive
+_trash
+latest.json
+outputs/_archive/2026-10-08:
+LOGS-INDEX.md
+SKILLS.md
+START-HERE.md
+UNIVERSAL-WORKFLOW.md
+contact-sheet.png
+logs.zip
+skills.zip
+source.zip
+
+outputs/_trash:
+lint-ng-demo-a131b4a5
+reflection-demo-16b69acb
+reflection-demo-93d9f090
+reflection-demo-9fcf5bfe
+reflection-demo-fe502624
+退避候補: ジョブ0件（failed/abandoned → outputs/_trash/）、直下ファイル0件（→ outputs/_archive/日付/）
+（表示のみ。移動するには --apply）

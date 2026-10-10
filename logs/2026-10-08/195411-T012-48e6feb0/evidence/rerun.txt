@@ -1,0 +1,26 @@
+## test
+ℹ tests 28
+ℹ pass 28
+ℹ fail 0
+## tsc
+tsc exit=0
+## hooksPath
+.githooks
+## ticket parser probe
+{
+ "crlf": "rejected: Error: front matterが必要",
+ "emptySections": "accepted",
+ "extraKey": "accepted"
+}
+## job.json providers
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.avfoundation",
+    "publisher.disabled"
+  "renderer": "AppKit + FFmpeg H264/AAC",
+## T008 log timing
+  "createdAt": "2026-10-08T19:34:24.806Z",
+  "closedAt": "2026-10-08T19:35:33.046Z",
+  "createdAt": "2026-10-08T19:35:33.139Z",
+  "closedAt": "2026-10-08T19:46:18.234Z",

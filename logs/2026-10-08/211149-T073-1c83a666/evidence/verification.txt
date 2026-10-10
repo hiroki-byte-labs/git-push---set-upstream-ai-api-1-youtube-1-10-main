@@ -1,0 +1,46 @@
+## v2 bias-check-demo-de623ab6
+completed [{'file': 'thumbnail-a.png', 'ok': True, 'issues': []}, {'file': 'thumbnail-b.png', 'ok': True, 'issues': []}, {'file': 'thumbnail-c.png', 'ok': True, 'issues': []}]
+thumbnail-a.png 85072 bytes
+thumbnail-b.png 89840 bytes
+thumbnail-c.png 84860 bytes
+[
+  {
+    "variant" : "a",
+    "headlineSize" : 110,
+    "contrast" : 18.128697318697988,
+    "fitted" : true,
+    "file" : "thumbnail-a.png"
+  },
+  {
+    "variant" : "b",
+    "headlineSize" : 80,
+    "contrast" : 18.128697318697988,
+    "fitted" : true,
+    "file" : "thumbnail-b.png"
+  },
+  {
+    "variant" : "c",
+    "headlineSize" : 110,
+    "contrast" : 9.892569247502967,
+    "fitted" : true,
+    "file" : "thumbnail-c.png"
+  }
+]## 確認画面
+img src="/job/bias-check-demo-de623ab6/thumbnail-a.png"
+img src="/job/bias-check-demo-de623ab6/thumbnail-b.png"
+img src="/job/bias-check-demo-de623ab6/thumbnail-c.png"
+thumbnail-a 200 image/png
+thumbnail-x 404
+## v1 不変
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-5a363202/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+## tests
+ℹ tests 102
+ℹ pass 102
+ℹ fail 0
+tsc 0 errors

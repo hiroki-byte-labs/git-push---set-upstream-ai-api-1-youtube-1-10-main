@@ -1,0 +1,17 @@
+# 共通作業規約（すべてのAIエージェント・人の開発者）
+- 開始時はREADME.md、docs/SPEC.md、docs/STATUS.md、対象チケットと依存、docs/AGENT-WORKFLOW.mdを読む。
+- `./scripts/run src/cli.ts check` と `next` を実行する。check失敗は無視せず未終了記録や変更を調べる。
+- 最初に `./scripts/run src/worklog-cli.ts start Txxx --agent 名前 --model モデル名 --model-source runtime|user-specified|unknown --request 依頼` を実行する。モデル不明はunknown。エージェント名に優先順位なし。
+- 担当はhuman / agent。実際の実施者・記録者・モデル名はログに分離。原則1チケット・1作業回単位で実装・検証・記録する。
+- 受け入れ条件と必要検証を満たしてからdone。人の確認待ちはreview。未実施試験や模擬だけの外部連携を成功扱いしない。
+- 人待ちは手順を残し独立作業を続ける。範囲外改善は別チケット。
+- 終了・中断前にチケット結果とdocs/STATUS.mdを更新し、生成されたWORKLOG.mdの全節を埋める。依頼・変更・判断・検証・未実施・TODO・再開方法を残す。
+- チケット状態・STATUS・WORKLOGの一括書換えやfinishを、Git管理外の補助スクリプトで行わない。WORKLOGは実際のコマンド・結果を書き、節の使い回しや存在しない証跡の参照をしない。作業に着手しないstartを自動連鎖させない（T012/T013）。
+- `worklog-cli.ts finish <作業ログディレクトリ> --status completed|paused` と `cli.ts check` が成功してから終了報告する。失敗時は成功扱いせず理由・再開方法を利用者に伝える。
+- 初回cloneで `./scripts/install-hooks` を実施する。既存フックは上書きせず統合手順を確認。ログ検査を意図的に回避しない。
+- ログのTODOは時点履歴、現在状態はticketsが正本。過去ログの訂正は新しい記録に理由を書く。回顧記録・要約・未確認を明示する。
+- 可逆的な実装・ローカル検証で毎回確認を求めない。契約、有料API、課金デプロイ、push、投稿は別途明示的承認が必要。
+- 秘密情報、キー、トークン、本番DB、動画本体をGitやログへ保存しない。秘密値の貼付を要求しない。
+- 開発チケットはtickets/*.md、制作ジョブはoutputs/<job>/job.json。混同しない。
+- 終了記録を閉じる前に、今回の定型作業を `.agents/skills/routine-to-skill/SKILL.md` に従って評価する。反復の根拠があり有効なものは既存Skill更新または新規Skill化して試用し、候補なしなら理由をログへ残す。同一作業回の再帰評価や無条件なSkill量産はしない。
+- チケット・ログの終了には `.agents/skills/repository-task-closeout/SKILL.md` を参照する。Skill原本はリポジトリ内で共有し、特定AIの自動発見に依存しない。

@@ -1,0 +1,9 @@
+ℹ tests 88
+ℹ pass 88
+ℹ fail 0
+tsc 0 errors
+## lint v2
+安全検査: error 0 / warning 0
+## sample v2
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/bias-check-demo-389737d0/sample.mp4
+bias-check-demo-389737d0 completed {'ok': True, 'errors': 0, 'warnings': 0}

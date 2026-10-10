@@ -1,0 +1,32 @@
+## v2 --resolution 720
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/bias-check-demo-f3af4dd7/sample.mp4
+bias-check-demo-f3af4dd7 completed 720 {'ok': True, 'scale': 1, 'minFont720': 21, 'minContrast': 6.32, 'issues': []} frames 1152 psnr 38.8 True
+J720=bias-check-demo-f3af4dd7
+## v2 --resolution 1080
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/bias-check-demo-df60b9f7/sample.mp4
+bias-check-demo-df60b9f7 completed 1080 {'ok': True, 'scale': 1.5, 'minFont720': 21, 'minContrast': 6.32, 'issues': []} frames 1152 psnr 39.4 True
+J1080=bias-check-demo-df60b9f7
+## 画素寸法（PNGヘッダー、動画ストリーム）
+bias-check-demo-f3af4dd7 scene-1.png (1280, 720)
+bias-check-demo-f3af4dd7 thumbnail-a.png (1280, 720)
+1280x720
+bias-check-demo-df60b9f7 scene-1.png (1920, 1080)
+bias-check-demo-df60b9f7 thumbnail-a.png (1920, 1080)
+1920x1080
+## v1 burn（M1互換）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-d416e345/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+v1 readability {'ok': True, 'scale': 1, 'minFont720': 25, 'minContrast': 9.89, 'issues': []}
+## 出典つき（フッター17pt）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/sourced-demo-216fb926/sample.mp4
+sourced-demo-216fb926 {'ok': True, 'scale': 1, 'minFont720': 17, 'minContrast': 6.32, 'issues': []}
+## tests
+ℹ tests 110
+ℹ pass 110
+ℹ fail 0
+tsc 0 errors

@@ -1,0 +1,45 @@
+# 隔離コピー（scratchpad/t098-gen）で sample --plan bad.json（lintで停止する失敗経路）
+Error: 安全検査に失敗:
+ERROR [guarantee] サムネイル: 利益や値上がりを保証する表現（描画する文言。titleから） 「必ず儲かる」
+安全検査: error 1 / warning 0
+EXIT=1
+# job.jsonのstatus/cost/usage/attempts
+{
+ "status": "failed",
+ "cost": {
+  "currency": "USD",
+  "limit": 0,
+  "committed": 0,
+  "reserved": 0,
+  "unknown": 0,
+  "basis": "mock/local only（実API未接続）"
+ },
+ "usage": [
+  {
+   "domain": "script",
+   "provider": "mock.fixture",
+   "model": "none",
+   "mode": "mock",
+   "requestId": "mock-mock.fixture-1",
+   "inputUnits": 0,
+   "outputUnits": 0,
+   "costUsd": 0,
+   "attempts": 1
+  }
+ ],
+ "attempts": [
+  {
+   "attemptId": "att-c9f6c780",
+   "domain": "script",
+   "provider": "mock.fixture",
+   "mode": "mock",
+   "attempt": 1,
+   "at": "2026-10-10T06:12:42.033Z",
+   "estimateUsd": 0,
+   "outcome": "success",
+   "charge": "confirmed",
+   "costUsd": 0,
+   "providerRequestId": "mock-mock.fixture-1"
+  }
+ ]
+}

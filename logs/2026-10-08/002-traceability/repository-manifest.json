@@ -1,0 +1,231 @@
+{
+  "recordedAt": "2026-10-08T19:14:50.592Z",
+  "author": {
+    "agent": "Codex",
+    "model": "GPT-6 Astra",
+    "modelLabelSource": "user-specified"
+  },
+  "scope": "source and documentation; excludes logs, outputs, work, .git",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "size": 1592,
+      "sha256": "e90c4e21eba212c3dc9a845201a78a461a69681178c856028d9517731d6e4cf3"
+    },
+    {
+      "path": "README.md",
+      "size": 3527,
+      "sha256": "e1a29d03d7c1b522d7633cbb2a6d3abeb5a5ef5df243bfe326b32f1423786321"
+    },
+    {
+      "path": ".gitignore",
+      "size": 124,
+      "sha256": "9680a8c9647a2450e95ebe71a40f40042e32d711bddbede743a02939ad2af5e4"
+    },
+    {
+      "path": ".env.example",
+      "size": 280,
+      "sha256": "95bd80c4f9ff989a8dbfd4ff9ac544ac06e24b838c0e63c5fca4f33c3b5ee17f"
+    },
+    {
+      "path": "package.json",
+      "size": 328,
+      "sha256": "77e2513e72e5f2f9990246894e4b6162821087fe418c02dc2ee987fe75bf86e1"
+    },
+    {
+      "path": "docs/ASSETS.md",
+      "size": 1394,
+      "sha256": "6cc2d37ddccf7816c340d1a2ec3684f13fd4e269a6ef101391cff07f3202c358"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "size": 2771,
+      "sha256": "fea86702b81a7000b498be948ef4c64caef508160aceb0822a2e3d158d633c05"
+    },
+    {
+      "path": "docs/OPERATIONS.md",
+      "size": 2147,
+      "sha256": "80a11b9fa0595706503cd01e5eaebf1a38633534e3fe3c8c7c39c5ccdd59bc18"
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "size": 1255,
+      "sha256": "d5adb64b2d8edef15a384b85479fd821d3bdce9dd2e2987850f74f70dc5972ff"
+    },
+    {
+      "path": "docs/SPEC.md",
+      "size": 2549,
+      "sha256": "9767709727bf7b82677c47b97e950f8a826ac8d4dfcfe09faddc1cadefbec577"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "size": 1835,
+      "sha256": "31addd3d98d2ae8d6355f0d34703a5db66c3184713829fc9bbbf86572337ba69"
+    },
+    {
+      "path": "docs/VERIFICATION.md",
+      "size": 2826,
+      "sha256": "7eb5e9f9dc0d3b70a3a1629c81782132c27d3931d94bb9bb868afc18aa28d57a"
+    },
+    {
+      "path": "docs/decode-log.txt",
+      "size": 1844,
+      "sha256": "289106d1e68f19e8d1ef092d927ded1f968bf7fae32dceb8f6963b64ad1ac0da"
+    },
+    {
+      "path": "docs/toolchain.txt",
+      "size": 1744,
+      "sha256": "a5f9fb71479950d41306349289c4d2cd90c7edefe901017174ab6d814e237bea"
+    },
+    {
+      "path": "docs/verification-data.json",
+      "size": 1058,
+      "sha256": "8841016d9c11ed542ad9cb630651e92833d7444e8a9f2dfe66a3369c10792ba3"
+    },
+    {
+      "path": "src/cli.ts",
+      "size": 5147,
+      "sha256": "0627f133d4aa9e51e1a217b3e1539a8b56c9f44c045d353a7a45de4355d3086e"
+    },
+    {
+      "path": "src/media.ts",
+      "size": 2564,
+      "sha256": "fe1e3244db9dab2d19c59283c106542c28c53f58b8000af56c8d02e03bd49a66"
+    },
+    {
+      "path": "src/providers.ts",
+      "size": 2362,
+      "sha256": "6aeab05eb2cdbf6aaf9f72c72d84e43aafde25457c5d57d1fd3dd81ae2775a77"
+    },
+    {
+      "path": "src/tickets.ts",
+      "size": 2370,
+      "sha256": "416630a3387806e256e1bfbf5d9f347815dbe16ee32a68b3c418f78fc716de55"
+    },
+    {
+      "path": "scripts/render.swift",
+      "size": 2960,
+      "sha256": "e865d9072cba169b12789085de466631587c6f9e9d02d73299a8895d8642c2bc"
+    },
+    {
+      "path": "scripts/run",
+      "size": 324,
+      "sha256": "3ce3edecb540eca7baf63b42368f169928aa32a9d89b1aa495885dcb42486e51"
+    },
+    {
+      "path": "scripts/setup-media",
+      "size": 160,
+      "sha256": "52235a4a6ad3e473e6630c677c4336b50012c0e56dc0cd82927337a8044c2767"
+    },
+    {
+      "path": "tests/pipeline.test.ts",
+      "size": 1257,
+      "sha256": "61bc592eecca70b9d773512b0a3cf1f850dee2e84a204e76302e95de1d914ad6"
+    },
+    {
+      "path": "tests/tickets.test.ts",
+      "size": 1558,
+      "sha256": "660f5713c6754c3ae901d0ef110c42799c11bc5c5dbd012ec85a59933c6144d3"
+    },
+    {
+      "path": "tickets/T001.md",
+      "size": 585,
+      "sha256": "c78d9fb7998c5f50bfd0edab2d0703576fa4892cc857e8533552418e020a7f73"
+    },
+    {
+      "path": "tickets/T002.md",
+      "size": 829,
+      "sha256": "2544e537d52f5a1344b5854d092c8f0243b3456590ce5bc9ad80f87c959f6c5b"
+    },
+    {
+      "path": "tickets/T003.md",
+      "size": 835,
+      "sha256": "7246ba1f6e12a449c7696a0a2c15aeb8ea391121fb25f3871297e576403eb4eb"
+    },
+    {
+      "path": "tickets/T004.md",
+      "size": 819,
+      "sha256": "90a597dff85b69999fa599fe169b4866f4a9a60a3858d6a458d74e981a66f68a"
+    },
+    {
+      "path": "tickets/T005.md",
+      "size": 916,
+      "sha256": "8c65c78ae81f018433ef3e7a28bcc490e275836e2cbb36b688ac207dbfa6c872"
+    },
+    {
+      "path": "tickets/T006.md",
+      "size": 1060,
+      "sha256": "3cfc67823927238debd46d30faee1d2042690b17ab9b299481e0eb673f3c33f1"
+    },
+    {
+      "path": "tickets/T007.md",
+      "size": 1160,
+      "sha256": "27f58ec5fe522a38572db48b4ce88555b88fbb20f420e1b5ada963bd1489ae4b"
+    },
+    {
+      "path": "tickets/T008.md",
+      "size": 609,
+      "sha256": "8527cd78567d522a190f18e676e552aa47a03c4b711cb82c47b7214ef5a65ef7"
+    },
+    {
+      "path": "tickets/T009.md",
+      "size": 1320,
+      "sha256": "bacd50269b4057c1822642307e16c7fe44d87795f0599dd2ecd6e9a7ce50fef0"
+    },
+    {
+      "path": "tickets/T020.md",
+      "size": 813,
+      "sha256": "6f4073ac9ce20b11ee383cb9fe319514d7f3ddb35ae380b253fee4d843cf9db2"
+    },
+    {
+      "path": "tickets/T021.md",
+      "size": 1380,
+      "sha256": "f00bd9e20b8b72bf785d0a4fc065e4104f7083743ad0da1910b16df358d9bb82"
+    },
+    {
+      "path": "tickets/T022.md",
+      "size": 694,
+      "sha256": "b0ffe15bb10410349dec03e2e3ca4b796d8c4a29db1c4a4ef97e26fc16e40f3b"
+    },
+    {
+      "path": "tickets/T030.md",
+      "size": 669,
+      "sha256": "131884fd32ec8df822621c58b5ab9c1c01d98225f1822563478e3c908a55c8a1"
+    },
+    {
+      "path": "tickets/T031.md",
+      "size": 1292,
+      "sha256": "e79a1bcbfcc1a9a56aa2fbacbb6663c473c88552cebadab8fa4451c27c2b457d"
+    },
+    {
+      "path": "tickets/T032.md",
+      "size": 675,
+      "sha256": "2499c56c89cd9df3e9840b63e89253f653efb4eeed61e904c126374d74f655ca"
+    },
+    {
+      "path": "tickets/T040.md",
+      "size": 758,
+      "sha256": "28457bb0817de80fff6fc22e6eedfb3c277a114e9bc63da529ad0c8b30c491fe"
+    },
+    {
+      "path": "tickets/T050.md",
+      "size": 815,
+      "sha256": "4e8d41793446c1c763417ab4ffd6205718ff1124fd8222cd7e18b97c1ceb8e9e"
+    },
+    {
+      "path": "tickets/templates/TICKET.md",
+      "size": 515,
+      "sha256": "9362ad200048c237053a7010d7295790ce70aef2f377a40f89fd2122505fbf04"
+    },
+    {
+      "path": "fixtures/sample.json",
+      "size": 1406,
+      "sha256": "4d4c079792638b086ddb45bf4fcbb8320839eb97a9637b19b666b6eb55fdcda8"
+    },
+    {
+      "path": "prompts/script.md",
+      "size": 566,
+      "sha256": "7ee45064800fd5e7767fba53ab1b9c0162868c5da9a9b481bdf12af43c13df84"
+    }
+  ]
+}

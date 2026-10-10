@@ -1,0 +1,20 @@
+## v1（章なし）のscene画像がM1と一致
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-5a410dbe/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+## v2（章あり）bias-check-demo-c8fb881d
+completed {'ok': True, 'errors': 0, 'warnings': 0} 1152 39.944178
+安全検査: error 0 / warning 0
+WARN  [promise-missing] 台本: promise（この動画で得られること）が必要
+WARN  [hook-missing] 冒頭30秒: role=hookの場面を冒頭30秒以内に置く
+WARN  [chapter-missing] 台本: 章（chapter）で約6分以内に分割する
+安全検査: error 0 / warning 3
+## tests
+ℹ tests 82
+ℹ pass 82
+ℹ fail 0
+tsc 0 errors

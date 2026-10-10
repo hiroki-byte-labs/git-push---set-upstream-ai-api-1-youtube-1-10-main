@@ -1,0 +1,16 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {validate,parseTicket,parseTicketFile,available,sections} from '../src/tickets.ts';
+const raw=(id='T001',depends='-',owner='agent')=>`---\nid: ${id}\ntitle: test\nowner: ${owner}\nstatus: ready\npriority: P1\nmilestone: M0\ndepends: ${depends}\n---\n`+sections.map(s=>`## ${s}\nok\n`).join('');
+test('有効なチケット',()=>assert.equal(validate([parseTicket(raw())]).length,1));
+test('重複を拒否',()=>assert.throws(()=>validate([parseTicket(raw()),parseTicket(raw())]),/重複/));
+test('欠落依存を拒否',()=>assert.throws(()=>validate([parseTicket(raw('T001','T999'))]),/存在しない/));
+test('循環を拒否',()=>assert.throws(()=>validate([parseTicket(raw('T001','T002')),parseTicket(raw('T002','T001'))]),/循環/));
+test('自己依存を拒否',()=>assert.throws(()=>validate([parseTicket(raw('T001','T001'))]),/循環/));
+test('human手順は必須',()=>assert.throws(()=>parseTicket(raw('T001','-','human')),/不足/));
+test('依存未完了は着手不可',()=>{const a=parseTicket(raw()),b=parseTicket(raw('T002','T001'));assert.deepEqual(available([a,b],'agent').map(t=>t.id),['T001']);a.status='done';assert.deepEqual(available([a,b],'agent').map(t=>t.id),['T002'])});
+test('依存未完了のdoneを拒否',()=>{const a=parseTicket(raw()),b=parseTicket(raw('T002','T001'));b.status='done';assert.throws(()=>validate([a,b]),/未完了/)});
+test('不正状態を拒否',()=>assert.throws(()=>parseTicket(raw().replace('status: ready','status: unknown')),/不正/));
+test('CRLFのチケットを受理',()=>assert.equal(parseTicket(raw().replaceAll('\n','\r\n')).id,'T001'));
+test('ファイル名とidの不一致を拒否',()=>{assert.equal(parseTicketFile('T001.md',raw()).id,'T001');assert.throws(()=>parseTicketFile('T002.md',raw()),/不一致/)});
+test('空の節を拒否（T014）',()=>assert.throws(()=>parseTicket(raw().replace('## 目的\nok\n','## 目的\n\n')),/目的が空/));
+test('doneで結果が未実施なら拒否（T014）',()=>{const done=raw().replace('status: ready','status: done');assert.equal(parseTicket(done).status,'done');assert.throws(()=>parseTicket(done.replace('## 結果と検証証跡\nok\n','## 結果と検証証跡\n未実施\n')),/未記入/)});

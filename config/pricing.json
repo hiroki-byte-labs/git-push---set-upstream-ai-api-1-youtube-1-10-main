@@ -1,0 +1,11 @@
+{
+ "currency": "USD",
+ "note": "docs/RESEARCH-AI.md 2026-10-08確認（要約取得）。契約前に人が公式画面で再確認し、確認日を更新すること。",
+ "items": {
+  "gemini-3.5-flash-lite:text": {"confirmedAt": "2026-10-08", "inputPerMTok": 0.30, "outputPerMTok": 2.50},
+  "gemini-3.8-flash:text": {"confirmedAt": "2026-10-08", "inputPerMTok": 0.75, "outputPerMTok": 3.75, "note": "2026-12-31までの価格表記"},
+  "elevenlabs-v4:tts": {"confirmedAt": "2026-10-08", "perThousandChars": 0.022, "note": "割引表記あり、終了後未確認"},
+  "gemini-3.8-flash-tts:tts": {"confirmedAt": "2026-10-08", "inputPerMTok": 0.50, "audioOutputPerMTok": 9.00, "audioTokensPerSecond": 32},
+  "runway-wan3:video": {"confirmedAt": "2026-10-08", "creditsPerSecond": 20, "usdPerCredit": 0.01, "note": "1080p相当の上限側。モデル別単価は未確認の値あり"}
+ }
+}

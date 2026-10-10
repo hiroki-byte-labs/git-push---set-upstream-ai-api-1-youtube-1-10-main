@@ -1,0 +1,28 @@
+## sample --plan scratchpad/sourced.json（example.orgの架空出典2件。場面4=短い題名、場面5=長い題名）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/sourced-demo-fce4232d/sample.mp4
+sourced-demo-fce4232d completed {'ok': True, 'errors': 0, 'warnings': 0} channelDecided= False ['lint-checked', 'channel-undecided', 'audio-ready', 'video-checked']
+--- sources.txt
+出典:
+1. 検証用の資料A（架空）（確認日 2026-10-08） https://example.org/a
+2. 検証用の資料B：題名がとても長い場合にフッターへ収まらず番号表示に切り替わることを確かめるための架空の出典（確認日 2026-10-08） https://example.org/b
+--- stance.txt
+発信者の立場: 未設定（発信者の立場。例: 金融機関に所属しない個人による学習用チャンネル）
+利害関係: 未設定（利害関係。例: 特定の金融商品・事業者からの報酬の有無）
+本動画は学習を目的としたもので、個別銘柄の推奨や利益の保証をするものではありません。投資の判断はご自身の責任で行ってください。
+（注: チャンネルの立場は未確定です。T070で確定するまで公開しないでください）
+## v2（出典なし）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/bias-check-demo-84ab2c15/sample.mp4
+出典: なし（この動画は数値や外部資料の主張を含みません）
+## v1 不変
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-816de2ce/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+## tests
+ℹ tests 91
+ℹ pass 91
+ℹ fail 0
+tsc 0 errors

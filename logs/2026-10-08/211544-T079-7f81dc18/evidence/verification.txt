@@ -1,0 +1,17 @@
+## v2 bias-check-demo-25dad3cd（フェード・強調あり）
+completed frames 1152 / 1152 psnrMin 38.8 checked 57 / 57
+segments 57 fade<1 30 highlight 45
+## v1 burn（M1互換）
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-6e9f598e/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+v1 frames 864 864 psnr 39.2 60 / 60
+## tests
+ℹ tests 107
+ℹ pass 107
+ℹ fail 0
+tsc 0 errors

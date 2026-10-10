@@ -1,0 +1,33 @@
+## v1 (default)
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/reflection-demo-95ee9921/sample.mp4
+scene-1 same
+scene-2 same
+scene-3 same
+scene-4 same
+scene-5 same
+scene-6 same
+WEBVTT
+
+00:00:00.000 --> 00:00:06.000
+投資と心理 — 自分の判断をふり返るための練習です。
+## v2 --plan
+生成完了: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/outputs/bias-check-demo-3591727d/sample.mp4
+completed fixtures/sample-v2.json 48 2
+WEBVTT
+
+00:00:00.000 --> 00:00:04.000
+判断の前に、自分の考え方を確かめる練習をします。
+
+00:00:04.000 --> 00:00:08.000
+登場する場面はすべて架空の例です。
+
+00:00:08.000 --> 00:00:12.500
+## bad arg
+Error: 不明な引数: --bogus（sample [--plan 台本.json]）
+## tests
+ℹ tests 46
+ℹ pass 46
+ℹ fail 0
+ℹ skipped 0
+tsc 0 errors
+J2=bias-check-demo-3591727d
