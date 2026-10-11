@@ -3,6 +3,7 @@
 import {existsSync, lstatSync, readdirSync, renameSync, mkdirSync, statSync, writeFileSync} from 'node:fs';
 import {dirname, join} from 'node:path';
 import {approvalOf, readJob} from './review.ts';
+import {modeOf} from './production.ts';
 
 export const JOB_ID = /^[-a-z0-9]+-[a-f0-9]{8}$/;
 // outputs/ 直下で退避しないもの。
@@ -10,7 +11,8 @@ export const KEEP = new Set(['latest.json', '.gitkeep', '_trash', '_archive', '.
 // pidの記録がない旧ジョブが running のまま、この時間を過ぎたら中断扱い。
 export const STALE_AFTER_MS = 60 * 60 * 1000;
 
-export type JobSummary = {id: string; status: string; createdAt: string; durationSeconds?: number; subtitles?: string; stale: boolean; approval: string};
+// mode: 本番（制作案件から作った動画・本番の制作案件）かデモ（sample、旧ジョブ）か（T104）。
+export type JobSummary = {id: string; status: string; createdAt: string; durationSeconds?: number; subtitles?: string; stale: boolean; approval: string; mode: 'production' | 'demo'; kind?: string; project?: string};
 
 function alive(pid: unknown) {
   if (!Number.isInteger(pid)) return false;
@@ -37,7 +39,7 @@ export function jobDirs(root = 'outputs') {
 export function listJobs(root = 'outputs'): JobSummary[] {
   return jobDirs(root).map(dir => {
     const j = readJob(dir);
-    return {id: j.id, status: j.status, createdAt: j.createdAt, durationSeconds: j.durationSeconds, subtitles: j.subtitles, stale: isStale(j), approval: approvalOf(dir).state};
+    return {id: j.id, status: j.status, createdAt: j.createdAt, durationSeconds: j.durationSeconds, subtitles: j.subtitles, stale: isStale(j), approval: approvalOf(dir).state, mode: modeOf(j), kind: j.kind, project: j.project};
   }).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 

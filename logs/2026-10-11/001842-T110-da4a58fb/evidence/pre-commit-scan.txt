@@ -1,0 +1,37 @@
+## プッシュ先
+$ git remote -v
+origin	https://github.com/hiroki-byte-labs/git-push---set-upstream-ai-api-1-youtube-1-10-main.git (fetch)
+origin	https://github.com/hiroki-byte-labs/git-push---set-upstream-ai-api-1-youtube-1-10-main.git (push)
+$ gh repo view … --json visibility,isPrivate,defaultBranchRef
+{"defaultBranchRef":{"name":"main"},"isPrivate":false,"visibility":"PUBLIC"}
+$ git ls-remote --heads origin
+1d2346500ebf9aa7628ac2df714bada2b4bc1d9b	refs/heads/main
+
+## コミット対象（作業ツリーの変更と、除外規則に当たらない追跡外ファイル）
+ファイル数: 299
+合計: 5116 KB
+.zshrc を含むか:
+0
+$ git check-ignore -v .zshrc
+.gitignore:16:/.zshrc	.zshrc
+動画・音声・.env の拡張子:
+0
+生成物（outputs/、work/、motion-lab/out/、node_modules/）:
+0
+
+## 秘密情報らしき文字列の走査（APIキー・トークン・秘密鍵・JWTの形）
+該当ファイルなしならEXIT=1: EXIT=1
+## 利用者のメールアドレスの走査
+該当ファイルなしならEXIT=1: EXIT=1
+
+## 最大のファイル10件（KB）
+608	logs/2026-10-10/171938-T106-2574f3e3/evidence/text-layout/compare-720-stress.png
+492	logs/2026-10-10/171938-T106-2574f3e3/evidence/text-layout/compare-1080-stress.png
+324	logs/2026-10-10/171938-T106-2574f3e3/evidence/integrated/integrated-frames.png
+292	logs/2026-10-10/171938-T106-2574f3e3/evidence/text-layout/compare-1080-sample-v2-soft.png
+280	logs/2026-10-10/171938-T106-2574f3e3/evidence/integrated/motion-frames.png
+200	logs/2026-10-10/165146-T103-b861ec0b/evidence/sample-general/decoded-frames.png
+184	logs/2026-10-10/232110-T110-15494c02/evidence/final-analysis.json
+120	motion-lab/pnpm-lock.yaml
+116	logs/2026-10-10/171938-T106-2574f3e3/evidence/integrated/thumbs-after2.png
+104	logs/2026-10-10/165146-T103-b861ec0b/evidence/sample-general/scene-images.png

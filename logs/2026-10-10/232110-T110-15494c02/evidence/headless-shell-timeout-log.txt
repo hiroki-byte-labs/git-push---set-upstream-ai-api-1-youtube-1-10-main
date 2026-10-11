@@ -1,0 +1,26 @@
+Remotion root directory: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab
+Applied configuration from /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/remotion.config.ts.
+Checking if src/index.ts is the entry file
+Entry point: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/src/index.ts reason: argument passed - found in cwd
+Bundling done in 340ms
+Copying done in 0ms
+Bundled code         ━━━━━━━━━━━━━━━━━━ 340ms
+Bundled under /var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/remotion-webpack-bundle-OTXDdD
+Ensuring browser executable
+Ensured browser is available.
+[openBrowser()] Opening browser: gl = null, executable = /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell, enableMultiProcessOnLinux = true
+Available memory: 8169.84 MiB (macOS sysctl (free, file-backed and purgeable pages))
+[chrome] gen/third_party/blink/renderer/platform/runtime_enabled_features.cc:5490: RuntimeEnabledFeature not recognized: IdleDetection
+Created directory for temporary files /var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/remotion-v4.0.534-assetsx477xnurwb
+Available memory: 8127.36 MiB (macOS sysctl (free, file-backed and purgeable pages))
+[chrome] net/disk_cache/simple/simple_synchronous_entry.cc:1507: Could not open platform files for entry.
+[Tab 0, delayRender()] "Loading root component - See https://remotion.dev/docs/troubleshooting/loading-root-component if you experience a timeout" handle was cleared after 1ms
+💡 Get help for this issue at https://remotion.dev/docs/timeout
+An error occurred:
+ Error  A delayRender() "Waiting for root component to load - See https://remotion.dev/docs/troubleshooting/loading-root-component if you experience a timeout" was called but not cleared after 28000ms. See https://remotion.dev/docs/timeout for help. 
+🕧 The delayRender() call is located at:
+Cleaning up...
+Cleanup job "Delete /var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/remotion-webpack-bundle-OTXDdD" done
+Cleanup job "Cleanup bundle" done
+Cleanup done in 3ms
+Trying to kill browser process group -37203

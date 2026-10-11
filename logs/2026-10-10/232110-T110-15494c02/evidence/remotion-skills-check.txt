@@ -1,0 +1,6 @@
+$ node tools/fetch-remotion-skills.ts --check   # motion-labから実行
+OK: 77 files @ 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
+EXIT=0
+$ （リポジトリルートから）node motion-lab/tools/fetch-remotion-skills.ts --check
+OK: 77 files @ 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
+EXIT=0

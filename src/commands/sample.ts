@@ -13,6 +13,7 @@ import {loadChannel, sourcesText, stanceText} from '../channel.ts';
 import {buildMetadata} from '../metadata.ts';
 import {checkThumbnails} from '../thumbnails.ts';
 import {checkReadability} from '../readability.ts';
+import {checkLayout} from '../layout.ts';
 import {buildSegments, buildRenderSpec, buildThumbSpecs} from '../timeline.ts';
 import {LocalConnection, callWithBudget} from '../connections.ts';
 import type {Usage, Attempt} from '../connections.ts';
@@ -27,8 +28,9 @@ function run(exe: string, args: string[]) {
 const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
 
 // AppKitでPNGを描画しFFmpegでH264/AACへ書出す（ADR-007）。kindはjob.jsonに残る接続種別。
-// 字幕の既定はsoft（切り替え式）。全文の焼き込みはナレーションと重複するため（T078、E12）。
-export const DEFAULT_SUBTITLES: SubtitleMode = 'soft';
+// 字幕の既定は焼き込み（burn）。利用者の希望（T007の所感「字幕は焼き込み希望」）による（T106、ADR-019）。
+// 以前の既定soft（T078、E12: 全文字幕はナレーションと重複する）は --subtitles soft|both で引き続き選べる。
+export const DEFAULT_SUBTITLES: SubtitleMode = 'burn';
 
 export class NativeVisual implements VisualProvider {
   kind = 'local.appkit-ffmpeg';
@@ -55,7 +57,9 @@ export class NativeVisual implements VisualProvider {
   }
 }
 
-export type SampleOptions = {plan?: string; subtitles?: SubtitleMode; budgetUsd?: number; resolution?: 720 | 1080};
+// job: 制作案件から作るときの記録（T104）。省略時（cli.ts sample）は常にデモ。
+export type JobLink = {mode: 'production' | 'demo'; project?: string; scriptHash?: string; scriptVersion?: number};
+export type SampleOptions = {plan?: string; subtitles?: SubtitleMode; budgetUsd?: number; resolution?: 720 | 1080; job?: JobLink};
 
 export function parseSampleArgs(args: string[]): SampleOptions {
   const opts: SampleOptions = {};
@@ -109,8 +113,11 @@ export async function sample(opts: SampleOptions = {}) {
   const id = `${plan.id}-${randomUUID().slice(0, 8)}`;
   const dir = resolve('outputs', id);
   mkdirSync(dir, {recursive: true});
+  const link: JobLink = opts.job ?? {mode: 'demo'};
   const job: any = {
     id, kind: 'production-job', status: 'running', createdAt: new Date().toISOString(), pid: process.pid,
+    // デモ（sample）は本人の題材選定・考察・台本承認を経ていない。本番の動画は制作案件（produce render）からだけ作る（T104）。
+    mode: link.mode, ...(link.project ? {project: link.project, scriptHash: link.scriptHash, scriptVersion: link.scriptVersion} : {}),
     providers: [script.kind, audio.kind, visual.kind, 'publisher.disabled'],
     cost: {currency: 'USD', limit: budget.limit, committed: 0, reserved: 0, unknown: 0, basis: 'mock/local only（実API未接続）'},
     usage,
@@ -157,12 +164,16 @@ export async function sample(opts: SampleOptions = {}) {
     job.thumbnails = thumbs.map(t => ({file: t.file, ok: t.ok, issues: t.issues}));
     // 見やすさ（T091）。不合格でも制作は止めず、公開前の確認で直す。
     job.readability = checkReadability(dir, visual.scale);
+    // 文字配置（T106）。枠からのはみ出し・中央からのずれ・区画の重なり。不合格でも制作は止めず、確認で直す。
+    job.layout = checkLayout(dir);
     job.status = 'completed';
     job.outputHash = sha256(readFileSync(join(dir, 'sample.mp4')));
     job.events.push('video-checked');
     save();
     writeFileSync('outputs/latest.json', JSON.stringify({id}));
     console.log(`生成完了: ${dir}/sample.mp4`);
+    if (link.mode === 'demo') console.log('（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）');
+    return {id, dir};
   } catch (e) {
     job.status = 'failed';
     job.error = String(e);

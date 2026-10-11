@@ -1,0 +1,17 @@
+# 既存ジョブ（リポジトリのoutputs、読み取りのみ）の表示: modeのない旧ジョブはデモ扱い
+bias-check-demo-7124bb52  デモ  completed  2026-10-10T16:17:19.519Z  48秒  確認:pending
+sourced-demo-216fb926  デモ  completed  2026-10-08T21:19:46.206Z  48秒  確認:pending
+reflection-demo-d416e345  デモ  completed  2026-10-08T21:19:41.080Z  36秒  確認:pending
+bias-check-demo-df60b9f7  デモ  completed  2026-10-08T21:19:18.776Z  48秒  確認:pending
+bias-check-demo-f3af4dd7  デモ  completed  2026-10-08T21:19:12.497Z  48秒  確認:pending
+reflection-demo-6e9f598e  デモ  completed  2026-10-08T21:17:19.734Z  36秒  確認:pending
+bias-check-demo-25dad3cd  デモ  completed  2026-10-08T21:16:55.276Z  48秒  確認:pending
+reflection-demo-27365093  デモ  completed  2026-10-08T21:15:17.458Z  36秒  確認:pending
+EXIT=0
+bias-check-demo-9233f7b6: expired（旧形式の承認（動画のみ）。タイトル・概要欄・字幕・サムネイルを含む一式の再確認が必要）
+区分: デモ（本人の工程を経ていない。本番の承認に転用できない）
+現在の版（確認対象一式）: d9d015650c886618d448e18e0059c984dbcad33637a38f8fcfd111f33f7f3b63
+公開前の判定: 不可 - 旧ジョブ（デモ扱い。本人の工程を経ていない） / 制作案件（題材選択・考察・台本承認）を経ていない / 完成動画が承認済みでない（旧形式の承認（動画のみ）。タイトル・概要欄・字幕・サムネイルを含む一式の再確認が必要）
+  動画 8390fa5599904ef73ee177b980e9f33713bd22887083db09762fde0fe3a6f850
+  字幕 fad5bff14d2b5d2e5caaa4ea97ae15d02117034fc282f38c0750f66fc9d4f266
+EXIT=0

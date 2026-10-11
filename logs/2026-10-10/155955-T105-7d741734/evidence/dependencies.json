@@ -1,0 +1,149 @@
+[
+  {
+    "id": "T022",
+    "status": "backlog",
+    "directHuman": [
+      "T021"
+    ],
+    "unfinishedHumanAncestors": [
+      "T021",
+      "T025",
+      "T027",
+      "T029"
+    ]
+  },
+  {
+    "id": "T026",
+    "status": "backlog",
+    "directHuman": [
+      "T025"
+    ],
+    "unfinishedHumanAncestors": [
+      "T025"
+    ]
+  },
+  {
+    "id": "T028",
+    "status": "backlog",
+    "directHuman": [
+      "T027"
+    ],
+    "unfinishedHumanAncestors": [
+      "T027"
+    ]
+  },
+  {
+    "id": "T032",
+    "status": "backlog",
+    "directHuman": [
+      "T031"
+    ],
+    "unfinishedHumanAncestors": [
+      "T021",
+      "T025",
+      "T027",
+      "T029",
+      "T031"
+    ]
+  },
+  {
+    "id": "T040",
+    "status": "backlog",
+    "directHuman": [],
+    "unfinishedHumanAncestors": [
+      "T021",
+      "T025",
+      "T027",
+      "T029"
+    ]
+  },
+  {
+    "id": "T050",
+    "status": "backlog",
+    "directHuman": [],
+    "unfinishedHumanAncestors": [
+      "T021",
+      "T025",
+      "T027",
+      "T029",
+      "T031"
+    ]
+  },
+  {
+    "id": "T060",
+    "status": "backlog",
+    "directHuman": [
+      "T029"
+    ],
+    "unfinishedHumanAncestors": [
+      "T029"
+    ]
+  },
+  {
+    "id": "T071",
+    "status": "backlog",
+    "directHuman": [],
+    "unfinishedHumanAncestors": []
+  },
+  {
+    "id": "T076",
+    "status": "backlog",
+    "directHuman": [
+      "T031"
+    ],
+    "unfinishedHumanAncestors": [
+      "T031",
+      "T021",
+      "T025",
+      "T027",
+      "T029"
+    ]
+  },
+  {
+    "id": "T077",
+    "status": "backlog",
+    "directHuman": [],
+    "unfinishedHumanAncestors": [
+      "T027"
+    ]
+  },
+  {
+    "id": "T084",
+    "status": "backlog",
+    "directHuman": [],
+    "unfinishedHumanAncestors": []
+  },
+  {
+    "id": "T088",
+    "status": "backlog",
+    "directHuman": [],
+    "unfinishedHumanAncestors": [
+      "T025",
+      "T027"
+    ]
+  },
+  {
+    "id": "T090",
+    "status": "backlog",
+    "directHuman": [],
+    "unfinishedHumanAncestors": [
+      "T021",
+      "T025",
+      "T027",
+      "T029",
+      "T031"
+    ]
+  },
+  {
+    "id": "T103",
+    "status": "ready",
+    "directHuman": [],
+    "unfinishedHumanAncestors": []
+  },
+  {
+    "id": "T104",
+    "status": "ready",
+    "directHuman": [],
+    "unfinishedHumanAncestors": []
+  }
+]

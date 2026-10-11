@@ -1,0 +1,65 @@
+$ produce new --candidates fixtures/topic-candidates-demo.json --by test-agent --demo
+作成: production-demo-e8e39076
+production-demo-e8e39076（デモ: 試験用。本番の承認に転用できない）
+工程: 題材の選択待ち（本人）
+不足: 
+  - 題材が未選択（produce select）
+  - 本人の考察が未入力（produce reflection）
+  - 台本が未作成（produce script）
+題材候補:
+  ○ price-index: ニュースの「物価」と自分の買い物（入口: 値上げのニュースで「物価が上がった」と聞く場面 / 概念: 消費者物価指数（多くの品目の値段の動きをまとめた指数））
+  ○ real-wage: 給料が増えたのに楽にならない？名目と実質（入口: 賃上げのニュースと実感のずれ / 概念: 名目賃金と実質賃金（物価の変化を差し引いて比べる））
+  ○ interest-rate: 金利が上がると暮らしの何が変わる？（入口: 金利の変更が報じられる場面 / 概念: 金利（お金を借りる・預けるときの値段））
+選択: 未選択
+考察: 未入力
+台本: 台本が未作成
+動画: なし
+EXIT=0
+$ produce select production-demo-e8e39076 --candidate price-index --by test-agent
+記録: 題材 price-index（test-agent）
+EXIT=0
+$ produce render production-demo-e8e39076
+Error: 制作を開始できない（production-demo-e8e39076）。不足:
+- 本人の考察が未入力（produce reflection）
+- 台本が未作成（produce script）
+EXIT=1
+$ produce reflection production-demo-e8e39076 --text デモ用の仮の考察です（test-agentが記録。本人の考察ではありません）。本番では、ここに本人が「なぜ気になったか」「どこで迷ったか」を書きます。 --by test-agent
+記録: 考察 v1（デモ用の仮文（本人の考察ではない）、75字）。台本は produce script で作り直す
+EXIT=0
+$ produce script production-demo-e8e39076 --plan fixtures/draft-price-index.json --by test-agent
+作成: 台本 v1（outputs/production-demo-e8e39076/script-v1.json）
+台本の版: 09e95374052e988f4b2c4c36f415dd987a99a5677be7fd65a7a9dd822382b566
+本人が内容を確認し、produce script-review production-demo-e8e39076 approve --hash 09e95374052e988f4b2c4c36f415dd987a99a5677be7fd65a7a9dd822382b566 --by 本人の名前 で承認する
+EXIT=0
+$ produce script-review production-demo-e8e39076 approve --hash 09e95374052e988f4b2c4c36f415dd987a99a5677be7fd65a7a9dd822382b566 --by test-agent
+記録: 台本 v1 を承認（test-agent）
+EXIT=0
+$ produce render production-demo-e8e39076
+Rendered 202 images
+
+生成完了: /private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/939cc691-13bd-413b-a378-34bc2fb67a9e/scratchpad/iso-t106-after/outputs/price-index-v2-4f700700/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+制作ジョブ: price-index-v2-4f700700（台本 v1）。完成動画は確認画面か review price-index-v2-4f700700 で本人が確認する
+EXIT=0
+$ produce render production-demo-e8e39076 --resolution 1080
+Rendered 202 images
+
+生成完了: /private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/939cc691-13bd-413b-a378-34bc2fb67a9e/scratchpad/iso-t106-after/outputs/price-index-v2-47657331/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+制作ジョブ: price-index-v2-47657331（台本 v1）。完成動画は確認画面か review price-index-v2-47657331 で本人が確認する
+EXIT=0
+$ produce status production-demo-e8e39076
+production-demo-e8e39076（デモ: 試験用。本番の承認に転用できない）
+工程: 完成動画の確認待ち（本人）
+不足: 
+  - 完成動画が未承認（review / 確認画面）
+題材候補:
+  ● price-index: ニュースの「物価」と自分の買い物（入口: 値上げのニュースで「物価が上がった」と聞く場面 / 概念: 消費者物価指数（多くの品目の値段の動きをまとめた指数））
+  ○ real-wage: 給料が増えたのに楽にならない？名目と実質（入口: 賃上げのニュースと実感のずれ / 概念: 名目賃金と実質賃金（物価の変化を差し引いて比べる））
+  ○ interest-rate: 金利が上がると暮らしの何が変わる？（入口: 金利の変更が報じられる場面 / 概念: 金利（お金を借りる・預けるときの値段））
+選択: price-index（test-agent、2026-10-10T17:30:25.230Z）
+考察: v1 デモ用の仮文（本人の考察ではない）（test-agent）「デモ用の仮の考察です（test-agentが記録。本人の考察ではありません）。本…」
+台本: v1 script-v1.json 状態=approved（台本承認済み（v1、test-agent））
+台本の版: 09e95374052e988f4b2c4c36f415dd987a99a5677be7fd65a7a9dd822382b566
+動画: price-index-v2-4f700700 pending, price-index-v2-47657331 pending
+EXIT=0

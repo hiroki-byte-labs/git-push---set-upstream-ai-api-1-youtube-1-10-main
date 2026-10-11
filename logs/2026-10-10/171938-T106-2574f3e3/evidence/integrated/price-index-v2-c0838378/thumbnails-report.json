@@ -1,0 +1,23 @@
+[
+  {
+    "contrast" : 8.278613236047711,
+    "headlineSize" : 112,
+    "file" : "thumbnail-a.png",
+    "fitted" : true,
+    "variant" : "a"
+  },
+  {
+    "contrast" : 9.892569247502967,
+    "headlineSize" : 96,
+    "file" : "thumbnail-b.png",
+    "fitted" : true,
+    "variant" : "b"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "headlineSize" : 88,
+    "file" : "thumbnail-c.png",
+    "fitted" : true,
+    "variant" : "c"
+  }
+]

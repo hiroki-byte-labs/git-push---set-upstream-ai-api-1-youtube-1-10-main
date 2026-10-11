@@ -1,0 +1,180 @@
+$ produce new --candidates fixtures/topic-candidates-demo.json --by test-agent --demo
+作成: production-demo-1c9b4eef
+production-demo-1c9b4eef（デモ: 試験用。本番の承認に転用できない）
+工程: 題材の選択待ち（本人）
+不足: 
+  - 題材が未選択（produce select）
+  - 本人の考察が未入力（produce reflection）
+  - 台本が未作成（produce script）
+題材候補:
+  ○ price-index: ニュースの「物価」と自分の買い物（入口: 値上げのニュースで「物価が上がった」と聞く場面 / 概念: 消費者物価指数（多くの品目の値段の動きをまとめた指数））
+  ○ real-wage: 給料が増えたのに楽にならない？名目と実質（入口: 賃上げのニュースと実感のずれ / 概念: 名目賃金と実質賃金（物価の変化を差し引いて比べる））
+  ○ interest-rate: 金利が上がると暮らしの何が変わる？（入口: 金利の変更が報じられる場面 / 概念: 金利（お金を借りる・預けるときの値段））
+選択: 未選択
+考察: 未入力
+台本: 台本が未作成
+動画: なし
+EXIT=0
+$ produce render production-demo-1c9b4eef
+Error: 制作を開始できない（production-demo-1c9b4eef）。不足:
+- 題材が未選択（produce select）
+- 本人の考察が未入力（produce reflection）
+- 台本が未作成（produce script）
+EXIT=1
+$ produce select production-demo-1c9b4eef --candidate price-index --by test-agent
+記録: 題材 price-index（test-agent）
+EXIT=0
+$ produce render production-demo-1c9b4eef
+Error: 制作を開始できない（production-demo-1c9b4eef）。不足:
+- 本人の考察が未入力（produce reflection）
+- 台本が未作成（produce script）
+EXIT=1
+$ produce reflection production-demo-1c9b4eef --file reflection-demo.txt --by test-agent
+記録: 考察 v1（本人執筆、88字）。台本は produce script で作り直す
+EXIT=0
+$ produce script production-demo-1c9b4eef --plan fixtures/draft-general-demo.json --by test-agent
+作成: 台本 v1（outputs/production-demo-1c9b4eef/script-v1.json）
+台本の版: d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9
+本人が内容を確認し、produce script-review production-demo-1c9b4eef approve --hash d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9 --by 本人の名前 で承認する
+EXIT=0
+$ produce render production-demo-1c9b4eef
+Error: 制作を開始できない（production-demo-1c9b4eef）。不足:
+- 台本が未承認: 台本の確認待ち（produce script-review）
+EXIT=1
+$ produce script-review production-demo-1c9b4eef approve --hash d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9 --by test-agent
+記録: 台本 v1 を承認（test-agent）
+EXIT=0
+$ produce render production-demo-1c9b4eef
+Error: /usr/bin/swiftc: <unknown>:0: error: precompiled file '/private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/939cc691-13bd-413b-a378-34bc2fb67a9e/scratchpad/iso-t104/work/swift-cache/1RGLPH6L253KH/SwiftShims-1WSVJG4746Q51.pcm' was compiled with module cache path '/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/work/swift-cache/1RGLPH6L253KH', but the path is currently '/private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/939cc691-13bd-413b-a378-34bc2fb67a9e/scratchpad/iso-t104/work/swift-cache/1RGLPH6L253KH'
+<unknown>:0: error: missing required module 'SwiftShims'
+
+EXIT=1
+$ produce status production-demo-1c9b4eef
+production-demo-1c9b4eef（デモ: 試験用。本番の承認に転用できない）
+工程: 制作待ち
+不足: 
+  - 承認済み台本の動画が未制作（produce render）
+題材候補:
+  ● price-index: ニュースの「物価」と自分の買い物（入口: 値上げのニュースで「物価が上がった」と聞く場面 / 概念: 消費者物価指数（多くの品目の値段の動きをまとめた指数））
+  ○ real-wage: 給料が増えたのに楽にならない？名目と実質（入口: 賃上げのニュースと実感のずれ / 概念: 名目賃金と実質賃金（物価の変化を差し引いて比べる））
+  ○ interest-rate: 金利が上がると暮らしの何が変わる？（入口: 金利の変更が報じられる場面 / 概念: 金利（お金を借りる・預けるときの値段））
+選択: price-index（test-agent、2026-10-10T17:13:49.471Z）
+考察: v1 本人執筆（test-agent）「デモ用の仮の考察です（test-agentが記録。本人の考察ではありません）。値…」
+台本: v1 script-v1.json 状態=approved（台本承認済み（v1、test-agent））
+台本の版: d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9
+動画: なし
+EXIT=0
+$ produce render production-demo-1c9b4eef（Swiftキャッシュを除いて再実行）
+Rendered 87 images
+
+生成完了: /private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/939cc691-13bd-413b-a378-34bc2fb67a9e/scratchpad/iso-t104/outputs/price-index-draft-15dd7128/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+制作ジョブ: price-index-draft-15dd7128（台本 v1）。完成動画は確認画面か review price-index-draft-15dd7128 で本人が確認する
+EXIT=0
+$ cli.ts review price-index-draft-15dd7128
+price-index-draft-15dd7128: pending（未確認）
+区分: デモ（本人の工程を経ていない。本番の承認に転用できない） / 制作案件 production-demo-1c9b4eef
+現在の版（確認対象一式）: cb6a5508dbfa0c508dfcaa2ec3f3131d73d54445538de49cc4f85fdbe6435000
+  台本の版 d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9
+公開前の判定: 不可 - デモの動画（本人の工程を経ていない） / デモの制作案件 / 完成動画が承認済みでない（未確認）
+  動画 93a3781324f83fe334e4474da550a69db999f23aa180011bcbddb3ce9302189d
+  字幕 3e2e85e65a104d088180fdd2f2c2154b960b84252aebbead1642ff451c5ca5e2
+  タイトル ニュースの「物価」と自分の買い物
+  サムネイル thumbnail-a.png, thumbnail-b.png, thumbnail-c.png
+EXIT=0
+$ cli.ts review price-index-draft-15dd7128 approve --hash cb6a5508dbfa0c508dfcaa2ec3f3131d73d54445538de49cc4f85fdbe6435000 --reviewer test-agent --note test-agentの動作確認（人の承認ではない）
+記録: approve 一式の版 cb6a5508dbfa0c508dfcaa2ec3f3131d73d54445538de49cc4f85fdbe6435000 2026-10-10T17:14:37.226Z
+EXIT=0
+$ cli.ts review price-index-draft-15dd7128
+price-index-draft-15dd7128: approved（承認済み（現在の確認対象一式と一致））
+区分: デモ（本人の工程を経ていない。本番の承認に転用できない） / 制作案件 production-demo-1c9b4eef
+現在の版（確認対象一式）: cb6a5508dbfa0c508dfcaa2ec3f3131d73d54445538de49cc4f85fdbe6435000
+  台本の版 d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9
+公開前の判定: 不可 - デモの動画（本人の工程を経ていない） / デモの制作案件
+  動画 93a3781324f83fe334e4474da550a69db999f23aa180011bcbddb3ce9302189d
+  字幕 3e2e85e65a104d088180fdd2f2c2154b960b84252aebbead1642ff451c5ca5e2
+  タイトル ニュースの「物価」と自分の買い物
+  サムネイル thumbnail-a.png, thumbnail-b.png, thumbnail-c.png
+EXIT=0
+$ cli.ts produce status production-demo-1c9b4eef
+production-demo-1c9b4eef（デモ: 試験用。本番の承認に転用できない）
+工程: 完成動画を承認済み（投稿は未実装・無効）
+不足: なし
+題材候補:
+  ● price-index: ニュースの「物価」と自分の買い物（入口: 値上げのニュースで「物価が上がった」と聞く場面 / 概念: 消費者物価指数（多くの品目の値段の動きをまとめた指数））
+  ○ real-wage: 給料が増えたのに楽にならない？名目と実質（入口: 賃上げのニュースと実感のずれ / 概念: 名目賃金と実質賃金（物価の変化を差し引いて比べる））
+  ○ interest-rate: 金利が上がると暮らしの何が変わる？（入口: 金利の変更が報じられる場面 / 概念: 金利（お金を借りる・預けるときの値段））
+選択: price-index（test-agent、2026-10-10T17:13:49.471Z）
+考察: v1 本人執筆（test-agent）「デモ用の仮の考察です（test-agentが記録。本人の考察ではありません）。値…」
+台本: v1 script-v1.json 状態=approved（台本承認済み（v1、test-agent））
+台本の版: d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9
+動画: price-index-draft-15dd7128 approved
+EXIT=0
+$ cli.ts produce reflection production-demo-1c9b4eef --file reflection-demo-2.txt --by test-agent
+記録: 考察 v2（本人執筆、79字）。台本は produce script で作り直す
+EXIT=0
+$ cli.ts produce render production-demo-1c9b4eef
+Error: 制作を開始できない（production-demo-1c9b4eef）。不足:
+- 台本の作成後に考察が更新された。台本を作り直す（produce script）
+EXIT=1
+$ cli.ts review price-index-draft-15dd7128
+price-index-draft-15dd7128: expired（制作案件の台本が承認済みでない（台本の作成後に考察が更新された。台本を作り直す）。この動画は承認済み台本の動画として扱わない）
+区分: デモ（本人の工程を経ていない。本番の承認に転用できない） / 制作案件 production-demo-1c9b4eef
+現在の版（確認対象一式）: cb6a5508dbfa0c508dfcaa2ec3f3131d73d54445538de49cc4f85fdbe6435000
+  台本の版 d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9
+公開前の判定: 不可 - デモの動画（本人の工程を経ていない） / デモの制作案件 / 制作案件の現在の台本から作った動画として記録されていない / 完成動画が承認済みでない（制作案件の台本が承認済みでない（台本の作成後に考察が更新された。台本を作り直す）。この動画は承認済み台本の動画として扱わない）
+  動画 93a3781324f83fe334e4474da550a69db999f23aa180011bcbddb3ce9302189d
+  字幕 3e2e85e65a104d088180fdd2f2c2154b960b84252aebbead1642ff451c5ca5e2
+  タイトル ニュースの「物価」と自分の買い物
+  サムネイル thumbnail-a.png, thumbnail-b.png, thumbnail-c.png
+EXIT=0
+$ cli.ts produce script production-demo-1c9b4eef --plan fixtures/draft-general-demo.json --by test-agent
+作成: 台本 v2（outputs/production-demo-1c9b4eef/script-v2.json）
+台本の版: a50ec7c91895b204b090663f68c53cd8a85018c64630b0e7ef4d9539031d0689
+本人が内容を確認し、produce script-review production-demo-1c9b4eef approve --hash a50ec7c91895b204b090663f68c53cd8a85018c64630b0e7ef4d9539031d0689 --by 本人の名前 で承認する
+EXIT=0
+$ cli.ts produce script-review production-demo-1c9b4eef approve --hash a50ec7c91895b204b090663f68c53cd8a85018c64630b0e7ef4d9539031d0689 --by test-agent
+記録: 台本 v2 を承認（test-agent）
+EXIT=0
+$ cli.ts review price-index-draft-15dd7128
+price-index-draft-15dd7128: expired（台本が変わった（制作時v1、現在v2）。この動画は現在の承認済み台本の動画ではない）
+区分: デモ（本人の工程を経ていない。本番の承認に転用できない） / 制作案件 production-demo-1c9b4eef
+現在の版（確認対象一式）: cb6a5508dbfa0c508dfcaa2ec3f3131d73d54445538de49cc4f85fdbe6435000
+  台本の版 d240b26f6253cf53b16cd07e12565da6404ae0924cb914ba1237b9316a9876e9
+公開前の判定: 不可 - デモの動画（本人の工程を経ていない） / デモの制作案件 / 制作案件の現在の台本から作った動画として記録されていない / 完成動画が承認済みでない（台本が変わった（制作時v1、現在v2）。この動画は現在の承認済み台本の動画ではない）
+  動画 93a3781324f83fe334e4474da550a69db999f23aa180011bcbddb3ce9302189d
+  字幕 3e2e85e65a104d088180fdd2f2c2154b960b84252aebbead1642ff451c5ca5e2
+  タイトル ニュースの「物価」と自分の買い物
+  サムネイル thumbnail-a.png, thumbnail-b.png, thumbnail-c.png
+EXIT=0
+$ cli.ts review price-index-draft-15dd7128 approve --hash cb6a5508dbfa0c508dfcaa2ec3f3131d73d54445538de49cc4f85fdbe6435000 --reviewer test-agent
+Error: この動画は承認できない: 台本が変わった（制作時v1、現在v2）。この動画は現在の承認済み台本の動画ではない
+EXIT=1
+$ cli.ts jobs
+price-index-draft-15dd7128  デモ  completed  2026-10-10T17:13:58.388Z  83秒  確認:expired
+price-index-draft-c3b4daba  デモ  failed  2026-10-10T17:13:49.981Z  83秒  確認:not-reviewable
+production-demo-1c9b4eef  デモ  open  2026-10-10T17:13:49.305Z  -秒  工程:制作待ち
+EXIT=0
+$ cli.ts produce status production-demo-1c9b4eef
+production-demo-1c9b4eef（デモ: 試験用。本番の承認に転用できない）
+工程: 制作待ち
+不足: 
+  - 承認済み台本の動画が未制作（produce render）
+題材候補:
+  ● price-index: ニュースの「物価」と自分の買い物（入口: 値上げのニュースで「物価が上がった」と聞く場面 / 概念: 消費者物価指数（多くの品目の値段の動きをまとめた指数））
+  ○ real-wage: 給料が増えたのに楽にならない？名目と実質（入口: 賃上げのニュースと実感のずれ / 概念: 名目賃金と実質賃金（物価の変化を差し引いて比べる））
+  ○ interest-rate: 金利が上がると暮らしの何が変わる？（入口: 金利の変更が報じられる場面 / 概念: 金利（お金を借りる・預けるときの値段））
+選択: price-index（test-agent、2026-10-10T17:13:49.471Z）
+考察: v2 本人執筆（test-agent）「デモ用の仮の考察です（test-agentが記録。本人の考察ではありません）。考…」
+台本: v2 script-v2.json 状態=approved（台本承認済み（v2、test-agent））
+台本の版: a50ec7c91895b204b090663f68c53cd8a85018c64630b0e7ef4d9539031d0689
+動画: なし
+EXIT=0
+$ produce script（ブラウザーで入力した考察v3から）
+作成: 台本 v3（outputs/production-demo-1c9b4eef/script-v3.json）
+台本の版: 4af18a6748f1b14d601abfb20b3a46cbbf3e97a6eae71ace1e89f9754750e1ee
+本人が内容を確認し、produce script-review production-demo-1c9b4eef approve --hash 4af18a6748f1b14d601abfb20b3a46cbbf3e97a6eae71ace1e89f9754750e1ee --by 本人の名前 で承認する
+EXIT=0
+$ produce reflection v4（画面を開いたまま裏で更新）
+記録: 考察 v4（デモ用の仮文（本人の考察ではない）、46字）。台本は produce script で作り直す
+EXIT=0

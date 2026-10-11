@@ -1,0 +1,2 @@
+remotion(src) EXIT=0
+tools/tests EXIT=0

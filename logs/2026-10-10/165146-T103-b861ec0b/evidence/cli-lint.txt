@@ -1,0 +1,16 @@
+## lint --plan fixtures/sample-general.json
+安全検査: error 0 / warning 0
+EXIT=0
+## lint --plan fixtures/sample-v2.json
+WARN  [intro-missing] 台本: intro（概要欄の導入文。ニュースや事象から題材へつなぐ）が必要
+安全検査: error 0 / warning 1
+EXIT=0
+## lint --plan fixtures/sample.json
+WARN  [promise-missing] 台本: promise（この動画で得られること）が必要
+WARN  [intro-missing] 台本: intro（概要欄の導入文。ニュースや事象から題材へつなぐ）が必要
+WARN  [hook-missing] 冒頭30秒: role=hookの場面を冒頭30秒以内に置く
+WARN  [chapter-missing] 台本: 章（chapter）で約6分以内に分割する
+WARN  [story-missing] 台本: 具体例（role=example）か物語（beat）の場面を入れる
+WARN  [conversational-missing] ナレーション: 視聴者への語りかけ（あなた、私たち、〜しましょう等）がない
+安全検査: error 0 / warning 6
+EXIT=0

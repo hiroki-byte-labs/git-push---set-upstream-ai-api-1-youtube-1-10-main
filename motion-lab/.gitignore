@@ -1,0 +1,8 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# 生成物（参考動画・解析結果・抽出フレーム・レンダリング・比較画像）はGitに入れない
+out
+public/latest-analysis.json

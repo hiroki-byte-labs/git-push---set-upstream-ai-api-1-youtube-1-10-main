@@ -183,3 +183,9 @@ T093のレビュー（logs/2026-10-10/010816-T093-a4a14a9f/evidence/REVIEW.md）
 | T099 | README・STATUS・本書の現状と履歴を分離 | README.md、docs/STATUS.md、docs/HANDOFF.md |
 
 新しい不変条件は本書5章の4（承認は一式の版）と5（費用不明を無料扱いしない）に追記した。実接続（T026/T028/T060/T032）を作るときは、5の注意に従ってchargeとreconcileを実装する。
+
+# 追補: 新テーマ・本人の工程・見せ方（2026-10-10、T103/T104/T106、Claude Code / claude-opus-5-5）
+- T103: 台本v2に`theme`（general/investment、未指定は投資扱い）と`intro`（概要欄の導入文）。テーマ別免責（src/lint.ts requiredDisclaimer）。metadata.jsonに`sources`（文献名・URL・確認日・場面・導入文での使用）。新テーマの試作fixtures/sample-general.json。ADR-017。
+- T104: 制作案件（outputs/production-xxxxxxxx）と`cli.ts produce`。本人の題材選択・考察・台本承認がなければ制作を拒否。題材・考察・台本の変更で承認と古い動画が失効。sampleと既存ジョブはデモで、公開前の判定（publishReadiness）は不可。ADR-018。
+- T106: 字幕の既定を焼き込みへ。文字は入れ物の枠の中で中央に置き、画面の区画を重ねない（文字配置の検査 job.json.layout、src/layout.ts）。集計の図（meter）、経緯の矢印（flowのmotion: travel）、段の表示時刻（reveal）。サムネイル3案の再設計。ADR-019、docs/T106-DESIGN.md。
+- **不変条件の変更（T106）**: 本書5章1の「v1の描画はM1のジョブとバイト単位で一致」は、文字配置の修正で意図して崩した（全図解・字幕・フッターの位置が変わる）。以後の描画の基準は、文字配置の検査（はみ出し・中央からのずれ・区画外・区画の重なりがない）と、PSNR照合（描画画像と書出し後のフレームの一致）とする。旧描画との比較画像はlogs/2026-10-10/171938-T106-2574f3e3/evidence/text-layout/。159行目の「字幕の既定はsoft」も焼き込みへ変わった。

@@ -1,0 +1,47 @@
+## 10分（ナレーション3000字、音声600秒）
+- 台本 gemini-3.8-flash（2026年中）: $0.270 = 43円（余裕込み45円）
+- 台本 gemini-3.8-flash（2027-01-01以降の単価）: $0.540 = 85円（余裕込み90円）
+- 台本 gemini-3.5-flash-lite: $0.162 = 26円（余裕込み27円）
+- 音声 gemini-3.8-flash-tts（25トークン/秒）: $0.410 = 65円（余裕込み68円）
+- 音声 gemini-3.8-flash-tts（32トークン/秒で計算した場合）: $0.523 = 83円（余裕込み87円）
+- 音声 gemini-3.8-flash-tts（2027-01-01以降の単価）: $0.819 = 129円（余裕込み136円）
+- 音声 gemini-3.8-flash-lite-tts: $0.274 = 43円（余裕込み46円）
+- 音声 ElevenLabs multilingual_v2（従量$0.08/千字）: $0.720 = 114円（余裕込み120円）
+- 音声 ElevenLabs v4（10/12までの割引$0.022/千字）: $0.198 = 31円（余裕込み33円）
+- 音声 ElevenLabs v4（割引前の表示$0.08/千字）: $0.720 = 114円（余裕込み120円）
+- 部分映像 Runway gen4.5（12cr/秒）: $10.800 = 1707円（余裕込み1793円）
+- 部分映像 Runway veo3.1_fast 音声なし（10cr/秒）: $9.000 = 1423円（余裕込み1494円）
+- 部分映像 Gemini API veo-3.1-lite 720p（$0.05/秒）: $4.500 = 711円（余裕込み747円）
+- 部分映像 Gemini API veo-3.1-fast 720p（$0.10/秒）: $9.000 = 1423円（余裕込み1494円）
+組み合わせ（1本あたりの従量。月額の固定費は含めない）:
+- 映像なし: Gemini台本＋Gemini TTS: $0.68 = 107円（余裕込み113円）
+- 映像なし: Gemini台本＋ElevenLabs v2（従量。別途Starter月額$6）: $0.99 = 157円（余裕込み164円）
+- 部分映像あり: Gemini台本＋Gemini TTS＋Runway gen4.5: $11.48 = 1815円（余裕込み1906円）
+- 部分映像あり: Gemini台本＋ElevenLabs v2＋Runway gen4.5（別途Starter月額$6）: $11.79 = 1864円（余裕込み1957円）
+- 部分映像あり（2027単価）: Gemini台本＋Gemini TTS＋Gemini veo-3.1-fast: $10.36 = 1638円（余裕込み1720円）
+
+## 20分（ナレーション6000字、音声1200秒）
+- 台本 gemini-3.8-flash（2026年中）: $0.472 = 75円（余裕込み78円）
+- 台本 gemini-3.8-flash（2027-01-01以降の単価）: $0.945 = 149円（余裕込み157円）
+- 台本 gemini-3.5-flash-lite: $0.297 = 47円（余裕込み49円）
+- 音声 gemini-3.8-flash-tts（25トークン/秒）: $0.819 = 129円（余裕込み136円）
+- 音声 gemini-3.8-flash-tts（32トークン/秒で計算した場合）: $1.046 = 165円（余裕込み174円）
+- 音声 gemini-3.8-flash-tts（2027-01-01以降の単価）: $1.638 = 259円（余裕込み272円）
+- 音声 gemini-3.8-flash-lite-tts: $0.549 = 87円（余裕込み91円）
+- 音声 ElevenLabs multilingual_v2（従量$0.08/千字）: $1.440 = 228円（余裕込み239円）
+- 音声 ElevenLabs v4（10/12までの割引$0.022/千字）: $0.396 = 63円（余裕込み66円）
+- 音声 ElevenLabs v4（割引前の表示$0.08/千字）: $1.440 = 228円（余裕込み239円）
+- 部分映像 Runway gen4.5（12cr/秒）: $10.800 = 1707円（余裕込み1793円）
+- 部分映像 Runway veo3.1_fast 音声なし（10cr/秒）: $9.000 = 1423円（余裕込み1494円）
+- 部分映像 Gemini API veo-3.1-lite 720p（$0.05/秒）: $4.500 = 711円（余裕込み747円）
+- 部分映像 Gemini API veo-3.1-fast 720p（$0.10/秒）: $9.000 = 1423円（余裕込み1494円）
+組み合わせ（1本あたりの従量。月額の固定費は含めない）:
+- 映像なし: Gemini台本＋Gemini TTS: $1.29 = 204円（余裕込み214円）
+- 映像なし: Gemini台本＋ElevenLabs v2（従量。別途Starter月額$6）: $1.91 = 302円（余裕込み317円）
+- 部分映像あり: Gemini台本＋Gemini TTS＋Runway gen4.5: $12.09 = 1912円（余裕込み2007円）
+- 部分映像あり: Gemini台本＋ElevenLabs v2＋Runway gen4.5（別途Starter月額$6）: $12.71 = 2010円（余裕込み2110円）
+- 部分映像あり（2027単価）: Gemini台本＋Gemini TTS＋Gemini veo-3.1-fast: $11.58 = 1831円（余裕込み1923円）
+
+前提: {"charsPerMinute":300,"scriptInputTokens":30000,"scriptOutputPerChar":3,"thinkingMultiplier":2,"scriptRuns":3,"ttsPasses":3,"videoSecondsUsed":30,"videoTakes":3,"elevenStarterUsdPerMonth":6,"jpyPerUsd":158.1,"jpyBuffer":1.05}
+ElevenLabs商用の月額固定（Starter $6）: 949円（余裕込み996円）/月
+EXIT=0

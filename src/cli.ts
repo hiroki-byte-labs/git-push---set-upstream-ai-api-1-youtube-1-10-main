@@ -7,7 +7,9 @@ import {serve} from './commands/serve.ts';
 import {FixtureScript} from './providers.ts';
 import {lintPlan, formatLint} from './lint.ts';
 import {listJobs, abandon, planClean, applyClean, JOB_ID} from './jobs.ts';
-import {approvalOf, recordReview} from './review.ts';
+import {approvalOf, recordReview, publishReadiness} from './review.ts';
+import {produce, PRODUCE_USAGE, stageLabel} from './commands/produce.ts';
+import {projectState, PROJECT_ID} from './production.ts';
 import {reviseTitle} from './metadata.ts';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
@@ -21,6 +23,8 @@ const usage = [
   '  jobs | jobs abandon <id> [--note 文] | jobs clean [--apply]',
   '  review <id> | review <id> approve|reject --hash <sha256> [--note 文] [--reviewer 名前]',
   '  metadata <id> | metadata <id> revise --title 新タイトル --reason 理由 [--by 名前]',
+  '  （本人の工程を通す本番の制作。sampleは常にデモ）',
+  PRODUCE_USAGE,
 ].join('\n');
 const cmd = process.argv[2] ?? 'help';
 
@@ -59,7 +63,10 @@ function option(args: string[], name: string) {
 function jobs(args: string[]) {
   const [sub, id] = args;
   if (!sub) {
-    for (const j of listJobs()) console.log(`${j.id}  ${j.status}${j.stale ? '(中断の疑い)' : ''}  ${j.createdAt}  ${j.durationSeconds ?? '-'}秒  確認:${j.approval}`);
+    for (const j of listJobs()) {
+      const extra = PROJECT_ID.test(j.id) ? `工程:${stageLabel(projectState('outputs', j.id).stage)}` : `確認:${j.approval}`;
+      console.log(`${j.id}  ${j.mode === 'production' ? '本番' : 'デモ'}  ${j.status}${j.stale ? '(中断の疑い)' : ''}  ${j.createdAt}  ${j.durationSeconds ?? '-'}秒  ${extra}`);
+    }
   } else if (sub === 'abandon' && id) {
     console.log(`abandoned: ${abandon('outputs', id, option(args, '--note') ?? '').id}`);
   } else if (sub === 'clean') {
@@ -80,7 +87,10 @@ function review(args: string[]) {
   if (!decision) {
     const a = approvalOf(dir);
     const b = a.bundle;
-    console.log(`${id}: ${a.state}（${a.reason}）\n現在の版（確認対象一式）: ${a.currentHash ?? '-'}`);
+    const ready = publishReadiness(dir);
+    console.log(`${id}: ${a.state}（${a.reason}）\n区分: ${a.mode === 'production' ? '本番' : 'デモ（本人の工程を経ていない。本番の承認に転用できない）'}${a.project ? ` / 制作案件 ${a.project}` : ''}\n現在の版（確認対象一式）: ${a.currentHash ?? '-'}`);
+    if (b?.script !== undefined) console.log(`  台本の版 ${b.script ?? 'なし'}`);
+    console.log(`公開前の判定: ${ready.ok ? '可（投稿機能は未実装・無効）' : '不可 - ' + ready.reasons.join(' / ')}`);
     if (b) console.log(`  動画 ${b.video ?? 'なし'}\n  字幕 ${b.subtitles ?? 'なし'}\n  タイトル ${b.metadata?.selectedTitle ?? 'なし'}\n  サムネイル ${b.thumbnails.map(t => t.file + (t.sha256 ? '' : '(なし)')).join(', ') || 'なし'}`);
     return;
   }
@@ -113,6 +123,7 @@ try {
   else if (cmd === 'jobs') jobs(process.argv.slice(3));
   else if (cmd === 'review') review(process.argv.slice(3));
   else if (cmd === 'metadata') metadata(process.argv.slice(3));
+  else if (cmd === 'produce') await produce(process.argv.slice(3));
   else console.log(usage);
 } catch (e) {
   console.error(String(e));

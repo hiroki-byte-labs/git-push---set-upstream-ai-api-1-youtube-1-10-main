@@ -1,7 +1,7 @@
 // 台本の安全検査（T042）。prompts/script.md の禁止事項を機械的に確かめる安全網。
 // 意味の理解や法的な適合性の保証はしない。errorがあれば制作を止め、warningは記録だけする。
-import type {Plan, Diagram} from './plan.ts';
-import {chaptersOf, BEATS, thumbnailText} from './plan.ts';
+import type {Plan, Diagram, Theme} from './plan.ts';
+import {chaptersOf, BEATS, thumbnailText, themeOf, REFLECTION_PLACEHOLDER} from './plan.ts';
 
 export type Finding = {level: 'error' | 'warning'; rule: string; where: string; text: string; message: string};
 export type LintResult = {ok: boolean; errors: number; warnings: number; findings: Finding[]};
@@ -10,6 +10,8 @@ export type LintResult = {ok: boolean; errors: number; warnings: number; finding
 export const FORBIDDEN: {rule: string; pattern: RegExp; message: string}[] = [
   {rule: 'guarantee', pattern: /(必ず|絶対に?|確実に|間違いなく)(儲|もう|勝て|上が|増え|利益)/, message: '利益や値上がりを保証する表現'},
   {rule: 'guarantee', pattern: /元本(保証|割れ(し|は)ない)|損(は|を)?しない|リスク(は)?(ゼロ|なし|ありません)/, message: '損失がないと誤認させる表現'},
+  // 一般テーマ（T103）でも効果・結果の断定は通さない。テーマによらず適用する。
+  {rule: 'guarantee', pattern: /(必ず|絶対に?|確実に|間違いなく)(痩せ|やせ|治|成功|合格|うまくいく|上手くいく|身につ|頭が良くな|お金が(貯ま|たま))|(効果|結果|成果|成功)(を|は)?(必ず|確実に)?保証(します|できます|いたします)/, message: '効果や結果を保証する表現'},
   {rule: 'recommendation', pattern: /(今すぐ|今が)(買|売)|(買う|売る|買い増す)べき|(おすすめ|推奨|注目)の?銘柄|この銘柄を?(買|仕込)/, message: '売買の推奨・勧誘'},
   {rule: 'specific-security', pattern: /(銘柄|証券)コード\s*[:：]?\s*\d{4}|\d{4}\s*[（(](株|銘柄)/, message: '個別銘柄の特定'},
   {rule: 'hype', pattern: /爆上げ|爆益|億り人|急騰確定|一攫千金|放置で稼|誰でも(稼|儲)/, message: '煽り表現'},
@@ -27,6 +29,8 @@ export const CHAPTER_MAX_SECONDS = 360;
 export const CONVERSATIONAL = /あなた|私たち|わたしたち|私|わたし|みなさん|皆さん|一緒に|ましょう|ませんか/;
 export const STIFF_ENDING = /(である|だ|のだ)$/;
 export const STIFF_RATIO = 0.3;
+// 一般テーマでも、この語が台本に出るなら投資の免責（推奨・保証の否定）を求める（T103）。themeの付け替えで検査を外せないようにする。
+export const INVESTMENT_TERMS = /銘柄|株式|株価|投資信託|NISA|iDeCo|利回り|暗号資産|仮想通貨|FX|債券/;
 type Add = (level: Finding['level'], rule: string, where: string, text: string, message: string) => void;
 
 function checkStructure(plan: Plan, add: Add) {
@@ -34,6 +38,9 @@ function checkStructure(plan: Plan, add: Add) {
   const level: Finding['level'] = total >= LONG_FORM_SECONDS ? 'error' : 'warning';
   // 冒頭: 30秒以内に始まる場面に、問いを含むhookを置き、promise（得られること）を宣言する（T075）。
   if (!plan.promise) add(level, 'promise-missing', '台本', '', 'promise（この動画で得られること）が必要');
+  // 概要欄の導入文（T103）。実在の出来事なら出典、架空の場面ならfictionalを明示する（具体例と同じ区別。常にerror）。
+  if (!plan.intro) add(level, 'intro-missing', '台本', '', 'intro（概要欄の導入文。ニュースや事象から題材へつなぐ）が必要');
+  else if (!plan.intro.fictional && !plan.intro.sources.length) add('error', 'intro-source', '導入文', plan.intro.text, '導入文は出典（intro.sources）を付けるか、架空の場面ならintro.fictional: trueにする');
   let start = 0;
   const opening: number[] = [];
   plan.scenes.forEach((s, i) => {
@@ -51,7 +58,8 @@ function checkStructure(plan: Plan, add: Add) {
     const where = `第${c.index}章「${c.title}」`;
     if (c.seconds > CHAPTER_MAX_SECONDS) add('warning', 'chapter-too-long', where, '', `${c.seconds}秒。約${CHAPTER_MAX_SECONDS / 60}分以内に分ける`);
     const roles = c.scenes.map(i => plan.scenes[i].role);
-    if (chapters.length >= 2 && !roles.includes('hook') && !roles.some(r => r === 'recap' || r === 'question')) add('warning', 'chapter-recap', where, '', '章の中にまとめ（recap）か問い（question）の場面を入れる');
+    // 本人の考察（reflection、T104）の章は、それ自体が章の区切りになるので対象外（T106）。
+    if (chapters.length >= 2 && !roles.includes('hook') && !roles.some(r => r === 'recap' || r === 'question' || r === 'reflection')) add('warning', 'chapter-recap', where, '', '章の中にまとめ（recap）か問い（question）の場面を入れる');
   }
 
   // 物語と具体例（T081）。具体例は「架空」か「出典つきの実例」かを必ず区別する（常にerror）。
@@ -96,29 +104,42 @@ function checkStructure(plan: Plan, add: Add) {
   if (sentences.length && stiff / sentences.length > STIFF_RATIO) add('warning', 'stiff-style', 'ナレーション', `${stiff}/${sentences.length}文`, `「である・だ」調が${Math.round(STIFF_RATIO * 100)}%を超える。です・ます調の語りかけにする`);
 }
 
+// テーマ別の免責（T103）。investment=推奨と保証の両方を否定、general=結果を保証しない旨（投資の定型免責は強制しない）。
+// generalでも投資の語（INVESTMENT_TERMS）が出るなら投資の免責を求める。
+export const DISCLAIMER_BY_THEME: Record<Theme, readonly ('推奨' | '保証')[]> = {investment: ['推奨', '保証'], general: ['保証']};
+export function requiredDisclaimer(plan: Plan) {
+  const theme = themeOf(plan);
+  if (theme === 'investment') return {theme, terms: DISCLAIMER_BY_THEME.investment, reason: '投資テーマ'};
+  const texts = [plan.title, plan.promise ?? '', plan.intro?.text ?? '', ...plan.scenes.flatMap(s => [s.title, s.narration, ...s.cues.map(c => c.text), ...diagramTexts(s.diagram)])];
+  const hit = texts.map(t => t.match(INVESTMENT_TERMS)?.[0]).find(Boolean);
+  return hit ? {theme, terms: DISCLAIMER_BY_THEME.investment, reason: `一般テーマだが投資の語「${hit}」を含む`} : {theme, terms: DISCLAIMER_BY_THEME.general, reason: '一般テーマ'};
+}
+
 // 免責の判定（T097）。意味の理解ではなく、検証できる狭い規則にする。
 // 文（。！？で区切る）に「推奨」「保証」があれば、その文の述語（文末）が否定（ません・ない等）でなければならない。
 // 文末が否定の文に出た語を「しない」と判定する（「推奨や利益の保証はしません」は両方）。
 // 一文に否定と肯定が混ざる（「推奨はしませんが、保証します」）と文末が肯定になり、肯定として拒否する。
 export const DISCLAIMER_TERMS = ['推奨', '保証'] as const;
 const NEGATED_END = /(ません|ない|ないです)$/;
-export function checkDisclaimer(text: string) {
+// requiredを渡すと、その語だけを判定する（一般テーマは「保証」だけ。T103）。既定は従来どおり推奨・保証の両方。
+export function checkDisclaimer(text: string, required: readonly string[] = DISCLAIMER_TERMS) {
   const sentences = text.split(/[。！？!?\n]/).map(s => s.trim().replace(/[」』）)]+$/, '')).filter(Boolean);
   const negated = new Set<string>();
   const affirmative: string[] = [];
   for (const s of sentences) {
-    const terms = DISCLAIMER_TERMS.filter(t => s.includes(t));
+    const terms = required.filter(t => s.includes(t));
     if (!terms.length) continue;
     if (NEGATED_END.test(s)) terms.forEach(t => negated.add(t));
     else affirmative.push(s);
   }
-  return {affirmative, missing: DISCLAIMER_TERMS.filter(t => !negated.has(t))};
+  return {affirmative, missing: required.filter(t => !negated.has(t))};
 }
 
 const diagramTexts = (d: Diagram): string[] =>
   d.type === 'flow' ? d.items :
   d.type === 'compare' ? [d.left, d.right, ...d.leftItems, ...d.rightItems] :
   d.type === 'number' ? [d.value, d.label, d.note ?? ''] :
+  d.type === 'meter' ? [...d.bars.map(b => b.label), d.total] :
   [d.question, d.yes, d.no];
 
 export function lintPlan(plan: Plan): LintResult {
@@ -138,24 +159,37 @@ export function lintPlan(plan: Plan): LintResult {
     }
   });
 
+  // 導入文（概要欄に載る）も禁止表現と出典なしの数値の対象（T103）。
+  if (plan.intro) {
+    for (const f of FORBIDDEN) if (f.pattern.test(plan.intro.text)) add('error', f.rule, '導入文', plan.intro.text, f.message);
+    if (NUMERIC_CLAIM.test(plan.intro.text) && !plan.intro.sources.length) add('error', 'unsourced-number', '導入文', plan.intro.text, '数値表現には出典（intro.sources）が必要');
+  }
+
+  // 本人の考察（T104）。下書きの目印が残っていれば、考察が未入力なので制作しない。
+  plan.scenes.forEach((s, i) => {
+    if (s.role === 'reflection' && [s.narration, ...s.cues.map(c => c.text)].some(t => t.includes(REFLECTION_PLACEHOLDER))) add('error', 'reflection-missing', `場面${i + 1}`, s.title, '本人の考察が未入力（produce reflection → produce scriptで差し込む）。エージェントが代筆しない');
+  });
+
   checkStructure(plan, add);
 
   // サムネイルの文言も禁止表現の対象（T073）。中身と一致しない煽りを防ぐ。
   // 描画と同じ最終文言を検査する。省略時に代替される題名・promiseも対象（T096）。
   const thumb = thumbnailText(plan);
-  for (const [t, from] of [[thumb.headline, thumb.headlineFrom], [thumb.sub, thumb.subFrom]]) if (t) for (const f of FORBIDDEN) if (f.pattern.test(t)) add('error', f.rule, 'サムネイル', t, `${f.message}（描画する文言。${from}から）`);
+  for (const [t, from] of [[thumb.headline, thumb.headlineFrom], [thumb.sub, thumb.subFrom], ...thumb.extras.map(x => [x, 'thumbnail.keyword/contrast'])]) if (t) for (const f of FORBIDDEN) if (f.pattern.test(t.replace(/\s*\n\s*/g, ''))) add('error', f.rule, 'サムネイル', t, `${f.message}（描画する文言。${from}から）`);
 
-  // 最終場面に免責（推奨しない・保証しない）を含める（T042、T097）。ナレーション（聞く人）と字幕（見る人）の両方に必要。
+  // 最終場面に免責を含める（T042、T097）。ナレーション（聞く人）と字幕（見る人）の両方に必要。
+  // 必要な語はテーマで変わる（T103）。投資は推奨・保証の否定、一般は保証の否定。
   const last = plan.scenes.at(-1)!;
   const where = `場面${plan.scenes.length}`;
+  const need = requiredDisclaimer(plan);
   for (const [part, text] of [['ナレーション', last.narration], ['字幕', last.cues.map(c => c.text).join('')]] as const) {
-    const d = checkDisclaimer(text);
-    for (const s of d.affirmative) add('error', 'disclaimer-affirmative', `${where}/${part}`, s, '最終場面で推奨・保証を肯定している。免責は「推奨しません」「保証しません」のように否定文で書く');
-    if (d.missing.length) add('error', 'disclaimer', `${where}/${part}`, '', `最終場面の${part}に「${d.missing.join('・')}しない」旨の免責が必要（否定文）`);
+    const d = checkDisclaimer(text, need.terms);
+    for (const s of d.affirmative) add('error', 'disclaimer-affirmative', `${where}/${part}`, s, `最終場面で${need.terms.join('・')}を肯定している。免責は「${need.terms.map(t => t + 'しません').join('」「')}」のように否定文で書く`);
+    if (d.missing.length) add('error', 'disclaimer', `${where}/${part}`, '', `最終場面の${part}に「${d.missing.join('・')}しない」旨の免責が必要（否定文。${need.reason}）`);
   }
 
-  // 定義したのに使っていない出典は、記載漏れか不要な出典の可能性がある。
-  const used = new Set(plan.scenes.flatMap(s => s.sources));
+  // 定義したのに使っていない出典は、記載漏れか不要な出典の可能性がある。導入文の出典も使用に数える（T103）。
+  const used = new Set([...plan.scenes.flatMap(s => s.sources), ...(plan.intro?.sources ?? [])]);
   for (const src of plan.sources) if (!used.has(src.id)) add('warning', 'unused-source', `出典${src.id}`, src.title, 'どの場面からも参照されていない');
 
   const errors = findings.filter(f => f.level === 'error').length;

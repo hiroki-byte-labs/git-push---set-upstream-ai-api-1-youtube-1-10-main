@@ -1,0 +1,6 @@
+MISSING docs/T108-SERVICE-COMPARISON.md docs/overview/models
+MISSING docs/T108-SERVICE-COMPARISON.md docs/tokens
+MISSING docs/T108-SERVICE-COMPARISON.md docs/pricing
+MISSING docs/T108-SERVICE-COMPARISON.md docs/speech-generation
+checked 61 paths, missing 4
+注記: MISSINGの4件は外部URL（https://ai.google.dev/gemini-api/docs/… と https://elevenlabs.io/docs/overview/models）の一部を正規表現が拾った誤検出で、リポジトリ内のパスではない。リポジトリ内の参照57件はすべて実在。

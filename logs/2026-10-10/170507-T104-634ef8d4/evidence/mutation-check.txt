@@ -1,0 +1,22 @@
+[render-gate-removed] ✖ 台本の確認: 版の不一致・理由なしの差戻しを拒否。差戻し中は制作できず、承認後に制作できる (1.909916ms)
+[render-gate-removed] ✖ 承認後の変更で台本承認が失効: 考察の更新・題材の変更・台本ファイルの変更/欠落 (1.544375ms)
+[render-gate-removed] ✖ 制作の開始条件: 未選択・考察未入力・台本未作成を不足として並べて拒否する (0.467875ms)
+[render-gate-removed] ✖ CLI: produce の入口で、未入力なら制作を拒否し不足を表示する (132.392167ms)
+[render-gate-removed] ℹ pass 13
+[render-gate-removed] ℹ fail 4
+[video-script-check-removed] ✖ 完成動画: 台本の版に結び付き、台本が変わると失効し承認も拒否する (5.210209ms)
+[video-script-check-removed] ℹ pass 16
+[video-script-check-removed] ℹ fail 1
+[video-script-check-removed] ✖ failing tests:
+[video-script-check-removed] ✖ 完成動画: 台本の版に結び付き、台本が変わると失効し承認も拒否する (5.210209ms)
+[agent-guard-removed] ✖ 本番の案件では本人の工程をエージェント名で記録できない（デモはtest-agentで可） (0.8565ms)
+[agent-guard-removed] ✖ 確認画面（HTTP）: 案件ページ、選択・考察・台本承認の送信、古い版と本番のエージェント名は409 (31.139125ms)
+[agent-guard-removed] ℹ pass 15
+[agent-guard-removed] ℹ fail 2
+[agent-guard-removed] ✖ failing tests:
+[agent-guard-removed] ✖ 本番の案件では本人の工程をエージェント名で記録できない（デモはtest-agentで可） (0.8565ms)
+[reflection-version-not-checked] ✖ 承認後の変更で台本承認が失効: 考察の更新・題材の変更・台本ファイルの変更/欠落 (1.94675ms)
+[reflection-version-not-checked] ℹ pass 16
+[reflection-version-not-checked] ℹ fail 1
+[reflection-version-not-checked] ✖ failing tests:
+[reflection-version-not-checked] ✖ 承認後の変更で台本承認が失効: 考察の更新・題材の変更・台本ファイルの変更/欠落 (1.94675ms)

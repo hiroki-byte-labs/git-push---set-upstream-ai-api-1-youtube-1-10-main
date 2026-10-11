@@ -9,14 +9,26 @@ export function validateV1(p:PlanV1):PlanV1{
  return p;
 }
 
+// reveal（T106）: 段ごとの表示開始秒（場面の先頭から。先頭は0、昇順）。ナレーション・字幕の説明に合わせて段を出す。省略時は自動。
+// motion（T106）: flowの'travel'は、前の段からの矢印が伸び切るのに合わせて次の段を出す（原因→結果・経緯）。
+// meter（T106）: 品目ごとの変化の棒が順に伸び、最後に平均の棒が伸びる集計の図。valueは−1〜1の相対値で、数値は画面に出さない。
+export type Bar = {label: string; value: number};
+type Reveal = {reveal?: number[]};
 export type Diagram =
-  | {type: 'flow'; items: string[]}
-  | {type: 'compare'; left: string; right: string; leftItems: string[]; rightItems: string[]}
-  | {type: 'number'; value: string; label: string; note?: string}
-  | {type: 'branch'; question: string; yes: string; no: string};
+  | ({type: 'flow'; items: string[]; motion?: 'travel'} & Reveal)
+  | ({type: 'compare'; left: string; right: string; leftItems: string[]; rightItems: string[]} & Reveal)
+  | ({type: 'number'; value: string; label: string; note?: string} & Reveal)
+  | ({type: 'branch'; question: string; yes: string; no: string} & Reveal)
+  | ({type: 'meter'; bars: Bar[]; total: string} & Reveal);
+// 図解を段階表示するときの段数。flowは要素ごと、compareは左右、branchは問い→答え、numberは一度に、meterは棒ごと＋まとめ。
+export function diagramSteps(d: Diagram) {
+  return d.type === 'flow' ? d.items.length : d.type === 'compare' ? 2 : d.type === 'branch' ? 2 : d.type === 'meter' ? d.bars.length + 1 : 1;
+}
 export type Cue = {text: string; seconds: number};
 // 場面の役割（T075〜）。構成の検査（src/lint.ts）に使う。省略時は本編（body）扱い。
-export const ROLES = ['hook', 'body', 'recap', 'question', 'example', 'glossary'] as const;
+// reflection（T104）: 本人の考察の場面。下書きでは本文をREFLECTION_PLACEHOLDERにし、本人の考察を差し込む（src/production.ts）。
+export const ROLES = ['hook', 'body', 'recap', 'question', 'example', 'glossary', 'reflection'] as const;
+export const REFLECTION_PLACEHOLDER = '【本人の考察：未入力】';
 // 物語の流れ（T081）。状況→葛藤→気づき→学びの順に置く。
 export const BEATS = ['situation', 'conflict', 'insight', 'lesson'] as const;
 export type Beat = typeof BEATS[number];
@@ -25,8 +37,8 @@ export type Scene = {title: string; narration: string; cues: Cue[]; diagram: Dia
 export type Source = {id: string; title: string; url: string; accessedAt: string};
 // promise: この動画で視聴者が得られること（タイトル・冒頭で約束する内容。T075）。glossary: 先に説明する用語（T083）。
 export type Term = {term: string; definition: string};
-// thumbnail: サムネイルの見出し（T073）。省略時は台本の題名。
-export type Thumbnail = {headline: string; sub?: string; scene?: number};
+// thumbnail: サムネイルの見出し（T073）。省略時は台本の題名。keyword・contrastはT106の案a（問い型）・c（対比型）で使う。
+export type Thumbnail = {headline: string; sub?: string; scene?: number; keyword?: string; contrast?: [string, string]};
 // サムネイルに描く最終文言（T096）。見出しは省略時に題名、補足は省略時にpromise。
 // 描画（buildThumbSpecs）と安全検査（lintPlan）はこの関数だけを使い、代替ルールを別に持たない。
 export function thumbnailText(plan: Pick<Plan, 'title' | 'promise' | 'thumbnail'>) {
@@ -35,11 +47,23 @@ export function thumbnailText(plan: Pick<Plan, 'title' | 'promise' | 'thumbnail'
     headlineFrom: plan.thumbnail?.headline !== undefined ? 'thumbnail.headline' : 'title',
     sub: plan.thumbnail?.sub ?? plan.promise ?? '',
     subFrom: plan.thumbnail?.sub !== undefined ? 'thumbnail.sub' : plan.promise !== undefined ? 'promise' : 'なし',
+    // 明示したキーワード・対比の文言（T106）。図解から補う値は図解として検査済み。
+    extras: [plan.thumbnail?.keyword, ...(plan.thumbnail?.contrast ?? [])].filter((x): x is string => typeof x === 'string'),
   };
 }
 // style.transitions=falseで段階表示のフェード・強調を止める（T079）。
 export type Style = {transitions?: boolean};
-export type Plan = {schema: 2; id: string; title: string; version: number; scenes: Scene[]; sources: Source[]; promise?: string; glossary?: Term[]; thumbnail?: Thumbnail; style?: Style};
+// 題材の区分（T103）。general=日常に結び付く知識全般、investment=投資を扱う回。免責の条件がテーマで異なる（src/lint.ts）。
+// theme未指定は旧形式（投資と心理の試作）なので投資テーマとして解釈し、投資の免責を求める（検査を回避させない）。
+export const THEMES = ['general', 'investment'] as const;
+export type Theme = typeof THEMES[number];
+export const themeOf = (plan: Pick<Plan, 'theme'>): Theme => plan.theme ?? 'investment';
+// 概要欄の先頭に置く導入文（T103）。具体的なニュースや事象から題材へつなぐ。
+// 実在の出来事なら出典（sources）を、架空の場面ならfictional: trueを付ける（lintで検査）。
+export type Intro = {text: string; sources: string[]; fictional?: boolean};
+// production（T104）: 制作案件から作った台本の印。mode=demoなら考察は試験用で、画面にデモと表示する。
+export type ProductionInfo = {mode: 'production' | 'demo'; project: string};
+export type Plan = {schema: 2; id: string; title: string; version: number; scenes: Scene[]; sources: Source[]; promise?: string; glossary?: Term[]; thumbnail?: Thumbnail; style?: Style; theme?: Theme; intro?: Intro; note?: string; production?: ProductionInfo};
 
 // 上限値。描画（scripts/render.swift）の枠と、10〜20分の長尺（余裕を見て25分）に合わせる。
 export const LIMITS = {
@@ -68,6 +92,12 @@ export const LIMITS = {
   emphasisItems: [1, 3],
   emphasisItem: 12,
   thumbSub: 30,
+  intro: 300,
+  meterBars: [2, 5],
+  meterLabel: 10,
+  meterTotal: 14,
+  thumbKeyword: 6,
+  thumbContrast: 10,
 } as const;
 
 const isText = (v: unknown, max: number): v is string => typeof v === 'string' && v.trim().length > 0 && [...v].length <= max;
@@ -81,8 +111,18 @@ function checkDiagram(d: any, where: string) {
       isTextList(d.leftItems, LIMITS.compareItems, LIMITS.compareItem) && isTextList(d.rightItems, LIMITS.compareItems, LIMITS.compareItem) :
     d?.type === 'number' ? isText(d.value, LIMITS.numberValue) && isText(d.label, LIMITS.numberLabel) && (d.note === undefined || isText(d.note, LIMITS.numberNote)) :
     d?.type === 'branch' ? isText(d.question, LIMITS.branchQuestion) && isText(d.yes, LIMITS.branchAnswer) && isText(d.no, LIMITS.branchAnswer) :
+    d?.type === 'meter' ? Array.isArray(d.bars) && d.bars.length >= LIMITS.meterBars[0] && d.bars.length <= LIMITS.meterBars[1] &&
+      d.bars.every((b: any) => isText(b?.label, LIMITS.meterLabel) && typeof b.value === 'number' && Number.isFinite(b.value) && b.value >= -1 && b.value <= 1) && isText(d.total, LIMITS.meterTotal) :
     false;
   if (!ok) throw Error(`${where}: 図解が不正（type=${d?.type}）`);
+  if (d.motion !== undefined && !(d.type === 'flow' && d.motion === 'travel')) throw Error(`${where}: motionはflowの'travel'だけ`);
+}
+
+// 段の表示開始秒（T106）。段数と同じ長さ、先頭は0、昇順、場面の秒数未満。
+function checkReveal(d: any, seconds: number, where: string) {
+  if (d.reveal === undefined) return;
+  const r = d.reveal;
+  if (!Array.isArray(r) || r.length !== diagramSteps(d) || r[0] !== 0 || r.some((t: unknown, k: number) => typeof t !== 'number' || !Number.isFinite(t) || t >= seconds || (k > 0 && t <= r[k - 1]))) throw Error(`${where}: revealは段数（${diagramSteps(d)}）と同じ長さで、0から始まる昇順・場面の秒数未満`);
 }
 
 export function validatePlanV2(p: any): Plan {
@@ -95,6 +135,8 @@ export function validatePlanV2(p: any): Plan {
     const t = p.thumbnail;
     if (!isText(t?.headline, LIMITS.thumbHeadline) || (t.sub !== undefined && !isText(t.sub, LIMITS.thumbSub))) throw Error(`thumbnailの見出しは${LIMITS.thumbHeadline}字、補足は${LIMITS.thumbSub}字以内`);
     if (t.scene !== undefined && (!Number.isInteger(t.scene) || t.scene < 1 || t.scene > p.scenes.length)) throw Error('thumbnail.sceneは場面番号（1始まり）');
+    if (t.keyword !== undefined && !isText(t.keyword, LIMITS.thumbKeyword)) throw Error(`thumbnail.keywordは${LIMITS.thumbKeyword}字以内`);
+    if (t.contrast !== undefined && !(Array.isArray(t.contrast) && t.contrast.length === 2 && t.contrast.every((x: unknown) => isText(x, LIMITS.thumbContrast)))) throw Error(`thumbnail.contrastは2つの文言（各${LIMITS.thumbContrast}字以内）`);
   }
   if (p.glossary !== undefined) {
     if (!Array.isArray(p.glossary) || p.glossary.length > LIMITS.glossary) throw Error(`glossaryは${LIMITS.glossary}語まで`);
@@ -104,10 +146,19 @@ export function validatePlanV2(p: any): Plan {
       terms.add(g.term);
     }
   }
+  if (p.theme !== undefined && !(THEMES as readonly string[]).includes(p.theme)) throw Error(`不明なtheme（${p.theme}）。${THEMES.join('/')}のいずれか`);
+  if (p.note !== undefined && typeof p.note !== 'string') throw Error('noteは文字列');
+  if (p.production !== undefined && (!['production', 'demo'].includes(p.production?.mode) || typeof p.production.project !== 'string')) throw Error('productionは{mode: production|demo, project}');
   const ids = new Set<string>();
   for (const s of p.sources) {
     if (!/^[a-z0-9-]+$/.test(s?.id) || ids.has(s.id) || !isText(s.title, 120) || !/^https:\/\/\S+$/.test(s.url) || !/^\d{4}-\d{2}-\d{2}$/.test(s.accessedAt)) throw Error(`不正な出典: ${s?.id}`);
     ids.add(s.id);
+  }
+  if (p.intro !== undefined) {
+    const t = p.intro;
+    if (!isText(t?.text, LIMITS.intro)) throw Error(`introの本文は1〜${LIMITS.intro}字`);
+    if (!Array.isArray(t.sources) || t.sources.some((id: unknown) => typeof id !== 'string' || !ids.has(id))) throw Error('introのsourcesは定義済みの出典id');
+    if (t.fictional !== undefined && typeof t.fictional !== 'boolean') throw Error('intro.fictionalは真偽値');
   }
   if (!Array.isArray(p.scenes) || !p.scenes.length || p.scenes.length > LIMITS.scenes) throw Error(`場面数は1〜${LIMITS.scenes}`);
   let total = 0;
@@ -125,6 +176,7 @@ export function validatePlanV2(p: any): Plan {
     }
     if (Math.abs(cueTotal - s.seconds) > 1e-6) throw Error(`${where}: 字幕cueの合計${cueTotal}秒が場面の${s.seconds}秒と一致しない`);
     checkDiagram(s.diagram, where);
+    checkReveal(s.diagram, s.seconds, where);
     if (s.role !== undefined && !(ROLES as readonly string[]).includes(s.role)) throw Error(`${where}: 不明なrole（${s.role}）`);
     if (s.beat !== undefined && !(BEATS as readonly string[]).includes(s.beat)) throw Error(`${where}: 不明なbeat（${s.beat}）`);
     if (s.fictional !== undefined && typeof s.fictional !== 'boolean') throw Error(`${where}: fictionalは真偽値`);

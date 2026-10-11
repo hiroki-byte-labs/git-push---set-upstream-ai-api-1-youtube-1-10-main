@@ -3,15 +3,18 @@
 // 一式: 完成動画、採用タイトル・概要欄・タグ・チャプター（metadata.json）、字幕（subtitles.vtt）、サムネイル案すべて。
 // 採用サムネイルを選ぶ機能がないため、当面は全案を対象にする。台本・検査記録・見直し履歴・review.json・時刻は対象外。
 // 投稿はしない（Publisherは無効のまま）。M3のYouTube投稿（T032）はこの状態を前提にする。
+// 制作案件（T104、ADR-018）から作った動画は、台本の版（script）も一式に含め、案件の現在の承認済み台本と一致する間だけ有効。
 import {existsSync, readdirSync, readFileSync, writeFileSync} from 'node:fs';
-import {join} from 'node:path';
+import {dirname, join} from 'node:path';
 import {createHash} from 'node:crypto';
+import {isAgentName, modeOf, projectState} from './production.ts';
+import type {Mode, ProjectState} from './production.ts';
 
 export type Decision = 'approve' | 'reject';
 // bundleHashがない記録はT095より前の旧形式（動画のハッシュだけに結び付いた承認）。
 export type ReviewEntry = {decision: Decision; note: string; outputHash: string; bundleHash?: string; inputHash: string; at: string; reviewer: string};
 export type ApprovalState = 'pending' | 'approved' | 'rejected' | 'expired' | 'not-reviewable';
-export type Approval = {state: ApprovalState; reason: string; latest?: ReviewEntry; currentHash?: string; bundle?: ReviewBundle};
+export type Approval = {state: ApprovalState; reason: string; latest?: ReviewEntry; currentHash?: string; bundle?: ReviewBundle; mode?: Mode; project?: string};
 
 const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
 
@@ -22,6 +25,8 @@ export type ReviewBundle = {
   subtitles: string | null;
   metadata: {selectedTitle: string; description: string; tags: string[]; chapters: {time: string; title: string}[]} | null;
   thumbnails: {file: string; sha256: string | null}[];
+  // 制作案件から作った動画だけ持つ（T104）。既存ジョブの版は変えない。
+  script?: string | null;
 };
 
 const fileHash = (dir: string, name: string) => (existsSync(join(dir, name)) ? sha256(readFileSync(join(dir, name))) : null);
@@ -38,14 +43,15 @@ export function reviewBundle(dir: string, job = readJob(dir)): ReviewBundle {
     subtitles: fileHash(dir, 'subtitles.vtt'),
     metadata: m ? {selectedTitle: m.selectedTitle ?? '', description: m.description ?? '', tags: m.tags ?? [], chapters: m.chapters ?? []} : null,
     thumbnails: files.map(file => ({file, sha256: fileHash(dir, file)})),
+    ...(job.project ? {script: typeof job.scriptHash === 'string' ? job.scriptHash : null} : {}),
   };
 }
 
 // 一式の版。キーの順序を固定したJSONのSHA-256。承認時と判定時で同じ計算を使う。
 export function bundleHash(bundle: ReviewBundle) {
-  const {schema, video, subtitles, metadata, thumbnails} = bundle;
+  const {schema, video, subtitles, metadata, thumbnails, script} = bundle;
   const meta = metadata && {selectedTitle: metadata.selectedTitle, description: metadata.description, tags: metadata.tags, chapters: metadata.chapters.map(c => ({time: c.time, title: c.title}))};
-  return sha256(JSON.stringify({schema, video, subtitles, metadata: meta, thumbnails: thumbnails.map(t => ({file: t.file, sha256: t.sha256}))}));
+  return sha256(JSON.stringify({schema, video, subtitles, metadata: meta, thumbnails: thumbnails.map(t => ({file: t.file, sha256: t.sha256})), ...(script !== undefined ? {script} : {})}));
 }
 
 export function readJob(dir: string) {
@@ -61,18 +67,69 @@ export function currentOutputHash(dir: string) {
   return fileHash(dir, 'sample.mp4') ?? undefined;
 }
 
+// 制作案件から作った動画が、案件の現在の承認済み台本の動画か（T104）。違えばその理由を返す。
+export function scriptMismatch(dir: string, job = readJob(dir)): string | null {
+  if (!job.project) return null;
+  let st: ProjectState;
+  try {
+    st = projectState(dirname(dir), job.project);
+  } catch (e) {
+    return `制作案件${job.project}を読めない（${(e as Error).message}）`;
+  }
+  if (st.scriptState !== 'approved') return `制作案件の台本が承認済みでない（${st.scriptReason}）。この動画は承認済み台本の動画として扱わない`;
+  if (st.script!.hash !== job.scriptHash) return `台本が変わった（制作時v${job.scriptVersion ?? '?'}、現在v${st.script!.version}）。この動画は現在の承認済み台本の動画ではない`;
+  if (st.mode !== modeOf(job)) return '動画と制作案件のデモ/本番の区別が一致しない';
+  return null;
+}
+
 export function approvalOf(dir: string): Approval {
   const job = readJob(dir);
-  if (job.status !== 'completed' || !job.outputHash) return {state: 'not-reviewable', reason: `ジョブが完了していない（${job.status}）`};
+  const ctx = {mode: modeOf(job), ...(job.project ? {project: job.project} : {})};
+  if (job.kind === 'production-project') return {state: 'not-reviewable', reason: '制作案件（動画は制作ジョブで確認する）', ...ctx};
+  if (job.status !== 'completed' || !job.outputHash) return {state: 'not-reviewable', reason: `ジョブが完了していない（${job.status}）`, ...ctx};
   const bundle = reviewBundle(dir, job);
   const currentHash = bundleHash(bundle);
   const latest = history(dir).at(-1);
-  if (!latest) return {state: 'pending', reason: '未確認', currentHash, bundle};
-  if (latest.decision === 'reject') return {state: 'rejected', reason: '差戻し', latest, currentHash, bundle};
-  if (!latest.bundleHash) return {state: 'expired', reason: '旧形式の承認（動画のみ）。タイトル・概要欄・字幕・サムネイルを含む一式の再確認が必要', latest, currentHash, bundle};
-  if (bundle.video !== job.outputHash) return {state: 'expired', reason: '完成ファイルがjob.jsonの記録と一致しないため失効', latest, currentHash, bundle};
-  if (latest.bundleHash !== currentHash) return {state: 'expired', reason: '承認後に確認対象（動画・タイトル・概要欄・字幕・サムネイル等）が変わったため失効', latest, currentHash, bundle};
-  return {state: 'approved', reason: '承認済み（現在の確認対象一式と一致）', latest, currentHash, bundle};
+  const mismatch = scriptMismatch(dir, job);
+  if (mismatch) return {state: 'expired', reason: mismatch, latest, currentHash, bundle, ...ctx};
+  if (!latest) return {state: 'pending', reason: '未確認', currentHash, bundle, ...ctx};
+  if (latest.decision === 'reject') return {state: 'rejected', reason: '差戻し', latest, currentHash, bundle, ...ctx};
+  if (!latest.bundleHash) return {state: 'expired', reason: '旧形式の承認（動画のみ）。タイトル・概要欄・字幕・サムネイルを含む一式の再確認が必要', latest, currentHash, bundle, ...ctx};
+  if (bundle.video !== job.outputHash) return {state: 'expired', reason: '完成ファイルがjob.jsonの記録と一致しないため失効', latest, currentHash, bundle, ...ctx};
+  if (latest.bundleHash !== currentHash) return {state: 'expired', reason: '承認後に確認対象（動画・タイトル・概要欄・字幕・サムネイル等）が変わったため失効', latest, currentHash, bundle, ...ctx};
+  return {state: 'approved', reason: '承認済み（現在の確認対象一式と一致）', latest, currentHash, bundle, ...ctx};
+}
+
+// 公開前の判定（T104）。投稿機能は無効のままだが、将来の投稿（T032）はこれを必須にする。
+// デモ・旧ジョブ・制作案件を経ていない動画・台本と一致しない動画・未承認の動画はすべて不可。
+export function publishReadiness(dir: string): {ok: boolean; reasons: string[]} {
+  const job = readJob(dir);
+  const reasons: string[] = [];
+  if (modeOf(job) !== 'production') reasons.push(job.mode ? 'デモの動画（本人の工程を経ていない）' : '旧ジョブ（デモ扱い。本人の工程を経ていない）');
+  if (!job.project) reasons.push('制作案件（題材選択・考察・台本承認）を経ていない');
+  else {
+    try {
+      const st = projectState(dirname(dir), job.project);
+      if (st.mode !== 'production') reasons.push('デモの制作案件');
+      if (!st.currentRenders.some(r => r.jobId === job.id)) reasons.push('制作案件の現在の台本から作った動画として記録されていない');
+    } catch (e) {
+      reasons.push(`制作案件を読めない（${(e as Error).message}）`);
+    }
+  }
+  const a = approvalOf(dir);
+  if (a.state !== 'approved') reasons.push(`完成動画が承認済みでない（${a.reason}）`);
+  return {ok: reasons.length === 0, reasons: [...new Set(reasons)]};
+}
+
+// 制作案件の工程と、現在の台本から作った動画の確認状態（T104）。stageの最後はvideo-review→done。
+export function workflowStatus(root: string, id: string) {
+  const st = projectState(root, id);
+  const renders = st.currentRenders.map(r => ({...r, approval: existsSync(join(root, r.jobId, 'job.json')) ? approvalOf(join(root, r.jobId)) : undefined}));
+  const done = renders.some(r => r.approval?.state === 'approved');
+  const missing = [...st.missing];
+  if (st.stage === 'render') missing.push('承認済み台本の動画が未制作（produce render）');
+  if (st.stage === 'video-review' && !done) missing.push('完成動画が未承認（review / 確認画面）');
+  return {...st, stage: done ? 'done' as const : st.stage, missing, renders};
 }
 
 // 画面・CLIで表示していた一式の版（expectedHash）と現在の版が一致するときだけ記録する。別の版を誤って承認しないため。
@@ -80,7 +137,11 @@ export function recordReview(dir: string, decision: Decision, note: string, expe
   if (decision !== 'approve' && decision !== 'reject') throw Error('decisionはapproveかreject');
   if (typeof note !== 'string' || [...note].length > 500) throw Error('メモは500字まで');
   const job = readJob(dir);
+  if (job.kind === 'production-project') throw Error('制作案件は動画の確認対象ではない（台本はproduce script-review）');
   if (job.status !== 'completed' || !job.outputHash) throw Error(`完了していないジョブは確認できない（${job.status}）`);
+  const mismatch = scriptMismatch(dir, job);
+  if (mismatch) throw Error(`この動画は承認できない: ${mismatch}`);
+  if (modeOf(job) === 'production' && isAgentName(reviewer)) throw Error(`本番の動画の確認をエージェント名（${reviewer}）で記録できない`);
   const bundle = reviewBundle(dir, job);
   if (!bundle.video || bundle.video !== job.outputHash) throw Error('完成ファイルがjob.jsonの記録と一致しない');
   const currentHash = bundleHash(bundle);

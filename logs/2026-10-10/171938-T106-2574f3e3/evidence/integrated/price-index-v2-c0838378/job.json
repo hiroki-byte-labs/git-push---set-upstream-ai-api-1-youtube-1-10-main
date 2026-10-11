@@ -1,0 +1,159 @@
+{
+  "id": "price-index-v2-c0838378",
+  "kind": "production-job",
+  "status": "completed",
+  "createdAt": "2026-10-10T17:38:35.561Z",
+  "pid": 30983,
+  "mode": "demo",
+  "project": "production-demo-e8e39076",
+  "scriptHash": "a3b403d8ff55e6728419e557edc98da05272592120225cfd2353e8b3b8004102",
+  "scriptVersion": 2,
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.appkit-ffmpeg",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.sine-cues-1",
+      "inputUnits": 0,
+      "outputUnits": 83,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "visual",
+      "provider": "local.appkit-ffmpeg",
+      "model": "none",
+      "mode": "local",
+      "requestId": "local-local.appkit-ffmpeg-1",
+      "inputUnits": 0,
+      "outputUnits": 83,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-5ca00cb2",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-10T17:38:35.561Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-2f17666c",
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-10T17:38:35.569Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.sine-cues-1"
+    },
+    {
+      "attemptId": "att-1ca4d9f5",
+      "domain": "visual",
+      "provider": "local.appkit-ffmpeg",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-10T17:38:35.594Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "local-local.appkit-ffmpeg-1"
+    }
+  ],
+  "inputHash": "47c23163c006419ccbffe1bd01b2440ccda059d2fc72de893b9b82d87a0ff3e5",
+  "input": "outputs/production-demo-e8e39076/script-v2.json",
+  "durationSeconds": 83,
+  "subtitles": "burn",
+  "resolution": 1080,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "3a42fb03c4db160909858fed89122a5fda82dc223f4c94a0d302b027ebcdc22b",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v24.19.0"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready",
+    "video-checked"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 5
+  },
+  "thumbnails": [
+    {
+      "file": "thumbnail-a.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-b.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-c.png",
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "readability": {
+    "ok": true,
+    "scale": 1.5,
+    "minFont720": 17,
+    "minContrast": 6.32,
+    "issues": []
+  },
+  "layout": {
+    "ok": true,
+    "checked": 2300,
+    "issues": []
+  },
+  "outputHash": "5c839a0e3fd592bbaf8353f65f3f3fd6221643ff151b97728da4be0defed43c1"
+}

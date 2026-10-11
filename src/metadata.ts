@@ -10,11 +10,27 @@ import {lintText} from './lint.ts';
 
 export const YT = {titleChars: 100, descriptionBytes: 5000, tagsChars: 500, chapterMin: 3, chapterMinSeconds: 10} as const;
 
+// 出典の記録（T103）。番号は概要欄・画面の[n]と同じ規則（場面の初出順、続いて場面で未参照のもの）。
+// scenesは参照する場面番号（1始まり）、introは導入文で使うか。URLの記録は主張の検証済みを意味しない。
+export type SourceRecord = {number: number; id: string; title: string; url: string; accessedAt: string; scenes: number[]; intro: boolean};
+export const SOURCES_NOTE = '出典は動画内の主張の参照先として記録した文献名・URL・確認日です。リンクの存在は主張が検証済みであることを意味しません。主張と出典の対応は台本の確認（人）で確かめます。';
+
 export type Metadata = {
   titles: string[]; selectedTitle: string; description: string; tags: string[];
   chapters: {time: string; title: string}[]; chaptersOmitted?: string;
+  intro?: string; sources: SourceRecord[]; sourcesNote: string;
   issues: string[]; ok: boolean;
 };
+
+export function sourceRecords(plan: Plan): SourceRecord[] {
+  const order = [...new Set(plan.scenes.flatMap(s => s.sources))];
+  const ids = [...order, ...plan.sources.map(s => s.id).filter(id => !order.includes(id))];
+  const byId = new Map(plan.sources.map(s => [s.id, s]));
+  return ids.map((id, i) => {
+    const s = byId.get(id)!;
+    return {number: i + 1, id, title: s.title, url: s.url, accessedAt: s.accessedAt, scenes: plan.scenes.flatMap((x, k) => (x.sources.includes(id) ? [k + 1] : [])), intro: plan.intro?.sources.includes(id) ?? false};
+  });
+}
 
 export function timestamp(sec: number) {
   const h = Math.floor(sec / 3600), m = Math.floor(sec / 60) % 60, s = Math.floor(sec % 60);
@@ -49,7 +65,9 @@ export function buildMetadata(plan: Plan, extras: {sources: string; stance: stri
   else if (chapters.some(c => c.seconds < YT.chapterMinSeconds)) chaptersOmitted = `${YT.chapterMinSeconds}秒未満の章がある`;
   else chapterLines = chapters.map(c => ({time: timestamp(c.startSeconds), title: clean(c.title)}));
 
+  // 概要欄の先頭は導入文（T103。ニュースや事象から題材へ入る）。
   const description = [
+    plan.intro ? clean(plan.intro.text) : '',
     plan.promise ? `この動画で分かること: ${clean(plan.promise)}` : '',
     chapterLines.length ? ['チャプター', ...chapterLines.map(c => `${c.time} ${c.title}`)].join('\n') : '',
     plan.glossary?.length ? ['用語', ...plan.glossary.map(g => `・${clean(g.term)}: ${clean(g.definition)}`)].join('\n') : '',
@@ -66,7 +84,7 @@ export function buildMetadata(plan: Plan, extras: {sources: string; stance: stri
   if (bytes > YT.descriptionBytes) issues.push(`概要欄が${YT.descriptionBytes}バイトを超える（${bytes}）`);
   for (const f of lintText(description)) issues.push(`概要欄の禁止表現: ${f.message}`);
   if (totalSeconds(plan) >= 180 && chaptersOmitted) issues.push(`チャプターなし: ${chaptersOmitted}`);
-  return {titles, selectedTitle: titles[0] ?? '', description, tags, chapters: chapterLines, chaptersOmitted, issues, ok: issues.length === 0};
+  return {titles, selectedTitle: titles[0] ?? '', description, tags, chapters: chapterLines, chaptersOmitted, ...(plan.intro ? {intro: clean(plan.intro.text)} : {}), sources: sourceRecords(plan), sourcesNote: SOURCES_NOTE, issues, ok: issues.length === 0};
 }
 
 // 公開後の見直し（G9: タイトル・サムネイルの変更で伸びた割合が無変更より高い）。理由とともに履歴へ追記する。

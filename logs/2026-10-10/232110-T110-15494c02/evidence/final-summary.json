@@ -1,0 +1,25 @@
+{
+  "run": "final",
+  "reference": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/out/final/reference/reference.mp4",
+  "rightsNote": "motion-lab/tools/make-reference.ts で数式から作った自作の合成動画（外部素材なし）",
+  "analysis": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/out/final/analysis/analysis.json",
+  "compare": {
+    "pass": true,
+    "ssimMean": 0.99939,
+    "ssimMin": 0.99889,
+    "psnrMean": 48.41,
+    "failures": []
+  },
+  "house": {
+    "motionPass": true,
+    "motionFailures": [],
+    "ssimMean": 0.97194,
+    "note": "配色・角丸を変えた再現。画素・形・大きさ・見え始めは判定せず、位置・角度・不透明度・時刻・イージングで判定"
+  },
+  "score": {
+    "pass": true,
+    "passed": 67,
+    "total": 67,
+    "failed": []
+  }
+}

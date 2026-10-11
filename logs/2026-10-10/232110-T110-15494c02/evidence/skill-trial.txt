@@ -1,0 +1,23 @@
+## Skill試用: .agents/skills/motion-reference-reproduction/SKILL.md の手順3（読む順）と、lab以外の単独CLI
+$ out/final/summary.json の判定
+{"compare":true,"house":true,"score":"67/67"}
+$ node tools/compare.ts out/final/reference/reference.mp4 out/final/render/reproduction-house.mp4 --reference-analysis out/final/analysis/analysis.json --out out/skill-trial/compare-house --design-changed
+EXIT=0
+見た目を変えた再現のため、画素の基準は判定に含めない（値は記録する）
+画素: SSIM平均0.97194 最小0.95352(f117) PSNR平均25.33dB
+# 比較結果: 合格
+見た目（配色・角丸）を意図的に変えた再現。画素・形・大きさ・見え始めは判定に含めず、位置・角度・不透明度・時刻・イージングで判定した。
+$ node tools/score.ts out/final/reference/ground-truth.json out/final/analysis/analysis.json
+EXIT=0
+# 正解値との照合: 合格（67/67）
+$ analysis.json の unresolved
+- s0-e0-a0（translate）の開始値: 動き始めの値は画面外・未表示などで観測できない（nullの項目）
+- s0-e0-a0（translate）の開始時刻: 開始時点が観測できない（最初に見えたフレーム16で既に動いている）。開始は16以前。modelFrameは当てはめ上の値（直前のフレームで見えなかったこと、大きさ・不透明度は0以上を制約に使用）で、不確かさ±9.5フレーム（1フレームを超えるため識別できない。参考値）
+- s0-e1-a0（scale）の開始値: 動き始めの値は画面外・未表示などで観測できない（nullの項目）
+- s0-e1-a0（scale）の開始時刻: 開始時点が観測できない（最初に見えたフレーム37で既に動いている）。開始は37以前。modelFrameは当てはめ上の値（直前のフレームで見えなかったこと、大きさ・不透明度は0以上を制約に使用）で、不確かさ±0.05フレーム
+- s0-e2-a0（grow）の開始値: 動き始めの値は画面外・未表示などで観測できない（nullの項目）
+- s0-e2-a0（grow）の開始時刻: 開始時点が観測できない（最初に見えたフレーム79で既に動いている）。開始は79以前。modelFrameは当てはめ上の値（直前のフレームで見えなかったこと、大きさ・不透明度は0以上を制約に使用）で、不確かさ±0.05フレーム
+- s1-e2-a0（fade-in）の開始値: 動き始めの値は画面外・未表示などで観測できない（nullの項目）
+- s1-e2-a0（fade-in）の開始時刻: 開始時点が観測できない（最初に見えたフレーム222で既に動いている）。開始は222以前。modelFrameは当てはめ上の値（直前のフレームで見えなかったこと、大きさ・不透明度は0以上を制約に使用）で、不確かさ±0.2フレーム
+- 文字・写真・グラデーション・重なり・遮蔽・3D・粒子: この最小版の解析器は、単色背景上の重ならない単色図形だけを対象にする
+- ディゾルブ等の切替効果: シーン切替はカット（瞬時の切替）だけを検出する
