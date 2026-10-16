@@ -87,3 +87,134 @@ test('厳格なサムネイル品質検査（T165）: 正常系・寸法違い�
     rmSync(d, {recursive: true, force: true});
   }
 });
+
+// T173: モバイル・超縮小表示における文字領域コントラスト・エッジ明瞭度自動測定と品質ゲート拡充
+import {deflateSync} from 'node:zlib';
+import {measureScaledLegibility, MIN_SCALED_CONTRAST, MIN_SCALED_EDGE} from '../src/thumbnails.ts';
+
+function createFullPng(width: number, height: number, getPixel: (x: number, y: number) => [number, number, number, number]): Buffer {
+  const bpp = 4;
+  const stride = width * bpp;
+  const raw = Buffer.alloc(height * (1 + stride));
+  let offset = 0;
+  for (let y = 0; y < height; y++) {
+    raw[offset++] = 0;
+    for (let x = 0; x < width; x++) {
+      const [r, g, b, a] = getPixel(x, y);
+      raw[offset++] = r;
+      raw[offset++] = g;
+      raw[offset++] = b;
+      raw[offset++] = a;
+    }
+  }
+  const idat = deflateSync(raw);
+
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(width, 0);
+  ihdr.writeUInt32BE(height, 4);
+  ihdr[8] = 8;
+  ihdr[9] = 6;
+  ihdr[10] = 0; ihdr[11] = 0; ihdr[12] = 0;
+
+  function chunk(type: string, data: Buffer) {
+    const c = Buffer.alloc(12 + data.length);
+    c.writeUInt32BE(data.length, 0);
+    c.write(type, 4, 'ascii');
+    data.copy(c, 8);
+    return c;
+  }
+
+  const sig = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  return Buffer.concat([sig, chunk('IHDR', ihdr), chunk('IDAT', idat), chunk('IEND', Buffer.alloc(0))]);
+}
+
+test('縮小画像の文字領域コントラスト・エッジ維持率測定（T173）: 正常・低コントラスト・文字線消失', () => {
+  // 1. 正常系（黒背景に白文字ストライプ、明確なエッジ）
+  const goodPng = createFullPng(160, 90, (x, y) => {
+    if (x >= 20 && x <= 80 && y >= 20 && y <= 40 && (x % 6 < 3)) {
+      return [255, 255, 255, 255];
+    }
+    return [14, 20, 30, 255];
+  });
+  const resGood = measureScaledLegibility(goodPng, undefined, 18.0);
+  assert.equal(resGood.legible, true);
+  assert.ok(resGood.contrast >= MIN_SCALED_CONTRAST);
+  assert.ok(resGood.topEdge >= MIN_SCALED_EDGE);
+  assert.equal(resGood.issues.length, 0);
+
+  // 2. 低コントラスト埋没（背景とほぼ同色の文字）
+  const lowContrastPng = createFullPng(160, 90, (x, y) => {
+    if (x >= 20 && x <= 80 && y >= 20 && y <= 40 && (x % 6 < 3)) {
+      return [28, 38, 54, 255]; // 低コントラスト
+    }
+    return [14, 20, 30, 255];
+  });
+  const resLow = measureScaledLegibility(lowContrastPng, undefined, 18.0);
+  assert.equal(resLow.legible, false);
+  assert.ok(resLow.contrast < MIN_SCALED_CONTRAST);
+  assert.ok(resLow.issues.some(i => i.includes('3未満') || i.includes('3.00未満') || i.includes('埋没')));
+
+  // 3. 文字線消失・ベタ塗り平坦（エッジなし）
+  const flatPng = createFullPng(160, 90, () => [255, 255, 255, 255]);
+  const resFlat = measureScaledLegibility(flatPng, undefined, 18.0);
+  assert.equal(resFlat.legible, false);
+  assert.ok(resFlat.topEdge < MIN_SCALED_EDGE);
+  assert.ok(resFlat.issues.some(i => i.includes('文字線エッジ強度') || i.includes('文字潰れ')));
+});
+
+test('縮小表示品質検査ゲートとレポート追記（T173）: checkThumbnailQuality での検出と自動更新', () => {
+  const d = mkdtempSync(join(tmpdir(), 'th-scaled-'));
+  try {
+    const validPng = createMockPng(1280, 720);
+    // 正常な160x90縮小画像
+    const good160 = createFullPng(160, 90, (x, y) => {
+      if (x >= 20 && x <= 80 && y >= 20 && y <= 40 && (x % 6 < 3)) {
+        return [255, 255, 255, 255];
+      }
+      return [14, 20, 30, 255];
+    });
+    // 低コントラスト埋没の160x90縮小画像
+    const low160 = createFullPng(160, 90, (x, y) => {
+      if (x >= 20 && x <= 80 && y >= 20 && y <= 40 && (x % 6 < 3)) {
+        return [28, 38, 54, 255];
+      }
+      return [14, 20, 30, 255];
+    });
+
+    writeFileSync(join(d, 'thumbnail-a.png'), validPng);
+    writeFileSync(join(d, 'thumbnail-a-160.png'), good160);
+
+    writeFileSync(join(d, 'thumbnail-b.png'), validPng);
+    writeFileSync(join(d, 'thumbnail-b-160.png'), low160);
+
+    const reportData = [
+      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 18.0, drawnBox: {x: 80, y: 398, width: 504, height: 84}},
+      {file: 'thumbnail-b.png', variant: 'b', headlineSize: 80, fitted: true, contrast: 18.0, drawnBox: {x: 80, y: 398, width: 504, height: 84}},
+    ];
+    writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify(reportData, null, 2));
+
+    const brief = convertPlanThumbnailToBrief(v2());
+    const res = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
+
+    // 候補aは縮小視認性合格
+    assert.equal(res.candidates[0].status, 'pass');
+    assert.ok(res.candidates[0].scaledLegibility);
+    assert.equal(res.candidates[0].scaledLegibility.legible, true);
+
+    // 候補bは縮小コントラスト比不足で不合格
+    assert.equal(res.candidates[1].status, 'fail');
+    assert.ok(res.candidates[1].scaledLegibility);
+    assert.equal(res.candidates[1].scaledLegibility.legible, false);
+    assert.ok(res.candidates[1].issues.some(i => i.includes('縮小表示') && i.includes('コントラスト比')));
+
+    // レポートに scaledLegibility が追記・保存されていること
+    const updatedReport = JSON.parse(readFileSync(join(d, 'thumbnails-report.json'), 'utf8'));
+    assert.ok(updatedReport[0].scaledLegibility);
+    assert.equal(updatedReport[0].scaledLegibility.width, 160);
+    assert.equal(updatedReport[0].scaledLegibility.height, 90);
+    assert.ok(updatedReport[0].scaledLegibility.contrast > 0);
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});
+
