@@ -48,7 +48,7 @@ export function framesList(plan: Timeline, segments?: EncodeSegment[]) {
 }
 
 export type SubtitleMode = 'burn' | 'soft' | 'both';
-export type EncodeOptions = {segments?: EncodeSegment[]; subtitles?: SubtitleMode};
+export type EncodeOptions = {segments?: EncodeSegment[]; subtitles?: SubtitleMode; narration?: boolean};
 
 // PSNR照合する区間（均等に最大MAX_PSNR_CHECKS件）。
 export function psnrTargets<T>(list: T[], max = MAX_PSNR_CHECKS) {
@@ -141,6 +141,6 @@ export function encode(plan: Timeline, dir: string, opts: EncodeOptions = {}) {
     expectedDuration: duration, expectedFrames, videoFrames, decodedAudioDuration: b.length / 48000, fullDecode: 'passed',
     subtitles: mode, subtitleStreams, audioPeak: peak, audioRms: Math.sqrt(energy / (b.length / 2)), nonzeroSamples: nonzero, cuePeaks,
     framesExtracted: plan.scenes.length, psnr: {minDb: worst, threshold: MIN_PSNR, checked: psnr.length, segments: segments.length, samples: psnr},
-    loudness, renderer: 'AppKit + FFmpeg H264/AAC', narration: false,
+    loudness, renderer: 'AppKit + FFmpeg H264/AAC', narration: opts.narration ?? false,
   }, null, 2));
 }

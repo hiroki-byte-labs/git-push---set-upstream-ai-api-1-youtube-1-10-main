@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "errors": 0,
+  "warnings": 6,
+  "findings": [
+    {
+      "level": "warning",
+      "rule": "promise-missing",
+      "where": "台本",
+      "text": "",
+      "message": "promise（この動画で得られること）が必要"
+    },
+    {
+      "level": "warning",
+      "rule": "intro-missing",
+      "where": "台本",
+      "text": "",
+      "message": "intro（概要欄の導入文。ニュースや事象から題材へつなぐ）が必要"
+    },
+    {
+      "level": "warning",
+      "rule": "hook-missing",
+      "where": "冒頭30秒",
+      "text": "",
+      "message": "role=hookの場面を冒頭30秒以内に置く"
+    },
+    {
+      "level": "warning",
+      "rule": "chapter-missing",
+      "where": "台本",
+      "text": "",
+      "message": "章（chapter）で約6分以内に分割する"
+    },
+    {
+      "level": "warning",
+      "rule": "story-missing",
+      "where": "台本",
+      "text": "",
+      "message": "具体例（role=example）か物語（beat）の場面を入れる"
+    },
+    {
+      "level": "warning",
+      "rule": "conversational-missing",
+      "where": "ナレーション",
+      "text": "",
+      "message": "視聴者への語りかけ（あなた、私たち、〜しましょう等）がない"
+    }
+  ]
+}

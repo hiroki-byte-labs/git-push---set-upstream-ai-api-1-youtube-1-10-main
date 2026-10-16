@@ -1,0 +1,4 @@
+COMMAND=["/private/tmp/T155-root-verify-uvUrusiW/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1", "-hide_banner", "-nostdin", "-v", "error", "-xerror", "-err_detect", "explode", "-i", "/private/tmp/T155-root-verify-uvUrusiW/outputs/remotion-layout-stress-6da01511/sample.mp4", "-map", "0:v:0", "-map", "0:a:0", "-f", "null", "-"]
+STDOUT=
+STDERR=
+EXIT=0

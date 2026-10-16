@@ -7,6 +7,7 @@ description: このリポジトリ（scripts/runとsrc/cli.ts sampleでMP4を生
 正本はリポジトリのREADME・docs/AGENT-WORKFLOW.md・AGENTS.md。証跡の保存規則は `.agents/skills/repository-task-closeout/SKILL.md` に従う。ここでは動画固有の手順だけを書く。
 
 ## 1. 隔離コピーで生成する
+- T139/T145のoutputs保護検査とT156のcwd誤指定を踏まえ、実行前に元outputsの相対パス・サイズ・mtime・SHA-256とlatest.jsonの内容を小さな証跡へ保存する。隔離先に置いたスクリプトでも、起動元のcwdは変わらない。生成コマンドは隔離先をcwdに明示し、ハーネスは開始時に実cwdと予定した隔離ルートを照合して、不一致なら書込み前に停止する。実行後は元outputsとマニフェストを照合する。
 - 利用者のoutputs/を増やさない・整理しない。作業用ディレクトリ（エージェントの一時領域など）へ `src scripts fixtures config prompts package.json` を複製し、`work/python-deps` だけはリポジトリへのsymlinkにする（FFmpegの再取得を避ける）。
 - `work/swift-cache`・`work/render`・`work/render-source` はコピーしない。Swiftのモジュールキャッシュは作成時のパスを覚えており、別パスで使うとswiftcが「compiled with module cache path …」で失敗する（T104で発生）。描画プログラムはコピー先で再コンパイルされる（約20秒）。
 - Node 24以上を `NODE_BIN` で明示し、コピー先で `./scripts/run src/cli.ts sample --plan <台本>`（必要なら `--subtitles` `--resolution`）を実行する。終了コードと「生成完了」の行を保存する。
@@ -22,7 +23,18 @@ description: このリポジトリ（scripts/runとsrc/cli.ts sampleでMP4を生
 - 非表示ペインのスクリーンショットには映像面が描かれないことがある。映像の目視は、MP4からFFmpegで代表フレームをデコードしてタイル画像にして行う（例: `-vf "select='eq(n,48)+eq(n,600)',scale=640:-1,tile=2x1" -frames:v 1 -fps_mode passthrough`）。焼き込み字幕はこの画像で、ソフト字幕はブラウザーの字幕表示で確認する。
 - 終わったらサーバーを止める。
 
+### ブラウザー・localhostが使えない場合
+- `serve` がlisten EPERMになった、またはブラウザー操作が利用できない場合は、制限を回避せず理由を記録する。Remotionで生成した動画は描画できない場合もあるため、ブラウザー障害をChromeの正常確認と扱わない。
+- MP4が存在する場合は、macOSのAVPlayerで無音の実再生を行い、再生準備・duration・currentTimeの進行・endedを記録する。`swift scripts/verify-avplayer-playback.swift <path-to-mp4> 8 180` を使える。長尺ではrateを上げてよいが、指定値を証跡へ残す。
+- AVPlayerはブラウザーのtextTracks・画面上の操作・字幕選択を確認しない。それらは未確認と分け、MP4を全フレーム/音声デコードし、実デコードPNGで焼き込み字幕・画面を目視する。再生終了だけで映像品質合格とはしない。
+- AVPlayerも利用できない場合は自動の全デコードとPNG目視までを実施し、実再生は未確認のままにする。
+
 ## 4. 書き方
 - 音声が自作の確認音なら「確認音（ナレーションではない）」と明記し、スピーカーで聴いていなければその旨を書く。
 - 何を見て何を確かめたか（時刻・フレーム番号・cue）を具体的に書く。見られなかったものは未確認とする。
 - 動画本体（mp4/wav）はログに入れない。小さなJSON・VTT・PNGだけを証跡にする。
+
+### 動きや登場を変更した場合（T145の初回・差戻し試作から）
+- 完成状態の代表フレームだけでは、途中の動きがない不具合を見逃す。最初の登場だけでなく、場面開始から遅れて出る要素も選び、登場の前後約1秒を完成MP4から細かい間隔で復号して確認する。
+- 設定した移動/フェードが進行すること、後続要素の登場で既出要素が巻き戻らないことを確認する。コードの進捗値だけでなく、完成MP4の連続フレームまたは通常速度の再生を証跡にする。native/Remotion等の複数経路が対象なら各経路で行う。
+- 観察した参考動画の時刻・サンプリング間隔と、実装で選んだ秒数/曲線を分けて記録する。静止画や粗い時刻間隔から正確なイージング曲線を断定しない。

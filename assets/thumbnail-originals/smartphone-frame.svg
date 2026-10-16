@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 350" width="200" height="350">
+  <!-- 自作サムネイル素材: スマートフォン枠（T162自作図形） -->
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 外枠 -->
+    <rect x="15" y="15" width="170" height="320" rx="28" stroke-width="8"/>
+    <!-- 画面領域 -->
+    <rect x="25" y="38" width="150" height="274" rx="8" stroke-width="3" opacity="0.4"/>
+    <!-- 上部スピーカー / カメラ穴 -->
+    <line x1="85" y1="26" x2="115" y2="26" stroke-width="4"/>
+    <!-- 画面内の小さな月（食い違いの表現用） -->
+    <circle cx="100" cy="150" r="28" fill="currentColor" opacity="0.85" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+✔ formatTime: 正確なタイムスタンプ文字列フォーマット (0.290458ms)
+✔ extractFrames: 30fps動画から指定FPSでフレーム抽出とframes.json検証 (1452.281208ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0

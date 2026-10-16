@@ -1,0 +1,25 @@
+✔ 書出しと検査が通りmedia-check.jsonを残す (421.46775ms)
+✔ 無音の音声は検査で拒否 (223.684ms)
+✔ 区間が短くてもフレーム数が一致し、ソフト字幕が多重化される (436.114542ms)
+✔ 別の画像が映っていればPSNR検査で拒否 (510.885792ms)
+✔ Remotion media: valid (52.882208ms)
+✔ Remotion media: soft (75.015625ms)
+✔ Remotion media: truncated (65.901916ms)
+✔ Remotion media: duration (28.669291ms)
+✔ Remotion media: audio-duration (25.980625ms)
+✔ Remotion media: no-audio (26.094041ms)
+✔ Remotion media: no-subtitle (26.777ms)
+✔ Remotion media: inspector-failure (17.447166ms)
+✔ Remotion media: decoder-failure (27.512ms)
+✔ Remotion media: wrong-size (26.974917ms)
+✔ Remotion media: wrong-fps (28.520291ms)
+✔ Remotion media: frame-count (38.5415ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1667.941042
+EXIT=0

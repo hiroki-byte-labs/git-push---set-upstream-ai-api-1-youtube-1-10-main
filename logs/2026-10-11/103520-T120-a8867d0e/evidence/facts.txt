@@ -1,0 +1,18 @@
+## analysis/reference_analysis.json の取得状況（抜粋）
+target: https://www.youtube.com/watch?v=irBD6OF8d2Q 考えすぎる葦
+gemini_api_video_understanding : unavailable
+claude_code_frame_extraction : unavailable
+data_sources_used : ['Public video metadata (video title, chapters, duration)', 'Verified observation records from T106 (docs/T106-DESIGN.md, logs/2026-10-10/171938-T106-2574f3e3/evidence/reference-observation.md)']
+animation_spec.json の basis 集計: {'estimated': 8}
+headline: ['「2位じゃダメなんでしょうか」', 'かつて日本中を揺るがした、あの言葉。']
+## 記録の有無
+       0
+logs/2026-10-11/102712-T113-c59ec64e/WORKLOG.md
+## .env の読込み
+# M1は環境変数・キー不要。このファイルの読み込みはまだ実装していない。
+# 以下はM2/M3で採用を確定する設定名のみ。
+grep -rn 'dotenv|.env' src (*.ts、worklog除く): 0件（srcに.envの読込みなし）
+## src/connectors
+ls: src/connectors: No such file or directory
+## analysis/ を作成した作業回
+T112のWORKLOGに記載なし（grep結果は上の『記録の有無』。T113のWORKLOGは入力として参照のみ）。git管理外（git ls-files analysis = 0件）。

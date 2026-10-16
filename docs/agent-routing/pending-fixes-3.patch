@@ -1,0 +1,219 @@
+diff -ru a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 06:26:39
++++ b/orchestration/hooks/hook.ts	2026-10-11 08:16:11
+@@ -25,8 +25,8 @@
+ const EDIT:Record<Product,RegExp>={claude:/^(Edit|Write|MultiEdit|NotebookEdit)$/,codex:/^(apply_patch|Edit|Write)$/,antigravity:/^(write_to_file|replace_file_content|multi_replace_file_content)$/};
+ const READ:Record<Product,RegExp>={claude:/^Read$/,codex:/^$/,antigravity:/^view_file$/};
+ const KEY_FILE=/(\/\.config\/agentctl\/|approval\.key$)/;
+-// Codex 0.161の新しい協調ツールは名前空間（collaboration）付きのため、末尾一致で判定する（2026-10-11の実機試験で判明）。
+-const SPAWN:Record<Product,RegExp>={claude:/^(Agent|Task)$/,codex:/(^|[^A-Za-z0-9])spawn_agent$|^Agent$/,antigravity:/^(invoke_subagent|define_subagent)$/};
++// Codexの協調ツールは名前空間つきで、Hookには区切りなしの collaborationspawn_agent として届く（2026-10-11の実機で確認）。末尾一致で判定する。
++const SPAWN:Record<Product,RegExp>={claude:/^(Agent|Task)$/,codex:/spawn_agent$|^Agent$/,antigravity:/^(invoke_subagent|define_subagent)$/};
+ const commandOf=(n:N)=>{const i=n.tool_input;const c=i.command??i.cmd??i.CommandLine??i.commandLine;return Array.isArray(c)?c.join(' '):String(c??'')};
+ const filesOf=(n:N):string[]=>{const i=n.tool_input;const direct=[i.file_path,i.path,i.notebook_path,i.TargetFile,i.targetFile,i.AbsolutePath].filter((x):x is string=>typeof x==='string');const patch=typeof i.input==='string'?patchPaths(i.input):typeof i.patch==='string'?patchPaths(i.patch):[];return [...direct,...patch]};
+ 
+@@ -136,6 +136,7 @@
+  try{
+   if(product==='claude'){const f=join(ROOT,'.claude','agents',`${agentType}.md`);if(existsSync(f)){const m=/^model:\s*["']?([^"'\n]+)["']?$/m.exec(readFileSync(f,'utf8').split('---')[1]??'');return m?.[1]?.trim()??null}}
+   if(product==='codex'){const f=join(ROOT,'.codex','agents',`${agentType}.toml`);if(existsSync(f)){const m=/^model\s*=\s*"([^"]+)"/m.exec(readFileSync(f,'utf8'));return m?.[1]??null}}
++  if(product==='antigravity'){for(const f of [join(ROOT,'.agents','agents',agentType,'agent.md'),join(ROOT,'.agents','agents',`${agentType}.md`)])if(existsSync(f)){const m=/^model:\s*["']?([^"'\n]+)["']?$/m.exec(readFileSync(f,'utf8').split('---')[1]??'');return m?.[1]?.trim()??null}}
+  }catch{/* 不明 */}
+  return null;
+ }
+@@ -143,7 +144,10 @@
+  const {policy,sha256:psha}=loadPolicy(),registry=loadRegistry();
+  const i=n.tool_input,provider=n.product as Provider;
+  const agentType=String((n.product==='claude'?i.subagent_type:n.product==='codex'?i.agent_type:(i.agentName??i.name??i.subagent))??'default');
+- const requestedRaw=str(i.model);
++ const cap=registry.providers[provider]?.native_subagents;
++ // 起動引数の項目名だけを記録する（値は記録しない）。製品の引数にモデル指定があるかの確認用。
++ logEvent(db,'spawn_args',{tool:n.tool_name,keys:Object.keys(i).sort()},{product:n.product,session_id:n.session_id});
++ const requestedRaw=str(i[cap?.model_param??'model']);
+  const requested=requestedRaw?normalizeModel(provider,requestedRaw):null;
+  const parentExe=managedExe(s)??s?.current_execution_id??null;
+  const prof=policy.agents[agentType]??policy.agents.default!;
+@@ -159,18 +163,25 @@
+  const record=(status:string)=>{saveTask(db,t,'hook-subagent',null);saveDecisionAndExecution(db,d,t,{execution_id:exe,parent_execution_id:parentExe,provider,model_id:sel.model_id,route:'native_subagent',managed:true,status,session:n,agent_name:agentType,tool_use_id:n.tool_use_id,escalation_count:escalate?1:0});
+   mint(db,{execution_id:exe,decision_id:d.decision_id,task_id:t.task_id,provider,model_id:sel.model_id,reasoning_level:sel.reasoning_level,initiator:n.product,issuer:'hook'},policy.limits.approval_ttl_seconds);};
+  const alias=registry.models.find(m=>m.provider===provider&&m.model_id===sel.model_id)?.aliases.claude_code_agent_tool;
++ // モデルを指定できない製品: 子は親（または定義）のモデルで動く。推奨と同じなら許可し、違えば拒否して agentctl run へ案内する。
++ if(!cap||cap.model_override==='unsupported'||!cap.model_param){
++  const def=definitionModel(n.product,agentType),explicit=def&&def!=='inherit';
++  const effective=explicit?(registry.models.some(m=>m.provider===provider&&m.model_id===normalizeModel(provider,def))?normalizeModel(provider,def):null):normalizeModel(provider,s?.model_id??n.model);
++  if(effective&&effective===sel.model_id){record('approved');logEvent(db,'subagent_parent_model_allowed',{agentType,model:effective},{product:n.product,session_id:n.session_id,execution_id:exe});return pass(n)}
++  logEvent(db,'subagent_denied_unenforceable',{agentType,effective,selected:sel.model_id},{product:n.product,session_id:n.session_id});
++  return deny(n,`この製品のサブエージェントはモデルを指定できず、${explicit?`定義のモデル ${def}`:`親のモデル ${effective??'不明'}`} で動く。Model Routerの推奨は ${sel.model_id}（${d.difficulty}/${d.task_type}）。別モデルや計測が必要な子作業は scripts/agentctl run --task <task.json>（task_type: ${t.task_type}、difficulty: ${d.difficulty}）で起動する。`);
++ }
+  if(requested){
+   if(requested===sel.model_id){record('approved');return pass(n)}
+   logEvent(db,'subagent_model_denied',{agentType,requested,selected:sel.model_id},{product:n.product,session_id:n.session_id});
+   return deny(n,`Model Routerの選択は ${sel.model_id}${alias?`（model: "${alias}"）`:''}。理由: ${d.routing_reason}。そのモデルで再実行するか、上位が必要なら agentctl run を使う。`);
+  }
+- if(policy.native_subagents.missing_model==='inject'&&n.product!=='antigravity'){
++ if(policy.native_subagents.missing_model==='inject'){
+   record('approved');
+-  // Codexの新しいspawn_agentの引数は task_name・agent_type・fork_turns・message・model。未知の引数で失敗しないよう model だけ入れる。
+-  const updated=n.product==='claude'?{...i,model:alias??sel.model_id}:{...i,model:sel.model_id};
++  // Codexの新しいspawn_agentの引数は task_name・agent_type・fork_turns・message・model。未知の引数で失敗しないよう、能力に記録したモデルの引数だけを入れる。
++  const updated={...i,[cap.model_param]:n.product==='claude'?alias??sel.model_id:sel.model_id};
+   return rewrite(n,updated,`Model Routerが ${sel.model_id} を指定（${d.difficulty}/${d.task_type}）`);
+  }
+- // Antigravityのサブエージェント起動引数にモデル指定があるかは未確認のため、強制せず記録だけする。
+  record('approved');logEvent(db,'subagent_model_unenforced',{agentType,selected:sel.model_id,definition:definitionModel(n.product,agentType)},{product:n.product,session_id:n.session_id,execution_id:exe});
+  return pass(n);
+ }
+@@ -210,6 +221,10 @@
+  const isErr=typeof resp==='string'?/^error|failed/i.test(resp):!!resp&&(resp.is_error===true||resp.status==='error'||!!resp.error);
+  // Codexのspawn_agentは非同期で、完了はSubagentStopで記録する。
+  if(n.product==='codex')return pass(n);
++ // 子単独の使用量を出さない製品は、取得不能を明示する（推測で補完しない）。
++ const cap=loadRegistry().providers[n.product]?.native_subagents;
++ if(cap?.child_usage==='unavailable')recordUnavailable(db,row.execution_id,n.product as Provider,null,`${n.product}のサブエージェントは子単独の使用量を出さない（models.json native_subagents.child_usage）`,'subscription');
++ else if(cap?.child_usage==='included_in_parent')db.prepare("UPDATE executions SET metering_status='included_in_parent' WHERE execution_id=?").run(row.execution_id);
+  const s=session(db,n);
+  const counted=(db.prepare('SELECT COUNT(*) AS c FROM usage WHERE execution_id=?').get(row.execution_id) as {c:number}).c;
+  const u=resp&&typeof resp==='object'?(resp.usage as Record<string,unknown>|undefined):undefined;
+@@ -231,8 +246,15 @@
+  db.prepare("UPDATE executions SET agent_id=?,status='running',start_time=?,updated_at=? WHERE execution_id=?").run(n.agent_id,now(),now(),row.execution_id);
+  const actual=normalizeModel(n.product as Provider,n.model);
+  if(actual&&row.model_id&&actual!==row.model_id){
+-  db.prepare("UPDATE executions SET status='failed',error_cause='model_mismatch',error_message=?,updated_at=? WHERE execution_id=?").run(`承認 ${row.model_id} / 実際 ${actual}`,now(),row.execution_id);
+-  logEvent(db,'model_mismatch',{approved:row.model_id,actual},{product:n.product,session_id:n.session_id,execution_id:row.execution_id});
++  const cap=loadRegistry().providers[n.product]?.native_subagents;
++  if(cap?.model_override==='enforced'){
++   db.prepare("UPDATE executions SET status='failed',error_cause='model_mismatch',error_message=?,updated_at=? WHERE execution_id=?").run(`承認 ${row.model_id} / 実際 ${actual}`,now(),row.execution_id);
++   logEvent(db,'model_mismatch',{approved:row.model_id,actual},{product:n.product,session_id:n.session_id,execution_id:row.execution_id});
++  }else{
++   // 指定が実機で未確認の製品では止めずに事実を記録する（能力の確認材料にする）。
++   db.prepare('UPDATE executions SET model_id=?,error_message=?,updated_at=? WHERE execution_id=?').run(actual,`Routerの指定 ${row.model_id} が適用されず ${actual} で起動（model_override=${cap?.model_override??'不明'}）`,now(),row.execution_id);
++   logEvent(db,'subagent_model_not_applied',{requested:row.model_id,actual,capability:cap?.model_override??null},{product:n.product,session_id:n.session_id,execution_id:row.execution_id});
++  }
+  }
+  return pass(n);
+ }
+diff -ru a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 06:26:39
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 08:16:11
+@@ -64,13 +64,23 @@
+ test('Codexの名前空間付きspawn_agent（collaboration）も判定し、modelだけを入れる', ()=>{
+  H('codex','SessionStart',{session_id:'cx-ns',model:'gpt-6-astra',source:'startup'});
+  H('codex','UserPromptSubmit',{session_id:'cx-ns',model:'gpt-6-astra',prompt:'探して'});
+- for(const name of ['collaboration.spawn_agent','collaboration__spawn_agent','collaboration/spawn_agent']){
++ for(const name of ['collaborationspawn_agent','collaboration.spawn_agent','collaboration__spawn_agent']){
+   const o=H('codex','PreToolUse',{session_id:'cx-ns',tool_name:name,tool_use_id:`ns-${name}`,tool_input:{task_name:'t1',agent_type:'explorer',fork_turns:0,message:'m'}});
+   assert.deepEqual(o.hookSpecificOutput.updatedInput,{task_name:'t1',agent_type:'explorer',fork_turns:0,message:'m',model:'gpt-6-luna'},name);
+  }
+  assert.equal(H('codex','PreToolUse',{session_id:'cx-ns',tool_name:'collaboration.wait_agent',tool_input:{timeout_ms:1}}),null);
+  assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='agent_tool_seen' AND session_id='cx-ns'").n,1,'ツール名だけを記録');
+ });
++test('Codex: 指定が実機で未確認のため、子が別のモデルで起動しても止めずに記録する', ()=>{
++ H('codex','SessionStart',{session_id:'cx-nv',model:'gpt-6.1-sol',source:'startup'});
++ H('codex','UserPromptSubmit',{session_id:'cx-nv',model:'gpt-6.1-sol',prompt:'実装して'});
++ H('codex','PreToolUse',{session_id:'cx-nv',tool_name:'collaborationspawn_agent',tool_use_id:'nv-1',tool_input:{task_name:'t',agent_type:'explorer',fork_turns:0,message:'m'}});
++ H('codex','SubagentStart',{session_id:'cx-nv',agent_id:'th-nv',agent_type:'explorer',model:'gpt-6.1-sol'});
++ const c=one("SELECT * FROM executions WHERE agent_id='th-nv'");
++ assert.deepEqual([c.status,c.model_id,c.managed],['running','gpt-6.1-sol',1]);
++ assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='subagent_model_not_applied' AND execution_id=?",c.execution_id).n,1);
++ assert.equal(H('codex','PreToolUse',{session_id:'cx-nv',agent_id:'th-nv',tool_name:'Bash',tool_input:{command:'ls'}}),null,'子のツールは止めない');
++});
+ test('TEST-005: Claude Codeのサブエージェントは親子関連付けと計測ができ、承認と異なるモデルを検知する', ()=>{
+  H('claude','SessionStart',{session_id:'cl-2',model:'claude-opus-5-5',source:'startup'});
+  H('claude','UserPromptSubmit',{session_id:'cl-2',prompt:'ファイルを探して'});
+@@ -95,14 +105,21 @@
+  const up=H('claude','PreToolUse',{session_id:'cl-2',tool_name:'Agent',tool_use_id:'tu-3',tool_input:{subagent_type:'Explore',description:'d',prompt:'p'}});
+  assert.equal(up.hookSpecificOutput.updatedInput.model,'sonnet');
+ });
+-test('TEST-006: Antigravityのサブエージェント起動を親子関係つきで記録する（モデルの強制は未確認のため記録のみ）', ()=>{
++test('TEST-006: Antigravityのサブエージェント: モデルを指定できないため、推奨が親のモデルと同じなら許可、違えば拒否してagentctl runへ案内', ()=>{
+  H('antigravity','PreInvocation',{conversationId:'ag-2',modelName:'gemini-3.8-flash-high',invocationNum:1});
+- const o=H('antigravity','PreToolUse',{conversationId:'ag-2',modelName:'gemini-3.8-flash-high',toolCall:{name:'invoke_subagent',args:{agentName:'motion-analyst',task:'x'}},stepIdx:7});
+- assert.equal(o.decision,'allow','拒否しない操作は常に許可（2026-10-11 利用者の指示）');
+- const c=one("SELECT * FROM executions WHERE session_product='antigravity' AND session_id='ag-2' AND route='native_subagent'");
+- const parent=one("SELECT current_execution_id FROM sessions WHERE product='antigravity' AND session_id='ag-2'").current_execution_id;
+- assert.deepEqual([c.parent_execution_id,c.agent_name,c.model_id,c.task_type],[parent,'motion-analyst','gemini-3.8-flash-medium','video_analysis']);
+- assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='subagent_model_unenforced' AND execution_id=?",c.execution_id).n,1);
++ const no=H('antigravity','PreToolUse',{conversationId:'ag-2',modelName:'gemini-3.8-flash-high',toolCall:{name:'invoke_subagent',args:{agentName:'motion-analyst',task:'x'}},stepIdx:7});
++ assert.equal(no.decision,'deny');assert.match(no.reason,/親のモデル gemini-3\.8-flash-high.*推奨は gemini-3\.8-flash-medium.*agentctl run/);
++ assert.equal(one("SELECT COUNT(*) AS n FROM executions WHERE session_id='ag-2' AND route='native_subagent'").n,0,'拒否した子は記録しない');
++ assert.deepEqual(JSON.parse(one("SELECT detail_json FROM events WHERE kind='spawn_args' AND session_id='ag-2'").detail_json).keys,['agentName','task'],'引数は項目名だけ記録');
++ H('antigravity','PreInvocation',{conversationId:'ag-3',modelName:'Gemini 3.8 Flash (Medium)',invocationNum:1});
++ const ok=H('antigravity','PreToolUse',{conversationId:'ag-3',modelName:'Gemini 3.8 Flash (Medium)',toolCall:{name:'invoke_subagent',args:{agentName:'motion-analyst',task:'x'}},stepIdx:8});
++ assert.equal(ok.decision,'allow');
++ const c=one("SELECT * FROM executions WHERE session_product='antigravity' AND session_id='ag-3' AND route='native_subagent'");
++ const parent=one("SELECT current_execution_id FROM sessions WHERE product='antigravity' AND session_id='ag-3'").current_execution_id;
++ assert.deepEqual([c.parent_execution_id,c.agent_name,c.model_id,c.task_type,c.status],[parent,'motion-analyst','gemini-3.8-flash-medium','video_analysis','approved']);
++ H('antigravity','PostToolUse',{conversationId:'ag-3',toolCall:{name:'invoke_subagent',args:{}},stepIdx:8});
++ const done=one('SELECT status,metering_status FROM executions WHERE execution_id=?',c.execution_id);
++ assert.deepEqual([done.status,done.metering_status],['completed','unavailable'],'子単独の使用量は取れないことを明示');
+ });
+ test('Antigravity: 拒否しないコマンドは常に許可し、AI CLIの直接起動は拒否する', ()=>{
+  const run=(c:string)=>H('antigravity','PreToolUse',{conversationId:'allow-1',modelName:'gemini-3.8-flash-low',toolCall:{name:'run_command',args:{CommandLine:c}},stepIdx:1});
+diff -ru a/orchestration/gateway/config.ts b/orchestration/gateway/config.ts
+--- a/orchestration/gateway/config.ts	2026-10-11 04:46:58
++++ b/orchestration/gateway/config.ts	2026-10-11 08:16:11
+@@ -21,7 +21,11 @@
+ 
+ export type Pricing={currency:string;input_per_mtok:number|null;output_per_mtok:number|null;cache_read_per_mtok:number|null;cache_write_per_mtok:number|null;confirmed_at:string;basis:string};
+ export type ModelEntry={provider:Provider;model_id:string;tier:Tier;selectable:boolean;reasoning_default:string|null;reasoning_levels:string[];capabilities:string[];aliases:Record<string,string>;source:string;pricing:Pricing|null};
+-export type Registry={schema_version:'1';verified_at:string;providers:Record<string,{cli:string|null;default_auth:AuthMode;auth_modes:Record<string,{verified:boolean;basis:string;env?:string[]}>;native_subagents:boolean}>;models:ModelEntry[]};
++// 製品内サブエージェントの能力（確認した版つき）。Hookはこの能力で判断する。
++// model_override: enforced=モデルを指定でき実機で確認済み、unverified=指定する引数はあるが実機で未確認、unsupported=指定できない（子は親か定義のモデル）。
++// child_usage: measured=子単独の使用量を取れる、included_in_parent=親の集計に含まれる、unavailable=取れない。
++export type NativeSubagents={supported:boolean;model_override:'enforced'|'unverified'|'unsupported';model_param:string|null;child_usage:'measured'|'included_in_parent'|'unavailable';verified_version:string|null;verified_at:string|null;basis:string};
++export type Registry={schema_version:'1';verified_at:string;providers:Record<string,{cli:string|null;version_seen?:string|null;default_auth:AuthMode;auth_modes:Record<string,{verified:boolean;basis:string;env?:string[]}>;native_subagents:NativeSubagents}>;models:ModelEntry[]};
+ export type Policy={
+  schema_version:'1';version:string;description:string;
+  difficulty_tiers:Record<Difficulty,Tier>;l3_start_tier:Record<Quality,Tier>;quality_floor:Record<Quality,Tier>;
+diff -ru a/orchestration/model-registry/models.json b/orchestration/model-registry/models.json
+--- a/orchestration/model-registry/models.json	2026-10-11 04:30:03
++++ b/orchestration/model-registry/models.json	2026-10-11 08:16:11
+@@ -1,7 +1,7 @@
+ {
+   "schema_version": "1",
+   "verified_at": "2026-10-11",
+-  "note": "モデルIDは実環境の一覧（codex debug models / agy models / 実行中のClaude Codeの実行時表示）と公式資料で確認したものだけを載せる。tierは各社の説明文に基づく初期値で、ベンチマーク済みではない。新モデルはmodelsへ追加し、routing-policy.jsonの選択対象にするかを別に決める。",
++  "note": "native_subagents は製品内サブエージェントの能力（モデル指定・子の使用量・確認した版）。版が変わったら agentctl doctor の version_* が警告するので再確認する。モデルIDは実環境の一覧（codex debug models / agy models / 実行中のClaude Codeの実行時表示）と公式資料で確認したものだけを載せる。tierは各社の説明文に基づく初期値で、ベンチマーク済みではない。新モデルはmodelsへ追加し、routing-policy.jsonの選択対象にするかを別に決める。",
+   "providers": {
+     "codex": {
+       "cli": "codex",
+@@ -11,7 +11,7 @@
+         "subscription": {"verified": true, "basis": "codex doctor: stored auth mode chatgpt（2026-10-11）"},
+         "api_key": {"verified": false, "env": ["OPENAI_API_KEY", "CODEX_API_KEY"], "basis": "未設定。Gatewayは子プロセスからこれらを除去し、勝手にAPI課金へ切り替えない"}
+       },
+-      "native_subagents": true
++      "native_subagents": {"supported": true, "model_override": "unverified", "model_param": "model", "child_usage": "measured", "verified_version": "0.161.0", "verified_at": "2026-10-11", "basis": "協調ツールの spawn_agent（Hookには collaborationspawn_agent の名前で届く）に任意の model 引数がある（バイナリの説明文）。注入して子がそのモデルで動くかは実機で未確認。子の使用量は SubagentStop の agent_transcript_path（rollout）から実測（18,583トークン、2026-10-11）"}
+     },
+     "claude": {
+       "cli": "claude",
+@@ -21,7 +21,7 @@
+         "subscription": {"verified": false, "basis": "claude auth status: loggedIn=false（スタンドアロンCLI）。デスクトップアプリのセッションとは別。CLI実行には利用者の claude auth login が必要"},
+         "api_key": {"verified": false, "env": ["ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"], "basis": "未設定。Gatewayは子プロセスから除去する"}
+       },
+-      "native_subagents": true
++      "native_subagents": {"supported": true, "model_override": "enforced", "model_param": "model", "child_usage": "measured", "verified_version": "2.1.293", "verified_at": "2026-10-11", "basis": "実機: model未指定のExploreにhaikuを注入→claude-haiku-5-5で実行、opus指定を拒否。子の使用量はエージェントのトランスクリプトから実測（65,998トークン）"}
+     },
+     "antigravity": {
+       "cli": "agy",
+@@ -31,7 +31,7 @@
+         "subscription": {"verified": true, "basis": "agy models / agy agents がGoogleアカウント認証で成功（2026-10-11）"},
+         "api_key": {"verified": false, "env": ["GEMINI_API_KEY", "GOOGLE_API_KEY"], "basis": "未設定。Gatewayは子プロセスから除去する"}
+       },
+-      "native_subagents": true
++      "native_subagents": {"supported": true, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": "1.3.3", "verified_at": "2026-10-11", "basis": "invoke_subagent の引数にモデル指定があるかは未確認（定義のmodelは inherit / flash / pro）。実機で子は親のモデル（gemini-3.8-flash-low）で動いた。子単独の使用量はHookにも結果JSONにも出ない"}
+     },
+     "gemini-api": {
+       "cli": null,
+@@ -40,10 +40,10 @@
+       "auth_modes": {
+         "api_key": {"verified": false, "env": ["GEMINI_API_KEY"], "basis": "未設定。従量課金のため人の承認（agentctl approve）と予算上限が必須"}
+       },
+-      "native_subagents": false
++      "native_subagents": {"supported": false, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": null, "verified_at": null, "basis": "サブエージェントなし"}
+     },
+-    "local": {"cli": null, "version_seen": null, "default_auth": "none", "auth_modes": {"none": {"verified": true, "basis": "LLMを使わないL0処理"}}, "native_subagents": false},
+-    "mock": {"cli": null, "version_seen": null, "default_auth": "none", "auth_modes": {"none": {"verified": true, "basis": "テスト専用。AGENTCTL_ALLOW_MOCK=1のときだけ選択可能"}}, "native_subagents": false}
++    "local": {"cli": null, "version_seen": null, "default_auth": "none", "auth_modes": {"none": {"verified": true, "basis": "LLMを使わないL0処理"}}, "native_subagents": {"supported": false, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": null, "verified_at": null, "basis": "サブエージェントなし"}},
++    "mock": {"cli": null, "version_seen": null, "default_auth": "none", "auth_modes": {"none": {"verified": true, "basis": "テスト専用。AGENTCTL_ALLOW_MOCK=1のときだけ選択可能"}}, "native_subagents": {"supported": false, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": null, "verified_at": null, "basis": "サブエージェントなし"}}
+   },
+   "models": [
+     {"provider": "codex", "model_id": "gpt-6-luna", "tier": "light", "selectable": true, "reasoning_default": "low", "reasoning_levels": ["low", "medium", "high", "xhigh", "max"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Fast and affordable model for easier tasks.", "pricing": null},

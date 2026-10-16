@@ -1,0 +1,101 @@
+{
+  "schema": 2,
+  "id": "tolerance-illustration-demo",
+  "title": "なぜ寛容を広げるほど社会は分断するのか？",
+  "version": 1,
+  "theme": "general",
+  "note": "T150の描画確認（寛容のパラドックス・分断）に使う短尺デモ。本人の考察・台本承認・自然なナレーションを含まず、本番用ではない。",
+  "promise": "寛容な社会が直面する境界と分断の逆説を知る",
+  "intro": {
+    "text": "寛容を目指すほど対立が激化するのはなぜか。カール・ポパーの寛容のパラドックスを手掛かりに、境界と防衛の構造を見ていきます。",
+    "sources": ["popper-1945", "festinger-1957"]
+  },
+  "thumbnail": {"headline": "なぜ分断する？", "keyword": "寛容", "scene": 1},
+  "sources": [
+    {"id": "popper-1945", "title": "Karl Popper (1945), The Open Society and Its Enemies", "url": "https://www.routledge.com/The-Open-Society-and-Its-Enemies/Popper/p/book/9780415610216", "accessedAt": "2026-10-15"},
+    {"id": "festinger-1957", "title": "Leon Festinger (1957), A Theory of Cognitive Dissonance", "url": "https://www.sup.org/books/title/?id=3850", "accessedAt": "2026-10-15"}
+  ],
+  "scenes": [
+    {
+      "title": "寛容が抱える自己矛盾",
+      "narration": "寛容な社会を目指すほど、なぜ人々の対立は先鋭化してしまうのでしょう？",
+      "cues": [{"text": "寛容な社会を目指すほど、なぜ人々の対立は先鋭化するのでしょう？", "seconds": 6}],
+      "diagram": {
+        "type": "flow",
+        "items": ["寛容の理念", "境界の発生", "対立の先鋭化"],
+        "illustration": "tolerance-boundary",
+        "archetype": "contrast",
+        "focus": "open-society-boundary",
+        "motionPurpose": "establish-perimeter",
+        "reveal": [0, 2, 4]
+      },
+      "sources": ["popper-1945"],
+      "seconds": 6,
+      "role": "hook",
+      "chapter": "寛容の境界"
+    },
+    {
+      "title": "無制限の寛容がもたらす自己崩壊",
+      "narration": "不寛容な思想まで無制限に受け入れると、寛容そのものが破壊されるためです。",
+      "cues": [{"text": "不寛容まで無制限に受け入れると、寛容そのものが崩壊します。", "seconds": 6}],
+      "diagram": {
+        "type": "flow",
+        "items": ["寛容の圏域", "防衛境界", "不寛容の排除"],
+        "illustration": "tolerance-boundary",
+        "archetype": "causal-relation",
+        "focus": "containment-boundary",
+        "motionPurpose": "halt-intolerance",
+        "reveal": [0, 2, 4]
+      },
+      "sources": ["popper-1945"],
+      "seconds": 6,
+      "role": "body",
+      "chapter": "寛容の境界"
+    },
+    {
+      "title": "排除の連鎖と深まる分断",
+      "narration": "しかし境界で排除を強めるほど、共通の基盤は崩れ社会は二極化します。",
+      "cues": [{"text": "しかし境界で排除を強めるほど、社会は二極化し分断が深まります。", "seconds": 6}],
+      "diagram": {
+        "type": "flow",
+        "items": ["共通基盤", "境界線", "分断の溝"],
+        "illustration": "social-division",
+        "archetype": "scenery",
+        "focus": "polarization-fissure",
+        "motionPurpose": "split-into-opposing-groups",
+        "reveal": [0, 2, 4]
+      },
+      "sources": ["festinger-1957"],
+      "seconds": 6,
+      "role": "example",
+      "chapter": "二極化の帰結"
+    },
+    {
+      "title": "開かれた社会の動的バランス",
+      "narration": "寛容とは固定された状態ではなく、緊張を保ち続ける動的な均衡です。なお、本動画は結果を保証するものではありません。",
+      "cues": [
+        {"text": "寛容とは固定された状態ではなく、緊張を保ち続ける動的均衡です。", "seconds": 6},
+        {"text": "なお、本動画は結果を保証するものではありません。", "seconds": 6}
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": ["防衛境界", "対話の継続", "動的均衡"],
+        "illustration": "tolerance-boundary",
+        "archetype": "resonance",
+        "focus": "dynamic-equilibrium",
+        "motionPurpose": "poise-and-balance",
+        "reveal": [0, 4, 8]
+      },
+      "sources": ["popper-1945"],
+      "seconds": 12,
+      "role": "recap",
+      "chapter": "二極化の帰結"
+    }
+  ],
+  "aiDisclosure": {
+    "scopes": ["説明用の図形イラスト作成"],
+    "supervisor": "制作監修者",
+    "verified": ["使用した図形はコードから生成", "確認用デモであること"],
+    "realisticSyntheticMedia": false
+  }
+}

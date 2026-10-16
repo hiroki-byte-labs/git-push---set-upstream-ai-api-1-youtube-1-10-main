@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentctl.local/schemas/approval.schema.json",
+  "title": "approval v1",
+  "description": "実行承認の本体。トークンは base64url(本体JSON) + '.' + HMAC-SHA256(16進)。鍵はリポジトリ外（既定 ~/.config/agentctl/approval.key、権限0600）に置き、Gatewayだけが発行する。実行ID・判断ID・モデル・推論レベル・実行主体・有効期限に紐付き、1回だけ使える。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "approval_id", "execution_id", "decision_id", "task_id", "provider", "model_id", "reasoning_level", "initiator", "issuer", "issued_at", "expires_at", "nonce"],
+  "properties": {
+    "v": {"const": 1},
+    "approval_id": {"$ref": "common.schema.json#/definitions/approval_id"},
+    "execution_id": {"$ref": "common.schema.json#/definitions/execution_id"},
+    "decision_id": {"$ref": "common.schema.json#/definitions/decision_id"},
+    "task_id": {"$ref": "common.schema.json#/definitions/task_id"},
+    "provider": {"$ref": "common.schema.json#/definitions/provider"},
+    "model_id": {"type": ["string", "null"]},
+    "reasoning_level": {"$ref": "common.schema.json#/definitions/reasoning_level"},
+    "initiator": {"$ref": "common.schema.json#/definitions/initiator"},
+    "issuer": {"enum": ["gateway", "hook", "human"]},
+    "issued_at": {"$ref": "common.schema.json#/definitions/datetime"},
+    "expires_at": {"$ref": "common.schema.json#/definitions/datetime"},
+    "nonce": {"type": "string", "pattern": "^[a-f0-9]{32}$"}
+  }
+}

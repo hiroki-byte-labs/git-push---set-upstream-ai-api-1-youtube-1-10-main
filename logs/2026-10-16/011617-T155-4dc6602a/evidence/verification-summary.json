@@ -1,0 +1,183 @@
+{
+  "720": {
+    "probeExit": 0,
+    "decodeExit": 0,
+    "tileExit": 0,
+    "frames": "480",
+    "reportRecords": 498,
+    "domRecords": 498,
+    "layout": {
+      "ok": true,
+      "checked": 498,
+      "issues": []
+    },
+    "readability": {
+      "ok": true,
+      "scale": 1,
+      "minFont720": 16,
+      "minContrast": 5.38,
+      "issues": []
+    },
+    "roles": {
+      "badge": 15,
+      "diagram": 108,
+      "source": 315,
+      "subtitle": 15,
+      "title": 45
+    }
+  },
+  "1080": {
+    "probeExit": 0,
+    "decodeExit": 0,
+    "tileExit": 0,
+    "frames": "480",
+    "reportRecords": 498,
+    "domRecords": 498,
+    "layout": {
+      "ok": true,
+      "checked": 498,
+      "issues": []
+    },
+    "readability": {
+      "ok": true,
+      "scale": 1.5,
+      "minFont720": 16,
+      "minContrast": 5.38,
+      "issues": []
+    },
+    "roles": {
+      "badge": 15,
+      "diagram": 108,
+      "source": 315,
+      "subtitle": 15,
+      "title": 45
+    }
+  },
+  "overflow": {
+    "id": "remotion-layout-overflow-b71c8bb5",
+    "kind": "production-job",
+    "status": "failed",
+    "createdAt": "2026-10-16T01:21:15.597Z",
+    "pid": 83272,
+    "mode": "demo",
+    "providers": [
+      "mock.fixture",
+      "mock.sine-cues",
+      "local.remotion",
+      "publisher.disabled"
+    ],
+    "cost": {
+      "currency": "USD",
+      "limit": 0,
+      "committed": 0,
+      "reserved": 0,
+      "unknown": 0,
+      "basis": "mock/local only（実API未接続）"
+    },
+    "usage": [
+      {
+        "domain": "script",
+        "provider": "mock.fixture",
+        "model": "none",
+        "mode": "mock",
+        "requestId": "mock-mock.fixture-1",
+        "inputUnits": 0,
+        "outputUnits": 0,
+        "costUsd": 0,
+        "attempts": 1
+      },
+      {
+        "domain": "audio",
+        "provider": "mock.sine-cues",
+        "model": "none",
+        "mode": "mock",
+        "requestId": "mock-mock.sine-cues-1",
+        "inputUnits": 0,
+        "outputUnits": 4,
+        "costUsd": 0,
+        "attempts": 1
+      }
+    ],
+    "attempts": [
+      {
+        "attemptId": "att-e27bfb11",
+        "domain": "script",
+        "provider": "mock.fixture",
+        "mode": "mock",
+        "attempt": 1,
+        "at": "2026-10-16T01:21:15.596Z",
+        "estimateUsd": 0,
+        "outcome": "success",
+        "charge": "confirmed",
+        "costUsd": 0,
+        "providerRequestId": "mock-mock.fixture-1"
+      },
+      {
+        "attemptId": "att-31eb54fa",
+        "domain": "audio",
+        "provider": "mock.sine-cues",
+        "mode": "mock",
+        "attempt": 1,
+        "at": "2026-10-16T01:21:15.659Z",
+        "estimateUsd": 0,
+        "outcome": "success",
+        "charge": "confirmed",
+        "costUsd": 0,
+        "providerRequestId": "mock-mock.sine-cues-1"
+      },
+      {
+        "attemptId": "att-65b552da",
+        "domain": "visual",
+        "provider": "local.remotion",
+        "mode": "local",
+        "attempt": 1,
+        "at": "2026-10-16T01:21:15.662Z",
+        "estimateUsd": 0,
+        "outcome": "failed",
+        "charge": "none",
+        "error": "文字背景測定範囲なし",
+        "costUsd": 0
+      }
+    ],
+    "inputHash": "327f82d01cadf22100000459390ab080311ab417afbc01703982b4fd028c62ba",
+    "input": "fixtures/remotion-layout-overflow.json",
+    "durationSeconds": 4,
+    "subtitles": "burn",
+    "resolution": 720,
+    "versions": {
+      "planSchema": 2,
+      "plan": 1,
+      "rendererSource": "546f9ea7c54dadca21755bc291325aea108d5dc139cf2c34c72cdac2e88589e4",
+      "rendererKind": "local.remotion",
+      "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+      "node": "v26.11.1"
+    },
+    "events": [
+      "lint-checked",
+      "audio-ready"
+    ],
+    "lint": {
+      "ok": true,
+      "errors": 0,
+      "warnings": 3
+    },
+    "checklist": {
+      "items": 0,
+      "files": [
+        "checklist.json",
+        "checklist.txt",
+        "checklist-1.png"
+      ],
+      "ok": true
+    },
+    "channelDecided": true,
+    "metadata": {
+      "ok": false,
+      "issues": [
+        "概要欄が5000バイトを超える（17567）"
+      ],
+      "chapters": 0
+    },
+    "error": "Error: 文字背景測定範囲なし"
+  }
+}

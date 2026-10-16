@@ -1,0 +1,47 @@
+✔ late reveal starts invisible and enters gradually, without resetting prior people (1.996ms)
+✔ digital listeners fade in after signal travel, not as binary threshold pops (0.215ms)
+✔ native render schedule carries continuous, cue-relative illustration frames (9.390583ms)
+✔ easing is monotonic, bounded and stationary at endpoints; transitions=false settles (0.091375ms)
+✔ branching-tree reveals generations gradually and marks extinction vs survival (0.081709ms)
+✔ tolerance-boundary reveals protective perimeter and external containment (0.064333ms)
+✔ archetypeForMotif maps illustration motifs to valid scene archetypes (0.043709ms)
+✔ meterの検証: 棒は2〜5本、値は−1〜1、まとめの見出しが必要。motionはflowのtravelだけ (3.763209ms)
+✔ revealの検証: 段数と同じ長さ・0始まり・昇順・場面の秒数未満 (0.479417ms)
+✔ 段の表示は説明の時刻（reveal）に合わせる。動きのある段は1フレームずつ進み、総フレーム数は変わらない (1.765542ms)
+✔ meterとサムネイルの文言も禁止表現の検査対象（改行で分けても検出） (2.288208ms)
+✔ サムネイル案: 問い型・図解型・対比型。対比の文言は明示か図解から補う (0.402291ms)
+✔ 文字配置の検査: 正しい配置は合格 (0.178208ms)
+✔ 文字配置の検査: 旧描画のずれ（番号が枠の外、1行の字幕が枠の上寄り、字幕とフッターの重なり、強調と図解の重なり）を検出 (1.312542ms)
+✔ 区画どうしは重ならない（scripts/render.swiftのZONE_*と同じ値） (0.373125ms)
+✔ 下書き（fixtures/draft-price-index.json）: 考察を差し込めば安全検査に合格し、構成案の章がそろう (0.698958ms)
+✔ 見やすさ（T091）: 合格、小さい文字、低コントラスト (1.851375ms)
+✔ 見やすさ（T091）: 1080pは720p換算で判定 (3.658958ms)
+✔ --resolutionの引数（T091） (0.517875ms)
+✔ stress Plan contains all diagram kinds, maximum fields, later 55-character cues (1.6455ms)
+✔ measured Remotion overflow, same-zone collision and third subtitle line fail layout (2.157584ms)
+✔ contrast is calculated from actual color pairs (0.147ms)
+✔ coverage rejects a missing later cue, title and source sample in either resolution (4.346958ms)
+✔ measured box outside the output screen cannot pass by moving its zone with it (0.085334ms)
+✔ report converts DOM pixel rectangles and measures real background PNG colors at 720p/1080p (synthetic DOM input) (638.411958ms)
+✔ intentional overflow Plan is schema-valid and exceeds the dedicated source row (0.755416ms)
+✔ Remotion media: valid (119.436667ms)
+✔ Remotion media: soft (65.341709ms)
+✔ Remotion media: truncated (49.226083ms)
+✔ Remotion media: duration (34.99075ms)
+✔ Remotion media: audio-duration (35.20925ms)
+✔ Remotion media: no-audio (35.930791ms)
+✔ Remotion media: no-subtitle (40.695708ms)
+✔ Remotion media: inspector-failure (27.798458ms)
+✔ Remotion media: decoder-failure (41.642166ms)
+✔ Remotion media: wrong-size (42.655125ms)
+✔ Remotion media: wrong-fps (41.550291ms)
+✔ Remotion media: frame-count (57.922917ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 781.90225
+EXIT=0

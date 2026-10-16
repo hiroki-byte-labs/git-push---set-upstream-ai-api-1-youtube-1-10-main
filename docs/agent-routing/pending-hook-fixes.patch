@@ -1,0 +1,88 @@
+diff -ru a/orchestration/hooks/detect.ts b/orchestration/hooks/detect.ts
+--- a/orchestration/hooks/detect.ts	2026-10-11 04:54:47
++++ b/orchestration/hooks/detect.ts	2026-10-11 05:05:44
+@@ -9,7 +9,7 @@
+ const SAFE:Record<string,RegExp>={
+  claude:/^(--version|-v|--help|-h|auth status|doctor|mcp list|plugins? list)(\s|$)/,
+  codex:/^(--version|-V|--help|-h|help|doctor|features( list)?|debug models|login status|mcp list|completion|apply)(\s|$)/,
+- agy:/^(--help|-h|help|changelog|models|agents?|mcp list|plugins? list)(\s|$)|^(-p|--print|--prompt) \/(hooks|usage|quota|credits)$/,
++ agy:/^(--help|-h|help|changelog|models|agents?|mcp list|plugins? list)(\s|$)|^(--output-format \S+ )?(-p|--print|--prompt) \/(hooks|usage|quota|credits|help|changelog|config|permissions|model|effort|skills)( --output-format \S+)?$/,
+  gemini:/^(--version|-v|--help|-h|mcp list|extensions list)(\s|$)/,
+  ant:/^(auth status|--version|--help)(\s|$)/,
+ };
+@@ -35,11 +35,19 @@
+   if(c===';'||c==='\n'||c==='`'||c===')'||c==='('){push();continue}
+   if(c==='$'&&n==='('){push();i++;continue}
+   if((c==='&'&&n==='&')||(c==='|'&&n==='|')){push();i++;continue}
++  // 2>&1・>&2・&> はリダイレクトで、コマンドの区切りではない
++  if(c==='&'&&(command[i-1]==='>'||n==='>')){cur+=c;continue}
+   if(c==='|'||c==='&'){push();continue}
+   cur+=c;
+  }
+  push();return out;
+ }
++// リダイレクト（> out、2>&1、<in など）を引数から除く。参照系コマンドの判定に混ぜない。
++function stripRedirects(ts:string[]):string[]{
++ const out:string[]=[];
++ for(let i=0;i<ts.length;i++){const t=ts[i]!;if(/^(\d*>>?|&>>?|\d*<)$/.test(t)){i++;continue}if(/^(\d*>>?|&>>?|\d*<)\S+$/.test(t)||/^\d*>&\d+$/.test(t))continue;out.push(t)}
++ return out;
++}
+ function tokens(seg:string):string[]{return (seg.match(/"(?:\\.|[^"])*"|'[^']*'|\S+/g)??[]).map(t=>t.replace(/^(['"])([\s\S]*)\1$/,'$2'))}
+ function program(ts:string[]):{prog:string;rest:string[];env:string[]}|null{
+  let i=0;const env:string[]=[];
+@@ -65,7 +73,7 @@
+   // リダイレクトでHook設定へ書き込む
+   if(/>{1,2}\s*\S*/.test(seg)&&[...seg.matchAll(/>{1,2}\s*(\S+)/g)].some(m=>HOOK_CONFIG_TEXT.test(m[1]!)))return {kind:'hook_tamper',reason:'Hook設定・ルーティング設定へリダイレクトで書き込もうとしている'};
+   if(!p)continue;
+-  const base=p.prog.split('/').pop()!,args=p.rest.join(' ');
++  const base=p.prog.split('/').pop()!,args=stripRedirects(p.rest).join(' ');
+   if(KEY_PATH.test(seg)&&!/^(ls|stat|test)$/.test(base))return {kind:'protected_access',reason:'承認鍵へのアクセスは禁止（Gatewayだけが使う）'};
+   if(DB_PATH.test(seg)&&(base!=='sqlite3'&&!/^(ls|stat|test|du)$/.test(base)||SQL_WRITE.test(args)))return {kind:'protected_access',reason:'計測DBの直接変更は禁止（参照は agentctl usage / report、またはSELECTだけのsqlite3）'};
+   if(WRITERS.test(base)&&HOOK_CONFIG_TEXT.test(args)&&!(base==='git'&&!/^(checkout|restore|rm|mv|apply|reset)\b/.test(args))&&!(base==='sed'&&!/(^|\s)-i/.test(args))&&!(base==='perl'&&!/(^|\s)-\w*i/.test(args)))return {kind:'hook_tamper',reason:'Hook設定・ルーティング設定・Hook実装をシェルから書き換えようとしている'};
+diff -ru a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 04:56:58
++++ b/orchestration/hooks/hook.ts	2026-10-11 05:05:44
+@@ -180,6 +180,8 @@
+   const v=classifyCommand(commandOf(n));
+   if(v.kind==='ok')return pass(n);
+   if(v.kind==='managed'){logEvent(db,'managed_call',{},{product:n.product,session_id:n.session_id});return pass(n)}
++  // 改善案の確認・適用・復元はCodexのPMにも許す（agentctl側でもCodexのセッションとreviewer名を確認する）。approveは人だけ。
++  if(v.kind==='human_only'&&n.product==='codex'&&/\boptimize\s+(review|apply|rollback)\b/.test(commandOf(n))){logEvent(db,'pm_command_allowed',{},{product:n.product,session_id:n.session_id});return pass(n)}
+   logEvent(db,`deny_${v.kind}`,{reason:v.reason,program:v.program??null,command_sha256:sha256(commandOf(n))},{product:n.product,session_id:n.session_id});
+   return deny(n,v.reason);
+  }
+diff -ru a/orchestration/tests/detect.test.ts b/orchestration/tests/detect.test.ts
+--- a/orchestration/tests/detect.test.ts	2026-10-11 04:54:33
++++ b/orchestration/tests/detect.test.ts	2026-10-11 05:05:44
+@@ -11,6 +11,13 @@
+  for(const c of ['claude --version','claude auth status','codex --version','codex debug models','codex login status','codex features list','agy models','agy agents','agy -p "/hooks"','gemini --version','grep -r "codex exec" docs','echo "claude -p は禁止"','rg claude src','cat docs/agent-routing/setup.md','git log --oneline','ls ~/.codex/sessions'])
+   assert.equal(kind(c),'ok',c);
+ });
++test('参照系コマンドはリダイレクトや出力形式の指定があっても許可する（2026-10-11の実機で見つけた誤判定）', ()=>{
++ for(const c of ['agy -p "/hooks" > /tmp/x.txt 2>&1','agy --output-format json -p "/usage"','codex --version >> log.txt','claude auth status 2>/dev/null','(agy -p "/hooks" & p=$!; sleep 1; kill $p)'])
++  assert.equal(kind(c),'ok',c);
++ for(const c of ['agy -p "要約して" > out.txt','codex exec x 2>&1 | tee log','claude -p hi &> out'])
++  assert.equal(kind(c),'ai_invocation',c);
++ assert.deepEqual(segments('a 2>&1 | b'),['a 2>&1','b']);
++});
+ test('agentctl経由は管理対象、人専用のサブコマンドは拒否', ()=>{
+  assert.equal(kind('scripts/agentctl run --task t.json'),'managed');
+  assert.equal(kind('./scripts/run orchestration/gateway/agentctl.ts status'),'managed');
+diff -ru a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 04:56:58
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 05:05:44
+@@ -129,6 +129,14 @@
+  H('claude','SessionStart',{session_id:'nest-2',model:'claude-haiku-5-5'},fromAgy);
+  assert.equal(H('claude','UserPromptSubmit',{session_id:'nest-2',prompt:'x'},fromAgy).decision,'block');
+ });
++test('改善案の確認・適用はCodexのPMだけHookを通す（approveは全製品で拒否）', ()=>{
++ const cmd=(c:string)=>({session_id:'pm-1',tool_name:'Bash',tool_input:{command:c}});
++ assert.ok(!denied(H('codex','PreToolUse',cmd('scripts/agentctl optimize review prp_x --decision approve --reviewer codex-pm'))));
++ assert.ok(!denied(H('codex','PreToolUse',cmd('scripts/agentctl optimize apply prp_x --by codex-pm'))));
++ assert.ok(denied(H('codex','PreToolUse',cmd('scripts/agentctl approve rdc_x --reason y'))));
++ assert.ok(denied(H('claude','PreToolUse',cmd('scripts/agentctl optimize apply prp_x'))));
++ assert.ok(denied(H('antigravity','PreToolUse',{conversationId:'pm-2',toolCall:{name:'run_command',args:{CommandLine:'scripts/agentctl optimize review prp_x --decision approve --reviewer codex-pm'}}})));
++});
+ test('Gatewayが起動した子セッションは承認とモデルを照合する（一致なら通し、異なれば止める）', ()=>{
+  const exe=newId('exe');
+  db.prepare("INSERT INTO executions(execution_id,task_id,initiator,task_type,status,managed,auth_mode,metering_status,updated_at,provider,model_id) VALUES(?,?,'gateway','general','running',1,'subscription','missing',?,'codex','gpt-6-luna')").run(exe,'tsk_0000000000hh',now());

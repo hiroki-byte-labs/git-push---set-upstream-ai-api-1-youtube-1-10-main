@@ -1,0 +1,128 @@
+{
+  "id": "t139-long-mock-145e66b1",
+  "kind": "production-job",
+  "status": "failed",
+  "createdAt": "2026-10-13T22:47:12.416Z",
+  "pid": 69345,
+  "mode": "demo",
+  "project": "production-demo-110ed262",
+  "scriptHash": "e08643deee5c2e73d42b3379c204da1aa4168fa364329eaffe2e01897cc2b5df",
+  "scriptVersion": 1,
+  "providers": [
+    "mock.fixture",
+    "mock.synthetic-tone-t138",
+    "local.remotion",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.synthetic-tone-t138",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.synthetic-tone-t138-1",
+      "inputUnits": 0,
+      "outputUnits": 604,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-af8bbd15",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-13T22:47:12.415Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-76ab33fb",
+      "domain": "audio",
+      "provider": "mock.synthetic-tone-t138",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-13T22:47:12.457Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.synthetic-tone-t138-1"
+    },
+    {
+      "attemptId": "att-ac5a5f05",
+      "domain": "visual",
+      "provider": "local.remotion",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-13T22:47:19.423Z",
+      "estimateUsd": 0,
+      "outcome": "failed",
+      "charge": "none",
+      "error": "Remotionレンダリング失敗 (1): /private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269\n            reject(new Error([\n                   ^\n\nError: Failed to launch the browser process!\nError: Closed with null signal: SIGABRT\n    at ChildProcess.<anonymous> (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:32)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at onClose (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at ChildProcess.<anonymous> (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:24)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\n\nNode.js v26.11.1\n",
+      "costUsd": 0
+    }
+  ],
+  "inputHash": "ff966a5ade2bffdc25e731b1e59b2a69d30b216adc19b484e47f234e1aeecab9",
+  "input": "outputs/production-demo-110ed262/script-v1.json",
+  "durationSeconds": 604,
+  "subtitles": "both",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "8cd22d8479f812cb4789201b3b6b8eef268a7c3dea06714589b078e66e5b1d3d",
+    "rendererKind": "local.remotion",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 2
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 5
+  },
+  "error": "Error: Remotionレンダリング失敗 (1): /private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269\n            reject(new Error([\n                   ^\n\nError: Failed to launch the browser process!\nError: Closed with null signal: SIGABRT\n    at ChildProcess.<anonymous> (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:32)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at onClose (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at ChildProcess.<anonymous> (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:24)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\n\nNode.js v26.11.1\n"
+}

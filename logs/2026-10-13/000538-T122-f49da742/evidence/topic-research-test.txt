@@ -1,0 +1,5 @@
+✔ topic-research: SKILL.md exists and has valid front matter
+✔ topic-research: candidates-documentary.json passes validateCandidates
+✔ topic-research: candidates-documentary.json can be used to create demo project
+✔ topic-research: research-report-documentary.md covers all candidates with Fact/Inference/Unverified
+ℹ tests 325 pass 325 fail 0

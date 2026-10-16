@@ -1,0 +1,122 @@
+[
+  {
+    "ticket": "T084",
+    "taskId": "tsk_0mv78scn2b29d4bf25ac5",
+    "executions": [
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      }
+    ]
+  },
+  {
+    "ticket": "T116",
+    "taskId": "tsk_0mv799ljyaf2ce12b570e",
+    "executions": [
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      }
+    ]
+  },
+  {
+    "ticket": "T138",
+    "taskId": "tsk_0mv79e4xn0fb51f51e052",
+    "executions": [
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      }
+    ]
+  },
+  {
+    "ticket": "T139",
+    "taskId": "tsk_0mv79pbi26226bdff2e95",
+    "executions": [
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      }
+    ]
+  },
+  {
+    "ticket": "T140",
+    "taskId": "tsk_0mv7a8tyw56deba48bade",
+    "executions": [
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      }
+    ]
+  },
+  {
+    "ticket": "T141",
+    "taskId": "tsk_0mv7ahxlnd35c617d99bb",
+    "executions": [
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      }
+    ]
+  },
+  {
+    "ticket": "T142",
+    "taskId": "tsk_0mv7b1c71afc7f147ed65",
+    "executions": [
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      }
+    ]
+  },
+  {
+    "ticket": "T143",
+    "taskId": "tsk_0mv7bc1ta2870042a197d",
+    "executions": [
+      {
+        "status": "failed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 0
+      },
+      {
+        "status": "completed",
+        "metering_status": "measured",
+        "model_id": "gpt-6.1-sol",
+        "auth_mode": "subscription",
+        "failure_cause": null,
+        "retry_count": 1
+      }
+    ]
+  }
+]

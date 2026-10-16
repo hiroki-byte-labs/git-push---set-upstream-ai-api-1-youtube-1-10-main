@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-10-12T02:29:00Z",
+  "product": "codex-desktop",
+  "bundled_codex_version": "0.162.0-alpha.2",
+  "parent": {
+    "execution_id": "exe_0mv4mtgjp467e750dad3b",
+    "model_id": "gpt-5.6-sol"
+  },
+  "child": {
+    "execution_id": "exe_0mv4muiyy0c5927f48ce3",
+    "task_id": "tsk_0mv4muiyya4e2fc4f307f",
+    "agent_id": "01a12df0-91ae-7073-ac32-e0580980ea3d",
+    "agent_name": "explorer",
+    "route": "native_subagent",
+    "managed": true,
+    "model_id": "gpt-6-luna",
+    "status": "completed",
+    "metering_status": "measured",
+    "total_tokens": 39901,
+    "api_equivalent_usd": 0.003747
+  },
+  "rollout": {
+    "path": "/Users/hongj/.codex/sessions/2026/10/11/rollout-2026-10-11T19-28-23-01a12df0-91ae-7073-ac32-e0580980ea3d.jsonl",
+    "turn_contexts": [
+      {"at": "2026-10-12T02:28:23.121Z", "model": "gpt-5.6-sol", "reasoning": "high"},
+      {"at": "2026-10-12T02:28:25.604Z", "model": "gpt-6-luna", "reasoning": "medium"}
+    ],
+    "actual_turn_model": "gpt-6-luna"
+  },
+  "doctor": {
+    "spawn_args_count_7d": 4,
+    "subagent_model_not_applied_present": false,
+    "model_mismatch_present": false,
+    "version_codex_app": "ok"
+  }
+}

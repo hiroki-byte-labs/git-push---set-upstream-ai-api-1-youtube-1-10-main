@@ -1,0 +1,145 @@
+✔ 承認後にタイトルを見直すと失効する (32.483416ms)
+✔ 承認後の変更で失効する: 概要欄 (18.681042ms)
+✔ 承認後の変更で失効する: タグ (9.877291ms)
+✔ 承認後の変更で失効する: チャプター (12.204333ms)
+✔ 承認後の変更で失効する: 字幕 (14.098166ms)
+✔ 承認後の変更で失効する: サムネイルの1案 (11.825375ms)
+✔ 承認後の変更で失効する: サムネイルの欠落 (11.845584ms)
+✔ 承認後の変更で失効する: 字幕の欠落 (8.39025ms)
+✔ 承認後の変更で失効する: metadata.jsonの欠落 (15.918458ms)
+✔ 承認後の変更で失効する: 動画 (18.499417ms)
+✔ 確認対象外の変更（見直し履歴・検査記録・job.jsonの付帯情報・候補タイトル・再計算）では失効しない (25.463667ms)
+✔ 変更前の版での承認は記録しない（CLI/関数） (19.874792ms)
+✔ 動画だけのハッシュ（旧形式の版）では承認できない (15.108584ms)
+✔ 旧形式の承認（動画のハッシュのみ）は一式へ拡張せず再確認を求める (15.137167ms)
+✖ 確認画面: 表示した版で承認、旧画面の版・動画だけのハッシュは409 (16.030417ms)
+✔ 見積り (0.705791ms)
+✔ 単価・確認日欠落と不正数量を拒否 (0.120791ms)
+✔ 上限: 境界は許可、超過は拒否、見込みを含めて判定 (0.113292ms)
+✔ 有限再試行: 429/5xxは再試行、SAFETYは再試行しない、上限で停止 (0.266333ms)
+✔ callWithBudget: 上限超過の見積りは呼び出す前に拒否（T024） (0.180458ms)
+✔ callWithBudget: 成功で精算しusageを記録、失敗で予約を解放（T024） (1.118958ms)
+✔ T098: 初回が処理後の応答喪失なら、不明額0.6を保持し、上限1を超える再送をしない (0.230375ms)
+✔ T098: 明確な未処理の失敗は予約を解放して再試行する (0.126334ms)
+✔ T098: 最後まで不明なら有限回で止まり、不明額を解放しない（429/SERVERの既定は不明） (0.686625ms)
+✔ T098: 照合で費用が判明したら一度だけ精算し、二重計上しない (0.487709ms)
+✔ T098: 照合で不明のままなら保持する。SAFETYは再試行しない (0.112709ms)
+✔ T098: mock/localの正常系と手元処理の失敗（有限回の再試行）は費用0で確定し、不明額を残さない (0.167417ms)
+✔ 同日に同名ファイルを再退避しても旧内容を上書きしない (1.7295ms)
+✔ ディレクトリの衝突（空の退避先も含む）は拒否 (0.668625ms)
+✔ _trashの同名衝突は拒否し、退避済みジョブを残す (2.524667ms)
+✔ 複数候補の一部が衝突したら、どれも移動しない (1.966209ms)
+✔ 途中で失敗したら、移動済みの項目と元の場所を報告する (0.661292ms)
+✔ 正常な退避と再実行 (1.376916ms)
+✔ mock multiple jobs: FIFO starts, concurrency bound, states persist, completions are reused (354.011791ms)
+✔ duplicate ids, invalid configuration and real connections are rejected before writes (14.907542ms)
+✔ failure isolation, retryable none errors bounded across reopen, fatal never retried (150.552709ms)
+✔ transient failures succeed within limit and retain isolated attempt outputs (75.433083ms)
+✔ unknown cost at zero dollars blocks all resends but other jobs continue (106.993834ms)
+✔ changed input and completed artifacts block reuse, never overwrite files (83.856167ms)
+✔ malformed JSON, checksum, and semantically invalid state stop before mutation (16.652625ms)
+✔ actual process kill: exclusive dead-owner recovery and completed-stage reuse (117.984ms)
+✔ actual process kill: preserve completed output, isolate interrupted output, resume next attempt (176.746083ms)
+✔ interrupted attempt uses cumulative cap, no reset on recovery (131.644959ms)
+✔ restore receipt after snapshot loss; corrupt receipt blocks without overwriting (84.674667ms)
+✔ artifact writes refuse collisions, traversal, late writes; failed output preserved (62.974125ms)
+✔ production bridge requires human approval, rechecks version before running, preserves project (26.961583ms)
+✔ orphaned attempt directory collision is isolated before writes (90.721209ms)
+✔ symlinked artifact directory rejected without writing outside queue (38.5465ms)
+✔ snapshot persistence failure stops queue; verified receipt restores completion (125.816625ms)
+✔ stage input version tampering and missing output block completed reuse (79.855667ms)
+✔ approved production mock queue completes without changing production workflow (143.265375ms)
+✔ 段階連携: 新規案件作成時のマニフェスト初期化と題材選択待ちの安全停止 (4.524833ms)
+✔ 段階連携: 題材選択後の考察入力待ち安全停止 (1.625083ms)
+✔ 段階連携: 考察入力後の台本作成可能判定と作成実行 (14.782166ms)
+✔ 段階連携: 事実・権利確認レポートの登録とエスカレーション時の停止 (22.054958ms)
+✔ 段階連携: 音声メタデータ登録と台本ハッシュ整合性検証 (20.971417ms)
+✔ 段階連携: 台本承認から制作可能判定への遷移 (14.9295ms)
+✔ 題材候補の検証と案件の作成（デモ/本番のID・最初の工程） (12.449333ms)
+✔ 選択: 候補外のIDを拒否、未選択のまま考察へ進めない (10.830792ms)
+✔ 考察: 空白・未入力の目印・長すぎる文を拒否。整形版は本人執筆の版が元で、同一扱いしない (13.622833ms)
+✔ 本番の案件では本人の工程をエージェント名で記録できない（デモはtest-agentで可） (23.49125ms)
+✔ 台本: 考察が未入力なら作れない、考察の場面はちょうど1つ、本人の考察がそのまま入る (6.316083ms)
+✔ 考察の分割と尺: 長い文は55字以内のcueへ、本文は変えない (0.296458ms)
+✔ 下書きのまま（考察が未入力）はlintのerrorで制作しない (0.2345ms)
+✔ 考察に禁止表現・出典のない数値があれば、台本を確認に回さない (14.680958ms)
+✔ 台本の確認: 版の不一致・理由なしの差戻しを拒否。差戻し中は制作できず、承認後に制作できる (13.382917ms)
+✔ 承認後の変更で台本承認が失効: 考察の更新・題材の変更・台本ファイルの変更/欠落 (64.206959ms)
+✔ 運用記録（events・メモ・更新時刻）の追記だけでは台本承認は失効しない (15.796917ms)
+✔ 制作の開始条件: 未選択・考察未入力・台本未作成を不足として並べて拒否する (6.128958ms)
+✔ 完成動画: 台本の版に結び付き、台本が変わると失効し承認も拒否する (48.192541ms)
+✔ デモの承認は本番に転用できない。旧ジョブ（modeなし）もデモ扱い (53.461458ms)
+✔ 本番形式（一時ディレクトリ・架空の人名）: 全工程と動画承認で公開前判定が可。動画承認もエージェント名は拒否 (22.893875ms)
+✖ 確認画面（HTTP）: 案件ページ、選択・考察・台本承認の送信、古い版と本番のエージェント名は409 (9.358125ms)
+✔ CLI: produce の入口で、未入力なら制作を拒否し不足を表示する (731.642125ms)
+✔ T118: produce script は --plan 省略時に確定構成（fixtures/draft-price-index.json）を既定として使う (338.606917ms)
+✔ 承認は版に結び付き、ファイル変更で失効 (4.50925ms)
+✔ 表示していない版・未完了・理由なし差戻しは記録しない (21.675833ms)
+✔ 中断の検出とabandon (24.940959ms)
+✔ cleanは移動のみ: failed/abandonedと直下ファイル、completed・latestは残す (23.853417ms)
+✔ POSTはHost/Originを検査 (0.291375ms)
+✖ 確認画面: 一覧・詳細（エスケープ）・動画Range・承認POST (7.922583ms)
+✖ 確認画面: 許可Hostからの承認POSTは記録される (3.703ms)
+ℹ tests 82
+ℹ suites 0
+ℹ pass 78
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2003.5305
+
+✖ failing tests:
+
+test at tests/approval.test.ts:49:1
+✖ 確認画面: 表示した版で承認、旧画面の版・動画だけのハッシュは409 (16.030417ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      at listenInCluster (node:net:2224:12)
+      at node:net:2448:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/production.test.ts:164:1
+✖ 確認画面（HTTP）: 案件ページ、選択・考察・台本承認の送信、古い版と本番のエージェント名は409 (9.358125ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      at listenInCluster (node:net:2224:12)
+      at node:net:2448:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/review.test.ts:14:1
+✖ 確認画面: 一覧・詳細（エスケープ）・動画Range・承認POST (7.922583ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      at listenInCluster (node:net:2224:12)
+      at node:net:2448:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/review.test.ts:24:1
+✖ 確認画面: 許可Hostからの承認POSTは記録される (3.703ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      at listenInCluster (node:net:2224:12)
+      at node:net:2448:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+EXIT=1

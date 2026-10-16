@@ -1,0 +1,4 @@
+front_matter=ok
+references=ok
+proposal_applied=ok
+EXIT=0

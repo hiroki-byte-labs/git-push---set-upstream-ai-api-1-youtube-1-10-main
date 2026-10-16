@@ -1,0 +1,149 @@
+✖ 24fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (2.100958ms)
+✖ 24fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (0.213458ms)
+✖ 24fps: all ordinary diagrams honor delayed reveals and transitions=false (2.788417ms)
+✖ 30fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (0.170167ms)
+✖ 30fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (0.078125ms)
+✖ 30fps: all ordinary diagrams honor delayed reveals and transitions=false (0.306125ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 237.190333
+
+✖ failing tests:
+
+test at motion-lab/tests/subtitle-timing.test.ts:33:3
+✖ 24fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (2.100958ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(Math.abs((cue.startFrame + cue.durationFrames) / rate - stamps[2 * i + 1]) <= 1 / rate)
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:39:14
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:37:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at motion-lab/tests/subtitle-timing.test.ts:43:3
+✖ 24fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (0.213458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'burn'
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:47:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'burn',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at motion-lab/tests/subtitle-timing.test.ts:68:3
+✖ 24fps: all ordinary diagrams honor delayed reveals and transitions=false (2.788417ms)
+  AssertionError [ERR_ASSERTION]: flow transitions=true frame=51
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:84:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at motion-lab/tests/subtitle-timing.test.ts:33:3
+✖ 30fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (0.170167ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(Math.abs((cue.startFrame + cue.durationFrames) / rate - stamps[2 * i + 1]) <= 1 / rate)
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:39:14
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:37:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at motion-lab/tests/subtitle-timing.test.ts:43:3
+✖ 30fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (0.078125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'burn'
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:47:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'burn',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at motion-lab/tests/subtitle-timing.test.ts:68:3
+✖ 30fps: all ordinary diagrams honor delayed reveals and transitions=false (0.306125ms)
+  AssertionError [ERR_ASSERTION]: flow transitions=true frame=64
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/subtitle-timing.test.ts:84:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+EXIT=1

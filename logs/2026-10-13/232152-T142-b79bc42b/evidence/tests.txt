@@ -1,0 +1,26 @@
+✔ 台本のスライス分割: シーンとcue単位に正しく分解される (1.4875ms)
+✔ 長尺ナレーションの合成と予算管理: 正常系完走と使用量・試行記録 (2.12525ms)
+✔ 予算上限超過時の安全な停止: 上限を超える試行は拒否される (0.518917ms)
+✔ 字幕同期検査: 許容誤差内の同期とドリフト超過の検出 (0.42625ms)
+✔ BGMダッキング計算: ナレーション発話区間と音量設定 (0.496833ms)
+✔ 音量検査: YouTube規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）の判定 (0.073583ms)
+✔ 人の試聴評価メタデータ（T125）の整合性確認 (0.082541ms)
+✔ E2E正常系: 題材候補選定から考察・台本作成・事実確認・音声・承認・動画承認まで一気通貫で完走する (10.708208ms)
+✔ 安全停止: 本人の必須承認（台本承認・動画承認）をスキップした進行を厳格に拒否する (1.964458ms)
+✔ 安全停止: 事実確認での未確認項目または権利不明素材の混入時にブロックする (1.249792ms)
+✔ 安全停止: 音声合成時の予算超過・失敗が安全に停止し既存成果物を保護する (1.468333ms)
+✔ 承認失効: 台本承認後に考察や題材が変更された場合、台本承認および旧動画承認が失効する (3.398792ms)
+✔ real WAV slices concatenate, decode, synchronize and duck BGM in both stem and final mix (251.78775ms)
+✔ minimum 0.5 second cues still have measured tone and pause windows (129.240792ms)
+✔ FFmpeg mix failure removes partial results and preserves existing files byte for byte (3608.844416ms)
+✔ repository outputs and malformed cue timing are rejected before media writes (0.400083ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4056.201625
+
+EXIT=0

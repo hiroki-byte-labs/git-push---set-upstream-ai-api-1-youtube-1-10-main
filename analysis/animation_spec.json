@@ -1,0 +1,274 @@
+{
+  "schema_version": "1.0",
+  "spec_type": "programmatic_animation_specification",
+  "metadata": {
+    "title": "Reference Motion Reproduction Spec: Opening Question (0:00 - 0:04)",
+    "target_scene": "序章 冒頭の問いの提示 (Prologue Opening Question)",
+    "reference_url": "https://www.youtube.com/watch?v=irBD6OF8d2Q",
+    "timestamp_range": {
+      "start_seconds": 0.0,
+      "end_seconds": 4.0
+    },
+    "implementation_target": "Remotion (React Video Framework) / Web Standards"
+  },
+  "composition": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "total_frames": 120,
+    "duration_seconds": 4.0,
+    "background_color": "#0a0a0c"
+  },
+  "easings": {
+    "easeOutCubic": {
+      "type": "cubic_bezier",
+      "curve": [0.33, 1.0, 0.68, 1.0],
+      "css_value": "cubic-bezier(0.33, 1, 0.68, 1)",
+      "description": "Rapid initial movement with smooth, extended deceleration into rest."
+    },
+    "easeOutQuad": {
+      "type": "cubic_bezier",
+      "curve": [0.25, 1.0, 0.5, 1.0],
+      "css_value": "cubic-bezier(0.25, 1, 0.5, 1)",
+      "description": "Gentle deceleration curve for opacity transitions."
+    },
+    "easeInOutCubic": {
+      "type": "cubic_bezier",
+      "curve": [0.65, 0.0, 0.35, 1.0],
+      "css_value": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "description": "Balanced acceleration and deceleration for geometric accent reveals."
+    }
+  },
+  "layers": [
+    {
+      "layer_id": "L01_background",
+      "name": "Base Dark Canvas",
+      "type": "solid_fill",
+      "z_index": 0,
+      "properties": {
+        "color": "#0a0a0c"
+      },
+      "animations": []
+    },
+    {
+      "layer_id": "L02_spotlight",
+      "name": "Ambient Spotlight Glow",
+      "type": "radial_gradient_mask",
+      "z_index": 1,
+      "properties": {
+        "center_x": 960,
+        "center_y": 540,
+        "radius": 550,
+        "inner_color": "rgba(255, 255, 255, 0.06)",
+        "outer_color": "rgba(10, 10, 12, 0.0)"
+      },
+      "animations": [
+        {
+          "property": "opacity",
+          "start_frame": 0,
+          "end_frame": 30,
+          "start_value": 0.0,
+          "end_value": 1.0,
+          "easing": "easeOutQuad",
+          "basis": "estimated"
+        }
+      ]
+    },
+    {
+      "layer_id": "L03_headline_text",
+      "name": "Question Headline",
+      "type": "typography",
+      "z_index": 10,
+      "content": "「2位じゃダメなんでしょうか」",
+      "styling": {
+        "font_family": "'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif",
+        "font_weight": 800,
+        "font_size": 54,
+        "color": "#ffffff",
+        "letter_spacing": "0.04em",
+        "text_align": "center",
+        "line_height": 1.4
+      },
+      "layout": {
+        "anchor": "center",
+        "base_x": 960,
+        "base_y": 440
+      },
+      "animations": [
+        {
+          "property": "opacity",
+          "start_frame": 12,
+          "end_frame": 32,
+          "start_value": 0.0,
+          "end_value": 1.0,
+          "easing": "easeOutQuad",
+          "basis": "estimated"
+        },
+        {
+          "property": "translate_y",
+          "start_frame": 12,
+          "end_frame": 40,
+          "start_value": 30.0,
+          "end_value": 0.0,
+          "unit": "px",
+          "easing": "easeOutCubic",
+          "basis": "estimated"
+        }
+      ]
+    },
+    {
+      "layer_id": "L04_accent_line",
+      "name": "Blue Accent Underline",
+      "type": "geometric_line",
+      "z_index": 11,
+      "styling": {
+        "color": "#3b82f6",
+        "height": 4,
+        "border_radius": 2
+      },
+      "layout": {
+        "anchor": "center",
+        "center_x": 960,
+        "center_y": 495,
+        "target_width": 640
+      },
+      "animations": [
+        {
+          "property": "scale_x",
+          "transform_origin": "center",
+          "start_frame": 35,
+          "end_frame": 55,
+          "start_value": 0.0,
+          "end_value": 1.0,
+          "easing": "easeInOutCubic",
+          "basis": "estimated"
+        },
+        {
+          "property": "opacity",
+          "start_frame": 35,
+          "end_frame": 45,
+          "start_value": 0.0,
+          "end_value": 1.0,
+          "easing": "easeOutQuad",
+          "basis": "estimated"
+        }
+      ]
+    },
+    {
+      "layer_id": "L05_pictogram_figure",
+      "name": "Central Human Pictogram",
+      "type": "svg_path",
+      "z_index": 12,
+      "styling": {
+        "fill": "#cbd5e1",
+        "width": 84,
+        "height": 168
+      },
+      "layout": {
+        "anchor": "center",
+        "center_x": 960,
+        "center_y": 660
+      },
+      "animations": [
+        {
+          "property": "opacity",
+          "start_frame": 30,
+          "end_frame": 52,
+          "start_value": 0.0,
+          "end_value": 0.95,
+          "easing": "easeOutQuad",
+          "basis": "estimated"
+        },
+        {
+          "property": "translate_y",
+          "start_frame": 30,
+          "end_frame": 58,
+          "start_value": 24.0,
+          "end_value": 0.0,
+          "unit": "px",
+          "easing": "easeOutCubic",
+          "basis": "estimated"
+        }
+      ]
+    },
+    {
+      "layer_id": "L06_subtitle_bar",
+      "name": "Narrative Subtitle",
+      "type": "typography",
+      "z_index": 20,
+      "content": "かつて日本中を揺るがした、あの言葉。",
+      "styling": {
+        "font_family": "'Noto Sans JP', sans-serif",
+        "font_weight": 500,
+        "font_size": 24,
+        "color": "#f1f5f9",
+        "letter_spacing": "0.02em",
+        "text_align": "center"
+      },
+      "layout": {
+        "anchor": "bottom_center",
+        "center_x": 960,
+        "bottom_y": 1000
+      },
+      "animations": [
+        {
+          "property": "opacity",
+          "start_frame": 50,
+          "end_frame": 68,
+          "start_value": 0.0,
+          "end_value": 1.0,
+          "easing": "easeOutQuad",
+          "basis": "estimated"
+        }
+      ]
+    }
+  ],
+  "timeline_event_schedule": [
+    {
+      "frame": 0,
+      "time_seconds": 0.00,
+      "event": "Scene start: canvas initialized with dark slate color #0a0a0c."
+    },
+    {
+      "frame": 12,
+      "time_seconds": 0.40,
+      "event": "Headline text starts fade-in and subtle upward rise."
+    },
+    {
+      "frame": 30,
+      "time_seconds": 1.00,
+      "event": "Pictogram figure begins rising reveal beneath the headline."
+    },
+    {
+      "frame": 35,
+      "time_seconds": 1.17,
+      "event": "Blue accent underline expands outwards from center."
+    },
+    {
+      "frame": 50,
+      "time_seconds": 1.67,
+      "event": "Bottom subtitle fades in quietly."
+    },
+    {
+      "frame": 68,
+      "time_seconds": 2.27,
+      "event": "All elements fully settled into stationary hold phase."
+    },
+    {
+      "frame": 120,
+      "time_seconds": 4.00,
+      "event": "Scene conclusion / ready for transition cut."
+    }
+  ],
+  "implementation_guidelines": {
+    "remotion_code_structure": {
+      "interpolation_pattern": "const progress = interpolate(frame, [startFrame, endFrame], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) });",
+      "recommended_spring": "useCurrentFrame() with spring({ frame, fps, config: { damping: 20, mass: 0.8, stiffness: 100 } }) as alternative to bezier for organic settling."
+    },
+    "verification_criteria": [
+      "No sudden 1-frame pop-in without interpolation.",
+      "Contrast ratio between #ffffff / #3b82f6 text and #0a0a0c background exceeds WCAG AAA (>= 7.0:1).",
+      "No overlapping bounding boxes between headline text (Y=440), accent line (Y=495), and pictogram (Y=660)."
+    ]
+  }
+}

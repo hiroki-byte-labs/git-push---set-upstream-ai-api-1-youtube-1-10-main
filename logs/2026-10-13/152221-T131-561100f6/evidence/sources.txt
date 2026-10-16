@@ -1,0 +1,24 @@
+確認日 2026-10-13 UTC。WebFetchで取得できた公式ページと各ページの最終更新表示:
+| YouTube API Services Developer Policies | https://developers.google.com/youtube/terms/developer-policies | 2026-09-14 |
+| Additional policies for derived metrics and data storage | https://developers.google.com/youtube/terms/derived-metrics-policy | 2026-09-14 |
+| Quota costs | https://developers.google.com/youtube/v3/determine_quota_cost | 2026-10-08 |
+| videos.list | https://developers.google.com/youtube/v3/docs/videos/list | 2026-09-14 |
+| Videos resource | https://developers.google.com/youtube/v3/docs/videos | 2026-10-08 |
+| channels.list | https://developers.google.com/youtube/v3/docs/channels/list | 2026-09-14 |
+| Channels resource | https://developers.google.com/youtube/v3/docs/channels | 2026-09-16 |
+| videoCategories.list | https://developers.google.com/youtube/v3/docs/videoCategories/list | 2026-09-14 |
+| Errors | https://developers.google.com/youtube/v3/docs/errors | 2026-09-14 |
+| Getting started | https://developers.google.com/youtube/v3/getting-started | 2026-09-14 |
+
+URL到達確認(curl -sI):
+200 https://developers.google.com/youtube/terms/derived-metrics-policy
+200 https://developers.google.com/youtube/terms/developer-policies
+200 https://developers.google.com/youtube/v3/determine_quota_cost
+200 https://developers.google.com/youtube/v3/docs/channels
+200 https://developers.google.com/youtube/v3/docs/channels/list
+200 https://developers.google.com/youtube/v3/docs/errors
+200 https://developers.google.com/youtube/v3/docs/videoCategories/list
+200 https://developers.google.com/youtube/v3/docs/videos
+200 https://developers.google.com/youtube/v3/docs/videos/list
+200 https://developers.google.com/youtube/v3/getting-started
+EXIT=0

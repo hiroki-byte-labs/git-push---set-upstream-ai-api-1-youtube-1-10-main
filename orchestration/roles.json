@@ -1,0 +1,282 @@
+[
+  {
+    "name": "project-orchestrator",
+    "product": "codex",
+    "definition": ".codex/agents/project-orchestrator.toml",
+    "responsibility": "工程の順序・依存・担当・停止と再開を管理",
+    "trigger": "新規案件または前工程の検証後",
+    "inputs": [
+      "案件依頼",
+      "利用権の根拠",
+      "manifest.json"
+    ],
+    "outputs": [
+      "案件状態",
+      "引継ぎ依頼"
+    ],
+    "handoff": [
+      "architecture-reviewer",
+      "video-analysis-director",
+      "animation-director",
+      "quality-evaluator",
+      "improvement-planner"
+    ],
+    "allowed_tools": [
+      "親から継承したファイル閲覧・編集・ローカルコマンド（担当範囲内）"
+    ]
+  },
+  {
+    "name": "architecture-reviewer",
+    "product": "codex",
+    "definition": ".codex/agents/architecture-reviewer.toml",
+    "responsibility": "工程・契約・実装境界を審査",
+    "trigger": "工程開始前または設計変更時",
+    "inputs": [
+      "案件依頼",
+      "manifest.json",
+      "関連Schema",
+      "関連コード差分"
+    ],
+    "outputs": [
+      "architecture-review.md"
+    ],
+    "handoff": [
+      "project-orchestrator"
+    ],
+    "allowed_tools": [
+      "親から継承したファイル閲覧・編集・ローカルコマンド（担当範囲内）"
+    ]
+  },
+  {
+    "name": "quality-evaluator",
+    "product": "codex",
+    "definition": ".codex/agents/quality-evaluator.toml",
+    "responsibility": "再現精度と視聴品質を別々に評価",
+    "trigger": "参考動画と同一版の生成動画が揃ったとき",
+    "inputs": [
+      "animation-analysis.json",
+      "参考動画",
+      "render.json",
+      "manifest.json",
+      "比較測定データ"
+    ],
+    "outputs": [
+      "evaluation.json"
+    ],
+    "handoff": [
+      "improvement-planner"
+    ],
+    "allowed_tools": [
+      "親から継承したファイル閲覧・編集・ローカルコマンド（担当範囲内）"
+    ]
+  },
+  {
+    "name": "improvement-planner",
+    "product": "codex",
+    "definition": ".codex/agents/improvement-planner.toml",
+    "responsibility": "差分を小さい修正タスクへ変換",
+    "trigger": "検証済みevaluation.jsonに改善対象があるとき",
+    "inputs": [
+      "evaluation.json",
+      "animation-analysis.json",
+      "manifest.json",
+      "過去評価"
+    ],
+    "outputs": [
+      "improvement-tasks.json"
+    ],
+    "handoff": [
+      "animation-refiner",
+      "project-orchestrator"
+    ],
+    "allowed_tools": [
+      "親から継承したファイル閲覧・編集・ローカルコマンド（担当範囲内）"
+    ]
+  },
+  {
+    "name": "animation-director",
+    "product": "claude",
+    "definition": ".claude/agents/animation-director.md",
+    "responsibility": "解析から実装可能な演出設計を作成",
+    "trigger": "検証済みanimation-analysis.jsonを受け取ったとき",
+    "inputs": [
+      "animation-analysis.json",
+      "manifest.json"
+    ],
+    "outputs": [
+      "animation-plan.md"
+    ],
+    "handoff": [
+      "remotion-developer"
+    ],
+    "allowed_tools": [
+      "Agent(remotion-developer, render-engineer, animation-refiner)",
+      "Read",
+      "Glob",
+      "Grep",
+      "Write",
+      "Bash"
+    ]
+  },
+  {
+    "name": "remotion-developer",
+    "product": "claude",
+    "definition": ".claude/agents/remotion-developer.md",
+    "responsibility": "Remotionアニメーションを実装",
+    "trigger": "設計と解析の版が一致し変更範囲が割当て済みのとき",
+    "inputs": [
+      "animation-analysis.json",
+      "animation-plan.md",
+      "manifest.json"
+    ],
+    "outputs": [
+      "implementation.json",
+      "実装差分またはprops"
+    ],
+    "handoff": [
+      "render-engineer"
+    ],
+    "allowed_tools": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Bash"
+    ]
+  },
+  {
+    "name": "render-engineer",
+    "product": "claude",
+    "definition": ".claude/agents/render-engineer.md",
+    "responsibility": "描画と媒体検査を実施",
+    "trigger": "検証済みimplementation.jsonを受け取ったとき",
+    "inputs": [
+      "animation-analysis.json",
+      "implementation.json",
+      "manifest.json"
+    ],
+    "outputs": [
+      "render.json",
+      "生成動画"
+    ],
+    "handoff": [
+      "quality-evaluator"
+    ],
+    "allowed_tools": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Bash"
+    ]
+  },
+  {
+    "name": "animation-refiner",
+    "product": "claude",
+    "definition": ".claude/agents/animation-refiner.md",
+    "responsibility": "改善タスクの対象だけを修正",
+    "trigger": "検証済みimprovement-tasks.jsonと残り反復枠があるとき",
+    "inputs": [
+      "improvement-tasks.json",
+      "evaluation.json",
+      "animation-analysis.json",
+      "manifest.json",
+      "対象実装"
+    ],
+    "outputs": [
+      "implementation.json",
+      "改訂実装またはprops"
+    ],
+    "handoff": [
+      "render-engineer"
+    ],
+    "allowed_tools": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Bash"
+    ]
+  },
+  {
+    "name": "video-analysis-director",
+    "product": "antigravity",
+    "definition": ".agents/agents/video-analysis-director/agent.md",
+    "responsibility": "参照動画の利用可能性と解析分担を確認",
+    "trigger": "動画解析案件を受け取ったとき",
+    "inputs": [
+      "案件依頼",
+      "参照動画またはsource_url",
+      "利用権の根拠",
+      "manifest.json"
+    ],
+    "outputs": [
+      "analysis-plan.md"
+    ],
+    "handoff": [
+      "video-content-analyst",
+      "motion-analyst"
+    ],
+    "allowed_tools": [
+      "view_file",
+      "grep_search",
+      "replace_file_content",
+      "run_command"
+    ]
+  },
+  {
+    "name": "video-content-analyst",
+    "product": "antigravity",
+    "definition": ".agents/agents/video-content-analyst/agent.md",
+    "responsibility": "映像内容と場面構成を解析",
+    "trigger": "利用根拠のあるアクセス可能な参照の内容解析を割当てられたとき",
+    "inputs": [
+      "参照動画または取得済みフレーム",
+      "source_id",
+      "利用権の根拠",
+      "analysis-plan.md"
+    ],
+    "outputs": [
+      "content-notes.json"
+    ],
+    "handoff": [
+      "motion-analyst"
+    ],
+    "allowed_tools": [
+      "view_file",
+      "grep_search",
+      "replace_file_content",
+      "run_command"
+    ]
+  },
+  {
+    "name": "motion-analyst",
+    "product": "antigravity",
+    "definition": ".agents/agents/motion-analyst/agent.md",
+    "responsibility": "動きを測定し解析正本を統合",
+    "trigger": "利用可能なフレームと内容担当メモを受け取ったとき",
+    "inputs": [
+      "参照動画または取得済みフレーム",
+      "source_id",
+      "content-notes.json",
+      "利用権の根拠",
+      "manifest.json"
+    ],
+    "outputs": [
+      "animation-analysis.json"
+    ],
+    "handoff": [
+      "animation-director",
+      "project-orchestrator"
+    ],
+    "allowed_tools": [
+      "view_file",
+      "grep_search",
+      "replace_file_content",
+      "run_command"
+    ]
+  }
+]

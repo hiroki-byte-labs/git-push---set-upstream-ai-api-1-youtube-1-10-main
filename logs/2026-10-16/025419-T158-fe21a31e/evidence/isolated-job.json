@@ -1,0 +1,212 @@
+{
+  "id": "surname-illustration-demo-0d3007b0",
+  "kind": "production-job",
+  "status": "completed",
+  "createdAt": "2026-10-16T03:11:58.543Z",
+  "pid": 26152,
+  "mode": "demo",
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.remotion",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.sine-cues-1",
+      "inputUnits": 0,
+      "outputUnits": 30,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "visual",
+      "provider": "local.remotion",
+      "model": "none",
+      "mode": "local",
+      "requestId": "local-local.remotion-1",
+      "inputUnits": 0,
+      "outputUnits": 30,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-6c9dce93",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-16T03:11:58.542Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-638bfe2b",
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-16T03:11:58.597Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.sine-cues-1"
+    },
+    {
+      "attemptId": "att-b98a69a5",
+      "domain": "visual",
+      "provider": "local.remotion",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-16T03:11:58.606Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "local-local.remotion-1"
+    }
+  ],
+  "inputHash": "676b3a1aa3f3103091f5c5ed8fef7cc47efb26e9c43920c8eef319c297577ca5",
+  "input": "fixtures/sample-surname-illustration.json",
+  "durationSeconds": 30,
+  "subtitles": "both",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "546f9ea7c54dadca21755bc291325aea108d5dc139cf2c34c72cdac2e88589e4",
+    "rendererKind": "local.remotion",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready",
+    "video-checked"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 1
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 0
+  },
+  "thumbnailBrief": {
+    "schema": "thumbnail-brief@1",
+    "inputHash": "f17cc4532a75f60b7fcbfdcdf11a039e78db57a813597b99a6fd1e12fffa25a4",
+    "overallStatus": "ready",
+    "candidates": [
+      {
+        "variant": "a",
+        "composition": "symbol",
+        "headline": "なぜ名字は消える？",
+        "sub": "世代交代で名字が減り続ける数学的理由を知る",
+        "motifs": [
+          "絶滅"
+        ],
+        "status": "ready"
+      },
+      {
+        "variant": "b",
+        "composition": "contrast",
+        "headline": "家系の分岐とランダムな消失の対比",
+        "sub": "均等な確率でも、子が途絶えた枝は二度と復活できないためです。",
+        "motifs": [
+          "contrast-left",
+          "contrast-right"
+        ],
+        "status": "ready"
+      },
+      {
+        "variant": "c",
+        "composition": "relationship",
+        "headline": "確率が導く名字の未来",
+        "sub": "世代交代で名字が減り続ける数学的理由を知る",
+        "motifs": [
+          "branching-tree"
+        ],
+        "status": "ready"
+      }
+    ],
+    "selectedCandidate": "a"
+  },
+  "thumbnails": [
+    {
+      "file": "thumbnail-a.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-b.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-c.png",
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "thumbnailQuality": {
+    "ok": true,
+    "canProceed": true,
+    "allPassed": true,
+    "selectedVariant": "a",
+    "reasons": []
+  },
+  "readability": {
+    "ok": true,
+    "scale": 1,
+    "minFont720": 16,
+    "minContrast": 5.38,
+    "issues": []
+  },
+  "layout": {
+    "ok": true,
+    "checked": 78,
+    "issues": []
+  },
+  "outputHash": "0bc48e1da314fc61ee62202014bd906783fec43c374dadab217b236f734afed8"
+}

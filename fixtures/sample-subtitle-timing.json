@@ -1,0 +1,244 @@
+{
+  "schema": 2,
+  "id": "subtitle-timing-demo",
+  "title": "字幕と登場時刻の検証",
+  "version": 1,
+  "theme": "general",
+  "sources": [],
+  "scenes": [
+    {
+      "title": "経緯",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "seconds": 0.5
+        },
+        {
+          "text": "端数の境界",
+          "seconds": 0.51
+        },
+        {
+          "text": "時刻を合わせる",
+          "seconds": 0.51
+        },
+        {
+          "text": "表示を確認する",
+          "seconds": 0.51
+        },
+        {
+          "text": "切り替える",
+          "seconds": 0.51
+        },
+        {
+          "text": "結果を保証しません。",
+          "seconds": 1.46
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "記録",
+          "確認",
+          "判断"
+        ],
+        "reveal": [
+          0,
+          1.13,
+          2.63
+        ]
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "比較",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "seconds": 0.5
+        },
+        {
+          "text": "端数の境界",
+          "seconds": 0.51
+        },
+        {
+          "text": "時刻を合わせる",
+          "seconds": 0.51
+        },
+        {
+          "text": "表示を確認する",
+          "seconds": 0.51
+        },
+        {
+          "text": "切り替える",
+          "seconds": 0.51
+        },
+        {
+          "text": "結果を保証しません。",
+          "seconds": 1.46
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "観測した事実",
+        "right": "自分の解釈",
+        "leftItems": [
+          "気温が下がった",
+          "雨が降った",
+          "風が吹いた"
+        ],
+        "rightItems": [
+          "寒く感じた",
+          "外出を迷った",
+          "服を選んだ"
+        ],
+        "reveal": [
+          0,
+          2.13
+        ]
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "分岐",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "seconds": 0.5
+        },
+        {
+          "text": "端数の境界",
+          "seconds": 0.51
+        },
+        {
+          "text": "時刻を合わせる",
+          "seconds": 0.51
+        },
+        {
+          "text": "表示を確認する",
+          "seconds": 0.51
+        },
+        {
+          "text": "切り替える",
+          "seconds": 0.51
+        },
+        {
+          "text": "結果を保証しません。",
+          "seconds": 1.46
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "確認した？",
+        "yes": "進む",
+        "no": "記録する",
+        "reveal": [
+          0,
+          2.13
+        ]
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "集計",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "seconds": 0.5
+        },
+        {
+          "text": "端数の境界",
+          "seconds": 0.51
+        },
+        {
+          "text": "時刻を合わせる",
+          "seconds": 0.51
+        },
+        {
+          "text": "表示を確認する",
+          "seconds": 0.51
+        },
+        {
+          "text": "切り替える",
+          "seconds": 0.51
+        },
+        {
+          "text": "結果を保証しません。",
+          "seconds": 1.46
+        }
+      ],
+      "diagram": {
+        "type": "meter",
+        "bars": [
+          {
+            "label": "減少",
+            "value": -0.6
+          },
+          {
+            "label": "増加",
+            "value": 0.8
+          }
+        ],
+        "total": "平均",
+        "reveal": [
+          0,
+          1.13,
+          2.63
+        ]
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "数値",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "seconds": 0.5
+        },
+        {
+          "text": "端数の境界",
+          "seconds": 0.51
+        },
+        {
+          "text": "時刻を合わせる",
+          "seconds": 0.51
+        },
+        {
+          "text": "表示を確認する",
+          "seconds": 0.51
+        },
+        {
+          "text": "切り替える",
+          "seconds": 0.51
+        },
+        {
+          "text": "結果を保証しません。",
+          "seconds": 1.46
+        }
+      ],
+      "diagram": {
+        "type": "number",
+        "value": "1例",
+        "label": "架空の確認用データ",
+        "reveal": [
+          0
+        ]
+      },
+      "sources": [],
+      "fictional": true
+    }
+  ]
+}

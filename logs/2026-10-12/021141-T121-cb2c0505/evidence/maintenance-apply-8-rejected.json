@@ -1,0 +1,28 @@
+{
+  "applied": false,
+  "patch": "docs/agent-routing/pending-fixes-8.patch",
+  "sha256": "d8f00e8bc5a5ee689fb21252e7b37cb7e40d96f38d3d47621d20625d915ab646",
+  "files": [
+    "orchestration/hooks/hook.ts",
+    "orchestration/tests/hooks.test.ts"
+  ],
+  "steps": [
+    {
+      "step": "check",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "copy-apply",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "copy-test:node --test（12ファイル）",
+      "ok": false,
+      "detail": "    operator: 'strictEqual', /     diff: 'simple' /   }"
+    }
+  ],
+  "codex_retrust_required": false
+}
+EXIT=1

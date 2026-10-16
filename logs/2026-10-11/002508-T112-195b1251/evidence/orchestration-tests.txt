@@ -1,0 +1,33 @@
+✔ all three complete artifacts validate with pinned Ajv and semantic checks (2.033667ms)
+✔ unknown observations use null; unavailable public URL remains unavailable (0.248958ms)
+✔ schema rejects missing fields, extra fields, invalid confidence, invalid hashes and owner (0.1895ms)
+✔ entity IDs, object references and evidence references cannot dangle or duplicate (0.161333ms)
+✔ timeline bounds and unknown numerical claims are rejected (0.134167ms)
+✔ page/specification inspection is not a measured frame comparison (0.487125ms)
+✔ metric pass is derived from nonnegative error and positive threshold (0.105709ms)
+✔ one metric per axis prevents contradictory or selectively repeated comparisons (0.049625ms)
+✔ subjective scores require a named reviewer, reason and actual frame references (0.094292ms)
+✔ unsafe evidence paths cannot be offered for handoff (0.156083ms)
+✔ unavailable comparison requires honest empty measurements and explanation (0.083ms)
+✔ file handoff preserves all revisions, passes fidelity, waits for real quality then completes (30.996583ms)
+✔ URL-only reference is recorded honestly and stops without rendering (3.503791ms)
+✔ wrong role, stale reference, duplicate ID, missing code and out of order are rejected (6.081ms)
+✔ stale evaluation/version/tasks and missing evidence bindings cannot advance (13.299333ms)
+✔ no improvement or regression stops the loop without retry (17.628834ms)
+✔ two improvements maximum even if each iteration improves (31.969333ms)
+✔ unknown metrics never pass fidelity and cannot cause a retry (6.486667ms)
+✔ tampered code, reference, evidence and manifest fail hash/history checks (5.042041ms)
+✔ absolute, parent traversal and symlink evidence rejected; external artifact rejected (4.39ms)
+✔ single-writer lock prevents race and is never removed by a second writer (2.971833ms)
+✔ threshold changes cannot fabricate progress and review cannot alter metrics (20.87275ms)
+✔ init refuses overwrites, rights omissions and inconsistent source type (1.521666ms)
+✔ CLI validates artifacts and rejects unexpected arguments without mutation (160.030083ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 397.124916
+EXIT=0

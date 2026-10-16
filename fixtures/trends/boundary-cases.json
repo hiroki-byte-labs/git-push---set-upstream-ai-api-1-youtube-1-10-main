@@ -1,0 +1,258 @@
+{
+ "note": "合成の境界例（T132）。定義変更をまたぐ差分・減少・観測間隔の不一致。YouTube APIの取得値ではない。",
+ "batches": [
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20260820",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-08-20T00:00:00Z",
+   "completedAt": "2026-08-20T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidR0000001",
+     "fetchedAt": "2026-08-20T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": null,
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidR0000001",
+     "viewCount": 100,
+     "likeCount": null,
+     "commentCount": null
+    }
+   ],
+   "channels": []
+  },
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20260827",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-08-27T00:00:00Z",
+   "completedAt": "2026-08-27T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidR0000001",
+     "fetchedAt": "2026-08-27T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": null,
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidR0000001",
+     "viewCount": 500,
+     "likeCount": null,
+     "commentCount": null
+    }
+   ],
+   "channels": []
+  },
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20261001b",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-10-01T00:00:00Z",
+   "completedAt": "2026-10-01T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidG0000001",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": null,
+     "categoryId": "25",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidG0000001",
+     "viewCount": 1000,
+     "likeCount": null,
+     "commentCount": null
+    },
+    {
+     "videoId": "vidM0000001",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": null,
+     "categoryId": "25",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidM0000001",
+     "viewCount": 50,
+     "likeCount": null,
+     "commentCount": null
+    }
+   ],
+   "channels": []
+  },
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20261002b",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-10-02T00:00:00Z",
+   "completedAt": "2026-10-02T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidM0000001",
+     "fetchedAt": "2026-10-02T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": null,
+     "categoryId": "25",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidM0000001",
+     "viewCount": 80,
+     "likeCount": null,
+     "commentCount": null
+    }
+   ],
+   "channels": []
+  },
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20261008b",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-10-08T00:00:00Z",
+   "completedAt": "2026-10-08T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidG0000001",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": null,
+     "categoryId": "25",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidG0000001",
+     "viewCount": 900,
+     "likeCount": null,
+     "commentCount": null
+    }
+   ],
+   "channels": []
+  }
+ ]
+}

@@ -1,0 +1,72 @@
+{
+  "command": "./scripts/agentctl status exe_0mv4w4tuebf27fdf5b311 --require-metered",
+  "started_at": "2026-10-13T23:35:37.737000+00:00",
+  "ended_at": "2026-10-13T23:35:37.858084+00:00",
+  "exit_code": 0,
+  "filter": "product/provider=antigravity; events.at < 2026-10-13T23:29:53.759Z; this Codex execution excluded",
+  "stderr": "",
+  "result": {
+    "rows": [
+      {
+        "task_id": "tsk_0mv4w4tue4e905c1d5f18",
+        "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+        "parent_execution_id": "exe_0mv4w4mve9bbef6fb889a",
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "status": "completed",
+        "managed": true,
+        "route": "native_subagent",
+        "metering_status": "measured",
+        "tree": {
+          "executions": 2,
+          "total": 30795,
+          "api_usd": 0.024689
+        },
+        "usage": [
+          {
+            "provider": "antigravity",
+            "model_id": "gemini-3.8-flash-medium",
+            "source_kind": "transcript",
+            "input_total": 9449,
+            "cache_read": 0,
+            "cache_write": null,
+            "output_total": 318,
+            "reasoning": null,
+            "total": 9767,
+            "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"unavailable\",\"total\":\"measured\"}",
+            "billing_mode": "subscription",
+            "api_equivalent_usd": 0.008279
+          },
+          {
+            "provider": "antigravity",
+            "model_id": "gemini-3.8-flash-medium",
+            "source_kind": "transcript",
+            "input_total": 10262,
+            "cache_read": 0,
+            "cache_write": null,
+            "output_total": 183,
+            "reasoning": null,
+            "total": 10445,
+            "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"unavailable\",\"total\":\"measured\"}",
+            "billing_mode": "subscription",
+            "api_equivalent_usd": 0.008383
+          },
+          {
+            "provider": "antigravity",
+            "model_id": "gemini-3.8-flash-medium",
+            "source_kind": "transcript",
+            "input_total": 10553,
+            "cache_read": 0,
+            "cache_write": null,
+            "output_total": 30,
+            "reasoning": null,
+            "total": 10583,
+            "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"unavailable\",\"total\":\"measured\"}",
+            "billing_mode": "subscription",
+            "api_equivalent_usd": 0.008027
+          }
+        ]
+      }
+    ]
+  }
+}

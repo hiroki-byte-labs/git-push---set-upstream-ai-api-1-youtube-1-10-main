@@ -1,0 +1,128 @@
+{
+  "id": "t139-short-mock-26a542d8",
+  "kind": "production-job",
+  "status": "failed",
+  "createdAt": "2026-10-13T22:46:33.006Z",
+  "pid": 69112,
+  "mode": "demo",
+  "project": "production-demo-ebf84adc",
+  "scriptHash": "ede47213e6ef72c7738246a3915e61a02e122a5e486c55baf731aa856e4a6d36",
+  "scriptVersion": 1,
+  "providers": [
+    "mock.fixture",
+    "mock.synthetic-tone-t138",
+    "local.remotion",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.synthetic-tone-t138",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.synthetic-tone-t138-1",
+      "inputUnits": 0,
+      "outputUnits": 72,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-dfec82b9",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-13T22:46:33.005Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-e8dc6479",
+      "domain": "audio",
+      "provider": "mock.synthetic-tone-t138",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-13T22:46:55.504Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.synthetic-tone-t138-1"
+    },
+    {
+      "attemptId": "att-c88419e4",
+      "domain": "visual",
+      "provider": "local.remotion",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-13T22:46:56.192Z",
+      "estimateUsd": 0,
+      "outcome": "failed",
+      "charge": "none",
+      "error": "Remotionレンダリング失敗 (1): Error: Failed to launch the browser process!\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at Socket.onClose (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at Socket.emit (node:events:526:24)\n    at Pipe.<anonymous> (node:net:362:12)\n",
+      "costUsd": 0
+    }
+  ],
+  "inputHash": "2da9bacc622ec991088598bc933b9f5b693e9ed823bb9b8a470adb41a8f6a043",
+  "input": "outputs/production-demo-ebf84adc/script-v1.json",
+  "durationSeconds": 72,
+  "subtitles": "both",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "8cd22d8479f812cb4789201b3b6b8eef268a7c3dea06714589b078e66e5b1d3d",
+    "rendererKind": "local.remotion",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 4
+  },
+  "error": "Error: Remotionレンダリング失敗 (1): Error: Failed to launch the browser process!\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at Socket.onClose (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at Socket.emit (node:events:526:24)\n    at Pipe.<anonymous> (node:net:362:12)\n"
+}

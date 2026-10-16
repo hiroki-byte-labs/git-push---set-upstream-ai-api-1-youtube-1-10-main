@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0",
+  "document_type": "motion_graphics_reference_analysis",
+  "target_video": {
+    "url": "https://www.youtube.com/watch?v=irBD6OF8d2Q",
+    "video_id": "irBD6OF8d2Q",
+    "title": "なぜ2位ではダメなのか？【スーパースター経済学】",
+    "channel": "考えすぎる葦",
+    "duration_seconds": 1203.9,
+    "source_type": "youtube"
+  },
+  "access_and_environment_audit": {
+    "gemini_api_video_understanding": {
+      "attempted": true,
+      "status": "unavailable",
+      "reason": "GEMINI_API_KEY environment variable is not configured, and standard sandbox execution restricts direct outbound network access to external Google Gemini API endpoints.",
+      "browser_vs_video_distinction_note": "Web page navigation in a browser merely retrieves HTML/DOM metadata and thumbnail assets; it does not constitute multimodal video stream understanding. Consistent with project rules, opening the page was not treated as successful video analysis."
+    },
+    "claude_code_frame_extraction": {
+      "inspected": true,
+      "status": "unavailable",
+      "reason": "Prior inspection logs (T106 / logs/2026-10-10/171938-T106-2574f3e3/evidence/reference-observation.md) indicate that only low-resolution preview storyboard sheets (approx. 10s intervals) were temporarily viewed in-browser without saving media files. No high-FPS decoded frame sequence exists in the repository workspace."
+    },
+    "data_sources_used": [
+      "Public video metadata (video title, chapters, duration)",
+      "Verified observation records from T106 (docs/T106-DESIGN.md, logs/2026-10-10/171938-T106-2574f3e3/evidence/reference-observation.md)"
+    ]
+  },
+  "fact_vs_hypothesis_boundary": {
+    "observed_facts": [
+      "The video duration is 1203.9 seconds across 7 major chapters (Prologue + Chapters 1-5 + Epilogue).",
+      "Visual style uses a dark/black background (#0a0a0c - #121212) with minimal, high-contrast white text (#ffffff) and selective accent colors (blue, red, gold/yellow).",
+      "Graphic elements are simplified pictograms (human silhouettes), bar charts (coin piles/height representations), and spotlights.",
+      "Subtitles are positioned bottom-center, white text in 1-2 lines without heavy background boxes.",
+      "The prologue begins with a historical/social question ('Why can't we be second?' - 2009 government restructuring statement)."
+    ],
+    "inferred_hypotheses": [
+      "Sub-second animation timing curves, exact bezier control points, and easing durations (estimated based on typical documentary-style motion design standards).",
+      "Specific pixel-level transforms and spring constants.",
+      "Audio sync points and voiceover waveforms (audio was unverified/muted in prior observations)."
+    ]
+  },
+  "detailed_analysis": {
+    "1_overall_structure": {
+      "summary": "Documentary-essay structure breaking down a complex economic concept into progressive inquiry chapters.",
+      "chapters": [
+        {
+          "chapter": "序章 (Prologue)",
+          "timestamp_start": "0:00",
+          "timestamp_end": "1:36",
+          "content": "Posing the initial dilemma using real-world public statement ('Why can't we be second?'). Establishing the theme of winner-take-all dynamics."
+        },
+        {
+          "chapter": "第1章 (Chapter 1)",
+          "title": "0.005秒の段差",
+          "timestamp_start": "1:36",
+          "timestamp_end": "5:03",
+          "content": "Sports competition (sprint times, podium) illustrating huge reward differences from minute skill gaps."
+        },
+        {
+          "chapter": "第2章 (Chapter 2)",
+          "title": "二番目に高い山の憂鬱",
+          "timestamp_start": "5:03",
+          "timestamp_end": "8:34",
+          "content": "Human silhouettes, highlighting a single winner with spotlights, tennis court comparisons, and bar charts."
+        },
+        {
+          "chapter": "第3章 (Chapter 3)",
+          "timestamp_start": "8:34",
+          "timestamp_end": "11:51",
+          "content": "Theoretical breakdown of superstar economics and market scalability."
+        },
+        {
+          "chapter": "第4章 (Chapter 4)",
+          "timestamp_start": "11:51",
+          "timestamp_end": "15:31",
+          "content": "Technological reproduction and globalization magnifying winner advantages."
+        },
+        {
+          "chapter": "第5章 (Chapter 5)",
+          "timestamp_start": "15:31",
+          "timestamp_end": "18:28",
+          "content": "Implications for individuals and survival strategies in skewed markets."
+        },
+        {
+          "chapter": "終章 (Epilogue)",
+          "timestamp_start": "18:28",
+          "timestamp_end": "20:04",
+          "content": "Synthesis and concluding reflection."
+        }
+      ],
+      "basis": "observed_facts (YouTube chapter markers & observation records)"
+    },
+    "2_scene_transitions": {
+      "style": "Minimalist and non-distracting cuts, fades, and dark-outs.",
+      "details": "Scenes transition primarily through subtle fades to/from pure dark backgrounds, cross-dissolves, or spotlight-driven focus shifts. Elaborate geometric wipes, 3D rotations, or flashy sliding transitions are strictly avoided to maintain a serious, thoughtful tone.",
+      "basis": "observed_facts & visual conventions"
+    },
+    "3_animation_types": {
+      "primary_animations": [
+        {
+          "type": "Fade In / Fade Out (Opacity)",
+          "description": "Gradual emergence and dissipation of text headlines, subtitles, and vector shapes."
+        },
+        {
+          "type": "Vertical Translation (TranslateY)",
+          "description": "Subtle upward drift accompanying fades (approx. 20-40px rise) when text or icons appear, creating a grounded reveal effect."
+        },
+        {
+          "type": "Meter / Bar Extension (ScaleY / Height Expansion)",
+          "description": "Vertical bar charts growing upward from a base anchor to visually demonstrate numerical gaps and distributions."
+        },
+        {
+          "type": "Spotlight Focusing (Radial Mask / Opacity Shift)",
+          "description": "Dimming surrounding elements while illuminating a specific target object to guide viewer attention."
+        }
+      ],
+      "basis": "observed_facts (conceptually) & motion_spec_inference (kinematics)"
+    },
+    "4_object_appearance_and_disappearance": {
+      "appearance_principles": "Objects do not pop in abruptly. They enter sequentially: first the context/spotlight, followed by the core headline, then the accompanying illustration (pictogram/diagram).",
+      "disappearance_principles": "Objects fade out cleanly before the next concept enters, preventing visual clutter.",
+      "basis": "inferred_hypotheses from storyboard inspection"
+    },
+    "5_motion_direction_and_timing": {
+      "direction": "Predominantly bottom-to-top (Y-axis negative) reveals for text and charts, reinforcing stability and growth.",
+      "timing_and_easing": "Smooth deceleration (Ease-Out / cubic-bezier(0.33, 1, 0.68, 1)). Quick initial motion with an extended settling phase so text is easily readable upon arrival.",
+      "basis": "inferred_hypotheses"
+    },
+    "6_color_layout_typography": {
+      "color_palette": {
+        "background": "#0a0a0c (Deep dark slate/black)",
+        "primary_text": "#ffffff (Crisp white)",
+        "secondary_text": "#94a3b8 (Muted cool gray for secondary labels)",
+        "accent_highlight": "#3b82f6 (Bright blue for active focus)",
+        "accent_warning_or_contrast": "#ef4444 (Vivid red for critical distinctions)",
+        "accent_value": "#eab308 (Gold/Yellow for reward/coin representations)"
+      },
+      "layout_composition": {
+        "aspect_ratio": "16:9 (1920x1080 standard)",
+        "grid": "Central alignment for core questions; split 50/50 comparison for contrasting states (1st vs 2nd place).",
+        "margins_and_breathing_room": "Generous negative space (at least 200px margins from edges) ensuring high focus on solitary elements."
+      },
+      "typography": {
+        "font_family": "Heavy Japanese Gothic (e.g. Noto Sans JP, Hiragino Kaku Gothic StdN, Shin Go equivalent)",
+        "weights": "Heavy/Black (800-900) for question headlines; Bold (700) for sub-headers; Medium (500) for captions",
+        "hierarchy": "Headline 48-64pt, Supporting phrase 28-36pt, Subtitle 22-26pt"
+      },
+      "basis": "observed_facts & typographic standards"
+    },
+    "7_directorial_intent": {
+      "aesthetic_tone": "Intellectual, sober, documentary-grade motion graphics designed to induce contemplation rather than excitement.",
+      "cognitive_load_management": "Only one core concept is presented per screen. Abstract mathematical and economic phenomena (power laws, winner-take-all) are translated into tangible geometric metaphors (height differences, isolated figures).",
+      "basis": "observed_facts"
+    },
+    "8_key_reproduction_characteristics": {
+      "rules_for_faithful_reproduction": [
+        "Rule 1: Eliminate unnecessary decor (no particle effects, no bouncy cartoon springs, no excessive drop shadows).",
+        "Rule 2: Anchor animations to Ease-Out curves with long settling times for maximum legibility.",
+        "Rule 3: Maintain strict high-contrast ratio (>= 4.5:1, typically > 10:1) with a deep dark canvas.",
+        "Rule 4: Ensure visual elements appear in synchronized semantic progression (Question text -> Accent underscore -> Illustrative pictogram).",
+        "Rule 5: Subtitles must remain understated at bottom-center without obstructing central visual metaphors."
+      ],
+      "basis": "observed_facts & production guidelines"
+    }
+  },
+  "selected_analysis_segment": {
+    "segment_range": "0:00 - 0:04 (Prologue opening: The core question reveal)",
+    "duration_seconds": 4.0,
+    "rationale": "Represents the most iconic, fundamental motion pattern in the reference video: a solitary question emerging in darkness, accented and underscored by a focal point."
+  }
+}

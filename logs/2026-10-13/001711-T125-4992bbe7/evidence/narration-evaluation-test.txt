@@ -1,0 +1,6 @@
+✔ narration-evaluation: SKILL.md exists and has valid front matter
+✔ narration-evaluation: validates valid narration metadata fixture
+✔ narration-evaluation: calculates speed correctly
+✔ narration-evaluation: rejects invalid rating or missing fields
+✔ narration-evaluation: markdown report covers profile and evaluation matrix
+ℹ tests 335 pass 335 fail 0

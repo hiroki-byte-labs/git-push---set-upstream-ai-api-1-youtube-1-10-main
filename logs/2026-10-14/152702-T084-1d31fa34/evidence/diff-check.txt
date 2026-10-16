@@ -1,0 +1,4 @@
+COMMAND=['git', 'diff', '--check', '--', 'tickets/T084.md', 'README.md', 'docs/STATUS.md', 'docs/AGENT-INDEPENDENT-WORK-2026-10-14.md', 'logs/2026-10-14/152702-T084-1d31fa34']
+EXIT=0
+STDOUT=
+STDERR=

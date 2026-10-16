@@ -1,0 +1,13 @@
+COMMAND=['swift', '/private/tmp/t139-avplayer-check.swift', '/private/tmp/T139-render-nti1mann/outputs/t139-short-mock-75b5a0e9/sample.mp4']
+EXIT=0
+--- stdout ---
+status=readyToPlay
+duration=72.0
+finalTime=72.0
+sampleCount=355
+firstSamples=[0.0, 0.081860164, 0.283735664, 0.486661664, 0.688934, 0.893644832]
+lastSamples=[71.000916832, 71.205554332, 71.409520168, 71.614293668, 71.818959332, 72.0]
+ended=true
+elapsed=18.198019981384277
+
+--- stderr ---

@@ -1,0 +1,22 @@
+{
+  "task_id": "tsk_0mv3t0s83d44d45f3daa0",
+  "status": "completed",
+  "executions": [
+    {
+      "execution_id": "exe_0mv3t0sb7ea276bb64a85",
+      "decision_id": "rdc_0mv3t0sb71b97795b8132",
+      "provider": "codex",
+      "model_id": "gpt-6-luna",
+      "tier": "light",
+      "status": "completed",
+      "metering_status": "measured",
+      "failure_cause": null,
+      "message": null,
+      "retry_count": 0,
+      "escalation_count": 0
+    }
+  ],
+  "message": "完了",
+  "review": null
+}
+EXIT=0

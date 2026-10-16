@@ -1,0 +1,80 @@
+Rendered 0 images
+
+Error: Remotionレンダリング失敗 (1): /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269
+            reject(new Error([
+                   ^
+
+Error: Failed to launch the browser process!
+[1016/101342.478301:ERROR:base/power_monitor/thermal_state_observer_mac.mm:122] ThermalStateObserverMac unable to register to power notifications. Result: 9
+[1016/101342.481509:ERROR:net/dns/dns_config_service_posix.cc:139] DNS config watch failed to start.
+[1016/101342.482142:WARNING:net/dns/dns_config_service_posix.cc:198] Failed to read DnsConfig.
+[1016/101342.496703:ERROR:net/socket/socket_posix.cc:175] bind() failed: Operation not permitted (1)
+[1016/101342.496960:ERROR:net/socket/socket_posix.cc:175] bind() failed: Operation not permitted (1)
+[1016/101342.497150:ERROR:content/browser/devtools/devtools_http_handler.cc:322] Cannot start http server for devtools.
+2026-10-16 10:13:42.497 chrome-headless-shell[81642:5478582] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+[1016/101342.482052:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.81642: Permission denied (1100)
+0   chrome-headless-shell               0x000000010a7ee354 base::debug::CollectStackTrace(base::span<void const*, 18446744073709551615ul, void const**>) + 24
+1   chrome-headless-shell               0x000000010a7db720 base::debug::StackTrace::StackTrace(unsigned long) + 224
+2   chrome-headless-shell               0x000000010a6f44b4 logging::LogMessage::Flush() + 180
+3   chrome-headless-shell               0x00000001123b34dc logging::BootstrapLogMessageFatal::~BootstrapLogMessageFatal() + 28
+4   chrome-headless-shell               0x00000001123b34ec logging::BootstrapLogMessageFatal::~BootstrapLogMessageFatal() + 0
+5   chrome-headless-shell               0x000000010a8088d4 base::MachPortRendezvousServerMac::MachPortRendezvousServerMac() + 548
+6   chrome-headless-shell               0x000000010a8080ac base::MachPortRendezvousServerMac::GetInstance() + 68
+7   chrome-headless-shell               0x000000010a818bd0 base::LaunchProcess(std::__Cr::vector<std::__Cr::basic_string<char, std::__Cr::char_traits<char>, std::__Cr::allocator<char>>, std::__Cr::allocator<std::__Cr::basic_string<char, std::__Cr::char_traits<char>, std::__Cr::allocator<char>>>> const&, base::LaunchOptions const&) + 1488
+8   chrome-headless-shell               0x0000000109c51030 content::internal::ChildProcessLauncherHelper::LaunchProcessOnLauncherThread(base::LaunchOptions const*, std::__Cr::unique_ptr<content::PosixFileDescriptorInfo, std::__Cr::default_delete<content::PosixFileDescriptorInfo>>, bool*, int*) + 144
+9   chrome-headless-shell               0x000000010939e4d0 content::internal::ChildProcessLauncherHelper::LaunchOnLauncherThread() + 2680
+10  chrome-headless-shell               0x00000001048dc92c base::internal::Invoker<base::internal::FunctorTraits<void (mojo::core::(anonymous namespace)::ChannelMac::*&&)(), mojo::core::(anonymous namespace)::ChannelMac*&&>, base::internal::BindState<true, true, false, void (mojo::core::(anonymous namespace)::ChannelMac::*)(), scoped_refptr<mojo::core::(anonymous namespace)::ChannelMac>>, void ()>::RunOnce(base::internal::BindStateBase*) + 108
+11  chrome-headless-shell               0x00000001048021fc base::OnceCallback<void ()>::Run() && + 108
+12  chrome-headless-shell               0x000000010a755b34 base::TaskAnnotator::RunTaskImpl(base::PendingTask&) + 336
+13  chrome-headless-shell               0x000000010a79697c base::internal::TaskTracker::RunTaskImpl(base::internal::Task&, base::TaskTraits const&, base::internal::TaskSource*, base::internal::SequenceToken const&) + 128
+14  chrome-headless-shell               0x000000010a796a88 base::internal::TaskTracker::RunBlockShutdown(base::internal::Task&, base::TaskTraits const&, base::internal::TaskSource*, base::internal::SequenceToken const&) + 84
+15  chrome-headless-shell               0x000000010a796110 base::internal::TaskTracker::RunTask(base::internal::Task, base::internal::TaskSource*, base::TaskTraits const&, base::ThreadType) + 964
+16  chrome-headless-shell               0x000000010a795a90 base::internal::TaskTracker::RunAndPopNextTask(base::internal::RegisteredTaskSource) + 572
+17  chrome-headless-shell               0x000000010a7b1440 base::internal::WorkerThread::RunWorker() + 828
+18  chrome-headless-shell               0x000000010a7b10e8 base::internal::WorkerThread::RunDedicatedWorker() + 16
+19  chrome-headless-shell               0x000000010a7b0fcc base::internal::WorkerThread::ThreadMain() + 248
+20  chrome-headless-shell               0x000000010a7d9c98 base::(anonymous namespace)::ThreadFunc(void*) + 140
+21  libsystem_pthread.dylib             0x000000018db77c58 _pthread_start + 136
+22  libsystem_pthread.dylib             0x000000018db72c1c thread_start + 8
+Task trace:
+0   chrome-headless-shell               0x000000010939d9a8 content::internal::ChildProcessLauncherHelper::StartLaunchOnClientThread() + 240
+
+Received signal 6
+0   chrome-headless-shell               0x000000010a7ee354 base::debug::CollectStackTrace(base::span<void const*, 18446744073709551615ul, void const**>) + 24
+1   chrome-headless-shell               0x000000010a7db720 base::debug::StackTrace::StackTrace(unsigned long) + 224
+2   chrome-headless-shell               0x000000010a7ee2ac base::debug::(anonymous namespace)::StackDumpSignalHandler(int, __siginfo*, void*) + 924
+3   libsystem_platform.dylib            0x000000018db81744 _sigtramp + 56
+4   libsystem_pthread.dylib             0x000000018db778d8 pthread_kill + 296
+5   libsystem_c.dylib                   0x000000018da7d978 abort + 148
+6   chrome-headless-shell               0x000000010a6f5048 logging::LogMessage::HandleFatal(unsigned long, std::__Cr::basic_string<char, std::__Cr::char_traits<char>, std::__Cr::allocator<char>> const&) const + 456
+7   chrome-headless-shell               0x000000010a6f4ad4 logging::LogMessage::Flush() + 1748
+8   chrome-headless-shell               0x00000001123b34dc logging::BootstrapLogMessageFatal::~BootstrapLogMessageFatal() + 28
+9   chrome-headless-shell               0x00000001123b34ec logging::BootstrapLogMessageFatal::~BootstrapLogMessageFatal() + 0
+10  chrome-headless-shell               0x000000010a8088d4 base::MachPortRendezvousServerMac::MachPortRendezvousServerMac() + 548
+11  chrome-headless-shell               0x000000010a8080ac base::MachPortRendezvousServerMac::GetInstance() + 68
+12  chrome-headless-shell               0x000000010a818bd0 base::LaunchProcess(std::__Cr::vector<std::__Cr::basic_string<char, std::__Cr::char_traits<char>, std::__Cr::allocator<char>>, std::__Cr::allocator<std::__Cr::basic_string<char, std::__Cr::char_traits<char>, std::__Cr::allocator<char>>>> const&, base::LaunchOptions const&) + 1488
+13  chrome-headless-shell               0x0000000109c51030 content::internal::ChildProcessLauncherHelper::LaunchProcessOnLauncherThread(base::LaunchOptions const*, std::__Cr::unique_ptr<content::PosixFileDescriptorInfo, std::__Cr::default_delete<content::PosixFileDescriptorInfo>>, bool*, int*) + 144
+14  chrome-headless-shell               0x000000010939e4d0 content::internal::ChildProcessLauncherHelper::LaunchOnLauncherThread() + 2680
+15  chrome-headless-shell               0x00000001048dc92c base::internal::Invoker<base::internal::FunctorTraits<void (mojo::core::(anonymous namespace)::ChannelMac::*&&)(), mojo::core::(anonymous namespace)::ChannelMac*&&>, base::internal::BindState<true, true, false, void (mojo::core::(anonymous namespace)::ChannelMac::*)(), scoped_refptr<mojo::core::(anonymous namespace)::ChannelMac>>, void ()>::RunOnce(base::internal::BindStateBase*) + 108
+16  chrome-headless-shell               0x00000001048021fc base::OnceCallback<void ()>::Run() && + 108
+17  chrome-headless-shell               0x000000010a755b34 base::TaskAnnotator::RunTaskImpl(base::PendingTask&) + 336
+18  chrome-headless-shell               0x000000010a79697c base::internal::TaskTracker::RunTaskImpl(base::internal::Task&, base::TaskTraits const&, base::internal::TaskSource*, base::internal::SequenceToken const&) + 128
+19  chrome-headless-shell               0x000000010a796a88 base::internal::TaskTracker::RunBlockShutdown(base::internal::Task&, base::TaskTraits const&, base::internal::TaskSource*, base::internal::SequenceToken const&) + 84
+20  chrome-headless-shell               0x000000010a796110 base::internal::TaskTracker::RunTask(base::internal::Task, base::internal::TaskSource*, base::TaskTraits const&, base::ThreadType) + 964
+21  chrome-headless-shell               0x000000010a795a90 base::internal::TaskTracker::RunAndPopNextTask(base::internal::RegisteredTaskSource) + 572
+22  chrome-headless-shell               0x000000010a7b1440 base::internal::WorkerThread::RunWorker() + 828
+23  chrome-headless-shell               0x000000010a7b10e8 base::internal::WorkerThread::RunDedicatedWorker() + 16
+24  chrome-headless-shell               0x000000010a7b0fcc base::internal::WorkerThread::ThreadMain() + 248
+25  chrome-headless-shell               0x000000010a7d9c98 base::(anonymous namespace)::ThreadFunc(void*) + 140
+26  libsystem_pthread.dylib             0x000000018db77c58 _pthread_start + 136
+27  libsystem_pthread.dylib             0x000000018db72c1c thread_start + 8
+[end of stack trace]
+
+Troubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch
+    at Socket.onClose (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)
+    at Socket.emit (node:events:526:24)
+    at Pipe.<anonymous> (node:net:362:12)
+
+Node.js v26.11.1
+
+EXIT=1

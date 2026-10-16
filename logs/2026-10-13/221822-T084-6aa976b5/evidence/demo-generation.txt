@@ -1,0 +1,6 @@
+Rendered 0 images
+
+Rendered 33 images
+
+生成完了: /private/tmp/t084-demo.vli4AQ/outputs/checklist-demo-827dc748/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）

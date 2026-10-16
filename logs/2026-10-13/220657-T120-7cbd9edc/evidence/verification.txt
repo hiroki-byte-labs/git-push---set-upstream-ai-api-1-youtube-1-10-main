@@ -1,0 +1,4 @@
+PASS: 未完了20件一致・重複なし
+状態: {'done': 86, 'backlog': 17, 'blocked': 1, 'ready': 1, 'review': 1}
+依存完了agent backlog: T084,T116
+今回の作業回以外のopenなし

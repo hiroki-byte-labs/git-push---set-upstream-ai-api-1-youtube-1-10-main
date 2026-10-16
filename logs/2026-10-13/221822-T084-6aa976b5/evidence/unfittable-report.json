@@ -1,0 +1,338 @@
+[
+  {
+    "fitted" : true,
+    "pixelSize" : 30,
+    "zone" : "header",
+    "file" : "checklist-1.png",
+    "drawn" : [
+      60,
+      642.5,
+      344,
+      35
+    ],
+    "text" : "判断前チェックリスト  1 \/ 2",
+    "role" : "チェックリスト",
+    "size" : 30,
+    "maxSize" : 30,
+    "contrast" : 9.892569247502967,
+    "box" : [
+      60,
+      640,
+      1160,
+      40
+    ],
+    "align" : "center"
+  },
+  {
+    "size" : 19,
+    "pixelSize" : 19,
+    "file" : "checklist-1.png",
+    "contrast" : 18.128697318697988,
+    "role" : "題名",
+    "drawn" : [
+      60,
+      235.5,
+      18,
+      713
+    ],
+    "zone" : "title",
+    "text" : "題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n",
+    "fitted" : false,
+    "box" : [
+      60,
+      556,
+      1160,
+      72
+    ],
+    "maxSize" : 32,
+    "align" : "center"
+  },
+  {
+    "pixelSize" : 30,
+    "role" : "実践項目",
+    "size" : 30,
+    "contrast" : 13.829893295744359,
+    "drawn" : [
+      84,
+      479.5,
+      381,
+      35
+    ],
+    "file" : "checklist-1.png",
+    "zone" : "item",
+    "maxSize" : 30,
+    "text" : "□ 比べる品をメモしましょう。",
+    "box" : [
+      84,
+      452,
+      1112,
+      90
+    ],
+    "align" : "center",
+    "fitted" : true
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "pixelSize" : 20,
+    "drawn" : [
+      84,
+      420,
+      233,
+      24
+    ],
+    "file" : "checklist-1.png",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "size" : 20,
+    "zone" : "reference",
+    "box" : [
+      84,
+      418,
+      1112,
+      28
+    ],
+    "fitted" : true,
+    "maxSize" : 20,
+    "align" : "center",
+    "role" : "出典対応"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "pixelSize" : 30,
+    "drawn" : [
+      84,
+      329.5,
+      409,
+      35
+    ],
+    "file" : "checklist-1.png",
+    "text" : "□ 比べる時期をメモしましょう。",
+    "size" : 30,
+    "zone" : "item",
+    "box" : [
+      84,
+      302,
+      1112,
+      90
+    ],
+    "fitted" : true,
+    "maxSize" : 30,
+    "align" : "center",
+    "role" : "実践項目"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "pixelSize" : 20,
+    "drawn" : [
+      84,
+      270,
+      233,
+      24
+    ],
+    "file" : "checklist-1.png",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "size" : 20,
+    "zone" : "reference",
+    "box" : [
+      84,
+      268,
+      1112,
+      28
+    ],
+    "fitted" : true,
+    "maxSize" : 20,
+    "align" : "center",
+    "role" : "出典対応"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "pixelSize" : 30,
+    "drawn" : [
+      84,
+      179.5,
+      520,
+      35
+    ],
+    "file" : "checklist-1.png",
+    "text" : "□ 買い物の中身が同じか確認しましょう。",
+    "size" : 30,
+    "zone" : "item",
+    "box" : [
+      84,
+      152,
+      1112,
+      90
+    ],
+    "fitted" : true,
+    "maxSize" : 30,
+    "align" : "center",
+    "role" : "実践項目"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "pixelSize" : 20,
+    "drawn" : [
+      84,
+      120,
+      233,
+      24
+    ],
+    "file" : "checklist-1.png",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "size" : 20,
+    "zone" : "reference",
+    "box" : [
+      84,
+      118,
+      1112,
+      28
+    ],
+    "fitted" : true,
+    "maxSize" : 20,
+    "align" : "center",
+    "role" : "出典対応"
+  },
+  {
+    "contrast" : 8.278613236047711,
+    "pixelSize" : 20,
+    "drawn" : [
+      60,
+      48,
+      657,
+      24
+    ],
+    "file" : "checklist-1.png",
+    "text" : "台本の実践箇所の原文です。出典の記載は助言の正しさや結果を保証しません。",
+    "size" : 20,
+    "zone" : "note",
+    "box" : [
+      60,
+      30,
+      1160,
+      60
+    ],
+    "fitted" : true,
+    "maxSize" : 20,
+    "align" : "center",
+    "role" : "注意"
+  },
+  {
+    "contrast" : 9.892569247502967,
+    "pixelSize" : 30,
+    "drawn" : [
+      60,
+      642.5,
+      348,
+      35
+    ],
+    "file" : "checklist-2.png",
+    "text" : "判断前チェックリスト  2 \/ 2",
+    "size" : 30,
+    "zone" : "header",
+    "box" : [
+      60,
+      640,
+      1160,
+      40
+    ],
+    "fitted" : true,
+    "maxSize" : 30,
+    "align" : "center",
+    "role" : "チェックリスト"
+  },
+  {
+    "maxSize" : 32,
+    "text" : "題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n題\n",
+    "fitted" : false,
+    "file" : "checklist-2.png",
+    "size" : 19,
+    "pixelSize" : 19,
+    "zone" : "title",
+    "box" : [
+      60,
+      556,
+      1160,
+      72
+    ],
+    "align" : "center",
+    "role" : "題名",
+    "contrast" : 18.128697318697988,
+    "drawn" : [
+      60,
+      235.5,
+      18,
+      713
+    ]
+  },
+  {
+    "maxSize" : 30,
+    "text" : "□ ポイントは、家計の買い物の中身を一定に固定して、その費用が物価でどう変わるかを見ることです。",
+    "fitted" : true,
+    "file" : "checklist-2.png",
+    "size" : 30,
+    "pixelSize" : 30,
+    "zone" : "item",
+    "box" : [
+      84,
+      452,
+      1112,
+      90
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "contrast" : 13.829893295744359,
+    "drawn" : [
+      84,
+      462,
+      1090,
+      70
+    ]
+  },
+  {
+    "maxSize" : 20,
+    "text" : "場面2 \/ 出典[1]",
+    "fitted" : true,
+    "file" : "checklist-2.png",
+    "size" : 20,
+    "pixelSize" : 20,
+    "zone" : "reference",
+    "box" : [
+      84,
+      418,
+      1112,
+      28
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "contrast" : 6.315530326229731,
+    "drawn" : [
+      84,
+      420,
+      127,
+      24
+    ]
+  },
+  {
+    "maxSize" : 20,
+    "text" : "台本の実践箇所の原文です。出典の記載は助言の正しさや結果を保証しません。",
+    "fitted" : true,
+    "file" : "checklist-2.png",
+    "size" : 20,
+    "pixelSize" : 20,
+    "zone" : "note",
+    "box" : [
+      60,
+      30,
+      1160,
+      60
+    ],
+    "align" : "center",
+    "role" : "注意",
+    "contrast" : 8.278613236047711,
+    "drawn" : [
+      60,
+      48,
+      657,
+      24
+    ]
+  }
+]

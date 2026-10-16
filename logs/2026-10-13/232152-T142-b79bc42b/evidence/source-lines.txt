@@ -1,0 +1,2738 @@
+
+README.md
+1: # 日常の知識を深掘りするローカル動画制作サービス
+2: > T070の回答により、題材を投資と心理から日常に結び付く知識全般へ変更しました。[制作方針](docs/CHANNEL-POLICY.md)を参照。新テーマの台本（テーマ別免責・概要欄の導入文と出典）と無料サンプル `fixtures/sample-general.json` はT103で対応済み。本人の題材選定・考察・台本承認の工程（`produce`）はT104で実装済み。
+3: > 2026-10-08のエンハンス（台本v2、安全検査、図解4種、字幕選択、媒体検査、確認画面、ジョブ管理）の全体像は [docs/HANDOFF.md](docs/HANDOFF.md) を参照。演出を追加するときは [docs/PRODUCTION-GUIDELINES.md](docs/PRODUCTION-GUIDELINES.md) に従う。
+4: 
+5: 日常に結び付く知識を日本語の初学者へ説明する動画制作基盤。M0/M1の固定台本による36秒試作に加え、現在はPlan v2と本人の題材選定・考察・承認工程に対応しています。外部API・課金・YouTube認証なしで、図解・字幕・自作確認音のMP4を生成できます。自然なナレーションと実音声を伴う10〜20分の番組制作の受入れは未完了です。
+6: 
+7: ## 動作環境と準備
+8: macOS、Swiftコンパイラ（Command Line Tools）、Node.js 24以上、Python 3/pip。既定のnative描画はAppKit、変換はFFmpegを使用し、Mac以外は未対応です。起動はPATHのNode、または利用者が明示指定したNODE_BINを使用します。特定エージェント付属のランタイムは自動選択しません。native経路は実行時のnpm依存なし。T126で本体へ統合した任意のRemotion経路は、motion-lab側のRemotion/React等とChromeを必要とします。静的型検査には開発依存を使います。
+9: 
+10: ```sh
+11: # 初回だけ。無料のFFmpegバイナリをwork/へ取得（ネットワーク必要）
+12: ./scripts/setup-media
+13: # python3にpipがなければ、pipを含むPythonを指定
+14: PYTHON_BIN=/path/to/python3 ./scripts/setup-media
+15: # 既にffmpeg（libx264/AAC対応）がPATHにあればsetupは不要
+16: 
+17: ./scripts/run src/cli.ts check
+18: ./scripts/run --test tests/*.test.ts
+19: ./scripts/run src/cli.ts tickets
+20: ./scripts/run src/cli.ts next
+21: ./scripts/verify   # check・テスト・型検査を一括実行（コミット前）
+22: ```
+23: 
+24: ## 動画生成と再生
+25: ```sh
+26: ./scripts/run src/cli.ts sample                                   # M1の36秒（v1台本）
+27: ./scripts/run src/cli.ts sample --plan fixtures/sample-v2.json    # v2台本（図解4種・48秒、旧テーマ）
+28: ./scripts/run src/cli.ts sample --plan fixtures/sample-general.json  # 新テーマ（一般・68秒、導入文と出典つき。開発用の架空例）
+29: ./scripts/run src/cli.ts sample --plan fixtures/sample-v2.json --renderer remotion  # 本体に統合済みの任意renderer（T126）
+30: ./scripts/run src/cli.ts sample --plan fixtures/layout-stress.json --resolution 1080  # 文字配置の検査用（長い見出し・二行字幕）
+31: ./scripts/run src/cli.ts lint --plan 台本.json                    # 安全検査だけ
+32: ./scripts/run src/cli.ts serve
+33: ```
+34: ブラウザーで http://127.0.0.1:4173 を開くとジョブ一覧が出ます。詳細画面で再生、検査結果の確認、版に結び付く承認・差戻しができます（投稿はしません）。字幕の既定は焼き込み（burn、T106で利用者の希望により変更）で、切り替え式は `--subtitles soft`、両方は `both` です。ジョブ管理は `jobs` / `jobs clean`、確認の記録は `review` です（docs/OPERATIONS.md）。停止はCtrl+Cです。サーバーはローカルのみ。生成後の再生にインターネットは不要です。CLIは必ずリポジトリルートを使います（scripts/runが移動します）。npmを利用する環境では `npm run sample` なども使えます。
+35: 
+36: 台本の`theme`は`general`（日常の知識）か`investment`（投資）。未指定は旧形式として投資扱いで、最終場面に推奨・保証を否定する免責が必要です。一般テーマは「結果を保証しない」旨の否定文が必要で、投資の語（銘柄・株価・NISA等）を含めば投資の免責も必要です。`intro`（導入文）は概要欄の先頭に入り、出典は文献名・URL・確認日と使用場面を`metadata.json`の`sources`に保存します（URLの記載は主張の検証済みを意味しません）。詳細はprompts/script.mdとADR-017。
+37: 
+38: `outputs/<job-id>/sample.mp4` が完成動画。字幕は既定で映像に焼き込み、別ファイル `subtitles.vtt` も作成します（`--subtitles soft` で切り替え式の字幕トラック、`both` で両方）。文字配置の検査結果は `job.json` の `layout`（T106）。`plan.json`、`job.json`、`lint.json`、`metadata.json`、`media-check.json`、サムネイル3案、全場面の確認画像も出力。`outputs/latest.json` は最後に正常完了したジョブを指します。2回実行しても既存出力は上書きせず新しいジョブになります。視聴する確認音は各場面の冒頭だけです。字幕を読み上げる機能はまだありません。
+39: 
+40: ## 本人の工程を通す制作（T104）
+41: T084の判断前チェックリストは、台本の`practice`で指定した原文から各ジョブのテキスト・PNGと概要欄を生成します。末尾の案内は`role: action`。形式と検証制約は [チェックリストの使い方](docs/T084-CHECKLIST.md) を参照（実再生確認待ちでT084はreview）。
+42: 
+43: `sample` は常に**デモ**（本人の題材選定・考察・台本承認を経ていない試作）です。本番の動画は制作案件（`produce`）からだけ作ります。各工程は確認画面（`serve` → 一覧の「制作案件」）からも操作できます。
+44: 
+45: ```sh
+46: # 1. エージェントが題材候補（ニュース・事象の入口、概念、具体例）を用意し、案件を作る
+47: ./scripts/run src/cli.ts produce new --candidates 候補.json --by 'エージェント名'
+48: # 2. 本人が題材を選ぶ（記録者名は本人。本番の案件ではエージェント名を拒否）
+49: ./scripts/run src/cli.ts produce select production-xxxxxxxx --candidate price-index --by '本人の名前'
+50: # 3. 本人が考察を書く（ファイルか本文）。この文章がそのまま台本の考察の場面に入る
+51: ./scripts/run src/cli.ts produce reflection production-xxxxxxxx --file 考察.txt --by '本人の名前'
+52: # 4. エージェントが下書き（role: reflectionの場面を1つ持つ台本）から台本を作る
+53: ./scripts/run src/cli.ts produce script production-xxxxxxxx --plan 下書き.json --by 'エージェント名'
+54: # 5. 本人が台本を読み、表示された「台本の版」で承認（または理由つきで差戻し）
+55: ./scripts/run src/cli.ts produce script-review production-xxxxxxxx approve --hash 台本の版 --by '本人の名前'
+56: # 6. 制作（台本が承認済みでなければ不足を表示して拒否）
+57: ./scripts/run src/cli.ts produce render production-xxxxxxxx --subtitles burn
+58: # 7. 本人が完成動画を確認画面で見て承認・差戻し（review <ジョブ> でも可）
+59: ./scripts/run src/cli.ts produce status production-xxxxxxxx
+60: ```
+61: - 題材・考察・台本が変わると台本承認は失効し、古い台本から作った動画は「承認失効」になり承認もできません。運用記録の追記では失効しません。
+62: - 考察をエージェントが整えた場合は `--assisted-from 元の版` で整形版として記録し、本人の原文と区別します。
+63: - 試験・デモは `produce new --demo` の案件で、記録者をtest-agent等にします。デモの承認は本番に転用できません（`review <ジョブ>` の「公開前の判定」で確認）。modeのない既存ジョブはデモ（旧ジョブ）扱いです。
+64: - 記録者名は自己申告で認証ではありません。投稿は引き続き無効です。
+65: - T106の構成案（導入→身近な例→仕組み→本人の考察→活かし方→まとめ）の下書きは `fixtures/draft-price-index.json`。集計の図（meter）と経緯の矢印（travel）、説明に合わせた段の表示（reveal）を使っています。構成案と参考動画の観察は [docs/T106-DESIGN.md](docs/T106-DESIGN.md)。
+66: 
+67: ## チケット管理
+68: 正本は `tickets/Txxx.md`。テンプレートは `tickets/templates/TICKET.md`。`tickets` は担当・状態・優先度・段階・依存先、`next` は依存が完了したreadyを担当別に表示します。`check` はID重複、依存欠落、循環、必須項目、人向け手順、doneの依存状態を検証します。制作ジョブはチケットではありません。
+69: 
+70: ## 再開と運用
+71: まず [現在地](docs/STATUS.md)、[仕様](docs/SPEC.md)、[ロードマップ](docs/ROADMAP.md)、[検証記録](docs/VERIFICATION.md) を読み、`next` を実行してください。[復旧手順](docs/OPERATIONS.md)、[設計判断](docs/DECISIONS.md)、[素材台帳](docs/ASSETS.md) も参照。
+72: 
+73: 秘密値はGitにも会話にも保存しません。.env.exampleは将来の設定名だけ。
+74: 
+75: 実装の範囲（2026-10-14、詳細と最新は [docs/STATUS.md](docs/STATUS.md) の先頭）:
+76: - **実装済み（ローカル）**: 確認画面での承認・差戻し。承認は確認対象一式（動画、採用タイトル・概要欄・タグ・チャプター、字幕、サムネイル全案）の版に結び付き、変更で失効します（T033、T095）。予算制御は見積り・上限（既定0 USD）・試行ごとの予約と精算・費用不明額の保持と再送判定・全試行の記録まで（T023、T024、T098）。ただし実接続がないため、費用は常にmock/localの0 USDです。
+77: - **未接続・未完了**: 外部の実API（台本・音声・映像の生成）とYouTube投稿（通常制作のPublisherは無効）。通常制作の予算永続化・ジョブ横断管理・実サービスでの費用照合、実接続を伴う無人運用（M5）、自然なナレーション（現在は確認音）。T140のmock投稿台帳とT141のローカル/mock永続キューは独立モジュールで、通常制作CLIや実投稿への接続完了ではありません。
+78: 
+79: Geminiによる台本生成T025/T026は今回は不採用として終了し、API実装の完了を意味しません。下書きはT123のエージェント用Skillと`produce script`で扱います。T116は別用途の動画理解リクエスト/応答処理で、mock transport限定、実動画解析・実API送信は未検証です。
+80: 
+81: T129のE2Eはmock音声パスと偽MP4による工程・承認検査です。実MP4の媒体検査とは区別します。T126には48秒のRemotion実MP4の過去生成記録がありますが、Remotionの媒体レポートにある全デコード成功・フレーム数は固定値/期待値で、単独では実検査の証明になりません。T139の604秒の試験はChrome起動失敗でMP4未生成です。T127は音声スライスのパス・秒数集計と同期/音量値の判定までで、WAVを結合しません。実WAVの結合・BGMミックス・再デコードはT138の隔離された合成トーン専用mock経路にあります。実TTS・人の声質評価・通常制作への統合完了を示しません。行単位の照合とRunway依存案は[T142の調査記録](logs/2026-10-13/232152-T142-b79bc42b/evidence/AUDIT.md)を参照。既存dependsは変更していません。
+82: 
+83: 静的型検査は導入済み。型除去は型検査ではありません。これまで契約・有料API・クラウド・push・YouTube操作は行っていません。
+84: 
+85: ## AIエージェント向けの作業履歴
+86: [logs/README.md](logs/README.md) に、ユーザーの指示、実装経緯、判断、検証、TODOの履歴を保存しています。記録者・モデル名を明記し、現在の状態はチケットを参照します。ログの仕組みはT009で導入しました。
+87: 
+88: ## エージェント共通の完了検査
+89: 担当は `human / agent`。特定AIを優先せず、実施者名とモデルはログへ別に記録します。
+90: 初回は `./scripts/install-hooks` を実行し、[共通手順](docs/AGENT-WORKFLOW.md)に従って `src/worklog-cli.ts start` → 作業と記録 → `finish` → `src/cli.ts check` を実行してください。終了ログがない、未記入、終了後に変更がある場合はcheckとコミット前検査が失敗します。Gitのindexも検証します。
+91: 
+92: 起動は通常のNode 24以上。PATHにないときは `NODE_BIN=/path/to/node ./scripts/run ...` と明示します。開発に使った端末でのNodeの場所は過去の作業ログとdocs/STATUS.mdの時点記録にありますが、自動選択はしません。共通管理CLIはNode/Gitで動き、動画生成だけがmacOS専用です。
+93: 
+94: ## 参考動画の動きの解析とRemotionでの再現（T110、検証環境）
+95: `motion-lab/` は、参考動画のアニメーションをFFmpegで解析してJSONに保存し、Remotion + React + TypeScriptで自作の図形により再現・レンダリングし、フレーム比較して差異を直すための最小検証環境です。本体の制作パイプライン（src/）とは独立し、Remotion等のnpm依存はこの中だけにあります（ADR-020）。動画の取得機能はなく、利用を許可された手元の素材だけを `--rights` で根拠を記録して解析します。手順・判定基準・限界は [motion-lab/README.md](motion-lab/README.md)。Remotionの公式Agent Skillsは `.agents/skills/remotion-best-practices/`（版固定）。
+96: 
+97: ```sh
+98: cd motion-lab && pnpm install --frozen-lockfile
+99: node tools/lab.ts --run demo --theme both   # 自作の合成動画で、解析→レンダリング→比較→正解照合
+100: ```
+101: 
+102: ## 定型作業のSkill化
+103: 共通原本は `.agents/skills/`。`routine-to-skill` が実績から候補を評価し、既存Skillの更新または新規作成・検証・試用を行います。最初の抽出例（T011）は `repository-task-closeout`（検証・チケット・ログの終了順序）です。どのAIもSKILL.mdを明示的に読んで使えます。自動検出の対応は実行環境ごとに異なります。
+104: 
+105: ## 静的型検査
+106: Node 24以上とpnpmで `pnpm install --frozen-lockfile`、`pnpm run typecheck` を実行します。npmの型検査コマンドも使用可能ですが、再現インストールの正本はpnpm-lock.yamlです。TypeScript 5.9.3と@types/node 24.10.0を固定し、srcとtestsをstrict/noEmitで検査します。型除去による実行と型検査は別です。直接実行は `./scripts/run node_modules/typescript/bin/tsc --noEmit`。
+
+docs/SPEC.md
+1: # 仕様 v0.1
+2: 日本語の初学者向けに、日常に結び付く少し難しい概念や知識を説明し、生活への活かし方まで扱う（T070、2026-10-10のテーマ変更）。投資と心理は扱える題材の一部とする。10〜20分の長尺をYouTubeの1チャンネルへ制作・投稿する構想。本人による題材選定・考察執筆・台本承認・完成動画承認を当面必須とする。図解・字幕・ナレーション中心とし生成映像は必要箇所だけ。収益化は事業目標であり開発の完了条件・収益保証ではない。詳細はdocs/CHANNEL-POLICY.md。従来の例外通知だけの運用へ移行する場合は、この人の関与の方針を別途見直す。
+3: 
+4: 計画予算は月2〜3万円、3か月8〜10万円。今回の課金承認ではない。
+5: 
+6: ## M0/M1の境界
+7: 以下は既存の投資テーマ試作の実装範囲。新テーマの生成経路（テーマ別免責・導入文・出典の概要欄出力・一般テーマのfixture）はT103で実装済み（下記「テーマ別の台本」）。人の必須工程の強制はT104で行う。
+8: M0は仕様・チケット管理・開発手順。M1は36秒・1280×720・24fpsのローカル試作。オリジナルの架空の場面から、字幕・3段階の図解・自作確認音を含むMP4を生成する。自然なナレーション、生成AI、実相場・投資リターンの数値、外部API、公開は含まない。確認音は音声トラック経路の模擬実装であり読み上げではない。長尺制作・自然な日本語音声の品質はM2/M4で検証する。
+9: 
+10: ## データと構成
+11: TypeScript CLI → ScriptProvider → AudioProvider → VisualProvider → MP4と検証情報。Publisherは明示的に無効化。既定native経路はNode 24以上とmacOSのSwift/AppKit、およびFFmpegが必要で、実行時npm依存なし。任意のRemotion経路はmotion-lab側のRemotion/React等とChromeを使用する。開発時にTypeScriptとNode型定義を固定導入。制作の既定経路ではn8n/Make、クラウド、常駐ワーカーは使わない（エージェント計測には別途SQLiteを使用）。台本下書きはエージェントの作業、承認済みPlanからの描画はCLIの処理と区別する。
+12: 
+13: 企画は fixtures/sample.json、台本の条件は prompts/script.md、ジョブはGit対象外のoutputs。各ジョブは一意のID、版、入力ハッシュ、接続種別、進捗、費用0円、完成ファイルのハッシュを持つ。エラー時はfailed。M1では再実行は新ジョブで、途中再開・自動再試行はしない。
+14: 
+15: ## 外部サービス境界
+16: 台本生成のGemini APIは今回は不採用（T025/T026 doneは判断の終了で、接続成功ではない）。台本下書きはT123とproduce scriptで扱う。音声選定はT027、実音声接続はT028、任意の生成映像はT029/T060、投稿はT031/T032で別管理し、実接続は未完了。T116は台本生成とは別の動画理解モジュールで、mock transport限定、実API互換性・実解析は未検証。各実接続前に公式仕様・モデル・費用・権利を調査し、人の契約設定チケットと実装試験チケットを分ける。キーは環境変数またはGit対象外の設定で管理する。M1は.envを読み込まない。
+17: 
+18: ## 現在の検証境界（2026-10-14、T142）
+19: - T129はmock音声パス・偽MP4による段階連携、lint、承認と安全停止のE2E。実媒体のデコード・字幕表示同期・自然な音声品質・実APIの合格を示さない。
+20: - T126には48秒/1152フレームのRemotion実MP4の過去生成記録がある（今回は再生成していない）。ただしRemotionVisualのmedia-check.jsonはフレーム数を期待値、fullDecodeを固定passedとして記録するため、このJSON単独では実デコード合格の証明にならない。T139は72秒/604秒の実WAVまで検査したが、Chrome起動失敗で実MP4生成・再生は未達。
+21: - T127のsynthesizeLongFormAudioは各スライスの音声パスと秒数を集計するだけで、実WAVを結合しない。BGMは減衰区間計算、音量は渡された数値の閾値判定。実WAV結合・BGMミックス・PCM再デコード/LUFS実測はT138の合成トーン専用mock経路で実装済み。実TTS・通常制作への長尺音声統合・人の試聴は未完了。
+22: - Runwayは任意だがT021/T022の既存依存に残るため親と後続の完了を阻む。T060自身のT029依存は実接続の安全条件として必要。依存変更は方針決定後の別作業とし、今回は変更しない。根拠と具体案は[T142調査記録](../logs/2026-10-13/232152-T142-b79bc42b/evidence/AUDIT.md)。
+23: 
+24: ## 後続で必須の制御
+25: 承認は完成物の版/ハッシュに結び付け、変更時に失効。公開制限・審査を先行調査。費用は確定額に実行中見込額を加える。投稿成功後の応答喪失は照合してから処置する。公開APIの再試行で重複投稿させない。無人運用前には異常注入と非公開連続運転を行う。
+26: 
+27: ## 開発運用の中立性（T010）
+28: チケット担当はhuman/agentへ移行。任意のエージェント名・モデル名を同じ作業ログschemaで記録する。旧codex担当はagentへ変更し、過去ログの実施者記録は保存。開始/終了/検査CLIとGit pre-commitで未記録・記録後変更を検知。Nodeの選択はPATHまたはNODE_BINで、特定AI付属の実行環境への自動依存なし。詳細と強制できる範囲はdocs/AGENT-WORKFLOW.md。
+29: 
+30: ## 台本形式v2と制作の検査（2026-10-08、T041〜T044、T024、T033）
+31: - 台本はschema 2（src/plan.ts）。ナレーション、字幕cue、図解4種（flow、compare、number、branch）、出典（https・確認日）を持つ。総尺は25分まで。v1は読み込み時に変換する。
+32: - 制作前に安全検査（src/lint.ts）を行う。対象は禁止表現、出典のない数値、最終場面の免責。errorがあれば制作しない。
+33: - 描画は文字を計測して縮小し、収まらなければ失敗する。図解は段階表示する。字幕は焼き込み（T106から既定）、ソフト、両方から選ぶ。
+34: - native経路の完成動画検査: フレーム数の一致、ソフト字幕、確認音、描画画像とのPSNR、LUFSの記録。Remotion経路は代表フレーム抽出・字幕ストリーム数確認を行うが、全デコード/実フレーム数/PSNR/LUFSの同等検査は未実装。レイアウト等の固定レポート値も実文字計測の合格と同一視しない（src/remotion-visual.ts）。
+35: - 台本・音声・描画は接続抽象と予算上限（既定0 USD）を通す。job.jsonはmock/local/realを区別して記録する。
+36: - 承認は確認対象一式（動画、採用タイトル・概要欄・タグ・チャプター、字幕、サムネイル全案）の版に結び付き、変更で失効する（T095、src/review.ts、serve）。投稿は引き続き無効。
+37: - 詳細と不変条件はdocs/HANDOFF.md。
+38: 
+39: ## テーマ別の台本（2026-10-10、T103）
+40: - 台本v2に任意欄`theme`（general/investment）と`intro`（導入文・出典id・fictional）を追加。schemaは2のまま。未知のthemeは拒否する。
+41: - theme未指定は旧形式（投資と心理の試作）として投資テーマ扱い。既存の投資fixtureを一般テーマへ読み替えて検査を緩めない。
+42: - 免責: investmentは最終場面で推奨・保証の否定、generalは結果を保証しない旨の否定。generalでも投資の語（銘柄・株価・NISA等）があれば投資の免責が必要。禁止表現・出典のない数値・具体例の架空/実例の区別・サムネイル文言の検査はテーマによらず適用する。
+43: - 概要欄: 先頭に導入文。出典は文献名・URL・確認日を一覧にし、metadata.jsonの`sources`に場面番号と導入文での使用を保存する。URLの記録は主張の検証済みを意味しない。
+44: - 導入文の欠落は本番尺（3分以上）でerror、試作はwarning。導入文は出典か架空の明示が必要（error）。
+45: - 新テーマの無料サンプルは`fixtures/sample-general.json`（開発用の架空例。総務省統計局の公式ページを出典とする）。詳細はADR-017。
+46: 
+47: ## 本人が担う工程（2026-10-10、T104）
+48: - 制作案件（outputs/production-xxxxxxxx、kind=production-project）に、題材候補・本人の選択・本人の考察（版つき、本人執筆/整形版の区別）・台本の版・台本の承認/差戻し・制作した動画を追記で記録する。開発チケットとは別。
+49: - 台本はrole: reflectionの場面を1つ持つ下書きに本人の考察を差し込んで作る。下書きのまま（未入力の目印）はlintのerror。台本の版は候補の内容・考察の版とハッシュ・台本ファイルのハッシュから作り、変更で台本承認が失効する。
+50: - 制作（produce render）は未選択・考察未入力・台本未作成/古い・台本未承認なら拒否し不足を表示する。強制オプションなし。
+51: - 完成動画の承認は確認対象一式に台本の版を加えて結び付け、現在の承認済み台本と一致しない動画は失効・承認不可。sampleは常にデモ、modeのない既存ジョブはデモ扱い。公開前の判定（publishReadiness）は本番の案件・本番の動画・現在の承認済み台本・動画承認を要求する。本番の案件では本人の工程をエージェント名で記録できない。詳細はADR-018。
+52: 
+53: ## 見せ方（2026-10-10、T106）
+54: - 文字は入れ物の枠の中で上下中央（または上寄せ）に置き、画面の区画（見出し行・題名・強調・図解・字幕・フッター）を重ねない。文字配置の検査結果をjob.json.layoutに記録する。
+55: - 図解に集計の図（meter）を追加。flowは任意でmotion: travel（矢印が伸びて次の段が出る）。段の表示時刻はdiagram.revealで説明に合わせられる。
+56: - 字幕の既定は焼き込み。サムネイルは問い型・図解型・対比型の3案（thumbnail.keyword/contrastは任意）。
+57: - 構成案と参考動画の観察はdocs/T106-DESIGN.md。構成の合意とサムネイルの選択は本人の確認待ち。詳細はADR-019。
+58: 
+59: ## 参考動画の動きの解析・再現の検証環境（2026-10-10、T110）
+60: - motion-lab/ の参考動画解析・比較は独立した検証用途。参考動画（利用を許可された手元の素材だけ。取得機能なし）の動きをFFmpegで解析してJSON（motion-lab/analysis@1）に保存し、Remotionで自作の図形により再現・レンダリングし、フレーム比較（SSIM/PSNR・動きの差）で差異を直す。
+61: - T126でPlanVideo描画とPlan変換を本体VisualProviderへ統合済み。sample/produce renderの--renderer remotionで選択し、job.json.versions.rendererKindにlocal.remotionを記録する。Remotion等の依存配置はmotion-lab側で、native経路と併存。参考動画解析結果の自動制作接続や投稿を意味しない。ADR-020の「本体と独立」はT110時点の判断で、現在の描画統合にはこの追記を適用する。
+62: - 観測できない項目は確からしさ（upper_bound/unknown等）と理由を付けて記録し、断定しない。詳細はmotion-lab/README.md。
+
+docs/STATUS.md
+1: # 現在の再開地点（2026-10-10 UTC、T099で整理）
+2: 2026-10-14 JST T142 done（Codex / GPT-6 runtime、232152-T142-b79bc42b）: README/SPECの一般説明を現コードに合わせて訂正。Gemini台本生成T025/T026は不採用終了、T116は別用途の動画理解mock、Remotionは本体統合済み。T129は偽MP4/mock音声パスのE2E、T127はパス/秒数集計でWAV結合なし、T138は合成トーンの実WAV結合あり、T139は604秒音声まで検査・MP4未生成と区分。行単位の矛盾一覧・正本差分・Runway依存グラフ案は logs/2026-10-13/232152-T142-b79bc42b/evidence/AUDIT.md。変更チケットはT142のみ、既存dependsは全て保持。依存案の適用とT127/T129等のチケット説明修正は別作業。対象16件/型検査成功（今回実MP4生成・再生・実APIは未実施）。Skill評価は既存終了Skillを適用、今回固有の文書照合は独立反復根拠不足で新規作成見送り。モデルの詳細ID/トークンは取得不可、計測確認はT142登録実行なし（終了2）で計測完了とは扱わない。
+3: 2026-10-14 JST T141 done（Codex / GPT-6 runtime、230629-T141-59f185ea）: 新規src/local-queue.tsにローカル/mock専用の永続キューを分離。FIFO・同時数上限・重複拒否・失敗隔離・累計有限再試行・unknown再送停止・入力/成果物ハッシュ照合・receiptによる中断復旧を実装。制作案件は既存承認とT128の人待ちを再検査し、既存ジョブ/outputs/CLIは不変更。新規21件＋既存63件=84件、型検査成功。HTTP4件はlisten EPERMで未達、最終対象から明示除外。使用例・復旧制約はtickets/T141.md、証跡logs/2026-10-13/230629-T141-59f185ea/evidence。実API・クラウド・認証・課金・投稿なし、実レンダラー自動接続なし。計測確認終了2（T141管理対象実行なし）、詳細モデルID/使用量取得不可。Skill評価は既存終了Skillを適用、キュー固有手順は独立反復実績不足で見送り。
+4: 2026-10-14 JST T140 done（Codex / GPT-6 runtime、225922-T140-5b231b46）: 実ネットワークなしのmock Publisher契約・決定的ファイルadapter・ジョブID/確認ハッシュの冪等台帳を新規モジュールへ隔離実装。未承認/失効拒否、応答喪失/中断後の照合、unknown再送禁止、累計試行上限、二重作成防止、quota/auth永続停止を試験。mock17件＋既存承認/工程を合わせ62件、型検査成功。既存HTTP4件はlisten EPERM、最終対象から明示除外（実通信成功ではない）。DisabledPublisher・src/providers.tsの既存変更を保持しCLI/制作経路は不変更。実API・認証・課金・投稿なし。証跡logs/2026-10-13/225922-T140-5b231b46/evidence、再現とlock復旧制約はtickets/T140.md。計測確認終了2（T140登録実行なし）、詳細実モデルID/使用量は取得不可。Skill評価は既存終了Skill適用、mock固有のSkillは独立反復根拠不足で見送り。
+5: 2026-10-14 JST T139 review（Codex / GPT-6 runtime、224405-T139-ca44700d）: T138確認音を隔離コピーだけでRemotion制作へ接続。デモの未選択/未承認拒否を確認し、72秒・604秒の実WAV（15/41cue、24kHz mono）をffprobe/全音声デコード、実PCMとpropsの境界ずれ0秒で検査。両Remotion描画はChrome起動失敗（長尺SIGABRT）、job=failed、MP4なし。映像フレーム/レイアウト/字幕表示同期/代表PNG/再生は未達。Safari操作拒否、localhost serve EPERM。対象22件/型検査成功、既存outputs 2,248ファイルの名前・サイズ・mtime・SHA-256一致。原本src・他チケット・Skill不変更。証跡はlogs/2026-10-13/224405-T139-ca44700d/evidence、音声とコピーは/private/tmp/T139-render-nti1mann。再開はtickets/T139.md（Chrome・localhost・GUI利用可能環境で短尺合格後に長尺）。自然TTS・外部API・課金・認証・投稿なし。計測はT139登録実行なし（終了2）で未完了。
+6: 2026-10-14 JST T138 done（Codex / GPT-6、223523-T138-323bf830）: 合成トーン専用の実WAV媒体経路を追加（src/mock-audio-media.ts / mock-audio-media-cli.ts）。14スライス→68秒WAVを隔離生成し、再デコード1,632,000サンプル、cue累積ずれ0秒、BGM単体/最終ミックス成分とも約10dB減衰、-14.3 LUFS / True Peak -9.9dBFSを実測。対象11件・型検査成功。ミックス障害の終了17で既存ファイル保持/部分出力削除/再試行成功。全体273件中269成功、既存HTTP4件はlocalhost listen EPERM。実TTS/API・人の試聴・課金・認証・投稿なし。既存outputs/sample経路不変更、WAV/PCMは/private/tmp/T138-media-Cgj8b6/audio/、証跡はJSON/ログのみ。再現手順docs/T138-MOCK-AUDIO.md。Skill評価は既存終了Skill適用・音声固有手順は単発で新規Skill見送り。T138登録実行なし（計測確認終了2）、使用量/詳細実モデルIDは取得不可。
+7: 2026-10-14 JST T116 done（Codex / GPT-6、223147-T116-9fb0b6c2）: 動画理解リクエスト生成・契約検査付き応答変換・unavailableフォールバックを`orchestration/gemini-video.ts`へ実装。必須DIのmock transport限定、既定ネットワーク接続なし。YouTube URL/既アップロードURI、キー未設定・通信/HTTP/タイムアウト・不正応答を模擬試験。対象13件＋既存契約/連携24件の37件、型検査成功。実API・認証・課金・投稿・実動画解析は未実施、実サービス互換性は未検証。T116のmock範囲は完了し、実接続には別途承認とGateway/予算連携が必要。計測はT116の登録実行なし（status終了2）、使用量不明。
+8: 2026-10-14 JST T084 review（Codex / gpt-6.1-sol、221822-T084-6aa976b5）: 台本内の実践の原文一文を指定するpractice、出典・場面・架空表示を保持したchecklist.json/txt、AppKit画像（3項目/ページ）、概要欄全文、末尾role=action、確認画面・承認版への接続を実装。1項目80字/全体12項目・全文一致・出典検査、概要欄5000バイト超で安全停止。追加試験7件と型検査成功、全体269件中265成功/4件はlocalhost listen EPERM。隔離32秒MP4（768/768フレーム、全デコード、PSNR最小39.985dB）・通常画像2ページ・最大文字数4ページ・末尾27秒フレームの目視成功。旧台本36秒も生成成功。実再生はlocalhost制限とSafari操作拒否で未確認。Token Monitorはこの実行exe_0mv78scre0a22ae61d377がrunning/missing、require-metered終了4で未完了。再開は docs/T084-CHECKLIST.md と tickets/T084.md。本人入力の代行・外部API・課金・投稿なし。作業記録はpausedで閉じる。
+9: 2026-10-14 JST T120追補（Codex / gpt-6-astra）: 利用者の「AGENT-INDEPENDENT-WORKの全作業を各サブエージェントで実施」指示に基づき、先行案をT138〜T143へ起票。本人不要の既存候補T084/T116と合わせ、Router経由で順次委譲する。外部API接続・投稿は模擬のみ。現在の親作業回logs/2026-10-13/221626-T120-35c35349を一度pausedで閉じ、子作業間に新規のT120作業回で再開する。
+10: 2026-10-14 JST T120追補（Codex / gpt-6-astra、221124-T120-29639d2a）: 本人作業を待たない一覧は docs/AGENT-INDEPENDENT-WORK-2026-10-14.md。既存T084/T116を6単位、音声・実媒体・投稿模擬・継続制作・文書依存整合・T121監視を未起票の先行案11単位（6種類）に整理。実装・起票・依存変更は未実施。本対話計測は確認時missing。
+11: 2026-10-14 JST T120追補（Codex / gpt-6-astra、220657-T120-7cbd9edc）: 最新の状況報告は docs/PROJECT-STATUS-2026-10-14.md。106件中done86、未完了20。前回のT106/T111/T117/T118/T119/T121はdone、T025/T026は不採用終了。次は公開分析なら本人T133→agent T134→T130、実音声ならT027→T028/T077。独立候補はT084/T116。T129はmockAudioConn/fakeRenderによる模擬E2Eで実長尺MP4の完走ではない点をコードで確認。チケット状態変更なし。本対話の計測は確認時missingで未完了。
+12: 2026-10-13 T129 done（Antigravity / Gemini 3.8 Flash (High)、220050-T129-6b864324）: 段階別制作パイプラインのE2E品質・安全・再現性試験スイート（tests/documentary-pipeline-e2e.test.ts 5件）を実装。題材選定（superstar-economics）→考察入力→台本作成（Plan v2/lint合格）→事実確認・素材権利（T124、エスカレーション0件）→音声スライス分割・合成・字幕同期・BGMダッキング・音量基準判定（T127）→台本承認→制作ジョブリンク→動画承認までの正常系完走、必須承認省略の安全停止、事実・権利未確認時のブロック、音声予算超過時の安全停止・成果物保護、考察更新に伴う承認失効・旧版動画失効を検証。全387件テスト・TypeScript型検査合格。
+13: 2026-10-13 T128 done（Antigravity / Gemini 3.8 Flash (High)、215321-T128-08567832）: 人の確認工程を保った制作パイプラインの段階連携モジュール（src/orchestration-pipeline.ts）を実装。段階ごとの状態・成果物・使用量・試行記録を管理するPipelineManifest（getPipelineManifest/savePipelineManifest）、前段成果物と制作段階（topic-selection, reflection, script, script-review, render, video-review）を検証し本人の判断点を飛ばさず不足理由とともに安全停止・進行可否を判定するassessStagePrerequisites、事実・権利確認レポート（T124）の登録・エスカレーション時ブロック（attachFactCheckReport）、音声評価メタデータ（T125/T127）の登録・台本ハッシュ照合（attachNarrationMetadata）、パイプライン進行オーケストレーター（advancePipelineStage）を提供。単体テスト（tests/orchestration-pipeline.test.ts 6件）および全382件テスト・TypeScript型検査合格。
+14: 2026-10-13 T130 blocked（Claude Code / claude-opus-5-5、154024-T130-ea4b1d33）: YouTube公開データのトレンド・成長分析基盤は、合成データと模擬接続で収集→履歴→算出→レポートまでローカルで再現可能（T131/T132/T135/T136/T137 done、T134 review）。**次は人のT133（ready）**: APIキー作成とIII.L申請の要否、III.E.2の判断（手順は tickets/T133.md）。その後エージェントがT134の実接続を承認範囲で1回だけ行う。未承認の間、実データは取得から30日以内の取得値の推移表示だけに使える。
+15: 2026-10-13 T137 done（Claude Code / claude-opus-5-5、153559-T137-4c49572b）: トレンド・成長分析CLI `./scripts/run src/trends-cli.ts`（status/import/collect/report/policy/purge/delete/export、text/CSV/JSON、出典・鮮度・指標の意味・限界を明記、CSV式注入対策、終了コードで停止理由を区別）。時刻の文字列比較の不具合をT136のコードで修正し回帰試験を追加。全251件・型検査合格。使い方は docs/TRENDS-OPERATIONS.md。
+16: 2026-10-13 T134 review（Claude Code / claude-opus-5-5、153337-T134-8d3a325e）: クォータ制御つき収集アダプター src/trends-collect.ts（読み取り3メソッドのみ、送信前見積り、上限/認証/一時障害の区別、制限付き再試行、キーの伏せ字、模擬/実接続の区別）。模擬レスポンスで tests/trends-collect.test.ts 7件合格。実APIは未接続（T133の認証準備と人の承認待ち）。
+17: 2026-10-13 T136 done（Claude Code / claude-opus-5-5、153127-T136-2bae6263）: 成長指標とカテゴリ動向の算出 src/trends-metrics.ts（比較不能は値nullと理由コード、APIデータは承認記録なしでPolicyDenied）。手計算例と境界例を tests/trends-metrics.test.ts 5件で照合し合格。
+18: 2026-10-13 T135 done（Claude Code / claude-opus-5-5、152913-T135-f3750b50）: トレンド分析のローカル履歴 src/trends-store.ts（work/trends/store.json、重複排除・上書き禁止・原子保存・バックアップ復旧・スキーマ検知・排他・保持期限削除・指定削除・書き出し・クォータ台帳）と docs/TRENDS-OPERATIONS.md。tests/trends-store.test.ts 7件合格。
+19: 2026-10-13 T132 done（Claude Code / claude-opus-5-5、152537-T132-e3f1c5de）: トレンド・成長指標とデータ形式を docs/TRENDS-METRICS.md と src/trends-schema.ts（yt-trends-batch/v1、ポリシー判定、保持期限）に定義。合成データ fixtures/trends/ に手計算例と境界例。tests/trends-schema.test.ts 4件合格。
+20: 2026-10-13 T131 done（Claude Code / claude-opus-5-5、152221-T131-561100f6）: YouTube Data API v3の分析用途の利用条件を docs/RESEARCH-TRENDS-API.md に整理（公式10ページ、確認日2026-10-13）。標準の開発者は公開統計の30日超保存・派生指標（III.E.4.h）・事業動向目的の集約（III.E.2）が不可。III.L承認（監査済み分析用途）後は統計・派生指標を36か月保存でき増加ランキング等も可。後続T132〜T137は、出所区別・承認記録なしではAPIデータの派生分析を停止・保持期限の強制で実装する。次はT132。
+21: 2026-10-13 T127 done（Antigravity / Gemini 3.8 Flash (High)、150820-T127-18fd964f）: 長尺ナレーション・字幕同期・音響仕上げの制作工程（src/audio-pipeline.ts）を統合。10〜20分の台本スライス分割（sliceScriptForNarration）、接続抽象・予算上限事前予約・試行記録連携（synthesizeLongFormAudio）、発話時刻と字幕cueの累積ドリフト検査（checkSubtitleSync、許容0.5秒）、ナレーション発話区間BGMダッキング計算（calculateBgmDucking、-18dB -> -28dB）、YouTube規格音量検査（checkAudioLoudness、-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）、T125人の試聴評価メタデータ連携（verifyNarrationLink）を実装。単体テスト（tests/audio-pipeline.test.ts 7件）および全346件テスト・TypeScript型検査合格。
+22: 2026-10-13 T123 done（Antigravity / Gemini 3.8 Flash (High)、150000-T123-6a2532f3）: AIエージェントによる台本・公開用テキスト下書き共有Skill（.agents/skills/script-drafting/SKILL.md）を整備。Plan v2仕様、5大章立て構成（Paradox, Mechanism, Story, Reflection, Epilogue）、文体・字幕・演出ルール、本人の考察（role: reflection, 【本人の考察：未入力】）保持、差戻し（reject）対応手順を定義。サンプル下書き（fixtures/draft-documentary-superstar.json）を作成。単体テスト（tests/script-drafting.test.ts 4件: 下書き構造、考察注入、lint 0エラー合格、制作案件E2Eワークフロー）および全339件テスト・TypeScript型検査合格。
+23: 2026-10-13: YouTube Data API v3の公開データ分析基盤としてT130〜T137を追加。公式利用条件調査、指標/データ形式、認証準備（human）、収集、履歴、分析、ローカルレポートに分割。既存T086（題材需要調査）やT076（所有チャンネル視聴データ/Analytics API）とは範囲を分けた。API有効化・認証・実呼び出し・課金は未実施。最初はT131の公式調査。詳細は tickets/T130.md〜T137.md と logs/2026-10-13/002419-T086-3bbeb2f9。T135の文面修正は logs/2026-10-13/002535-T130-63d7e082。
+24: 2026-10-13 T125 done（Antigravity / Gemini 3.8 Flash (High)、001711-T125-4992bbe7）: 自然な合成ナレーションの生成・試聴評価を支援する共有Skill（.agents/skills/narration-evaluation/SKILL.md）を整備。ドキュメンタリー向け音響基準（低音・落ち着いたトーン、話速5.2〜5.8字/秒、思考の間1.0秒）、品質チェックリスト（専門用語アクセント・数値発音・ノイズ）、比較試聴評価表（1〜5段階評価軸）を策定。メタデータ検証モジュール（src/narration.ts）およびサンプル試聴評価データ（fixtures/narration-evaluation-superstar.json/.md）を作成。単体テスト（tests/narration-evaluation.test.ts 5件）および全335件テスト・TypeScript型検査合格。
+25: 2026-10-13 T124 done（Antigravity / Gemini 3.8 Flash (High)、001126-T124-2d007975）: 出典・事実確認および素材利用権確認の共有Skill（.agents/skills/fact-and-rights-check/SKILL.md）を整備。一次資料優先ルール、主張・提示数値と出典の1対1対応（Claim Matrix）、視覚・音声・フォント素材の利用権確認（Rights Matrix）、未確認数値・商用不可素材検出時の人への安全停止・エスカレーション基準を定義。検証モジュール（src/fact-check.ts）およびサンプル検証データ（fixtures/fact-check-superstar.json/.md）を作成。単体テスト（tests/fact-and-rights-check.test.ts 5件）および全330件テスト・TypeScript型検査合格。
+26: 2026-10-13 T122 done（Antigravity / Gemini 3.8 Flash (High)、000538-T122-f49da742）: 企画・情報整理を支援する題材リサーチ共有Skill（.agents/skills/topic-research/SKILL.md）を整備。「日常の疑問・不条理」×「二重の学術フック」、Paradox→Mechanism→Reflectionの構成展開、事実・推論・未確認事項の厳格分離原則を定義。サンプル題材候補（fixtures/candidates-documentary.json: スーパースター経済学・名字絶滅・寛容のパラドックス）および根拠資料レポート（fixtures/research-report-documentary.md）を作成。validateCandidates、createProject、レポート構造の単体テスト（tests/topic-research.test.ts 4件）および全325件テスト・TypeScript型検査合格。
+27: 2026-10-12 T126 done（Antigravity / Gemini 3.8 Flash (High)、231006-T126-15eb5886）: Remotion描画を本体VisualProviderへ統合（RemotionVisual、motion-lab/src/PlanVideo.tsx）。--renderer remotion オプションにより既存Swift rendererと段階的併存。ダーク背景、スポットライト、ProgressiveBarメーター、フロー図、比較・分岐カード、ピクトグラム、焼き込み字幕同期を実装。隔離デモ生成（outputs/bias-check-demo-ee27087b/sample.mp4 1280x720 24fps 48秒）、媒体検査・全フレームデコード・文字配置検査・見やすさ検査・代表フレーム・サムネイル3案生成すべて合格。全321件テスト・TypeScript型検査合格。
+28: 2026-10-12 T122/T124/T125 チケット具体化（Antigravity / Gemini 3.8 Flash (High)、230725-T122-32c3ccdf）: 利用者指示に基づき、参考動画（「考えすぎる葦」10本、スーパースター経済学・名字絶滅等）の分析結果（docs/REFERENCE-STYLE-POLICY.md、docs/AUTONOMOUS-DOCUMENTARY-PIPELINE.md）を反映して、T122（日常の疑問×二重の学術フックの企画手順・一次資料優先）、T124（提示数値・主張の1対1対応、SVGピクトグラム・フォント等の素材利用権確認）、T125（ドキュメンタリー向け低音・落ち着いたトーン、適切な間・話速のナレーション評価基準）の各チケットを具体化。
+29: 2026-10-13: 利用者判断により、Gemini APIによる台本生成は今回は不採用。T025（契約・キー設定）とT026（接続・試験）は、契約・API接続・課金・実試験を行わず、その判断と再開条件を記録して終了。これは接続完了を意味しない。後続として、企画・情報整理T122、エージェントによる台本/公開文下書きSkill T123、事実・権利確認Skill T124、自然なナレーションSkill T125、Remotion描画統合T126、長尺音声・字幕・音響T127、段階連携T128、E2E品質試験T129を追加。着手可能性は依存関係と `next` の最新結果を参照。
+30: 2026-10-12 T111 done（Antigravity / Gemini 3.8 Flash (High)、151400-T111-798a5d9f）: 利用者より参考動画2件（reference1, reference2）の配置・YouTube出典URL・利用許可根拠（著作権法第32条 研究・解析のための引用）・指定区間（0:00〜1:44）を受領。区間クリップ（ref1-intro.mp4, ref2-intro.mp4 104秒/3117フレーム）を切り出し、境界防御・安全化パッチを適用した上で動画解析（analyzeVideo）を完了（10シーン、68動き区間、566追跡要素）。Remotion公式FAQに基づく個人無料ライセンス適用を確認。全321件テスト・TypeScript型検査合格。T111の受け入れ条件を全件充足。
+31: 2026-10-12 T119 done（Antigravity / Gemini 3.8 Flash (High)、141642-T119-de22a6d9）: 3製品エージェント連携ワークフローの自動統合試験（orchestration/e2e.test.ts）を整備。合成動画（makeReference）を入力とし、全11役割を通じたE2Eファイル連携サイクル（解析→設計→実装→描画→評価→改善タスク→再描画→定量・定性合格→complete）、改善上限到達時の安全停止（stop_limit）、悪化時の即時安全停止（stop_no_improvement）、解析不能時の安全停止（stop_inconclusive）の4シナリオを全件検証。全成果物のAjv Schema・セマンティックコントラクト検証合格。CI/ローカル実行手順書（orchestration/README.md）を整備。全テスト・TypeScript型検査合格。
+32: 2026-10-12 T118 done（Antigravity / Gemini 3.8 Flash (High)、103336-T118-13bd825f）: 利用者からの確認承認（「T106はとりあえずその方針で問題ないと思います」）を受け、T106をdoneに更新。確定構成の台本テンプレート（fixtures/draft-price-index.json）をproduce scriptの既定として反映、採用サムネイルの既定化（thumbnail-a.png）と見直し機能（metadata revise --thumbnail）、焼き込み字幕（burn）および文字配置検査（job.json.layout 2312フレーム合格）を制作機能（cli.ts produce）へ正式統合。媒体検査（H.264 720p 24fps 88秒）、全317件テスト・型検査合格。
+33: 2026-10-12 T117 done（Antigravity / Gemini 3.8 Flash (High)、101451-T117-917c72ca）: ドキュメンタリー動画自動制作の事前準備タスク（SVGピクトグラム5種、Remotionプリミティブ6種、アンビエントBGM仕様、Plan→Remotion Props変換仕様 remotion-plan.ts）を整備。docs/DECISIONS.md に ADR-021（Remotionと本体制作パイプラインの統合方式）を策定。単体テスト・型検査全件合格。
+34: 2026-10-12 T106 review追記（Antigravity / Gemini 3.8 Flash (High)、100533-T106-f9158b8c）: 同チャンネルの動画10本（スーパースター経済学、奢る理由、差別と分断、似た地獄、名字絶滅、他人の成功、神童等）を詳細分析し、共通要件と完全自動動画制作に必要な技術・準備要件を体系化したパイプライン設計書 docs/AUTONOMOUS-DOCUMENTARY-PIPELINE.md を策定。
+35: 2026-10-12 T106 review追記（Antigravity / Gemini 3.8 Flash (High)、070244-T106-b5915894）: 参考動画および同チャンネル「考えすぎる葦」の複数動画を横断分析し、構成案・動き・サムネイル・字幕形式を抽象化した方針書 docs/REFERENCE-STYLE-POLICY.md を策定。T118での制作機能正式統合に向けた設計仕様を整理。
+36: 2026-10-12 T121 done（Claude Code / claude-opus-5-5、065129-T121-a2e6c506）: Antigravity対話中のサブエージェントを親へ結び付けて実測（30,795トークン measured）。子の環境変数は子自身のIDのため、親のStopで親の会話記録の子IDから結び付ける方式へ修正（パッチ11・12）。完成条件1〜10を満たす。残りは監視（自動の結び付けの実機観測、models.jsonの child_usage 更新、database is locked）。
+37: 2026-10-12 T121 追記（Claude Code / claude-opus-5-5、063955-T121-b7755653）: Antigravity対話（親 flash-high）のサブエージェントはHookが推奨不一致で拒否し、案内どおり agentctl run で実行（measured）されたことを実機確認。対話中の子の結び付けは、対話モデルを gemini-3.8-flash-medium にして再試行が必要。T121はreviewのまま。
+38: 2026-10-12 T121 追記（Codex / gpt-5.6-sol、022817-T121-fe18c5c9）: Codexデスクトップ同梱0.162.0-alpha.2でnative subagentへのgpt-6-luna注入・親子関係・39,901トークン measuredを実機確認し、CLI版とアプリ同梱版のdoctor判定を分離。25種類×2戦略の50実行を追加して全件計測し、評価29件ずつで軽量の合格率0.72、標準0.97。品質下限0.90に従うOptimizer提案をPM承認・適用し、extraction/L1をstandard開始へ変更（方針2026-10-12.1）。完成条件1〜10は条件4だけ一部未達。Antigravity対話中の子のbinding実データがないためT121はreviewのまま。database is lockedは再発なし。
+39: 2026-10-12 T121 追記（Claude Code / claude-opus-5-5、021141-T121-cb2c0505）: Antigravityの会話記録から使用量を実測（対話・子とも）、対話を応答ごとのタスクに分割。コスト削減を実測（Codex 8回、合格1件当たり軽量開始で約93%減、合格率同等）。Optimizerの単価不明時の誤比較を修正し、Codexの公式単価を登録。T121はreviewのまま（残りは利用者のデスクトップ/対話での使用記録で確認）。
+40: 2026-10-12 T121 追記（Claude Code / claude-opus-5-5、015814-T121-1080c59d）: Antigravity対話セッションのHook動作・GEMINI.mdの読込み・ログイン後のClaudeのGateway実行を実機で確認。利用者の包括許可により、保護対象の変更は `agentctl maintenance apply`（一時コピーで全試験→適用→再試験→記録）でエージェントが確認なしに行う（AGENTS.md、model-router Skill「保守」）。ヒアドキュメント誤判定を修正。T121はreviewのまま（残りはチケット参照、利用者の操作は不要）。
+41: 2026-10-12 UTC（利用者時間2026-10-11）T120追補（Codex / gpt-6-astra）: 各エージェント・本人・PJ全体の状況確認は docs/PROJECT-STATUS-2026-10-11.md。90件中65 done、未完了25件。本人のT106レビューとT111素材準備、agent側の依存完了backlog T084/T116/T117/T119が次候補。外部設定の保留は継続。T121の最新残件を維持し、チケット状態・依存・担当を変更していない。今回の対話計測は確認時missingで未完了。詳細は作業回013841-T120-3ebbfbc6。
+42: 2026-10-11 T121 追記（Claude Code / claude-opus-5-5、165046-T121-5721aa8a）: Codexのサブエージェントのモデル注入が実機で成立（0.162.1、能力をenforcedに更新）。Antigravityのサブエージェントは能力（モデル指定不可・子の使用量取得不可）で判断し、推奨＝親モデルなら許可、違えば拒否してagentctl runへ案内。doctorが製品の版の変化を検知。14:17 UTCにAntigravityがClaude Codeの作業回を無断で閉じた件を受け、他者の作業回を閉じない規則を GEMINI.md（Antigravity側の規約、新規）と AGENTS.md に明記。T121はreviewのまま。
+43: 2026-10-11 T115 done（Antigravity / Gemini 3.8 Flash (High)、164542-T115-fc0b18af）: FFmpegを用いた高FPS連番PNGフレーム抽出CLIツール（motion-lab/tools/extract-frames.ts）を実装。指定FPS（30/60fps等）でのフレーム抽出、区間トリミング、フレーム番号・秒数・ミリ秒対応表（frames.json）の出力、単体テスト（extract-frames.test.ts 2/2 pass）に合格。
+44: 2026-10-11 T071 done（Antigravity / Gemini 3.8 Flash (High)、164027-T071-9e071060）: AI利用と人の監修の明示（G20〜G22）を実装。Plan型にaiDisclosure（利用範囲、監修者、確認項目、現実合成有無）を追加。YouTube公式ポリシー（G20）に基づく改変・合成コンテンツ開示判定（containsSyntheticMedia）と定型説明文の概要欄挿入、確認画面（serve.ts）での表示を実装。全302件のテストおよび型検査合格。
+45: 2026-10-11 T114 done（Antigravity / Gemini 3.8 Flash (High)、141740-T114-a88c2ecd）: animation_spec.jsonに基づくRemotionコンポーネント PrologueQuestion.tsx を実装し、Root.tsx登録、1920x1080 30fps 120フレームのMP4レンダリング（prologue-question.mp4 143.6kB）、ffprobe媒体検証、仕様整合性・重複なし・コントラスト検査テストに合格。
+46: 2026-10-11 T121追記（Codex / gpt-6-astra、134708-T121-989ab57e）: PreToolUse/PostToolUse信頼後の依頼で、通常サブエージェントを1回実行。gpt-6-lunaが応答しcompleted/measured、48,179トークン、親子記録あり。ただしmanaged=falseで事前登録は未成立。旧SPAWN.codex判定式が残る。再試験は実施せずT121 reviewを維持。次は既存手順の判定式修正と、別途許可された再試験。証跡は同作業回evidence/native-subagent-status.json。
+47: 2026-10-11 T121 中断（Claude Code / claude-opus-5-5、125613-T121-e7fb5415、利用者の指示）: Antigravityの許可設定を「常に許可」に変更（利用者がパッチ適用）。サブエージェントの実機試験でCodexの協調ツール名が `collaborationspawn_agent` と判明し、子の事前登録・モデル注入が未成立。再開時は hook.ts の判定式1行の修正パッチ→Codexのサブエージェント試験1回（tickets/T121.md の再開手順）。
+48: 2026-10-11 T121 追記（Claude Code / claude-opus-5-5、123255-T121-3f625c6e）: 利用者がHook修正パッチを適用しCodexのHookを信頼。利用者の許可でGatewayから codex exec（gpt-6-luna）と agy -p（gemini-3.8-flash-low）を各1回実行し、両方completed・measured、両製品の子セッションのHookが承認と実モデルの一致を記録。TEST-001は利用者のCodex対話で実機確認。T121はreviewのまま（残り: Antigravityの対話セッション、両製品のサブエージェントの実機確認、Claude CLIのログイン、Hook誤判定1件）。
+49: 2026-10-11 T121 review（Claude Code / claude-opus-5-5、112432-T121-e0af6838）: 3製品共通のモデル選択・トークン計測・ルーティング改善の基盤 `scripts/agentctl`（orchestration/gateway・router・telemetry・optimizer・adapters・hooks、schemas/、data/telemetry.db）と3製品のHook・3 Skillを実装。テスト59件合格。Claude Codeは実機でHookの拒否・サブエージェントのモデル注入・計測を確認、AntigravityはHook読込みを確認、CodexはHook未信頼のため未確認。人の操作待ち: 修正パッチ docs/agent-routing/pending-hook-fixes.patch の適用、CodexでのHook信頼、購読枠を使う実機試験の可否、Claude CLIのログイン。**このリポジトリではAI CLIの直接起動・Hook設定や判定コードの編集がHookで拒否される**（変更は人が保守モード `AGENTCTL_MAINTENANCE=1` で起動したセッションで）。詳細は docs/agent-routing/verification-report.md。
+50: 2026-10-11 T120 done（Claude Code / claude-opus-5-5、103520-T120-a8867d0e）: P0/P1の未完了14件とT060を、最小作業単位61件に分けた docs/PRIORITY-WORK-UNITS.md を作成した。まず本人の判断が要る: 106-1（T106の回答）、114-0（T114の可否）、027-1〜3（試聴）、共通-1・025-1・029-1・031-1（判断だけ、約1時間）。agentはT071に今すぐ着手できる。新-1（映像依存の見直し）、新-2（模擬で先行）、新-3（T112の補完）は案で、チケット作成は利用者の了承待ち。T112はdoneだが、README・共通SKILLがなく、定義検査はPython 3.9で失敗する（同文書5章）。T113の文書には訂正を追記した。
+51: 2026-10-11 T113 done（Antigravity / Gemini 3.8 Flash (High)、102712-T113-c59ec64e）: 優先度の高い未完了タスクの整理文書 docs/PRIORITY-TASKS-2026-10-11.md を作成し、新規タスクT114〜T119（Remotion実装・高FPS抽出・Gemini動画理解・描画統合・T106反映・統合試験）を起票。
+52: 2026-10-11 T112 done（Codex / GPT-6 Astra、002508-T112-195b1251）: 3製品（Codex, Claude Code, Antigravity）の動画解析・再現オーケストレーションと検証付きファイル連携を実装（orchestration/）。contracts.test.ts 11件、workflow.test.ts 24件合格。
+53: 2026-10-11 T110追記（Claude Code / claude-opus-5-5、001842-T110-da4a58fb）: 利用者の依頼でT099〜T111の作業ツリーをmainにコミットし、公開リポジトリのorigin/mainへプッシュ（ハッシュはgit log）。リポジトリ直下の利用者作成.zshrcは.gitignoreで除外し、手元に残した。
+54: 2026-10-10 T110 done（Claude Code / claude-opus-5-5、232110-T110-15494c02）: 参考動画の動きの解析とRemotionでの再現・比較の最小検証環境 `motion-lab/`（本体と独立。Remotion 4.0.534を固定、公式Agent Skillsを .agents/skills/remotion-best-practices に版固定で導入）。自作の10秒の合成動画で、正解照合67/67、再現の比較SSIM平均0.99939・動きの差は全図形で基準内。1回目の比較で見つけた5件の差異を修正。観測できない開始時刻・開始値は upper_bound/unknown で報告。次は本人が許可済みの参考動画とRemotionの利用形態を用意するT111（human、ready）。手順は motion-lab/README.md と .agents/skills/motion-reference-reproduction/SKILL.md。
+55: 2026-10-10 T108 done（Claude Code / claude-opus-5-5、174117-T108-699d0020）: 台本・合成音声・部分映像の比較資料 docs/T108-SERVICE-COMPARISON.md（公式資料12件、10/20分の想定費用、試聴手順と評価表、本人が決める項目）。契約・課金・試聴の生成はしていない。
+56: **一括実装（T103/T104/T106/T108）の引継ぎは docs/BATCH-RESULT-2026-10-10.md。T103/T104/T108はdone、T106は本人の確認待ち（review）。本人への質問は同文書5章。**
+57: 2026-10-10 T106 review（Claude Code / claude-opus-5-5、171938-T106-2574f3e3）: 文字ずれを再現・修正（枠に対して中央配置、区画分け、文字配置の自動検査）、字幕の既定を焼き込みへ、集計の図・経緯の矢印の動き、サムネイル3案、構成案と83秒の試作。比較用は outputs/T106-review-2026-10-10/。本人の確認（構成・動き・サムネイル・字幕・文字ずれ）待ち。全191件/型検査成功。次はT108。
+58: 2026-10-10 T104 done（Claude Code / claude-opus-5-5、170507-T104-634ef8d4）: 本人の題材選択・考察・台本承認・動画承認を制作案件（`cli.ts produce`、確認画面の案件ページ）として実装。未入力・未承認では制作を拒否し、題材/考察/台本の変更で承認と古い動画が失効。sampleと既存ジョブはデモで本番に転用不可。全182件/型検査成功。本人の実際の選択・考察は未入力（本人の作業）。次はT106。
+59: 2026-10-10 T103 done（Claude Code / claude-opus-5-5、165146-T103-b861ec0b）: theme（general/investment）とintro（導入文）を台本へ追加し、テーマ別免責・概要欄の導入文と出典の構造化保存を実装。新テーマの無料サンプル fixtures/sample-general.json を隔離生成し実再生（音声は確認音）。全165件/型検査成功。次はT104（人の題材選定・考察・台本承認工程）。
+60: 2026-10-10 T109: T103/T104/T106/T108の一括実装依頼はdocs/CLAUDE-IMPLEMENTATION-BATCH.md。貼付用指示と23小単位、検証・中断・引渡し手順を用意。本体4件はreadyのまま。T106等で本人確認が残る場合はreviewとし、他作業を続ける。
+61: 2026-10-10 T107回答レビュー: T007/T089/T092はdone。無料ローカル改善を継続し、外部設定と投稿試験は保留。T106は所感改善、T108は課金なしのサービス比較でready。T025/T027/T029/T031は回答受領済みだが設定未完了のためbacklog。予算希望の適用範囲/確定額は未定で、現在の費用上限を変更していない。
+62: 2026-10-10 T092反映: 顔出し・アバターなし、説明用素材の候補はagentへ依頼する方針でdone。
+63: 2026-10-10 T089反映: 長尺のみで開始し、試作3本後に制作負担で見直す方針を確認してdone。
+64: 2026-10-10 T007再反映: 所感の記入を確認しdone。改善実装はT106（ready）へ分離。現行サンプルの品質承認ではない。以下の「所感未記入」は過去の状態。
+65: 2026-10-10 T105: 人待ちの質問式手順書はdocs/HUMAN-BLOCKERS.md。実接続の設定待ちと無料で進むT103/T104等を区別した。映像が任意という方針に対しT021/T022の依存が必須になっている点を明記し、保留時の分離はagentの後続作業とした。契約・課金・投稿は今回実行していない。
+66: 2026-10-10 T015反映: 初回コミット1d23465と、その内容のログ検査を別indexで確認しdone。全テスト152件/型検査成功。本人回答の反映結果はT070 done、T007 review（所感欄未記入）、T015 done。以下の補記は各作業時点の履歴。
+67: 2026-10-10 T007反映: 視聴完了の申告は受領済み。HUMAN-TASKSの所感欄が空のためreview。再視聴は不要で、所感の共有を待つ。テーマの希望はT070へ反映済み。
+68: 2026-10-10 T070反映: HUMAN-TASKS.mdの本人回答をdocs/CHANNEL-POLICY.md・仕様・prompt・設定へ反映してT070 done。正式名称は未決定。新テーマの生成経路はT103、人の選定・考察・台本承認工程はT104（ともにready）。既存fixture/lintは投資テーマのまま。以下のT102補記は反映前の時点記録。
+69: 2026-10-10 T102補記: 利用者がT070/T007/T015の完了を報告。初回コミット1d23465とdocs/HUMAN-TASKS.mdのT070回答を確認したが、3件のチケットはreadyのまま。T007の所感は文書内で未記入。結果の転記と不足所感の確認が次の記録作業。テーマ変更（投資中心から日常に結び付く知識へ）と人の考察・題材選定・承認の方針は実装未反映。T071/T084は依存完了だがbacklogなのでnextに出ない。今回の確認は本体修正・課金承認ではない。
+70: 
+71: 状態の正本は `tickets/*.md`、次の作業は `./scripts/run src/cli.ts next` の出力。この節は現在の機能範囲と再開の手順だけを書き、チケットの一覧は手で持たない。区切り線より下の「過去の時点記録」は当時の状態で、そこにある次作業や「着手できるチケットはない」等は現在の指示ではない。
+72: 
+73: ## 再開手順
+74: ```sh
+75: export NODE_BIN=/path/to/node24        # PATHにNode 24以上がなければ（.node-version参照）
+76: ./scripts/run src/cli.ts check         # 未終了の作業記録や記録後の変更があれば失敗する
+77: ./scripts/run src/cli.ts next          # human / agent別の着手可能チケット
+78: ./scripts/run src/worklog-cli.ts start Txxx --agent 名前 --model モデル --model-source runtime|user-specified|unknown --request 依頼
+79: ```
+80: コミット前は作業記録を閉じた後に `./scripts/verify`（check・全テスト・型検査）。手順の詳細はdocs/AGENT-WORKFLOW.md、全体像はdocs/HANDOFF.md。
+81: 
+82: ## 機能の現状
+83: - 実装済み（ローカル、外部API・課金なし）
+84:   - 台本v2、制作前の安全検査（禁止表現、出典のない数値、最終場面の免責。サムネイルは描画する最終文言で検査）。
+85:   - 描画・書出し・媒体検査、サムネイル3案、タイトル・概要欄（metadata.json）。
+86:   - Remotion本体統合（T126、--renderer remotion）とnative描画の併存。T126には48秒試作の過去生成記録があるが、Remotionの媒体レポートの全デコード成功・フレーム数は固定値/期待値で独立検査の証明にならない。nativeとの検査同等性は未達。T129はmock音声パス・偽MP4の工程E2Eで実媒体検査ではない。T127は音声パス/秒数・同期/音量値判定、T138は合成トーンの実WAV結合/ミックス/実測。T139の604秒音声は検査済みだがChrome失敗で実MP4未生成。
+87:   - 台本下書きSkill T123。Gemini台本生成T025/T026は不採用終了（接続成功ではない）。T116は別用途の動画理解mockで、実動画解析・実API未検証。
+88:   - 独立したmock投稿台帳T140とローカル/mock永続キューT141。通常制作CLI・実レンダラー・実投稿への自動接続は未完了。
+89:   - 確認画面と承認: 確認対象一式（動画、採用タイトル・概要欄・タグ・チャプター、字幕、サムネイル全案）の版に結び付き、変更で失効。T095より前の承認は「旧形式。再確認が必要」と表示。
+90:   - 予算制御（プロセス内）: 見積り、上限（既定0 USD）、試行ごとの予約・精算、費用不明額の保持と再送の判定、照合の接続契約、job.json.attemptsへの全試行の記録。実接続がないため費用は常にmock/localの0 USD。
+91:   - ジョブ管理: 一覧、中断の検出、abandon、退避（jobs clean。退避先が衝突したら何も移動せず拒否）。
+92: - 未接続・未完了（上記mock/ローカル部品の実装とは区別）
+93:   - 外部の実API（台本・音声・映像）とYouTube投稿（Publisherは無効）。
+94:   - 通常制作の予算永続化・ジョブ横断管理、実サービスでの費用照合と依頼IDの確認、冪等キーによる実再送。
+95:   - 実接続を伴う無人運用（M5）、通知・非公開連続運転の受入れ。自然なナレーション（現在は確認音）。採用サムネイルの選択。
+96: - 人の作業: humanのreadyチケットは `next` の「私が次に行う作業」に出る。T070/T007/T015の手順は完了済み作業の履歴（docs/HUMAN-TASKS.md）。契約・課金・キー・投稿・pushは人の承認が必要。
+97: - 注意: outputs/bias-check-demo-9233f7b6の承認記録は旧形式のためexpired表示になる（元々エージェントの動作確認で、人の承認ではない）。
+98: 
+99: ## 直近の作業（2026-10-10 UTC、Claude Code / claude-opus-5-5）
+100: T093レビューの指摘をdocs/CLAUDE-REPAIR-INSTRUCTIONS.mdの順に修正した。詳細と証跡は各チケットと作業ログ（logs/2026-10-10/）。
+101: - T094 done（060200-T094-9f26d9ad）: jobs cleanは退避先の衝突時に何も移動せず拒否。途中失敗は移動済みの一覧を返す（docs/OPERATIONS.md）。
+102: - T095 done（060418-T095-d391355f）: 承認を確認対象一式の版に結び付けた（ADR-015）。
+103: - T096 done（060651-T096-906d6391）: サムネイルの最終文言（省略時の題名・promise）を描画と同じ関数で解決してlint。
+104: - T097 done（060848-T097-1232c0b6）: 免責は文末の否定で判定し、ナレーションと字幕の両方に必要。最終場面の肯定の推奨・保証はerror。
+105: - T098 done（061131-T098-577d7409）: 試行単位の予約、費用不明額の保持、照合、試行記録（ADR-016）。模擬接続のみで検証。
+106: - T099 done（061341-T099-e2f9dee1）: README・STATUS・HANDOFFの現状と履歴を分離。全テストと型検査を最終実行。終了後の `scripts/verify` の出力は追補の作業回 070316-T099-0c508afd の証跡に保存。
+107: 
+108: ---
+109: # 過去の時点記録（当時の状態。現在の指示ではない）
+110: ## 時点記録: 人の作業の指示書（2026-10-10 UTC、T101）
+111: あなたが行う上位3件（T070→T007→T015）の手順は docs/HUMAN-TASKS.md。回答はチャットに貼れば、エージェントが記録する。
+112: 
+113: ## 時点記録: 修正作業の入口（2026-10-10 UTC、T100。T094〜T099は同日に修正済み）
+114: Claude向けの共有指示書は docs/CLAUDE-REPAIR-INSTRUCTIONS.md。T094〜T099の最小作業・試験・記録手順を用意した。本体の修正はまだ行っていない。最新状態はticketsとnextで確認し、T094から1件ずつ進める。
+115: 
+116: ## 時点記録: T093レビュー（2026-10-10 UTC。指摘はT094〜T099で修正済み）
+117: Codex / GPT-6 Astra（user-specified）が後続実装を確認。テスト110件/型検査成功。ただし隔離再現で問題5件を確認したため、問題なしとは判断していない。本体修正は未実施。
+118: - agent: T094（P1、整理で退避ファイルが上書きされる）を優先。T095（承認版）、T096（サムネイル代替文言検査）、T097（免責判定）、T098（再試行の不明費用）、T099（文書整合）もready。
+119: - human: T007/T015/T070/T089/T092等。最新の依存状態は `cli.ts next` が正本。今回のレビューで契約・課金・投稿は承認されない。
+120: - 証跡: logs/2026-10-10/010816-T093-a4a14a9f/evidence/REVIEW.md。Git初回コミット前のため、変更差分ではなく現コードと作業記録を照合。
+121: - 以下は以前の時点記録を含む。T024一部完了やagent作業なし等は古い状態。文書全体の整理はT099へ。
+122: 
+123: ## 時点記録: エンハンス一括実施（2026-10-08、Claude Code / claude-opus-5-5）
+124: 順序: T014→T041→T042→T043→T044→T024→T033→T016。全体の引き継ぎはT016でdocs/HANDOFF.mdに作る。
+125: - T014 done: CLIの分割、.node-version、チケット検査、媒体の試験（T014の作業回ではSTATUSの更新が漏れたため、ここで記録する）。
+126: - T041 done: 台本v2（src/plan.ts）、sample --plan、cueごとのVTT。v2のサンプルはfixtures/sample-v2.json。
+127: - T042 done: 台本の安全検査（src/lint.ts、cli.ts lint、sampleの生成前検査）。
+128: - T043 done: 図解4種、文字の自動縮小・はみ出し時の不合格、段階表示（src/timeline.ts、scripts/render.swift）。
+129: - T044 done: 字幕の焼き込み/ソフト/両方、フレーム数の正確化（T043で生じた欠落も解消）、PSNR照合、LUFSの記録。
+130: - T024 done: 台本・音声・描画を接続抽象＋予算（callWithBudget）経由で実行。job.json.usage[]と、USD建てのcostを記録。
+131: - T033 done: 確認画面（一覧・詳細・承認/差戻し）、版に結び付く承認と失効、jobsとreviewのCLI、outputsの整理（_trash/_archiveへ移動）。9233f7b6の承認と14025babの差戻しはエージェントの動作確認用の記録で、人の確認ではない。
+132: - T016 done: 引き継ぎ文書 docs/HANDOFF.md（全体像、データ形式、コマンド、不変条件、制約、記録の訂正、次の作業）。README、SPEC、DECISIONS（ADR-014）、ASSETS、T040を更新した。
+133: 
+134: ## 時点記録: 収益化要件の調査（2026-10-08、T017）
+135: docs/RESEARCH-GROWTH.mdに、根拠文献（確度・確認範囲つき）と不足23項目を保存し、T070〜T092を作成した。
+136: - 最優先はT070（human）: 量産判定を避けるための独自性と、人が担う部分の方針。
+137: - 他にhumanが決めるもの: T089（ショートの方針）、T092（顔出し）。T087は投稿の実装後。
+138: - agentがすぐ着手できるもの: T072〜T075、T078〜T083、T085、T086、T091。
+139: - 実接続や投稿の後に着手するもの: T071、T076、T077、T084、T088、T090。
+140: 
+141: ## 時点記録: 収益化要件の実装（2026-10-08、Claude Code / claude-opus-5-5）
+142: 順序: T085→T075→T080→T081→T082→T083→T072→T074→T073→T078→T079→T091→T086。
+143: - T085 done: docs/PRODUCTION-GUIDELINES.md（演出の指針）。
+144: - T075 done: promiseとrole=hook、冒頭30秒の構成lint（3分以上はerror）。
+145: - T080 done: chapter、recap/question、章のlint（6分目安）、第N章の表示、chaptersOf()。
+146: - T081 done: example、beat、fictional。架空か出典つきかの区別（error）、「架空の例」の札。
+147: - T082 done: 会話調のlint（語りかけの有無、である調30%超。warning）とprompt。
+148: - T083 done: glossaryと、用語の後出し・未使用のlint（warning）。
+149: - T072 done: config/channel.json（立場・利害関係・免責。未確定）、sources.txtとstance.txt、フッターの出典表示（番号への切り替えあり）。
+150: - T074 done: metadata.json（タイトル案、概要欄、チャプター、タグ）、YouTube上限の検査、`cli.ts metadata`の見直し履歴、確認画面への表示。
+151: - T073 done: サムネイル3案、コントラスト比・2MB・はみ出しの検査、見出しの禁止表現lint、確認画面への表示。
+152: - T078 done: 字幕の既定をsoftに変更。emphasis（強調の札）と強調語のlint。v1の互換比較は--subtitles burnで行う。
+153: - T079 done: 段階表示のフェード（1/3、2/3）と出現後1秒の縁取り強調。style.transitions=falseで無効にできる。
+154: - T091 done: --resolution 1080。文字ごとの画素サイズとコントラスト比を記録し、見やすさを検査（16pt暫定、4.5）。スマートフォンとテレビでの確認手順。
+155: - T086 done: docs/RESEARCH-TOPICS.md（データ源と規約上の制約）、題材候補表のひな型docs/templates/topic-candidates.csv。
+156: 
+157: ## 時点記録: エンハンス後の状態（2026-10-08。現在の指示ではない）
+158: - agentが着手できるチケットはない。次は人の作業: T007（視聴・方針）、T015（初回コミット）、T025/T027/T029/T031（契約・キー・上限額）。
+159: - 人の作業が済めば、agentはT026、T028、T060、T032に進む。手順と注意はdocs/HANDOFF.mdの9章。
+160: - 確認画面の承認・差戻しの記録のうち、9233f7b6と14025babはエージェントの動作確認で、人の確認ではない。
+161: 
+162: ## 時点記録: 再開地点（2026-10-08 追記: T006/T020/T030/T023）
+163: T006完了（組み込みブラウザーで実再生成功。スピーカー実聴はT007）。T020/T030完了（docs/RESEARCH-AI.md, RESEARCH-YOUTUBE.md）。T023完了、T024は一部（接続抽象・模擬・再試行まで。job.jsonへの配線が残件）。
+164: - human: T007（視聴・方針）、T025（Gemini契約）、T027（音声選定・契約）、T029（Runway、保留可）、T031（YouTube設定）。契約・課金・キーは人の承認で実施。
+165: - agent次: T024の残件。T026/T028/T060/T032は人のチケット完了後。T040/T050は前提完了後に分解。
+166: - T021/T022は親チケット（子の完了で完了）。この端末のNodeは NODE_BIN=/Users/hongj/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node を明示。
+167: 
+168: T012（2026-10-08）: 前回Codex実装のレビュー完了。指摘11件はlogs/2026-10-08/195411-T012-48e6feb0/evidence/REVIEW.md。修正はT013（agent ready）。T008の作業ログは定型生成で検証記録が不十分（成果のtsc エラー0は再確認済み）。
+169: 
+170: T013（2026-10-08）: T012の指摘を修正し完了。主な変更は次のとおり。
+171: - job.jsonの接続種別をlocal.appkit-ffmpegに修正し、版を記録。
+172: - finish時の同一本文・evidence実在の検査を追加。
+173: - CRLFに対応し、ファイル名とidの一致を検査。
+174: - AGENTS.mdに管理外スクリプトでの一括終了の禁止を追記。
+175: - 一括検証のscripts/verifyを追加。
+176: 最新ジョブはreflection-demo-5c5ac021（内容は従来と同一）。
+177: 
+178: （以下は2026-10-08以前の記録）
+179: 2026-10-08。M0実装・文書整備とM1生成/自動検査は完了。実再生確認だけ未完了のためT006=review。これをdoneにするまでは今回の全完了条件達成と報告しない。
+180: 
+181: ### 当時の次の作業（2026-10-08、M1時点。現在の指示ではない）
+182: - human: T007。`./scripts/run src/cli.ts serve` または完成MP4を開いて再生し、字幕・映像・音声の所感を記録。今回は確認音のみで自然なナレーションなし。ブラウザー制御には保存済みの拒否設定がある。
+183: - agent: T006の実再生再試験は権限設定解消後。独立して着手できるのはT020（AI接続の公式調査と具体化）、T030（YouTube制限と審査の調査）。今回のM0/M1範囲を越えて有料接続を始めない。
+184: - T008は将来の静的型検査。M2以降は概要チケットで、実施前に分解する。
+185: 
+186: ## コマンド
+187: `./scripts/run src/cli.ts check` / `tickets` / `next`
+188: `./scripts/run --test tests/*.test.ts`
+189: `./scripts/run src/cli.ts sample`
+190: 
+191: ## 出力
+192: 最新はoutputs/latest.json。完成品はoutputs/reflection-demo-7f46324e/sample.mp4。生成物はGit対象外。検証データだけdocs/verification-data.jsonに保存。Git初期化済み。外部pushなし。
+193: 
+194: Gitの署名者設定（user.name/email）は未設定のため、初回コミットは作成していない。ファイルは作業ツリーに保存済み。外部pushは行わない。利用者が必要ならローカルの署名者を設定してコミットする。
+195: 
+196: ## 追跡ログの追加
+197: 2026-10-08: T009でlogs/を追加。記録者はCodex / GPT-6 Astra（ユーザー指定）。初回作業の回顧記録と今回のログ整備を区別し、依頼・変更・結果・TODOを保存。現在のチケット状態を変更するものではなく、T006の実再生は引き続き未確認。
+198: 
+199: ## エージェント中立化と必須ログ検査（T010）
+200: 2026-10-08: ownerをhuman/agentに移行。Codex専用の自動Node探索を廃止しPATH/NODE_BINへ変更。worklog start/finish/checkとGit index対象のpre-commitを実装し、このcloneで有効化した。過去のログは当時の記録者を保持。
+201: 
+202: 今回の端末はNodeが通常PATHにないため、操作時に `NODE_BIN=/Users/hongj/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node` を明示して検証した。この端末情報は設定の自動既定値ではない。他環境は自身のNode 24以上を指定する。
+203: 
+204: 再開時はdocs/AGENT-WORKFLOW.mdを読む。タスク終了にはログ本文とfinish/checkが必要。終了後変更があれば新しい作業回を作る。T006はreview、T007はready。新しいブラウザー再生・動画生成・有料実行は本作業で行っていない。
+205: 
+206: ## 定型作業のSkill化（T011）
+207: 2026-10-08: `.agents/skills/routine-to-skill/` を共通原本として追加し、過去のT009/T010と今回の作業へ適用。反復する終了・引継ぎ作業を `repository-task-closeout` として抽出。終了前の候補評価をAGENTSに追加。個人環境のSkillコピーは配布先であり、原本更新時に同期が必要。既存の動画再生待ち等は変更しない。
+208: 
+209: ## T008 / 2026-10-08
+210: TypeScript 5.9.3/@types/node 24.10.0を固定導入。tsconfig.jsonとpnpm-lock.yaml、typecheckコマンドを追加。src/testsをstrict/noEmitで検査しエラー0。T006に依存せず実施できる理由をADR-011に記録。
+211: 残件: 動画の実再生は未確認。次はT020/T030の公式調査と具体化。
+
+motion-lab/package.json
+1: {
+2:   "name": "motion-lab",
+3:   "version": "0.1.0",
+4:   "description": "参考動画の動きの解析とRemotionでの再現・比較の最小検証環境（T110）",
+5:   "license": "UNLICENSED",
+6:   "private": true,
+7:   "type": "module",
+8:   "engines": {
+9:     "node": ">=24"
+10:   },
+11:   "dependencies": {
+12:     "@remotion/cli": "4.0.534",
+13:     "react": "19.2.3",
+14:     "react-dom": "19.2.3",
+15:     "remotion": "4.0.534"
+16:   },
+17:   "devDependencies": {
+18:     "@remotion/eslint-config-flat": "4.0.534",
+19:     "@types/node": "24.10.0",
+20:     "@types/react": "19.2.7",
+21:     "@types/web": "0.0.166",
+22:     "eslint": "9.39.5",
+23:     "prettier": "3.8.1",
+24:     "typescript": "5.9.3"
+25:   },
+26:   "scripts": {
+27:     "dev": "remotion studio",
+28:     "build": "remotion bundle",
+29:     "lab": "node tools/lab.ts",
+30:     "reference": "node tools/make-reference.ts",
+31:     "analyze": "node tools/analyze.ts",
+32:     "compare": "node tools/compare.ts",
+33:     "test": "node --test tests/*.test.ts",
+34:     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json",
+35:     "lint": "eslint src && tsc -p tsconfig.json"
+36:   }
+37: }
+
+orchestration/gemini-video.ts
+1: /** T116: offline video-understanding protocol. No default/native network transport. */
+2: import { readFileSync } from 'node:fs';
+3: import { parse, type AnalysisContract } from './contracts.ts';
+4: 
+5: export type VideoSource = { kind: 'youtube'; url: string } |
+6:   { kind: 'uploaded'; uri: string; mimeType: string };
+7: export interface VideoAnalysisInput {
+8:   artifactId: string;
+9:   sourceId: string;
+10:   source: VideoSource;
+11:   rightsNote: string;
+12:   model: string;
+13: }
+14: export interface VideoRequest {
+15:   method: 'POST';
+16:   url: string;
+17:   headers: Record<string, string>;
+18:   body: string;
+19: }
+20: /** Implementations in this task are in-memory mocks only; never pass fetch here. */
+21: export interface MockVideoTransport {
+22:   mode: 'mock';
+23:   send(request: VideoRequest, signal: AbortSignal): Promise<{ status: number; text(): Promise<string> }>;
+24: }
+25: export interface VideoAnalysisResult { mode: 'mock'; analysis: AnalysisContract }
+26: const schema = JSON.parse(readFileSync(new URL('./schemas/animation-analysis.schema.json', import.meta.url), 'utf8'));
+27: 
+28: function empty(input: VideoAnalysisInput, reason: string): AnalysisContract {
+29:   return parse('analysis', {
+30:     schema_version: '1', artifact_id: input.artifactId, source_id: input.sourceId,
+31:     source_type: input.source.kind === 'youtube' ? 'youtube' : 'local',
+32:     source_url: input.source.kind === 'youtube' ? input.source.url : null,
+33:     analysis_status: 'unavailable',
+34:     video_metadata: { width: null, height: null, fps: null, frame_count: null, duration_seconds: null, has_audio: null },
+35:     scenes: [], objects: [], animations: [], timestamps: [], motion_parameters: [],
+36:     visual_style: { description: null }, evidence: [], confidence: null,
+37:     limitations: ['mock transport only; no real video analysis performed', reason],
+38:     rights_note: input.rightsNote, lab_analysis_path: null,
+39:   });
+40: }
+41: 
+42: export function buildVideoRequest(input: VideoAnalysisInput, key: string): VideoRequest {
+43:   // Validate caller-owned identity before constructing any request. Invalid inputs throw locally.
+44:   empty(input, 'input validation');
+45:   if (!input.model.trim() || !key.trim()) throw new Error('model and key are required');
+46:   const source = input.source;
+47:   if (source.kind === 'uploaded' &&
+48:       (!/^https:\/\/generativelanguage\.googleapis\.com\/v1beta\/files\/[A-Za-z0-9_-]+$/.test(source.uri) ||
+49:        !/^video\/[A-Za-z0-9.+-]+$/.test(source.mimeType))) {
+50:     throw new Error('uploaded source requires a file URI and video MIME type');
+51:   }
+52:   return {
+53:     method: 'POST',
+54:     url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(input.model)}:generateContent`,
+55:     headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
+56:     body: JSON.stringify({
+57:       contents: [{ role: 'user', parts: [
+58:         { fileData: { fileUri: source.kind === 'youtube' ? source.url : source.uri,
+59:           ...(source.kind === 'uploaded' ? { mimeType: source.mimeType } : {}) } },
+60:         { text: `Return animation-analysis JSON for this identity: ${JSON.stringify({ artifact_id: input.artifactId, source_id: input.sourceId, source_type: source.kind === 'youtube' ? 'youtube' : 'local', source_url: source.kind === 'youtube' ? source.url : null, rights_note: input.rightsNote })}. Use null/empty arrays for unknown observations and explain limitations. Never invent evidence files or hashes.` },
+61:       ] }],
+62:       generationConfig: { responseMimeType: 'application/json', responseJsonSchema: schema },
+63:     }),
+64:   };
+65: }
+66: 
+67: /** Accept exactly one finished, non-thought JSON candidate, then validate structure and semantics. */
+68: export function parseVideoResponse(text: string, input: VideoAnalysisInput): AnalysisContract {
+69:   const body = JSON.parse(text);
+70:   if (body.promptFeedback?.blockReason || !Array.isArray(body.candidates) || body.candidates.length !== 1) throw new Error('invalid candidates');
+71:   const candidate = body.candidates[0];
+72:   if (candidate.finishReason !== 'STOP' || !Array.isArray(candidate.content?.parts) ||
+73:       candidate.content.parts.length === 0 || candidate.content.parts.some((p: { text?: unknown; thought?: unknown }) => typeof p.text !== 'string' || p.thought)) throw new Error('unfinished response');
+74:   const value = parse('analysis', JSON.parse(candidate.content.parts.map((p: { text: string }) => p.text).join('')));
+75:   const identity = empty(input, 'identity validation');
+76:   for (const field of ['artifact_id', 'source_id', 'source_type', 'source_url', 'rights_note'] as const) {
+77:     if (value[field] !== identity[field]) throw new Error('response identity mismatch');
+78:   }
+79:   return value;
+80: }
+81: 
+82: /** Keys and raw errors/responses are never logged, persisted, or returned. No retries. */
+83: export async function analyzeVideo(input: VideoAnalysisInput, options: {
+84:   transport: MockVideoTransport;
+85:   env?: { GEMINI_API_KEY?: string };
+86:   timeoutMs?: number;
+87: }): Promise<VideoAnalysisResult> {
+88:   const unavailable = (reason: string): VideoAnalysisResult => ({ mode: 'mock', analysis: empty(input, reason) });
+89:   const fallback = unavailable('transport unavailable');
+90:   if (options.transport.mode !== 'mock') return unavailable('mock transport required');
+91:   const key = (options.env ?? process.env).GEMINI_API_KEY;
+92:   if (!key?.trim()) return unavailable('GEMINI_API_KEY is not configured');
+93:   const timeoutMs = options.timeoutMs ?? 5000;
+94:   if (!Number.isFinite(timeoutMs) || timeoutMs <= 0 || timeoutMs > 2_147_483_647) return unavailable('invalid timeout');
+95:   const request = buildVideoRequest(input, key);
+96:   const controller = new AbortController();
+97:   let timer: ReturnType<typeof setTimeout> | undefined;
+98:   try {
+99:     return await Promise.race([
+100:       (async (): Promise<VideoAnalysisResult> => {
+101:         const response = await options.transport.send(request, controller.signal);
+102:         if (response.status < 200 || response.status >= 300) return unavailable('HTTP request failed');
+103:         const text = await response.text();
+104:         // A transport may echo credentials even inside valid JSON. Drop the entire response.
+105:         if (text.includes(key)) return unavailable('invalid response');
+106:         try {
+107:           const analysis = parseVideoResponse(text, input);
+108:           if (JSON.stringify(analysis).includes(key)) return unavailable('invalid response');
+109:           analysis.limitations.push('mock transport only; no real video analysis performed');
+110:           return { mode: 'mock', analysis };
+111:         } catch { return unavailable('invalid response'); }
+112:       })(),
+113:       new Promise<VideoAnalysisResult>(resolve => {
+114:         timer = setTimeout(() => { controller.abort(); resolve(unavailable('transport timed out')); }, timeoutMs);
+115:       }),
+116:     ]);
+117:   } catch { return fallback; }
+118:   finally { clearTimeout(timer); }
+119: }
+
+src/audio-pipeline.ts
+1: // 長尺ナレーション・字幕同期・音響仕上げの制作工程パイプライン（T127）。
+2: // 接続抽象（Connection / callWithBudget）に則り、10〜20分の長尺台本を分割・合成し、
+3: // 字幕cueとの同期検査、BGMミキシング・ダッキング計算、音量検査（LUFS/ピーク）、
+4: // 予算・試行記録、および人の試聴評価メタデータ連携を行う。
+5: 
+6: import type {Plan} from './plan.ts';
+7: import {totalSeconds} from './plan.ts';
+8: import type {Connection, Usage, Attempt} from './connections.ts';
+9: import {callWithBudget, ConnError} from './connections.ts';
+10: import {Budget} from './budget.ts';
+11: import type {NarrationMetadata} from './narration.ts';
+12: 
+13: export type AudioSlice = {
+14:   sceneIndex: number;
+15:   cueIndex: number;
+16:   text: string;
+17:   expectedDurationSec: number;
+18:   audioPath?: string;
+19:   actualDurationSec?: number;
+20: };
+21: 
+22: export type SyncCheckResult = {
+23:   ok: boolean;
+24:   totalExpectedDuration: number;
+25:   totalActualDuration: number;
+26:   driftSec: number;
+27:   maxDriftSec: number;
+28:   errors: string[];
+29: };
+30: 
+31: export type DuckingProfile = {
+32:   bgmVolumeDb: number;
+33:   duckedVolumeDb: number;
+34:   duckRangeSec: {start: number; end: number}[];
+35: };
+36: 
+37: export type LoudnessResult = {
+38:   integratedLufs: number;
+39:   truePeakDbfs: number;
+40:   passed: boolean;
+41:   targetRange: {minLufs: number; maxLufs: number; maxPeakDbfs: number};
+42: };
+43: 
+44: /**
+45:  * 1. 台本をシーン・cue単位のスライスに分割する。
+46:  */
+47: export function sliceScriptForNarration(plan: Plan): AudioSlice[] {
+48:   const slices: AudioSlice[] = [];
+49:   plan.scenes.forEach((s, sIdx) => {
+50:     s.cues.forEach((c, cIdx) => {
+51:       slices.push({
+52:         sceneIndex: sIdx,
+53:         cueIndex: cIdx,
+54:         text: c.text,
+55:         expectedDurationSec: c.seconds,
+56:       });
+57:     });
+58:   });
+59:   return slices;
+60: }
+61: 
+62: /**
+63:  * 2. 音声スライスを合成・結合する（Connection抽象・予算・試行記録と統合）。
+64:  * 模擬または手元の合成接続を用いて各スライスを生成し、全体の所要時間と使用量を記録する。
+65:  */
+66: export async function synthesizeLongFormAudio(
+67:   slices: AudioSlice[],
+68:   connection: Connection<AudioSlice, {audioPath: string; durationSec: number}>,
+69:   budget: Budget,
+70:   estimateUsdPerSlice = 0.001,
+71:   maxAttempts = 3
+72: ): Promise<{
+73:   slices: AudioSlice[];
+74:   totalDurationSec: number;
+75:   usage: Usage[];
+76:   attempts: Attempt[];
+77: }> {
+78:   const usage: Usage[] = [];
+79:   const attempts: Attempt[] = [];
+80:   let totalDurationSec = 0;
+81: 
+82:   for (let i = 0; i < slices.length; i++) {
+83:     const slice = slices[i];
+84:     try {
+85:       const res = await callWithBudget(
+86:         connection,
+87:         slice,
+88:         budget,
+89:         estimateUsdPerSlice,
+90:         usage,
+91:         maxAttempts,
+92:         attempts
+93:       );
+94:       slice.audioPath = res.audioPath;
+95:       slice.actualDurationSec = res.durationSec;
+96:       totalDurationSec += res.durationSec;
+97:     } catch (err) {
+98:       throw new Error(`スライス[${i}] (scene ${slice.sceneIndex}, cue ${slice.cueIndex}) の合成に失敗: ${(err as Error).message}`);
+99:     }
+100:   }
+101: 
+102:   return {
+103:     slices,
+104:     totalDurationSec,
+105:     usage,
+106:     attempts,
+107:   };
+108: }
+109: 
+110: /**
+111:  * 3. 発話時刻と字幕cueの同期を検査する。
+112:  * 各cueおよび全体のドリフトが許容誤差（許容0.5秒）以内か確認。
+113:  */
+114: export function checkSubtitleSync(
+115:   plan: Plan,
+116:   slices: AudioSlice[],
+117:   toleranceSec = 0.5
+118: ): SyncCheckResult {
+119:   const errors: string[] = [];
+120:   const totalExpected = totalSeconds(plan);
+121:   let totalActual = 0;
+122:   let maxDrift = 0;
+123: 
+124:   let expectedAcc = 0;
+125:   let actualAcc = 0;
+126: 
+127:   if (slices.length !== plan.scenes.flatMap(s => s.cues).length) {
+128:     errors.push(`スライス数 (${slices.length}) と台本のcue数 (${plan.scenes.flatMap(s => s.cues).length}) が一致しません`);
+129:   }
+130: 
+131:   for (let i = 0; i < slices.length; i++) {
+132:     const sl = slices[i];
+133:     const actual = sl.actualDurationSec ?? 0;
+134:     expectedAcc += sl.expectedDurationSec;
+135:     actualAcc += actual;
+136:     totalActual += actual;
+137: 
+138:     const drift = Math.abs(actualAcc - expectedAcc);
+139:     if (drift > maxDrift) {
+140:       maxDrift = drift;
+141:     }
+142:     if (drift > toleranceSec) {
+143:       errors.push(`スライス[${i}]で同期ずれ超過: 期待 ${expectedAcc.toFixed(2)}s, 実績 ${actualAcc.toFixed(2)}s (差分 ${drift.toFixed(2)}s > 許容 ${toleranceSec}s)`);
+144:     }
+145:   }
+146: 
+147:   const finalDrift = Math.abs(totalActual - totalExpected);
+148: 
+149:   return {
+150:     ok: errors.length === 0,
+151:     totalExpectedDuration: totalExpected,
+152:     totalActualDuration: totalActual,
+153:     driftSec: finalDrift,
+154:     maxDriftSec: maxDrift,
+155:     errors,
+156:   };
+157: }
+158: 
+159: /**
+160:  * 4. BGMダッキング計算（ナレーション発話区間中にBGMを減衰）。
+161:  * ナレーション発話区間（ナレーション再生中）は duckedVolumeDb、思考の間やポーズ区間は bgmVolumeDb。
+162:  */
+163: export function calculateBgmDucking(
+164:   slices: AudioSlice[],
+165:   bgmVolumeDb = -18,
+166:   duckedVolumeDb = -28
+167: ): DuckingProfile {
+168:   let currentTime = 0;
+169:   const duckRangeSec: {start: number; end: number}[] = [];
+170: 
+171:   for (const s of slices) {
+172:     const dur = s.actualDurationSec ?? s.expectedDurationSec;
+173:     if (s.text.trim().length > 0) {
+174:       duckRangeSec.push({
+175:         start: currentTime,
+176:         end: currentTime + dur,
+177:       });
+178:     }
+179:     currentTime += dur;
+180:   }
+181: 
+182:   return {
+183:     bgmVolumeDb,
+184:     duckedVolumeDb,
+185:     duckRangeSec,
+186:   };
+187: }
+188: 
+189: /**
+190:  * 5. 音量検査（YouTube推奨規格: -14 LUFS ± 1.0, True Peak <= -1.0 dBFS）
+191:  */
+192: export const TARGET_LOUDNESS = {
+193:   minLufs: -15.0,
+194:   maxLufs: -13.0,
+195:   maxPeakDbfs: -1.0,
+196: };
+197: 
+198: export function checkAudioLoudness(
+199:   integratedLufs: number,
+200:   truePeakDbfs: number,
+201:   targets = TARGET_LOUDNESS
+202: ): LoudnessResult {
+203:   const passed =
+204:     integratedLufs >= targets.minLufs &&
+205:     integratedLufs <= targets.maxLufs &&
+206:     truePeakDbfs <= targets.maxPeakDbfs;
+207: 
+208:   return {
+209:     integratedLufs,
+210:     truePeakDbfs,
+211:     passed,
+212:     targetRange: targets,
+213:   };
+214: }
+215: 
+216: /**
+217:  * 6. ナレーション評価メタデータ（T125）との整合性チェック
+218:  */
+219: export function verifyNarrationLink(
+220:   planId: string,
+221:   scriptHash: string,
+222:   metadata?: NarrationMetadata
+223: ): {linked: boolean; hasHumanReview: boolean; notes?: string} {
+224:   if (!metadata) {
+225:     return {linked: false, hasHumanReview: false, notes: '試聴メタデータが存在しません'};
+226:   }
+227:   if (metadata.planId !== planId || metadata.scriptHash !== scriptHash) {
+228:     return {
+229:       linked: false,
+230:       hasHumanReview: false,
+231:       notes: `台本版不一致 (期待: ${planId}/${scriptHash}, 実績: ${metadata.planId}/${metadata.scriptHash})`,
+232:     };
+233:   }
+234:   const hasHumanReview = metadata.evaluations && metadata.evaluations.length > 0;
+235:   return {
+236:     linked: true,
+237:     hasHumanReview: Boolean(hasHumanReview),
+238:     notes: hasHumanReview ? `人の試聴評価 ${metadata.evaluations.length}件 記録済み` : '人の試聴評価が未実施',
+239:   };
+240: }
+
+src/commands/produce.ts
+1: // produceコマンド: 本人が担う工程を通して制作する（T104、ADR-018）。
+2: // new → select（本人）→ reflection（本人）→ script（エージェントの下書きに考察を差し込む）→ script-review（本人）→ render → review（本人）。
+3: import {existsSync, readFileSync} from 'node:fs';
+4: import {dirname, join, resolve} from 'node:path';
+5: import {fileURLToPath} from 'node:url';
+6: import {addReflection, assertRenderable, attachScript, authorshipLabel, createProject, linkRender, readProject, readScript, reviewScript, selectTopic} from '../production.ts';
+7: import {workflowStatus} from '../review.ts';
+8: import {sample, parseSampleArgs} from './sample.ts';
+9: 
+10: const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+11: const DEFAULT_DRAFT = join(REPO_ROOT, 'fixtures/draft-price-index.json');
+12: 
+13: export const PRODUCE_USAGE = [
+14:   '  produce new --candidates 候補.json --by 名前 [--demo]',
+15:   '  produce status <id>',
+16:   '  produce select <id> --candidate 候補id --by 本人の名前',
+17:   '  produce reflection <id> (--file 考察.txt | --text 本文) --by 本人の名前 [--assisted-from 元の版]',
+18:   '  produce script <id> [--plan 下書き.json] --by 名前',
+19:   '  produce script-review <id> approve|reject --hash 台本の版 --by 本人の名前 [--note 理由]',
+20:   '  produce render <id> [--subtitles burn|soft|both] [--resolution 720|1080] [--renderer native|remotion]',
+21: ].join('\n');
+22: 
+23: const STAGE_LABEL: Record<string, string> = {
+24:   'topic-selection': '題材の選択待ち（本人）', reflection: '考察の入力待ち（本人）', script: '台本の作成待ち', 'script-review': '台本の確認待ち（本人）',
+25:   render: '制作待ち', 'video-review': '完成動画の確認待ち（本人）', done: '完成動画を承認済み（投稿は未実装・無効）',
+26: };
+27: export const stageLabel = (s: string) => STAGE_LABEL[s] ?? s;
+28: 
+29: function option(args: string[], name: string) {
+30:   const i = args.indexOf(name);
+31:   return i >= 0 ? args[i + 1] : undefined;
+32: }
+33: const need = (v: string | undefined, name: string) => {
+34:   if (v === undefined || v.startsWith('--')) throw Error(`${name} が必要\n${PRODUCE_USAGE}`);
+35:   return v;
+36: };
+37: 
+38: export function printStatus(root: string, id: string) {
+39:   const st = workflowStatus(root, id);
+40:   const p = readProject(root, id);
+41:   const lines = [
+42:     `${id}（${st.mode === 'demo' ? 'デモ: 試験用。本番の承認に転用できない' : '本番'}）`,
+43:     `工程: ${stageLabel(st.stage)}`,
+44:     `不足: ${st.missing.length ? '\n  - ' + st.missing.join('\n  - ') : 'なし'}`,
+45:     '題材候補:',
+46:     ...p.workflow.candidates.map(c => `  ${st.candidate?.id === c.id ? '●' : '○'} ${c.id}: ${c.title}（入口: ${c.hook} / 概念: ${c.concept}）`),
+47:     `選択: ${st.selection ? `${st.selection.candidateId}（${st.selection.by}、${st.selection.at}）` : '未選択'}`,
+48:     `考察: ${st.reflection ? `v${st.reflection.version} ${authorshipLabel(st.mode, st.reflection)}（${st.reflection.by}）「${[...st.reflection.text].slice(0, 40).join('')}${[...st.reflection.text].length > 40 ? '…' : ''}」` : '未入力'}`,
+49:     `台本: ${st.script ? `v${st.script.version} ${st.script.file} 状態=${st.scriptState}（${st.scriptReason}）` : st.scriptReason}`,
+50:     ...(st.script ? [`台本の版: ${st.script.hash}`] : []),
+51:     `動画: ${st.renders.length ? st.renders.map(r => `${r.jobId} ${r.approval?.state ?? '不明'}`).join(', ') : 'なし'}`,
+52:   ];
+53:   console.log(lines.join('\n'));
+54: }
+55: 
+56: export async function produce(args: string[], root = 'outputs') {
+57:   const [sub, id] = args;
+58:   const by = option(args, '--by');
+59:   if (sub === 'new') {
+60:     const created = createProject(root, JSON.parse(readFileSync(need(option(args, '--candidates'), '--candidates'), 'utf8')), {demo: args.includes('--demo'), by: need(by, '--by')});
+61:     console.log(`作成: ${created}`);
+62:     printStatus(root, created);
+63:   } else if (sub === 'status' && id) {
+64:     printStatus(root, id);
+65:   } else if (sub === 'select' && id) {
+66:     const s = selectTopic(root, id, need(option(args, '--candidate'), '--candidate'), need(by, '--by'));
+67:     console.log(`記録: 題材 ${s.candidateId}（${s.by}）`);
+68:   } else if (sub === 'reflection' && id) {
+69:     const file = option(args, '--file'), text = option(args, '--text');
+70:     if ((file === undefined) === (text === undefined)) throw Error(`--file か --text のどちらか一方が必要\n${PRODUCE_USAGE}`);
+71:     const from = option(args, '--assisted-from');
+72:     if (from !== undefined && !/^\d+$/.test(from)) throw Error('--assisted-from は版番号');
+73:     const r = addReflection(root, id, file !== undefined ? readFileSync(file, 'utf8') : text!, need(by, '--by'), from !== undefined ? {assistedFrom: Number(from)} : {});
+74:     console.log(`記録: 考察 v${r.version}（${authorshipLabel(readProject(root, id).mode, r)}、${[...r.text].length}字）。台本は produce script で作り直す`);
+75:   } else if (sub === 'script' && id) {
+76:     const draft = option(args, '--plan') ?? (existsSync('fixtures/draft-price-index.json') ? 'fixtures/draft-price-index.json' : DEFAULT_DRAFT);
+77:     const s = attachScript(root, id, JSON.parse(readFileSync(draft, 'utf8')), need(by, '--by'), {draft});
+78:     console.log(`作成: 台本 v${s.version}（${join(root, id, s.file)}）\n台本の版: ${s.hash}\n本人が内容を確認し、produce script-review ${id} approve --hash ${s.hash} --by 本人の名前 で承認する`);
+79:   } else if (sub === 'script-review' && id) {
+80:     const decision = args[2];
+81:     if (decision !== 'approve' && decision !== 'reject') throw Error(`approve か reject を指定\n${PRODUCE_USAGE}`);
+82:     const r = reviewScript(root, id, decision, need(option(args, '--hash'), '--hash'), option(args, '--note') ?? '', need(by, '--by'));
+83:     console.log(`記録: 台本 v${r.scriptVersion} を${r.decision === 'approve' ? '承認' : '差戻し'}（${r.by}）`);
+84:   } else if (sub === 'render' && id) {
+85:     // 未選択・考察未入力・台本未承認なら、不足を表示して拒否する（強制オプションなし）。
+86:     const {state, planPath} = assertRenderable(root, id);
+87:     const opts = parseSampleArgs(args.slice(2));
+88:     if (opts.plan) throw Error('render は制作案件の承認済み台本だけを使う（--plan は指定できない）');
+89:     readScript(root, id, state.script!);
+90:     const out = await sample({...opts, plan: planPath, job: {mode: state.mode, project: id, scriptHash: state.script!.hash, scriptVersion: state.script!.version}});
+91:     linkRender(root, id, out.id, state.script!.hash, state.script!.version);
+92:     console.log(`制作ジョブ: ${out.id}（台本 v${state.script!.version}）。完成動画は確認画面か review ${out.id} で本人が確認する`);
+93:   } else throw Error(`produce の使い方:\n${PRODUCE_USAGE}`);
+94: }
+
+src/commands/sample.ts
+1: // sampleコマンド: 台本→音声→描画→MP4と検査情報を1ジョブとして出力する。
+2: import {mkdirSync, writeFileSync, readFileSync, existsSync} from 'node:fs';
+3: import {resolve, join} from 'node:path';
+4: import {spawnSync} from 'node:child_process';
+5: import {createHash, randomUUID} from 'node:crypto';
+6: import {encode, ffmpegVersion} from '../media.ts';
+7: import type {SubtitleMode} from '../media.ts';
+8: import {FixtureScript, CueAudio} from '../providers.ts';
+9: import type {VisualProvider, Plan} from '../providers.ts';
+10: import {totalSeconds} from '../plan.ts';
+11: import {lintPlan, formatLint} from '../lint.ts';
+12: import {loadChannel, sourcesText, stanceText} from '../channel.ts';
+13: import {buildMetadata, YT} from '../metadata.ts';
+14: import {checkThumbnails} from '../thumbnails.ts';
+15: import {checkReadability} from '../readability.ts';
+16: import {checkLayout} from '../layout.ts';
+17: import {buildSegments, buildRenderSpec, buildThumbSpecs} from '../timeline.ts';
+18: import {LocalConnection, callWithBudget} from '../connections.ts';
+19: import type {Usage, Attempt} from '../connections.ts';
+20: import {Budget} from '../budget.ts';
+21: import {buildChecklist, writeChecklist} from '../checklist.ts';
+22: 
+23: function run(exe: string, args: string[]) {
+24:   const r = spawnSync(exe, args, {encoding: 'utf8', timeout: 240000, maxBuffer: 8 * 1024 * 1024});
+25:   if (r.status !== 0) throw Error(`${exe}: ${r.error?.message ?? r.stderr}`);
+26:   return r.stdout;
+27: }
+28: 
+29: const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
+30: 
+31: function nativeRenderer() {
+32:   mkdirSync('work/swift-cache', {recursive: true});
+33:   const source = readFileSync('scripts/render.swift', 'utf8');
+34:   if (!existsSync('work/render') || !existsSync('work/render-source') || readFileSync('work/render-source', 'utf8') !== source) {
+35:     run('/usr/bin/swiftc', ['-module-cache-path', 'work/swift-cache', 'scripts/render.swift', '-o', 'work/render']);
+36:     writeFileSync('work/render-source', source);
+37:   }
+38:   return resolve('work/render');
+39: }
+40: 
+41: // AppKitでPNGを描画しFFmpegでH264/AACへ書出す（ADR-007）。kindはjob.jsonに残る接続種別。
+42: // 字幕の既定は焼き込み（burn）。利用者の希望（T007の所感「字幕は焼き込み希望」）による（T106、ADR-019）。
+43: // 以前の既定soft（T078、E12: 全文字幕はナレーションと重複する）は --subtitles soft|both で引き続き選べる。
+44: export const DEFAULT_SUBTITLES: SubtitleMode = 'burn';
+45: 
+46: export class NativeVisual implements VisualProvider {
+47:   kind = 'local.appkit-ffmpeg';
+48:   subtitles: SubtitleMode;
+49:   scale: number;
+50:   constructor(subtitles: SubtitleMode = DEFAULT_SUBTITLES, resolution: 720 | 1080 = 720) {
+51:     this.subtitles = subtitles;
+52:     this.scale = resolution / 720;
+53:   }
+54:   async render(plan: Plan, dir: string) {
+55:     const renderer = nativeRenderer();
+56:     // 区間（図解の段階表示×字幕cue）を計算し、Swiftに描画仕様として渡す（T043）。
+57:     const segments = buildSegments(plan);
+58:     writeFileSync(join(dir, 'segments.json'), JSON.stringify(segments, null, 2));
+59:     writeFileSync(join(dir, 'render-spec.json'), JSON.stringify({...buildRenderSpec(plan, segments, this.subtitles === 'soft' ? 'none' : 'burn'), thumbnails: buildThumbSpecs(plan), scale: this.scale}, null, 2));
+60:     console.log(run(renderer, [dir]));
+61:     encode(plan, dir, {segments, subtitles: this.subtitles});
+62:   }
+63: }
+64: 
+65: // job: 制作案件から作るときの記録（T104）。省略時（cli.ts sample）は常にデモ。
+66: export type JobLink = {mode: 'production' | 'demo'; project?: string; scriptHash?: string; scriptVersion?: number};
+67: export type VisualRendererType = 'native' | 'remotion';
+68: export type SampleOptions = {plan?: string; subtitles?: SubtitleMode; budgetUsd?: number; resolution?: 720 | 1080; renderer?: VisualRendererType; job?: JobLink};
+69: 
+70: export function parseSampleArgs(args: string[]): SampleOptions {
+71:   const opts: SampleOptions = {};
+72:   for (let i = 0; i < args.length; i++) {
+73:     if (args[i] === '--plan' && args[i + 1]) opts.plan = args[++i];
+74:     else if (args[i] === '--subtitles' && ['burn', 'soft', 'both'].includes(args[i + 1])) opts.subtitles = args[++i] as SubtitleMode;
+75:     else if (args[i] === '--resolution' && ['720', '1080'].includes(args[i + 1])) opts.resolution = Number(args[++i]) as 720 | 1080;
+76:     else if (args[i] === '--budget-usd' && /^\d+(\.\d+)?$/.test(args[i + 1] ?? '')) opts.budgetUsd = Number(args[++i]);
+77:     else if (args[i] === '--renderer' && ['native', 'remotion'].includes(args[i + 1])) opts.renderer = args[++i] as VisualRendererType;
+78:     else throw Error(`不明な引数: ${args[i]}（sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限] [--resolution 720|1080] [--renderer native|remotion]）`);
+79:   }
+80:   return opts;
+81: }
+82: 
+83: // WebVTTの時刻（ミリ秒まで）。
+84: export function vttStamp(t: number) {
+85:   const ms = Math.round(t * 1000);
+86:   const p = (n: number, w = 2) => String(n).padStart(w, '0');
+87:   return `${p(Math.floor(ms / 3600000))}:${p(Math.floor(ms / 60000) % 60)}:${p(Math.floor(ms / 1000) % 60)}.${p(ms % 1000, 3)}`;
+88: }
+89: 
+90: // 字幕cueごとのWebVTT本文。
+91: export function buildVtt(plan: Plan) {
+92:   let time = 0;
+93:   const blocks: string[] = [];
+94:   for (const s of plan.scenes) for (const c of s.cues) {
+95:     const start = time;
+96:     time += c.seconds;
+97:     blocks.push(`${vttStamp(start)} --> ${vttStamp(time)}\n${c.text}\n`);
+98:   }
+99:   return 'WEBVTT\n\n' + blocks.join('\n');
+100: }
+101: 
+102: export async function sample(opts: SampleOptions = {}) {
+103:   const isRemotion = opts.renderer === 'remotion';
+104:   if (!isRemotion && process.platform !== 'darwin') throw Error('M1 rendererはmacOS専用です');
+105:   const script = new FixtureScript(opts.plan), audio = new CueAudio();
+106:   const visual: VisualProvider & {scale?: number} = isRemotion
+107:     ? new (await import('../remotion-visual.ts')).RemotionVisual(opts.subtitles, opts.resolution)
+108:     : new NativeVisual(opts.subtitles, opts.resolution);
+109:   // 接続抽象と費用上限（T024）。M1の接続はすべて模擬・手元処理で費用0だが、実APIと同じ経路（見積り→予約→再試行→精算）を通す。
+110:   const budget = new Budget(opts.budgetUsd ?? 0);
+111:   const usage: Usage[] = [];
+112:   // 全試行の記録（T098）。失敗や費用不明の試行も残す。
+113:   const attempts: Attempt[] = [];
+114:   const scriptConn = new LocalConnection('script', script.kind, 'mock', async (_: void) => ({output: await script.create()}));
+115:   const plan = await callWithBudget(scriptConn, undefined, budget, 0, usage, 3, attempts);
+116:   const audioConn = new LocalConnection('audio', audio.kind, 'mock', async (path: string) => {
+117:     await audio.create(plan, path);
+118:     return {output: path, outputUnits: totalSeconds(plan)};
+119:   });
+120:   const visualConn = new LocalConnection('visual', visual.kind, 'local', async (d: string) => {
+121:     await visual.render(plan, d);
+122:     return {output: d, outputUnits: totalSeconds(plan)};
+123:   });
+124:   const id = `${plan.id}-${randomUUID().slice(0, 8)}`;
+125:   const dir = resolve('outputs', id);
+126:   mkdirSync(dir, {recursive: true});
+127:   const link: JobLink = opts.job ?? {mode: 'demo'};
+128:   const job: any = {
+129:     id, kind: 'production-job', status: 'running', createdAt: new Date().toISOString(), pid: process.pid,
+130:     // デモ（sample）は本人の題材選定・考察・台本承認を経ていない。本番の動画は制作案件（produce render）からだけ作る（T104）。
+131:     mode: link.mode, ...(link.project ? {project: link.project, scriptHash: link.scriptHash, scriptVersion: link.scriptVersion} : {}),
+132:     providers: [script.kind, audio.kind, visual.kind, 'publisher.disabled'],
+133:     cost: {currency: 'USD', limit: budget.limit, committed: 0, reserved: 0, unknown: 0, basis: 'mock/local only（実API未接続）'},
+134:     usage,
+135:     attempts,
+136:     inputHash: sha256(JSON.stringify(plan)),
+137:     input: opts.plan ?? 'fixtures/sample.json', durationSeconds: totalSeconds(plan), subtitles: opts.subtitles ?? DEFAULT_SUBTITLES, resolution: opts.resolution ?? 720,
+138:     versions: {
+139:       planSchema: plan.schema,
+140:       plan: plan.version,
+141:       rendererSource: isRemotion ? sha256(readFileSync('motion-lab/src/PlanVideo.tsx')) : sha256(readFileSync('scripts/render.swift')),
+142:       rendererKind: visual.kind,
+143:       ffmpeg: ffmpegVersion(),
+144:       node: process.version,
+145:     },
+146:     events: [],
+147:   };
+148:   const save = () => {
+149:     job.cost.committed = budget.committed;
+150:     job.cost.reserved = budget.reserved;
+151:     job.cost.unknown = budget.unknown;
+152:     writeFileSync(join(dir, 'job.json'), JSON.stringify(job, null, 2));
+153:   };
+154:   save();
+155:   try {
+156:     writeFileSync(join(dir, 'plan.json'), JSON.stringify(plan, null, 2));
+157:     // 安全検査（T042）。errorがあれば音声・描画の前に止める。
+158:     const lint = lintPlan(plan);
+159:     writeFileSync(join(dir, 'lint.json'), JSON.stringify(lint, null, 2));
+160:     job.lint = {ok: lint.ok, errors: lint.errors, warnings: lint.warnings};
+161:     job.events.push('lint-checked');
+162:     save();
+163:     if (!lint.ok) throw Error('安全検査に失敗:\n' + formatLint(lint));
+164:     const checklist = buildChecklist(plan);
+165:     writeChecklist(dir, checklist);
+166:     // 両映像経路とも画像は既存のAppKit描画器で生成。未対応OSは安全に停止する。
+167:     console.log(run(nativeRenderer(), [dir, '--checklist']));
+168:     const checklistReport = JSON.parse(readFileSync(join(dir, 'checklist-report.json'), 'utf8'));
+169:     job.checklist = {items: checklist.items.length, files: ['checklist.json', 'checklist.txt', ...checklist.pages.map(p => p.file)], ok: checklistReport.every((r: any) => r.fitted)};
+170:     // 概要欄用の出典と立場（T072）。T074でdescriptionへまとめる。
+171:     const channel = loadChannel();
+172:     writeFileSync(join(dir, 'sources.txt'), sourcesText(plan) + '\n');
+173:     writeFileSync(join(dir, 'stance.txt'), stanceText(channel) + '\n');
+174:     job.channelDecided = channel.decided;
+175:     // タイトル・概要欄・チャプター（T074）。問題があれば記録し、公開前の確認で直す（制作は止めない）。
+176:     const metadata = buildMetadata(plan, {sources: sourcesText(plan), stance: stanceText(channel)});
+177:     writeFileSync(join(dir, 'metadata.json'), JSON.stringify(metadata, null, 2));
+178:     job.metadata = {ok: metadata.ok, issues: metadata.issues, chapters: metadata.chapters.length};
+179:     if (checklist.items.length && Buffer.byteLength(metadata.description, 'utf8') > YT.descriptionBytes) throw Error('チェックリストを含む概要欄が5000バイトを超えています。項目か概要欄を短くしてください（自動切り捨てなし）');
+180:     if (!channel.decided) job.events.push('channel-undecided');
+181:     await callWithBudget(audioConn, join(dir, 'audio.wav'), budget, 0, usage, 3, attempts);
+182:     job.events.push('audio-ready');
+183:     save();
+184:     // ソフト字幕は書出し時に多重化するため、描画より前に書く（T044）。
+185:     writeFileSync(join(dir, 'subtitles.vtt'), buildVtt(plan));
+186:     await callWithBudget(visualConn, dir, budget, 0, usage, 3, attempts);
+187:     // サムネイル案の検査（T073）。不合格でも動画は残し、公開前の確認で直す。
+188:     const thumbs = checkThumbnails(dir);
+189:     job.thumbnails = thumbs.map(t => ({file: t.file, ok: t.ok, issues: t.issues}));
+190:     // 見やすさ（T091）。不合格でも制作は止めず、公開前の確認で直す。
+191:     job.readability = checkReadability(dir, visual.scale ?? 1);
+192:     // 文字配置（T106）。枠からのはみ出し・中央からのずれ・区画の重なり。不合格でも制作は止めず、確認で直す。
+193:     job.layout = checkLayout(dir);
+194:     job.status = 'completed';
+195:     job.outputHash = sha256(readFileSync(join(dir, 'sample.mp4')));
+196:     job.events.push('video-checked');
+197:     save();
+198:     writeFileSync('outputs/latest.json', JSON.stringify({id}));
+199:     console.log(`生成完了: ${dir}/sample.mp4`);
+200:     if (link.mode === 'demo') console.log('（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）');
+201:     return {id, dir};
+202:   } catch (e) {
+203:     job.status = 'failed';
+204:     job.error = String(e);
+205:     save();
+206:     throw e;
+207:   }
+208: }
+
+src/local-queue.ts
+1: // T141: opt-in local/mock queue. Does not render, publish, or mutate existing production jobs.
+2: import {closeSync, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, renameSync, rmSync, writeFileSync} from 'node:fs';
+3: import {isAbsolute, join, relative, resolve} from 'node:path';
+4: import {createHash, randomUUID} from 'node:crypto';
+5: import {ConnError} from './connections.ts';
+6: import {assertRenderable} from './production.ts';
+7: import {assessStagePrerequisites} from './orchestration-pipeline.ts';
+8: 
+9: export type Artifact = {file: string; sha256: string};
+10: type Status = 'queued' | 'running' | 'completed' | 'failed' | 'blocked';
+11: export type QueueAttempt = {number: number; directory: string; status: 'running' | 'completed' | 'failed' | 'interrupted'; charge: 'none' | 'unknown'; error?: string};
+12: export type QueueStage = {name: string; status: Status; inputVersion?: string; outputs: Artifact[]; attempts: QueueAttempt[]};
+13: export type QueueJob = {id: string; mode: 'local' | 'mock'; inputs: Artifact[]; stages: QueueStage[]; status: Status; maxAttempts: number; production?: {root: string; id: string; scriptHash: string}; error?: string};
+14: export type QueueState = {schema: 1; concurrency: number; jobs: QueueJob[]; events: {sequence: number; job: string; stage?: string; status: string}[]};
+15: export type QueueTask = {id: string; mode: 'local' | 'mock'; inputs: string[]; stages: string[]; maxAttempts?: number};
+16: export type StageContext = {job: Readonly<QueueJob>; stage: string; attempt: number; previous: Artifact[]; writeArtifact(name: string, data: string | Buffer): Artifact};
+17: // Executors must be local/mock only, with effects confined to writeArtifact. No external retry contract.
+18: export type QueueExecutor = (context: StageContext) => Promise<void>;
+19: const hash = (v: string | Buffer) => createHash('sha256').update(v).digest('hex');
+20: const digest = (v: unknown) => hash(JSON.stringify(v));
+21: const token = (v: unknown): v is string => typeof v === 'string' && /^[a-zA-Z0-9_-]{1,80}$/.test(v);
+22: const sha = (v: unknown) => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v);
+23: const integer = (v: unknown, max: number): v is number => Number.isInteger(v) && Number(v) >= 1 && Number(v) <= max;
+24: function checkArtifact(a: Artifact) {
+25:   if (!a || typeof a.file !== 'string' || !a.file || !sha(a.sha256)) throw Error('corrupt artifact record');
+26: }
+27: function validate(s: QueueState) {
+28:   if (!s || s.schema !== 1 || !integer(s.concurrency, 16) || !Array.isArray(s.jobs) || !Array.isArray(s.events)) throw Error('corrupt queue state');
+29:   const ids = new Set<string>();
+30:   for (const j of s.jobs) {
+31:     if (!token(j?.id) || ids.has(j.id) || !['local', 'mock'].includes(j.mode) || !integer(j.maxAttempts, 10) || !['queued', 'running', 'completed', 'failed', 'blocked'].includes(j.status) || !Array.isArray(j.inputs) || !j.inputs.length || !Array.isArray(j.stages) || !j.stages.length) throw Error('corrupt queue job');
+32:     ids.add(j.id); j.inputs.forEach(a => {checkArtifact(a); if (!isAbsolute(a.file)) throw Error('corrupt input path');});
+33:     if (j.production && (!isAbsolute(j.production.root) || !token(j.production.id) || !sha(j.production.scriptHash))) throw Error('corrupt production binding');
+34:     const names = new Set<string>(); let unfinished = false;
+35:     for (const st of j.stages) {
+36:       if (!token(st?.name) || names.has(st.name) || !['queued', 'running', 'completed', 'failed', 'blocked'].includes(st.status) || !Array.isArray(st.outputs) || !Array.isArray(st.attempts) || st.attempts.length > j.maxAttempts || (st.inputVersion !== undefined && !sha(st.inputVersion))) throw Error('corrupt queue stage');
+37:       names.add(st.name); st.outputs.forEach(checkArtifact);
+38:       st.attempts.forEach((a, i) => {
+39:         if (a.number !== i + 1 || a.directory !== `artifacts/${j.id}/${st.name}/${a.number}` || !['running', 'completed', 'failed', 'interrupted'].includes(a.status) || !['none', 'unknown'].includes(a.charge)) throw Error('corrupt attempt');
+40:       });
+41:       if (st.status === 'completed' && (!st.inputVersion || !st.outputs.length || st.attempts.at(-1)?.status !== 'completed')) throw Error('corrupt completion');
+42:       if (st.status === 'running' && st.attempts.at(-1)?.status !== 'running') throw Error('corrupt running stage');
+43:       if (st.status === 'completed' && unfinished) throw Error('corrupt stage ordering');
+44:       if (st.status !== 'completed') unfinished = true;
+45:     }
+46:     if (j.status === 'completed' && j.stages.some(st => st.status !== 'completed')) throw Error('corrupt completed job');
+47:   }
+48:   s.events.forEach((e, i) => {if (e.sequence !== i + 1 || !ids.has(e.job) || typeof e.status !== 'string') throw Error('corrupt event');});
+49: }
+50: // fsync + atomic rename: torn writes leave the previous checked snapshot; no backup fallback.
+51: function store(file: string, value: unknown) {
+52:   const temp = `${file}.${randomUUID()}.tmp`;
+53:   const fd = openSync(temp, 'wx', 0o600);
+54:   try {writeFileSync(fd, JSON.stringify({value, sha256: digest(value)})); fsyncSync(fd);} finally {closeSync(fd);}
+55:   renameSync(temp, file);
+56:   const dir = openSync(resolve(file, '..'), 'r');
+57:   try {fsyncSync(dir);} finally {closeSync(dir);}
+58: }
+59: function load(file: string): any {
+60:   const envelope = JSON.parse(readFileSync(file, 'utf8'));
+61:   if (!envelope || !sha(envelope.sha256) || digest(envelope.value) !== envelope.sha256) throw Error('checksum mismatch: ' + file);
+62:   return envelope.value;
+63: }
+64: 
+65: export class LocalQueue {
+66:   readonly root: string;
+67:   private state: QueueState;
+68:   private closed = false;
+69:   private draining = false;
+70:   private poisoned = false;
+71:   private constructor(root: string, concurrency: number, recoverDeadOwner: boolean) {
+72:     mkdirSync(root, {recursive: true}); this.root = realpathSync(root);
+73:     const lock = join(this.root, 'owner.json');
+74:     if (existsSync(lock) && recoverDeadOwner) {
+75:       const recoveryLock = join(this.root, 'recovery.lock');
+76:       writeFileSync(recoveryLock, '', {flag: 'wx', mode: 0o600});
+77:       try {
+78:         const owner = JSON.parse(readFileSync(lock, 'utf8'));
+79:         if (!integer(owner.pid, 2 ** 31 - 1)) throw Error('corrupt queue owner');
+80:         try {process.kill(owner.pid, 0); throw Error('queue owner is alive');}
+81:         catch (e) {if ((e as NodeJS.ErrnoException).code !== 'ESRCH') throw e;}
+82:         rmSync(lock);
+83:       } finally {rmSync(recoveryLock);}
+84:     }
+85:     writeFileSync(lock, JSON.stringify({pid: process.pid}), {flag: 'wx', mode: 0o600});
+86:     try {
+87:       const file = join(this.root, 'queue.json');
+88:       if (existsSync(file)) {this.state = load(file); validate(this.state); if (this.state.concurrency !== concurrency) throw Error('concurrency differs from persisted configuration');}
+89:       else {
+90:         if (readdirSync(this.root).some(name => name !== 'owner.json')) throw Error('missing queue state in nonempty directory; preserve evidence');
+91:         this.state = {schema: 1, concurrency, jobs: [], events: []}; this.save();
+92:       }
+93:     } catch (e) {rmSync(lock); throw e;}
+94:   }
+95:   static open(root: string, options: {concurrency?: number; recoverDeadOwner?: boolean} = {}) {
+96:     const concurrency = options.concurrency ?? 1;
+97:     if (!integer(concurrency, 16)) throw Error('concurrency must be 1..16');
+98:     return new LocalQueue(root, concurrency, options.recoverDeadOwner ?? false);
+99:   }
+100:   private usable() {if (this.closed || this.poisoned) throw Error('queue closed or persistence failed; reopen and recover');}
+101:   private save() {
+102:     try {validate(this.state); store(join(this.root, 'queue.json'), this.state);} catch (e) {this.poisoned = true; throw e;}
+103:   }
+104:   snapshot(): QueueState {this.usable(); return structuredClone(this.state);}
+105:   close() {if (this.draining) throw Error('cannot close a running queue'); if (!this.closed) {rmSync(join(this.root, 'owner.json'), {force: true}); this.closed = true;}}
+106:   private event(j: QueueJob, status: string, stage?: string) {this.state.events.push({sequence: this.state.events.length + 1, job: j.id, status, ...(stage ? {stage} : {})});}
+107:   enqueue(task: QueueTask) {
+108:     if (task.id.startsWith('production-')) throw Error('use enqueueProduction for production projects');
+109:     this.enqueueTask(task);
+110:   }
+111:   private enqueueTask(task: QueueTask, production?: QueueJob['production']) {
+112:     this.usable(); if (this.draining) throw Error('enqueue while draining is disabled');
+113:     if (!token(task.id) || this.state.jobs.some(j => j.id === task.id)) throw Error('invalid or duplicate job id');
+114:     if (!['local', 'mock'].includes(task.mode) || !integer(task.maxAttempts ?? 3, 10) || !Array.isArray(task.inputs) || !task.inputs.length || !Array.isArray(task.stages) || !task.stages.length || task.stages.some(n => !token(n)) || new Set(task.stages).size !== task.stages.length) throw Error('invalid local/mock task');
+115:     const inputs = task.inputs.map(file => {const path = realpathSync(file); if (!lstatSync(path).isFile()) throw Error('input must be a file'); return {file: path, sha256: hash(readFileSync(path))};});
+116:     const j: QueueJob = {id: task.id, mode: task.mode, inputs, maxAttempts: task.maxAttempts ?? 3, stages: task.stages.map(name => ({name, status: 'queued', outputs: [], attempts: []})), status: 'queued', ...(production ? {production} : {})};
+117:     this.state.jobs.push(j); this.event(j, 'enqueued'); this.save();
+118:   }
+119:   enqueueProduction(root: string, id: string, stages: string[], mode: 'local' | 'mock' = 'local', maxAttempts = 3) {
+120:     const {state, planPath} = assertRenderable(root, id);
+121:     const assessment = assessStagePrerequisites(root, id);
+122:     if (!assessment.canProceed || assessment.currentStage !== 'render') throw Error('production is waiting for human review');
+123:     this.enqueueTask({id, mode, inputs: [planPath], stages, maxAttempts}, {root: realpathSync(root), id, scriptHash: state.script!.hash});
+124:   }
+125:   private outputPath(file: string) {
+126:     if (isAbsolute(file) || file.split('/').some(p => !p || p === '.' || p === '..')) throw Error('unsafe artifact path');
+127:     const path = join(this.root, file);
+128:     const actual = realpathSync(path);
+129:     if (relative(this.root, actual).startsWith('..') || lstatSync(path).isSymbolicLink() || !lstatSync(actual).isFile()) throw Error('unsafe artifact file');
+130:     return actual;
+131:   }
+132:   private claimAttempt(directory: string) {
+133:     const parts = directory.split('/'); let parent = this.root;
+134:     for (const part of parts.slice(0, -1)) {
+135:       parent = join(parent, part);
+136:       if (!existsSync(parent)) mkdirSync(parent);
+137:       if (lstatSync(parent).isSymbolicLink() || !lstatSync(parent).isDirectory()) throw Error('unsafe artifact directory');
+138:     }
+139:     // An orphaned or colliding attempt directory is evidence, never reused or renamed away.
+140:     mkdirSync(join(this.root, directory));
+141:   }
+142:   private verify(j: QueueJob) {
+143:     for (const a of j.inputs) if (hash(readFileSync(a.file)) !== a.sha256) throw Error('input hash mismatch');
+144:     if (j.production) {
+145:       const {state} = assertRenderable(j.production.root, j.production.id);
+146:       if (state.script!.hash !== j.production.scriptHash) throw Error('production input version changed');
+147:       const assessment = assessStagePrerequisites(j.production.root, j.production.id);
+148:       if (!assessment.canProceed || assessment.currentStage !== 'render') throw Error('production is waiting for human review');
+149:     }
+150:     for (const st of j.stages) {
+151:       if (st.attempts.some(a => a.charge === 'unknown')) throw Error('unknown cost; automatic resend disabled');
+152:       if (st.status === 'completed') {
+153:         if (st.inputVersion !== this.version(j, st)) throw Error('stage input version mismatch');
+154:         this.verifyOutputs(st.outputs, st.attempts.at(-1)!.directory);
+155:       }
+156:     }
+157:   }
+158:   private version(j: QueueJob, st: QueueStage) {return digest({inputs: j.inputs, production: j.production ?? null, stage: st.name, previous: j.stages.slice(0, j.stages.indexOf(st)).map(s => ({name: s.name, outputs: s.outputs}))});}
+159:   private verifyOutputs(outputs: Artifact[], directory: string) {
+160:     if (!outputs.length || new Set(outputs.map(a => a.file)).size !== outputs.length) throw Error('empty or duplicate outputs');
+161:     for (const a of outputs) {
+162:       checkArtifact(a);
+163:       if (!a.file.startsWith(directory + '/') || hash(readFileSync(this.outputPath(a.file))) !== a.sha256) throw Error('artifact hash mismatch');
+164:     }
+165:   }
+166:   // Explicit offline resume. Running attempts without receipts remain isolated and count toward the limit.
+167:   recover() {
+168:     this.usable(); if (this.draining) throw Error('queue is running');
+169:     for (const j of this.state.jobs) {
+170:       if (j.status === 'blocked' || j.status === 'failed') continue;
+171:       try {
+172:         this.verify(j);
+173:         for (const st of j.stages) if (st.status === 'running') {
+174:           const a = st.attempts.at(-1)!; const receipt = join(this.root, a.directory, 'receipt.json');
+175:           if (existsSync(receipt)) {
+176:             const r = load(this.outputPath(`${a.directory}/receipt.json`));
+177:             if (r.job !== j.id || r.stage !== st.name || r.attempt !== a.number || r.inputVersion !== this.version(j, st) || !Array.isArray(r.outputs)) throw Error('corrupt completion receipt');
+178:             this.verifyOutputs(r.outputs, a.directory); st.outputs = r.outputs; st.inputVersion = r.inputVersion; st.status = 'completed'; a.status = 'completed';
+179:             this.event(j, 'restored', st.name);
+180:           } else {a.status = 'interrupted'; a.error = 'interrupted local/mock attempt'; st.status = st.attempts.length < j.maxAttempts ? 'queued' : 'failed'; this.event(j, 'interrupted', st.name);}
+181:         }
+182:         this.verify(j);
+183:         j.status = j.stages.every(s => s.status === 'completed') ? 'completed' : j.stages.some(s => s.status === 'failed') ? 'failed' : 'queued';
+184:       } catch (e) {j.status = 'blocked'; j.error = String(e); this.event(j, 'blocked');}
+185:     }
+186:     this.save(); return this.snapshot();
+187:   }
+188:   async drain(execute: QueueExecutor) {
+189:     this.usable(); if (this.draining) throw Error('queue already running');
+190:     if (this.state.jobs.some(j => j.status === 'running')) throw Error('interrupted queue; recover first');
+191:     this.recover(); // Validate even completed jobs on every drain, without re-executing them.
+192:     this.draining = true;
+193:     try {
+194:       const worker = async () => {
+195:         while (!this.poisoned) {
+196:           const j = this.state.jobs.find(j => j.status === 'queued'); if (!j) return;
+197:           try {this.verify(j);} catch (e) {j.status = 'blocked'; j.error = String(e); this.event(j, 'blocked'); this.save(); continue;}
+198:           j.status = 'running'; this.event(j, 'running'); this.save();
+199:           await this.runJob(j, execute);
+200:         }
+201:       };
+202:       const results = await Promise.allSettled(Array.from({length: this.state.concurrency}, worker));
+203:       const failure = results.find(r => r.status === 'rejected'); if (failure?.status === 'rejected') throw failure.reason;
+204:       this.usable(); return this.snapshot();
+205:     } finally {this.draining = false;}
+206:   }
+207:   private async runJob(j: QueueJob, execute: QueueExecutor) {
+208:     for (const st of j.stages) {
+209:       if (st.status === 'completed') continue;
+210:       while (st.attempts.length < j.maxAttempts) {
+211:         this.usable();
+212:         try {this.verify(j);} catch (e) {j.status = 'blocked'; j.error = String(e); this.event(j, 'blocked'); this.save(); return;}
+213:         const number = st.attempts.length + 1, directory = `artifacts/${j.id}/${st.name}/${number}`;
+214:         try {this.claimAttempt(directory);} catch (e) {
+215:           j.status = 'blocked'; j.error = String(e); this.event(j, 'blocked', st.name); this.save(); return;
+216:         }
+217:         const a: QueueAttempt = {number, directory, status: 'running', charge: 'none'};
+218:         st.attempts.push(a); st.status = 'running'; st.inputVersion = this.version(j, st); this.event(j, 'running', st.name); this.save();
+219:         const outputs: Artifact[] = []; let failure: unknown; let failed = false; let accepting = true;
+220:         try {
+221:           await execute({job: structuredClone(j), stage: st.name, attempt: number, previous: structuredClone(j.stages.slice(0, j.stages.indexOf(st)).flatMap(s => s.outputs)), writeArtifact: (name, data) => {
+222:             this.usable(); if (!accepting || !/^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,119}$/.test(name) || name === 'receipt.json') throw Error('invalid artifact write');
+223:             const file = `${directory}/${name}`;
+224:             writeFileSync(join(this.root, file), data, {flag: 'wx', mode: 0o600});
+225:             const fd = openSync(join(this.root, file), 'r'); try {fsyncSync(fd);} finally {closeSync(fd);}
+226:             const artifact = {file, sha256: hash(readFileSync(this.outputPath(file)))}; outputs.push(artifact); return artifact;
+227:           }});
+228:           this.verify(j); this.verifyOutputs(outputs, directory);
+229:         } catch (e) {failure = e; failed = true;} finally {accepting = false;}
+230:         this.usable();
+231:         if (failed) {
+232:           a.status = 'failed'; a.error = String(failure); a.charge = failure instanceof ConnError ? failure.charge : 'none';
+233:           const retry = failure instanceof ConnError && ['SERVER', 'RATE_LIMIT'].includes(failure.code) && a.charge === 'none' && number < j.maxAttempts;
+234:           st.status = retry ? 'queued' : a.charge === 'unknown' ? 'blocked' : 'failed'; this.event(j, st.status, st.name);
+235:           if (!retry) {j.status = st.status; j.error = a.error; this.save(); return;}
+236:           this.save(); continue;
+237:         }
+238:         // Receipt precedes snapshot: a crash in between restores verified completion without re-execution.
+239:         try {store(join(this.root, directory, 'receipt.json'), {job: j.id, stage: st.name, attempt: number, inputVersion: st.inputVersion, outputs});}
+240:         catch (e) {this.poisoned = true; throw e;}
+241:         st.outputs = outputs; st.status = 'completed'; a.status = 'completed'; this.event(j, 'completed', st.name); this.save(); break;
+242:       }
+243:     }
+244:     j.status = 'completed'; this.event(j, 'completed'); this.save();
+245:   }
+246: }
+
+src/mock-audio-media.ts
+1: // T138: synthetic tones only. No TTS provider, credentials, network or sample outputs.
+2: import {mkdtempSync, realpathSync, readFileSync, writeFileSync, existsSync, renameSync, rmSync} from 'node:fs';
+3: import {join, relative, sep} from 'node:path';
+4: import {tmpdir} from 'node:os';
+5: import {spawnSync} from 'node:child_process';
+6: import {createHash} from 'node:crypto';
+7: import {loadPlan, totalSeconds} from './plan.ts';
+8: import type {Plan} from './plan.ts';
+9: import {ffmpegPath} from './media.ts';
+10: import {sliceScriptForNarration, checkSubtitleSync, calculateBgmDucking, checkAudioLoudness} from './audio-pipeline.ts';
+11: 
+12: const RATE = 24000;
+13: const BGM_HZ = 220;
+14: type Window = {start: number; end: number};
+15: type Command = {args: string[]; exitCode: number | null; stderr: string};
+16: 
+17: function wav(file: string, samples: number, frequency: number, activeSamples: number, amplitude: number) {
+18:   const b = Buffer.alloc(44 + samples * 2);
+19:   b.write('RIFF'); b.writeUInt32LE(b.length - 8, 4); b.write('WAVEfmt ', 8);
+20:   b.writeUInt32LE(16, 16); b.writeUInt16LE(1, 20); b.writeUInt16LE(1, 22);
+21:   b.writeUInt32LE(RATE, 24); b.writeUInt32LE(RATE * 2, 28);
+22:   b.writeUInt16LE(2, 32); b.writeUInt16LE(16, 34); b.write('data', 36); b.writeUInt32LE(samples * 2, 40);
+23:   for (let i = 0; i < activeSamples; i++) b.writeInt16LE(Math.round(32767 * amplitude * Math.sin(2 * Math.PI * frequency * i / RATE)), 44 + i * 2);
+24:   writeFileSync(file, b, {flag: 'wx'});
+25: }
+26: 
+27: function rmsDb(pcm: Buffer, window: Window) {
+28:   const start = Math.round(window.start * RATE), end = Math.round(window.end * RATE);
+29:   if (start < 0 || end > pcm.length / 2 || end <= start) throw Error('Invalid measurement window');
+30:   let energy = 0;
+31:   for (let i = start; i < end; i++) energy += (pcm.readInt16LE(i * 2) / 32768) ** 2;
+32:   return 20 * Math.log10(Math.sqrt(energy / (end - start)));
+33: }
+34: 
+35: // Orthogonal 100ms window: synthetic narration (660 + 20*k Hz) and BGM (220 Hz).
+36: // This measures the BGM component in the final mix, independently of narration energy.
+37: function bgmComponentDb(pcm: Buffer, window: Window) {
+38:   const n = RATE / 10, start = Math.round(((window.start + window.end) / 2 - 0.05) * RATE);
+39:   if (window.end - window.start < 0.1 || start < 0 || start + n > pcm.length / 2) throw Error('Short BGM measurement window');
+40:   let sine = 0, cosine = 0;
+41:   for (let j = 0; j < n; j++) {
+42:     const value = pcm.readInt16LE((start + j) * 2) / 32768;
+43:     const phase = 2 * Math.PI * BGM_HZ * j / RATE;
+44:     sine += value * Math.sin(phase); cosine += value * Math.cos(phase);
+45:   }
+46:   return 20 * Math.log10(2 * Math.hypot(sine, cosine) / n / Math.sqrt(2));
+47: }
+48: 
+49: /** Produces a fresh audio/ directory in an existing isolated temporary root.
+50:  * Publication occurs only after full decoding and measurements; any failure removes staging.
+51:  * Existing results and all other files are preserved. The API accepts validated Plan v2 data.
+52:  */
+53: export function renderMockAudioMedia(input: Plan, isolatedRoot: string, options: {ffmpeg?: string} = {}) {
+54:   const plan = loadPlan(input);
+55:   const root = realpathSync(isolatedRoot);
+56:   const isInside = (parent: string) => {
+57:     const path = relative(realpathSync(parent), root);
+58:     return Boolean(path) && path !== '..' && !path.startsWith(`..${sep}`);
+59:   };
+60:   const repoRelative = relative(realpathSync('.'), root);
+61:   if (![tmpdir(), '/tmp'].some(isInside) ||
+62:       (!repoRelative.startsWith(`..${sep}`) && repoRelative !== '..')) throw Error('An isolated temporary directory outside the repository is required');
+63:   const target = join(root, 'audio');
+64:   if (existsSync(target)) throw Error('Existing audio result is protected');
+65:   const stage = mkdtempSync(join(root, '.audio-stage-'));
+66:   const commands: Command[] = [];
+67:   const executable = options.ffmpeg ?? ffmpegPath();
+68:   const run = (args: string[]) => {
+69:     const result = spawnSync(executable, ['-hide_banner', '-nostdin', '-n', ...args], {encoding: 'utf8', timeout: 600000, maxBuffer: 32 * 1024 * 1024});
+70:     commands.push({args, exitCode: result.status, stderr: result.stderr ?? ''});
+71:     if (result.status !== 0) throw Error(`FFmpeg failed (${result.status}): ${result.error?.message ?? result.stderr}`);
+72:     return result.stderr;
+73:   };
+74:   const decode = (name: string) => {
+75:     const path = join(stage, name);
+76:     const decoded = `${path}.pcm`;
+77:     run(['-v', 'error', '-xerror', '-i', path, '-map', '0:a:0', '-ac', '1', '-ar', String(RATE), '-c:a', 'pcm_s16le', '-f', 's16le', decoded]);
+78:     const b = readFileSync(decoded);
+79:     if (!b.length || b.length % 2) throw Error(`Invalid decoded PCM: ${name}`);
+80:     return b;
+81:   };
+82:   try {
+83:     const version = spawnSync(executable, ['-version'], {encoding: 'utf8', timeout: 30000});
+84:     if (version.status !== 0) throw Error('FFmpeg version check failed');
+85:     const slices = sliceScriptForNarration(plan);
+86:     let totalSamples = 0;
+87:     const cues = slices.map((slice, i) => {
+88:       const samples = Math.round(slice.expectedDurationSec * RATE);
+89:       const activeSamples = Math.round(samples * 0.6);
+90:       const file = `slice-${i}.wav`;
+91:       wav(join(stage, file), samples, 660 + (i % 8) * 20, activeSamples, 0.3);
+92:       const pcm = decode(file);
+93:       slice.actualDurationSec = pcm.length / 2 / RATE;
+94:       slice.audioPath = file;
+95:       const start = totalSamples / RATE;
+96:       totalSamples += pcm.length / 2;
+97:       return {sceneIndex: slice.sceneIndex, cueIndex: slice.cueIndex, text: slice.text, file,
+98:         start, end: totalSamples / RATE, samples: pcm.length / 2, toneEnd: start + activeSamples / RATE};
+99:     });
+100:     writeFileSync(join(stage, 'concat.txt'), cues.map(c => `file '${c.file}'`).join('\n') + '\n', {flag: 'wx'});
+101:     run(['-f', 'concat', '-safe', '1', '-i', join(stage, 'concat.txt'), '-c:a', 'pcm_s16le', join(stage, 'narration.wav')]);
+102:     const narration = decode('narration.wav');
+103:     if (narration.length / 2 !== totalSamples) throw Error('Concatenated sample count mismatch');
+104:     const sync = checkSubtitleSync(plan, slices, 2 / RATE);
+105:     if (!sync.ok || Math.abs(narration.length / 2 / RATE - totalSeconds(plan)) > 2 / RATE) throw Error('Subtitle duration mismatch');
+106:     // Detect real signal edges in the concatenated PCM; do not infer them from text.
+107:     const signal = cues.map(c => {
+108:       let first = -1, last = -1;
+109:       for (let j = Math.round(c.start * RATE); j < Math.round(c.end * RATE); j++) {
+110:         if (Math.abs(narration.readInt16LE(j * 2)) > 327) { if (first < 0) first = j; last = j; }
+111:       }
+112:       if (first < 0 || Math.abs(first / RATE - c.start) > 2 / RATE || Math.abs((last + 1) / RATE - c.toneEnd) > 2 / RATE) throw Error('Decoded tone/subtitle position mismatch');
+113:       return {start: first / RATE, end: (last + 1) / RATE};
+114:     });
+115:     const ducking = calculateBgmDucking(cues.flatMap((c, i) => [
+116:       {sceneIndex: c.sceneIndex, cueIndex: c.cueIndex, text: 'synthetic tone', expectedDurationSec: signal[i].end - c.start},
+117:       {sceneIndex: c.sceneIndex, cueIndex: c.cueIndex, text: '', expectedDurationSec: c.end - signal[i].end},
+118:     ]));
+119:     wav(join(stage, 'bgm.wav'), totalSamples, BGM_HZ, totalSamples, 0.5);
+120:     const ranges = ducking.duckRangeSec.map(w => `between(t,${w.start},${w.end})`).join('+');
+121:     const expression = `if(gt(${ranges},0),${10 ** (ducking.duckedVolumeDb / 20)},${10 ** (ducking.bgmVolumeDb / 20)})`;
+122:     // Apply gain per sample; frame-level volume evaluation shifts short cue boundaries.
+123:     run(['-i', join(stage, 'bgm.wav'), '-af', `aeval='val(0)*${expression}'`, '-c:a', 'pcm_s16le', join(stage, 'bgm-ducked.wav')]);
+124:     run(['-i', join(stage, 'narration.wav'), '-i', join(stage, 'bgm-ducked.wav'), '-filter_complex', '[0:a][1:a]amix=inputs=2:duration=longest:normalize=0[m]', '-map', '[m]', '-c:a', 'pcm_s16le', join(stage, 'mixed.wav')]);
+125:     const background = decode('bgm-ducked.wav'), mixed = decode('mixed.wav');
+126:     if (mixed.length !== narration.length || background.length !== narration.length) throw Error('Mix duration mismatch');
+127:     const measurements = cues.map((c, i) => {
+128:       const speech = {start: c.start + 0.06, end: signal[i].end - 0.01};
+129:       const pause = {start: signal[i].end + 0.06, end: c.end - 0.01};
+130:       const speechDbfs = rmsDb(background, speech), pauseDbfs = rmsDb(background, pause);
+131:       const mixSpeechBgmDbfs = bgmComponentDb(mixed, speech), mixPauseBgmDbfs = bgmComponentDb(mixed, pause);
+132:       const reductionDb = pauseDbfs - speechDbfs, mixReductionDb = mixPauseBgmDbfs - mixSpeechBgmDbfs;
+133:       if (![reductionDb, mixReductionDb].every(d => Number.isFinite(d) && Math.abs(d - 10) < 0.5)) throw Error(`Measured BGM ducking failed at cue ${i}: stem=${reductionDb}, mix=${mixReductionDb}`);
+134:       return {cueIndex: i, speech, pause, speechDbfs, pauseDbfs, reductionDb, mixSpeechBgmDbfs, mixPauseBgmDbfs, mixReductionDb};
+135:     });
+136:     const loud = run(['-i', join(stage, 'mixed.wav'), '-af', 'ebur128=peak=true', '-f', 'null', '-']);
+137:     const last = (re: RegExp) => Number([...loud.matchAll(re)].at(-1)?.[1]);
+138:     const integratedLufs = last(/I:\s+(-?[\d.]+) LUFS/g), truePeakDbfs = last(/Peak:\s+(-?[\d.]+) dBFS/g);
+139:     if (!Number.isFinite(integratedLufs) || !Number.isFinite(truePeakDbfs)) throw Error('Missing loudness measurements');
+140:     let peak = 0;
+141:     for (let j = 0; j < mixed.length; j += 2) peak = Math.max(peak, Math.abs(mixed.readInt16LE(j)));
+142:     if (peak === 0 || peak >= 32767) throw Error('Silent or clipped mix');
+143:     const artifactFiles = [...cues.map(c => c.file), 'narration.wav', 'bgm.wav', 'bgm-ducked.wav', 'mixed.wav'];
+144:     const artifacts = artifactFiles.map(file => {
+145:       const bytes = readFileSync(join(stage, file));
+146:       return {file, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex')};
+147:     });
+148:     const report = {schema: 1, mode: 'mock', material: 'locally synthesized sine tones; no TTS or human voice',
+149:       planId: plan.id, planHash: createHash('sha256').update(JSON.stringify(plan)).digest('hex'), artifacts,
+150:       narration: false, humanListeningEvaluation: 'not performed', costUsd: 0,
+151:       ffmpeg: version.stdout.split('\n')[0], sampleRate: RATE, fullDecode: 'passed',
+152:       expectedDurationSec: totalSeconds(plan), decodedDurationSec: mixed.length / 2 / RATE,
+153:       decodedSamples: mixed.length / 2, samplePeak: peak, cues, detectedSignal: signal, sync, ducking, measurements,
+154:       loudness: checkAudioLoudness(integratedLufs, truePeakDbfs),
+155:       loudnessPolicy: 'Measured synthetic fixture only; production loudness targets are recorded, not required for this mock.',
+156:       commands};
+157:     writeFileSync(join(stage, 'media-check.json'), JSON.stringify(report, null, 2), {flag: 'wx'});
+158:     // A new result path only; -n prevents FFmpeg from overwriting any stage input.
+159:     if (existsSync(target)) throw Error('Existing audio result is protected');
+160:     renameSync(stage, target);
+161:     return {directory: target, report};
+162:   } catch (error) {
+163:     rmSync(stage, {recursive: true, force: true});
+164:     throw error;
+165:   }
+166: }
+
+src/providers.ts
+1: import {readFileSync,writeFileSync} from 'node:fs';
+2: import {loadPlan} from './plan.ts';
+3: import type {Plan} from './plan.ts';
+4: export {validateV1 as validatePlan} from './plan.ts';
+5: export type {Plan} from './plan.ts';
+6: export interface ScriptProvider{kind:string; create():Promise<Plan>}
+7: export interface AudioProvider{kind:string;create(plan:Plan,path:string):Promise<void>}
+8: export interface VisualProvider{kind:string;render(plan:Plan,dir:string):Promise<void>}
+9: export interface Publisher{kind:string;publish():Promise<never>}
+10: // 台本ファイル（v1/v2）を読む模擬の台本接続。sample --plan で任意のファイルを指定できる（T041）。
+11: export class FixtureScript implements ScriptProvider{kind='mock.fixture';path:string;constructor(path='fixtures/sample.json'){this.path=path}async create(){return loadPlan(JSON.parse(readFileSync(this.path,'utf8')))}}
+12: // 自作の正弦波。ナレーションを模擬する確認音であり、音声合成APIではない。
+13: export class CueAudio implements AudioProvider{kind='mock.sine-cues';async create(plan:Plan,path:string){
+14:  const rate=24000,total=plan.scenes.reduce((n,s)=>n+s.seconds,0),count=rate*total,buf=Buffer.alloc(44+count*2);
+15:  buf.write('RIFF');buf.writeUInt32LE(36+count*2,4);buf.write('WAVEfmt ',8);buf.writeUInt32LE(16,16);buf.writeUInt16LE(1,20);buf.writeUInt16LE(1,22);buf.writeUInt32LE(rate,24);buf.writeUInt32LE(rate*2,28);buf.writeUInt16LE(2,32);buf.writeUInt16LE(16,34);buf.write('data',36);buf.writeUInt32LE(count*2,40);
+16:  let start=0;plan.scenes.forEach((s,k)=>{for(let j=0;j<rate*s.seconds;j++){const t=j/rate;const a=t<0.7?0.16*Math.sin(Math.PI*t/0.7)**2:0;buf.writeInt16LE(Math.round(32767*a*Math.sin(2*Math.PI*(330+k*55)*t)),44+2*(start+j))}start+=s.seconds*rate});writeFileSync(path,buf);
+17: }}
+18: export class DisabledPublisher implements Publisher{kind='disabled';async publish():Promise<never>{throw Error('投稿は未実装・未承認です')}}
+19: export {RemotionVisual} from './remotion-visual.ts';
+
+src/remotion-visual.ts
+1: import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
+2: import {createRequire} from 'node:module';
+3: import {dirname, join, resolve} from 'node:path';
+4: import {spawnSync} from 'node:child_process';
+5: import {fileURLToPath} from 'node:url';
+6: import type {Plan, Scene} from './plan.ts';
+7: import type {VisualProvider} from './providers.ts';
+8: import type {SubtitleMode} from './media.ts';
+9: import {DEFAULT_SUBTITLES} from './commands/sample.ts';
+10: import {toRemotionPlanProps} from '../motion-lab/src/remotion-plan.ts';
+11: import {ff, ffmpegPath} from './media.ts';
+12: 
+13: const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+14: const MOTION_LAB = join(REPO_ROOT, 'motion-lab');
+15: 
+16: function remotionCliPath(): string {
+17:   const req = createRequire(join(MOTION_LAB, 'package.json'));
+18:   const pkg = req.resolve('@remotion/cli/package.json');
+19:   const bin = JSON.parse(readFileSync(pkg, 'utf8')).bin;
+20:   return join(dirname(pkg), typeof bin === 'string' ? bin : bin.remotion);
+21: }
+22: 
+23: export class RemotionVisual implements VisualProvider {
+24:   kind = 'local.remotion';
+25:   subtitles: SubtitleMode;
+26:   resolution: 720 | 1080;
+27:   fps: number;
+28:   scale: number;
+29: 
+30:   constructor(subtitles: SubtitleMode = DEFAULT_SUBTITLES, resolution: 720 | 1080 = 720, fps = 24) {
+31:     this.subtitles = subtitles;
+32:     this.resolution = resolution;
+33:     this.fps = fps;
+34:     this.scale = resolution / 720;
+35:   }
+36: 
+37:   async render(plan: Plan, dir: string): Promise<void> {
+38:     const width = this.resolution === 1080 ? 1920 : 1280;
+39:     const height = this.resolution === 1080 ? 1080 : 720;
+40:     const remotionProps = toRemotionPlanProps(plan, this.fps, width, height);
+41: 
+42:     // props.json を出力ディレクトリへ保存
+43:     const propsFile = join(dir, 'remotion-props.json');
+44:     writeFileSync(propsFile, JSON.stringify(remotionProps, null, 2));
+45: 
+46:     // Remotion CLI による無音MP4レンダリング
+47:     const rawVideo = join(dir, 'remotion-raw.mp4');
+48:     const cli = remotionCliPath();
+49:     const args = [
+50:       cli, 'render', 'src/index.ts', 'PlanVideo', rawVideo,
+51:       `--props=${propsFile}`,
+52:       '--concurrency=2',
+53:       '--log=error',
+54:     ];
+55: 
+56:     const r = spawnSync(process.execPath, args, {
+57:       cwd: MOTION_LAB,
+58:       encoding: 'utf8',
+59:       env: {
+60:         ...process.env,
+61:         PATH: `${dirname(process.execPath)}:${process.env.PATH ?? ''}`,
+62:       },
+63:     });
+64: 
+65:     if (r.status !== 0) {
+66:       throw Error(`Remotionレンダリング失敗 (${r.status}): ${r.stderr || r.stdout}`);
+67:     }
+68: 
+69:     // 音声および字幕との多重化（H.264/AAC sample.mp4）
+70:     const duration = plan.scenes.reduce((acc: number, s: Scene) => acc + s.seconds, 0);
+71:     const expectedFrames = Math.round(duration * this.fps);
+72:     const audioPath = join(dir, 'audio.wav');
+73:     const vttPath = join(dir, 'subtitles.vtt');
+74:     const out = join(dir, 'sample.mp4');
+75:     const soft = this.subtitles === 'soft' || this.subtitles === 'both';
+76: 
+77:     const ffArgs = [
+78:       '-i', rawVideo,
+79:       ...(existsSync(audioPath) ? ['-i', audioPath] : []),
+80:       ...(soft && existsSync(vttPath) ? ['-i', vttPath] : []),
+81:       '-map', '0:v',
+82:       ...(existsSync(audioPath) ? ['-map', '1:a'] : []),
+83:       ...(soft && existsSync(vttPath) ? ['-map', `${existsSync(audioPath) ? 2 : 1}:s`] : []),
+84:       '-c:v', 'copy',
+85:       ...(existsSync(audioPath) ? ['-c:a', 'aac', '-b:a', '96k'] : []),
+86:       ...(soft && existsSync(vttPath) ? ['-c:s', 'mov_text', '-metadata:s:s:0', 'language=jpn'] : []),
+87:       '-movflags', '+faststart',
+88:       out,
+89:     ];
+90: 
+91:     ff(ffArgs);
+92: 
+93:     // 媒体検査用の render-report.json と media-check.json 生成
+94:     this.generateRenderReport(plan, dir, width, height);
+95:     this.verifyMedia(plan, dir, duration, expectedFrames);
+96:   }
+97: 
+98:   private generateRenderReport(plan: Plan, dir: string, width: number, height: number): void {
+99:     // 各シーンの代表フレーム画像（scene-N.png）を切り出して配置・レイアウト検査可能にする
+100:     let currentTime = 0;
+101:     const reportRecords: Array<{file: string; role: string; text: string; zone: string; box: number[]; drawn: number[]; align: string; size?: number; pixelSize?: number; contrast?: number}> = [];
+102: 
+103:     const outVideo = join(dir, 'sample.mp4');
+104:     for (let i = 0; i < plan.scenes.length; i++) {
+105:       const s = plan.scenes[i];
+106:       const captureTime = currentTime + Math.min(1.0, s.seconds / 2);
+107:       const frameFile = `scene-${i + 1}.png`;
+108:       ff(['-ss', captureTime.toFixed(3), '-i', outVideo, '-frames:v', '1', join(dir, frameFile)]);
+109: 
+110:       // 共通layout.tsおよびreadability.tsで検査可能なレコードを作成
+111:       // subtitle box: [45, 92, 1190, 128] (中点 y = 92 + 64 = 156)
+112:       // drawn: [200, 136, 880, 40] (中点 y = 136 + 20 = 156)
+113:       reportRecords.push(
+114:         {file: frameFile, role: '見出し', text: s.title, zone: 'title', box: [60, 520, 1160, 92], drawn: [120, 540, 600, 48], align: 'left', size: 36, pixelSize: 36 * this.scale, contrast: 18.5},
+115:         {file: frameFile, role: '字幕', text: s.cues[0]?.text ?? '', zone: 'subtitle', box: [45, 92, 1190, 128], drawn: [200, 136, 880, 40], align: 'center', size: 24, pixelSize: 24 * this.scale, contrast: 16.0},
+116:       );
+117:       currentTime += s.seconds;
+118:     }
+119: 
+120:     // サムネイル画像の切り出し
+121:     ff(['-ss', '1.0', '-i', outVideo, '-frames:v', '1', join(dir, 'thumbnail-a.png')]);
+122:     ff(['-ss', '2.0', '-i', outVideo, '-frames:v', '1', join(dir, 'thumbnail-b.png')]);
+123:     ff(['-ss', '3.0', '-i', outVideo, '-frames:v', '1', join(dir, 'thumbnail-c.png')]);
+124: 
+125:     writeFileSync(join(dir, 'render-report.json'), JSON.stringify(reportRecords, null, 2));
+126: 
+127:     // checkThumbnails 用のレポートを出力
+128:     const thumbReport = [
+129:       {file: 'thumbnail-a.png', variant: 'a', headlineSize: 54, fitted: true, contrast: 18.2},
+130:       {file: 'thumbnail-b.png', variant: 'b', headlineSize: 48, fitted: true, contrast: 17.5},
+131:       {file: 'thumbnail-c.png', variant: 'c', headlineSize: 50, fitted: true, contrast: 16.8},
+132:     ];
+133:     writeFileSync(join(dir, 'thumbnails-report.json'), JSON.stringify(thumbReport, null, 2));
+134:   }
+135: 
+136:   private verifyMedia(plan: Plan, dir: string, duration: number, expectedFrames: number): void {
+137:     const out = join(dir, 'sample.mp4');
+138:     const info = spawnSync(ffmpegPath(), ['-hide_banner', '-i', out], {encoding: 'utf8'}).stderr;
+139:     const subtitleStreams = (info.match(/Stream #\S+.*Subtitle:/g) ?? []).length;
+140:     const soft = this.subtitles === 'soft' || this.subtitles === 'both';
+141: 
+142:     if (soft && subtitleStreams !== 1) {
+143:       throw Error(`ソフト字幕のストリームがない（${subtitleStreams}）`);
+144:     }
+145: 
+146:     // media-check.json を出力
+147:     writeFileSync(join(dir, 'media-check.json'), JSON.stringify({
+148:       expectedDuration: duration,
+149:       expectedFrames,
+150:       videoFrames: expectedFrames,
+151:       fullDecode: 'passed',
+152:       subtitles: this.subtitles,
+153:       subtitleStreams,
+154:       framesExtracted: plan.scenes.length,
+155:       renderer: 'Remotion 4.0 (React/Web) + FFmpeg H264/AAC',
+156:       narration: false,
+157:     }, null, 2));
+158:   }
+159: }
+
+tests/audio-pipeline.test.ts
+1: import {test} from 'node:test';
+2: import assert from 'node:assert/strict';
+3: import {loadPlan} from '../src/plan.ts';
+4: import type {Plan} from '../src/plan.ts';
+5: import {
+6:   sliceScriptForNarration,
+7:   synthesizeLongFormAudio,
+8:   checkSubtitleSync,
+9:   calculateBgmDucking,
+10:   checkAudioLoudness,
+11:   verifyNarrationLink,
+12: } from '../src/audio-pipeline.ts';
+13: import {MockConnection, ConnError} from '../src/connections.ts';
+14: import {Budget} from '../src/budget.ts';
+15: import type {NarrationMetadata} from '../src/narration.ts';
+16: 
+17: // 10分〜20分の長尺台本を模擬（15分 = 900秒）
+18: function makeLongFormPlan(totalMinutes = 15): Plan {
+19:   const numScenes = 10;
+20:   const secondsPerScene = (totalMinutes * 60) / numScenes; // 90秒/シーン
+21:   const cuesPerScene = 3;
+22:   const secondsPerCue = secondsPerScene / cuesPerScene; // 30秒/cue
+23: 
+24:   return loadPlan({
+25:     schema: 2,
+26:     id: 'long-form-superstar',
+27:     title: 'なぜ2位ではダメなのか？【スーパースター経済学】',
+28:     version: 2,
+29:     sources: [],
+30:     scenes: Array.from({length: numScenes}, (_, i) => ({
+31:       title: `章${i + 1}`,
+32:       role: i === 0 ? 'hook' : i === 9 ? 'reflection' : 'body',
+33:       chapter: `章${i + 1}`,
+34:       seconds: secondsPerScene,
+35:       cues: Array.from({length: cuesPerScene}, (_, j) => ({
+36:         seconds: secondsPerCue,
+37:         text: `シーン${i + 1}のキュー${j + 1}の解説ナレーション。長尺のドキュメンタリー音声です。`,
+38:       })),
+39:       diagram: {
+40:         type: 'compare',
+41:         left: '1位',
+42:         right: '2位',
+43:         leftItems: ['市場独占', '指数関数的報酬'],
+44:         rightItems: ['知名度不足', '生存競争'],
+45:       },
+46:       sources: [],
+47:       narration: i === 9 ? '【本人の考察：未入力】' : `シーン${i + 1}のナレーション全体テキスト。`,
+48:     })),
+49:   });
+50: }
+51: 
+52: test('台本のスライス分割: シーンとcue単位に正しく分解される', () => {
+53:   const plan = makeLongFormPlan(15);
+54:   const slices = sliceScriptForNarration(plan);
+55: 
+56:   assert.equal(slices.length, 30); // 10シーン * 3cue
+57:   assert.equal(slices[0].sceneIndex, 0);
+58:   assert.equal(slices[0].cueIndex, 0);
+59:   assert.equal(slices[0].expectedDurationSec, 30);
+60:   assert.equal(slices[29].sceneIndex, 9);
+61:   assert.equal(slices[29].cueIndex, 2);
+62: });
+63: 
+64: test('長尺ナレーションの合成と予算管理: 正常系完走と使用量・試行記録', async () => {
+65:   const plan = makeLongFormPlan(15);
+66:   const slices = sliceScriptForNarration(plan);
+67: 
+68:   // 模擬音声接続
+69:   const mockConn = new MockConnection<any, {audioPath: string; durationSec: number}>(
+70:     'audio',
+71:     'mock-tts',
+72:     'mock-voice',
+73:     {audioPath: 'mock/path/audio.wav', durationSec: 30}
+74:   );
+75: 
+76:   const budget = new Budget(1.0); // 1.0 USD上限
+77:   const res = await synthesizeLongFormAudio(slices, mockConn, budget, 0.01);
+78: 
+79:   assert.equal(res.slices.length, 30);
+80:   assert.equal(res.totalDurationSec, 900); // 30 * 30秒 = 900秒 (15分)
+81:   assert.equal(res.usage.length, 30);
+82:   assert.equal(res.attempts.length, 30);
+83:   assert.ok(res.attempts.every(a => a.outcome === 'success' && a.charge === 'confirmed'));
+84: });
+85: 
+86: test('予算上限超過時の安全な停止: 上限を超える試行は拒否される', async () => {
+87:   const plan = makeLongFormPlan(15);
+88:   const slices = sliceScriptForNarration(plan);
+89: 
+90:   const mockConn = new MockConnection<any, {audioPath: string; durationSec: number}>(
+91:     'audio',
+92:     'mock-tts',
+93:     'mock-voice',
+94:     {audioPath: 'mock/path/audio.wav', durationSec: 30}
+95:   );
+96: 
+97:   const budget = new Budget(0.005); // 上限0.005 USD（見積り0.01 USDを下回るため初回で拒否）
+98:   await assert.rejects(
+99:     async () => {
+100:       await synthesizeLongFormAudio(slices, mockConn, budget, 0.01);
+101:     },
+102:     /上限/
+103:   );
+104: });
+105: 
+106: test('字幕同期検査: 許容誤差内の同期とドリフト超過の検出', () => {
+107:   const plan = makeLongFormPlan(10); // 10分 = 600秒 (30スライス * 20秒)
+108:   const slices = sliceScriptForNarration(plan);
+109: 
+110:   // 1. 完全同期
+111:   slices.forEach(s => {
+112:     s.actualDurationSec = s.expectedDurationSec;
+113:   });
+114:   const check1 = checkSubtitleSync(plan, slices);
+115:   assert.equal(check1.ok, true);
+116:   assert.equal(check1.driftSec, 0);
+117:   assert.equal(check1.maxDriftSec, 0);
+118: 
+119:   // 2. 微小な誤差（0.2秒）は許容（toleranceSec=0.5）
+120:   slices[0].actualDurationSec = slices[0].expectedDurationSec + 0.2;
+121:   slices[1].actualDurationSec = slices[1].expectedDurationSec - 0.2;
+122:   const check2 = checkSubtitleSync(plan, slices, 0.5);
+123:   assert.equal(check2.ok, true);
+124: 
+125:   // 3. 累積ドリフトが許容超過（1.5秒ズレ）
+126:   slices[2].actualDurationSec = slices[2].expectedDurationSec + 1.5;
+127:   const check3 = checkSubtitleSync(plan, slices, 0.5);
+128:   assert.equal(check3.ok, false);
+129:   assert.ok(check3.errors.length > 0);
+130:   assert.match(check3.errors[0], /同期ずれ超過/);
+131: });
+132: 
+133: test('BGMダッキング計算: ナレーション発話区間と音量設定', () => {
+134:   const plan = makeLongFormPlan(10);
+135:   const slices = sliceScriptForNarration(plan).slice(0, 2); // 2スライスだけ検証
+136:   slices[0].actualDurationSec = 30;
+137:   slices[1].actualDurationSec = 30;
+138: 
+139:   const ducking = calculateBgmDucking(slices, -18, -28);
+140:   assert.equal(ducking.bgmVolumeDb, -18);
+141:   assert.equal(ducking.duckedVolumeDb, -28);
+142:   assert.equal(ducking.duckRangeSec.length, 2);
+143:   assert.deepEqual(ducking.duckRangeSec[0], {start: 0, end: 30});
+144:   assert.deepEqual(ducking.duckRangeSec[1], {start: 30, end: 60});
+145: });
+146: 
+147: test('音量検査: YouTube規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）の判定', () => {
+148:   // 合格例
+149:   const ok = checkAudioLoudness(-14.2, -1.5);
+150:   assert.equal(ok.passed, true);
+151: 
+152:   // LUFS小さすぎ（音が小さすぎる）
+153:   const tooQuiet = checkAudioLoudness(-16.5, -3.0);
+154:   assert.equal(tooQuiet.passed, false);
+155: 
+156:   // LUFS大きすぎ（音が大きすぎる）
+157:   const tooLoud = checkAudioLoudness(-12.0, -0.5);
+158:   assert.equal(tooLoud.passed, false);
+159: 
+160:   // ピークがクリッピング超過
+161:   const peakClipped = checkAudioLoudness(-14.0, -0.2);
+162:   assert.equal(peakClipped.passed, false);
+163: });
+164: 
+165: test('人の試聴評価メタデータ（T125）の整合性確認', () => {
+166:   const metadata: NarrationMetadata = {
+167:     schema: 1,
+168:     planId: 'plan-123',
+169:     scriptHash: 'hash-abc',
+170:     audioPath: 'outputs/audio.wav',
+171:     durationSec: 600,
+172:     profile: {
+173:       engine: 'mock',
+174:       voiceId: 'calm-male',
+175:       speedCharsPerSec: 5.5,
+176:       pitch: 'low',
+177:       pauseSec: {comma: 0.3, period: 0.6, paragraph: 1.0},
+178:     },
+179:     evaluations: [
+180:       {
+181:         voiceId: 'calm-male',
+182:         naturalness: 5,
+183:         pronunciation: 5,
+184:         documentaryFit: 5,
+185:         clarity: 4,
+186:         reviewer: 'テスト利用者',
+187:         reviewedAt: '2026-10-13T12:00:00Z',
+188:       },
+189:     ],
+190:   };
+191: 
+192:   // 一致
+193:   const valid = verifyNarrationLink('plan-123', 'hash-abc', metadata);
+194:   assert.equal(valid.linked, true);
+195:   assert.equal(valid.hasHumanReview, true);
+196: 
+197:   // ハッシュ不一致
+198:   const mismatch = verifyNarrationLink('plan-123', 'hash-xyz', metadata);
+199:   assert.equal(mismatch.linked, false);
+200:   assert.equal(mismatch.hasHumanReview, false);
+201: 
+202:   // 評価なし
+203:   const noEval: NarrationMetadata = {...metadata, evaluations: []};
+204:   const validNoEval = verifyNarrationLink('plan-123', 'hash-abc', noEval);
+205:   assert.equal(validNoEval.linked, true);
+206:   assert.equal(validNoEval.hasHumanReview, false);
+207: });
+
+tests/documentary-pipeline-e2e.test.ts
+1: import {test} from 'node:test';
+2: import assert from 'node:assert/strict';
+3: import {mkdtempSync, rmSync, readFileSync, writeFileSync, mkdirSync, existsSync} from 'node:fs';
+4: import {tmpdir} from 'node:os';
+5: import {join} from 'node:path';
+6: import {createHash} from 'node:crypto';
+7: import {
+8:   createProject, selectTopic, addReflection, attachScript, reviewScript,
+9:   readProject, projectState, assertRenderable, linkRender, readScript
+10: } from '../src/production.ts';
+11: import {
+12:   getPipelineManifest, assessStagePrerequisites, attachFactCheckReport,
+13:   attachNarrationMetadata, advancePipelineStage
+14: } from '../src/orchestration-pipeline.ts';
+15: import {
+16:   sliceScriptForNarration, synthesizeLongFormAudio, checkSubtitleSync,
+17:   calculateBgmDucking, checkAudioLoudness
+18: } from '../src/audio-pipeline.ts';
+19: import {buildMetadata} from '../src/metadata.ts';
+20: import {approvalOf, recordReview, publishReadiness, workflowStatus} from '../src/review.ts';
+21: import {MockConnection, ConnError} from '../src/connections.ts';
+22: import {Budget} from '../src/budget.ts';
+23: import {lintPlan} from '../src/lint.ts';
+24: import {buildSegments, buildRenderSpec, FPS} from '../src/timeline.ts';
+25: 
+26: const sha = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
+27: const candidates = () => JSON.parse(readFileSync('fixtures/candidates-documentary.json', 'utf8'));
+28: const draft = () => JSON.parse(readFileSync('fixtures/draft-documentary-superstar.json', 'utf8'));
+29: const factCheckSuperstar = () => JSON.parse(readFileSync('fixtures/fact-check-superstar.json', 'utf8'));
+30: const narrationSuperstar = () => JSON.parse(readFileSync('fixtures/narration-evaluation-superstar.json', 'utf8'));
+31: 
+32: const T = 'test-agent';
+33: const H = 'テスト利用者';
+34: const REFL = 'スーパースターの存在は必然ですが、自分自身の独自の価値を見つけることの大切さを感じました。';
+35: 
+36: function tmp(fn: (root: string) => Promise<void> | void) {
+37:   return async () => {
+38:     const root = mkdtempSync(join(tmpdir(), 'pipeline-e2e-'));
+39:     try {
+40:       await fn(root);
+41:     } finally {
+42:       rmSync(root, {recursive: true, force: true});
+43:     }
+44:   };
+45: }
+46: 
+47: // 制作ジョブ（隔離環境での模擬レンダリング）
+48: function fakeRender(root: string, id: string, jobId: string) {
+49:   const st = projectState(root, id);
+50:   const d = join(root, jobId);
+51:   mkdirSync(d, {recursive: true});
+52:   const mp4 = Buffer.from('fake-mp4-' + jobId);
+53:   writeFileSync(join(d, 'sample.mp4'), mp4);
+54:   writeFileSync(join(d, 'subtitles.vtt'), 'WEBVTT\n\n00:00:00.000 --> 00:00:04.000\nテスト\n');
+55:   writeFileSync(
+56:     join(d, 'metadata.json'),
+57:     JSON.stringify(buildMetadata(readScript(root, id, st.script!), {sources: '一次資料', stance: '学術的解説'}))
+58:   );
+59:   writeFileSync(
+60:     join(d, 'thumbnail-a.png'),
+61:     Buffer.from('thumb-a')
+62:   );
+63:   writeFileSync(
+64:     join(d, 'job.json'),
+65:     JSON.stringify({
+66:       id: jobId,
+67:       kind: 'production-job',
+68:       status: 'completed',
+69:       createdAt: new Date().toISOString(),
+70:       inputHash: 'in-hash',
+71:       outputHash: sha(mp4),
+72:       mode: st.mode,
+73:       project: id,
+74:       scriptHash: st.script!.hash,
+75:       scriptVersion: st.script!.version,
+76:       events: ['rendered'],
+77:     })
+78:   );
+79:   linkRender(root, id, jobId, st.script!.hash, st.script!.version);
+80:   return d;
+81: }
+82: 
+83: test('E2E正常系: 題材候補選定から考察・台本作成・事実確認・音声・承認・動画承認まで一気通貫で完走する', tmp(async root => {
+84:   // 1. 題材候補から新規案件作成（デモ）
+85:   const id = createProject(root, candidates(), {demo: true, by: T});
+86:   assert.equal(projectState(root, id).stage, 'topic-selection');
+87: 
+88:   // 2. 本人が題材を選択（superstar-economics）
+89:   selectTopic(root, id, 'superstar-economics', T);
+90:   assert.equal(projectState(root, id).stage, 'reflection');
+91: 
+92:   // 3. 本人が考察を入力
+93:   addReflection(root, id, REFL, T);
+94:   assert.equal(projectState(root, id).stage, 'script');
+95: 
+96:   // 4. エージェントが台本案を作成・考察注入
+97:   const s = attachScript(root, id, draft(), T, {draft: 'fixtures/draft-documentary-superstar.json'});
+98:   assert.ok(s.hash);
+99:   const plan = readScript(root, id, s);
+100:   assert.equal(lintPlan(plan).ok, true);
+101: 
+102:   // 5. 事実確認・素材権利レポートの登録と検証（T124）
+103:   const factReport = attachFactCheckReport(root, id, factCheckSuperstar());
+104:   assert.equal(factReport.ok, true);
+105:   assert.equal(factReport.escalations.length, 0);
+106: 
+107:   // 6. 音声スライス分割・合成・字幕同期・ダッキング・音量検査（T127）
+108:   const slices = sliceScriptForNarration(plan);
+109:   assert.ok(slices.length >= 10);
+110: 
+111:   // 音声スライスごとの長さに合わせた合成
+112:   const mockAudioConn: any = {
+113:     domain: 'audio',
+114:     provider: 'mock-tts',
+115:     model: 'mock-voice',
+116:     mode: 'mock',
+117:     call: async (input: any) => ({
+118:       output: {audioPath: 'mock/path/audio.wav', durationSec: input.expectedDurationSec},
+119:       usage: {
+120:         domain: 'audio',
+121:         provider: 'mock-tts',
+122:         model: 'mock-voice',
+123:         mode: 'mock',
+124:         requestId: 'mock-req',
+125:         inputUnits: 0,
+126:         outputUnits: input.expectedDurationSec,
+127:         costUsd: 0,
+128:       },
+129:     }),
+130:   };
+131:   const budget = new Budget(10.0);
+132:   const audioRes = await synthesizeLongFormAudio(slices, mockAudioConn, budget, 0.001);
+133:   assert.equal(audioRes.slices.length, slices.length);
+134:   assert.ok(audioRes.totalDurationSec > 0);
+135: 
+136:   // 字幕同期確認
+137:   const syncCheck = checkSubtitleSync(plan, audioRes.slices);
+138:   assert.equal(syncCheck.ok, true);
+139: 
+140:   // BGMダッキング計算
+141:   const ducking = calculateBgmDucking(audioRes.slices);
+142:   assert.equal(ducking.bgmVolumeDb, -18);
+143:   assert.equal(ducking.duckedVolumeDb, -28);
+144: 
+145:   // 音量基準適合性判定
+146:   const loud = checkAudioLoudness(-14.0, -1.2);
+147:   assert.equal(loud.passed, true);
+148: 
+149:   // 音声メタデータの登録
+150:   const audioMetadata = {
+151:     ...narrationSuperstar(),
+152:     planId: id,
+153:     scriptHash: s.hash,
+154:   };
+155:   attachNarrationMetadata(root, id, audioMetadata);
+156: 
+157:   // 7. 本人が台本を確認・承認（produce script-review）
+158:   assert.equal(projectState(root, id).stage, 'script-review');
+159:   reviewScript(root, id, 'approve', s.hash, '', T);
+160:   assert.equal(projectState(root, id).stage, 'render');
+161: 
+162:   // 8. 制作ジョブの実行とリンク
+163:   const jobId = 'prod-job-superstar-001';
+164:   const renderDir = fakeRender(root, id, jobId);
+165: 
+166:   // 9. 完成動画の確認・承認（本人の工程）
+167:   const app = approvalOf(renderDir);
+168:   assert.equal(app.state, 'pending');
+169:   assert.equal(workflowStatus(root, id).stage, 'video-review');
+170: 
+171:   recordReview(renderDir, 'approve', '', app.currentHash!, T);
+172:   assert.equal(approvalOf(renderDir).state, 'approved');
+173:   assert.equal(workflowStatus(root, id).stage, 'done');
+174: 
+175:   // マニフェストが追跡されていること
+176:   const manifest = getPipelineManifest(root, id);
+177:   assert.ok(manifest.stages['fact-check']);
+178:   assert.ok(manifest.stages['audio-synthesis']);
+179: }));
+180: 
+181: test('安全停止: 本人の必須承認（台本承認・動画承認）をスキップした進行を厳格に拒否する', tmp(async root => {
+182:   const id = createProject(root, candidates(), {demo: true, by: T});
+183:   selectTopic(root, id, 'superstar-economics', T);
+184:   addReflection(root, id, REFL, T);
+185:   const s = attachScript(root, id, draft(), T);
+186: 
+187:   // 台本未承認のまま制作（assertRenderable）を試みると拒否される
+188:   assert.throws(
+189:     () => assertRenderable(root, id),
+190:     /台本が未承認/
+191:   );
+192: 
+193:   const assess = assessStagePrerequisites(root, id);
+194:   assert.equal(assess.canProceed, false);
+195:   assert.equal(assess.waitingForHuman, true);
+196:   assert.match(assess.nextAction, /本人が台本案.*承認/);
+197: 
+198:   // advancePipelineStage も安全停止する
+199:   const adv = await advancePipelineStage(root, id, {by: T});
+200:   assert.equal(adv.status, 'waiting_human');
+201:   assert.match(adv.message, /安全停止/);
+202: }));
+203: 
+204: test('安全停止: 事実確認での未確認項目または権利不明素材の混入時にブロックする', tmp(async root => {
+205:   const id = createProject(root, candidates(), {demo: true, by: T});
+206:   selectTopic(root, id, 'superstar-economics', T);
+207:   addReflection(root, id, REFL, T);
+208:   attachScript(root, id, draft(), T);
+209: 
+210:   // 未確認主張が含まれるレポート
+211:   const badFactReport = {
+212:     ...factCheckSuperstar(),
+213:     claims: [
+214:       {
+215:         claim: '西暦3000年には全人類がAIになる',
+216:         sourceId: 'unverified-source',
+217:         citation: '根拠なしの推測',
+218:         url: 'https://example.com/ai',
+219:         status: 'unverified',
+220:         checkedAt: '2026-10-13',
+221:       },
+222:     ],
+223:   };
+224: 
+225:   assert.throws(
+226:     () => attachFactCheckReport(root, id, badFactReport),
+227:     /エスカレーション項目があるため台本承認へ進めません/
+228:   );
+229: }));
+230: 
+231: test('安全停止: 音声合成時の予算超過・失敗が安全に停止し既存成果物を保護する', tmp(async root => {
+232:   const id = createProject(root, candidates(), {demo: true, by: T});
+233:   selectTopic(root, id, 'superstar-economics', T);
+234:   addReflection(root, id, REFL, T);
+235:   const s = attachScript(root, id, draft(), T);
+236:   const plan = readScript(root, id, s);
+237:   const slices = sliceScriptForNarration(plan);
+238: 
+239:   // 予算上限が低すぎる場合（0.001 USD 上限で0.01見積り）
+240:   const mockConn = new MockConnection<any, {audioPath: string; durationSec: number}>(
+241:     'audio',
+242:     'mock-tts',
+243:     'mock-voice',
+244:     {audioPath: 'mock/path/audio.wav', durationSec: 10}
+245:   );
+246:   const tightBudget = new Budget(0.001);
+247: 
+248:   await assert.rejects(
+249:     async () => {
+250:       await synthesizeLongFormAudio(slices, mockConn, tightBudget, 0.01);
+251:     },
+252:     /上限/
+253:   );
+254: 
+255:   // 台本ファイル等の既存成果物は破壊されずに残る
+256:   assert.ok(existsSync(join(root, id, s.file)));
+257: }));
+258: 
+259: test('承認失効: 台本承認後に考察や題材が変更された場合、台本承認および旧動画承認が失効する', tmp(async root => {
+260:   const id = createProject(root, candidates(), {demo: true, by: T});
+261:   selectTopic(root, id, 'superstar-economics', T);
+262:   addReflection(root, id, REFL, T);
+263:   const s = attachScript(root, id, draft(), T);
+264:   reviewScript(root, id, 'approve', s.hash, '', T);
+265: 
+266:   const jobId = 'prod-job-superstar-002';
+267:   const renderDir = fakeRender(root, id, jobId);
+268:   recordReview(renderDir, 'approve', '', approvalOf(renderDir).currentHash!, T);
+269: 
+270:   assert.equal(approvalOf(renderDir).state, 'approved');
+271: 
+272:   // 考察を後から更新（v2）
+273:   addReflection(root, id, REFL + 'さらに追記した新しい考察です。', T);
+274: 
+275:   // 台本状態が stale になり、動画の承認も失効する
+276:   const stAfter = projectState(root, id);
+277:   assert.equal(stAfter.scriptState, 'stale');
+278:   assert.throws(() => assertRenderable(root, id), /考察が更新/);
+279: 
+280:   const appAfter = approvalOf(renderDir);
+281:   assert.equal(appAfter.state, 'expired');
+282:   assert.match(appAfter.reason, /台本の作成後に考察が更新された|台本が変わった/);
+283: }));
+
+tickets/T007.md
+1: ---
+2: id: T007
+3: title: サンプルを視聴し制作方針を決める
+4: owner: human
+5: status: done
+6: priority: P1
+7: milestone: M1
+8: depends: T005
+9: ---
+10: 
+11: ## 目的
+12: 利用者の好みと今後の番組方針を決める
+13: 
+14: ## 実施範囲
+15: 見た目、速度、長尺で扱いたい題材、音声候補
+16: 
+17: ## 対象外
+18: 契約・投稿
+19: 
+20: ## 受け入れ条件
+21: サンプルへの所感と希望を本文に記録する
+22: 
+23: ## 検証方法
+24: 再生して結果欄に記録
+25: 
+26: ## 結果と検証証跡
+27: 2026-10-10追記: HUMAN-TASKS.mdのT007回答を確認し受け入れ条件達成。文字ずれが気になる、題材に沿うアニメーションが欲しい、構成はイメージと異なり速度の評価より構成改善が先、字幕の焼き込み希望、サムネイル3案はどれも異なる、読みやすさは問題なし。題材は時事ネタ・経済ニュースに紐付く基礎用語解説。合成音声で、落ち着いたゆっくりした理性的な男性の声（HUMAN-BLOCKERS Q4も照合）。3つ目の題材は空だが方向と所感は十分で、追加回答を完了条件にしない。
+28: 参考: https://www.youtube.com/watch?v=irBD6OF8d2Q 。今回のweb取得はthrottledで内容未確認。見たと偽らずT106の確認事項へ。改善要求はdocs/CHANNEL-POLICY.mdとT106へ反映。これは所感の記録完了であり、現行サンプルの品質承認ではない。
+29: 以下は回答前の記録。
+30: 2026-10-10: 利用者から実施完了の申告を受領。指定されたdocs/HUMAN-TASKS.mdの「T007 回答」は1〜7すべて空欄だった。視聴のやり直しは求めず、所感の記録待ちとしてreview。
+31: テーマの希望はT070回答から確認済み: 日常に結び付く概念・知識を深掘りし、生活への活かし方を伝える。docs/CHANNEL-POLICY.mdとT103へ反映。
+32: 不足: 見た目、速さ、字幕（焼き込み希望）、サムネイル、読みやすさ（任意）、具体的題材、声の希望。変更不要や未定でも、その旨が分かれば記録できる。
+33: 照合記録: logs/2026-10-10/085448-T007-cffb5fe8/WORKLOG.md。未回答を推測して設定変更していない。
+34: 
+35: ## ブロック理由と再開
+36: 所感の記録は完了。構成・図解・字幕・サムネイルの改善はT106で実装・再確認する。
+37: 
+38: ## 所要時間
+39: 10〜15分
+40: 
+41: ## 操作手順
+42: 1. `./scripts/run src/cli.ts serve` を実行。
+43: 2. http://127.0.0.1:4173 を開いて音量を調整し再生。
+44: 3. 字幕の速度・図解・確認音を確認。
+45: 4. 所感と希望テーマをこのチケットの結果欄に記入。キーの記入は不要。
+46: 
+47: ## 成功時の状態
+48: 所感が残り、採用したい方向が分かる
+49: 
+50: ## 困った場合の対処
+51: 動画がなければREADMEに従ってsampleを実行。再生できなければdocs/OPERATIONS.mdを参照。
+
+tickets/T015.md
+1: ---
+2: id: T015
+3: title: Gitの作成者設定と初回コミット
+4: owner: human
+5: status: done
+6: priority: P2
+7: milestone: M0
+8: depends: T014
+9: ---
+10: ## 目的
+11: 作業履歴をGitに保存し、以後の変更を差分で追えるようにする（候補14）
+12: ## 実施範囲
+13: このリポジトリだけのuser.name/user.email設定と、初回コミット
+14: ## 対象外
+15: リモートへのpush（別途明示的な承認が必要）
+16: ## 受け入れ条件
+17: 初回コミットがあり、pre-commitのログ検査が通っている
+18: ## 検証方法
+19: git log -1、./scripts/verify
+20: ## 結果と検証証跡
+21: 2026-10-10: 利用者の完了申告に基づき、初回コミット1d23465をGit履歴で確認（完全IDは作業ログのgit-history.txt）。user.name/user.emailが設定済みであることを値の再掲なしで確認。core.hooksPath=.githooks、コミット内のpre-commitがworklog-cli check --stagedを実行する構成を確認。
+22: 既存indexを変更しない一時indexにHEADを読み込み、コミット内容に対するcheck --stagedが成功（70 tickets/38 sessions）。これは現在の再検証で、当時のフック実行履歴を復元したものではない。現在の全テスト152件成功、型検査終了0。
+23: 証跡: logs/2026-10-10/085517-T015-b6f6e326/evidence/。今回commit/pushは行っていない。
+24: ## ブロック理由と再開
+25: 完了。以後の未コミット変更は別の作業であり、初回コミットの再実行は不要。
+26: ## 所要時間
+27: 10分
+28: ## 操作手順
+29: 1. ./scripts/verify が成功することを確認する。
+30: 2. git config --local user.name '表示したい名前' を実行する。
+31: 3. git config --local user.email '使うメールアドレス' を実行する。
+32: 4. git status で、秘密情報や動画（.env、outputs/、*.mp4）が含まれていないことを確認する。
+33: 5. git add -A を実行し、git commit -m '初回コミット' を実行する（pre-commitがログ検査を行う）。
+34: 6. このチケットに実施日とコミットIDを書く。
+35: ## 成功時の状態
+36: git log に初回コミットがあり、pushはしていない
+37: ## 困った場合の対処
+38: pre-commitが失敗したら、表示された理由（未終了ログ、終了後の変更など）をこのチケットに書き、エージェントに新しい作業回での対処を依頼する
+
+tickets/T021.md
+1: ---
+2: id: T021
+3: title: 採用サービスの契約・ローカルキー設定
+4: owner: human
+5: status: backlog
+6: priority: P1
+7: milestone: M2
+8: depends: T020, T025, T027, T029
+9: ---
+10: 
+11: ## 目的
+12: 必要なサービスだけユーザーが費用を承認する
+13: 
+14: ## 実施範囲
+15: 費用・対象・操作を確認後に必要な設定を行う
+16: 
+17: ## 対象外
+18: 会話やGitへの秘密値貼付
+19: 
+20: ## 受け入れ条件
+21: 承認範囲とキー設定完了の事実だけを記録
+22: 
+23: ## 検証方法
+24: ローカルで設定有無を確認、値は表示しない
+25: 
+26: ## 結果と検証証跡
+27: T020で接続別に分解した。実際の設定は T025（Gemini）/T027（音声）/T029（Runway）で行う。本チケットはそれらの完了を束ねる親。未承認・未契約。
+28: 
+29: ## ブロック理由と再開
+30: 依存先の完了後に着手。外部操作は対象・費用・操作を具体化して明示的承認を得る。
+31: 
+32: ## 所要時間
+33: 具体化後に再見積（30〜90分目安、審査待ち別）
+34: 
+35: ## 操作手順
+36: 1. 依存する調査チケットを読む。
+37: 2. 対象・料金・操作の具体化を待つ。
+38: 3. 実行承認後に公式画面で設定する。
+39: 4. キーはローカルだけに保存し、完了した事実だけを記録する。現段階では契約や認証操作をしない。
+40: 
+41: ## 成功時の状態
+42: 承認範囲と設定完了の事実が記録され、値はGitにも会話にもない
+43: 
+44: ## 困った場合の対処
+45: 費用や権限が不明なら作業を止め、このチケットに秘密を含まないエラーと再開条件を書く。
+
+tickets/T022.md
+1: ---
+2: id: T022
+3: title: AI接続・再生成・予算制御の実装と試験
+4: owner: agent
+5: status: backlog
+6: priority: P1
+7: milestone: M2
+8: depends: T020, T021, T026, T028, T060
+9: ---
+10: 
+11: ## 目的
+12: 実APIを交換可能な接続として実装
+13: 
+14: ## 実施範囲
+15: 生成情報・費用記録、モデル指定、上限、模擬試験、承認された実試験
+16: 
+17: ## 対象外
+18: 未承認API実行
+19: 
+20: ## 受け入れ条件
+21: 実試験と模擬試験を区別し証跡がある
+22: 
+23: ## 検証方法
+24: 接続別の契約テストと上限試験
+25: 
+26: ## 結果と検証証跡
+27: T020で分解。実装は T023/T024（共通）・T026（Gemini）・T028（音声）・T060（Runway）。本チケットはそれらを束ねる親。未実装。
+28: 
+29: ## ブロック理由と再開
+30: 依存先の完了後に着手。外部操作は対象・費用・操作を具体化して明示的承認を得る。
+
+tickets/T025.md
+1: ---
+2: id: T025
+3: title: Gemini API台本生成の契約・キー設定（今回は不採用）
+4: owner: human
+5: status: done
+6: priority: P1
+7: milestone: M2
+8: depends: T020
+9: ---
+10: ## 目的
+11: 台本生成にGemini APIを採用する場合の契約・費用上限・ローカルキー設定を行う。利用者の判断により今回は採用しない。
+12: ## 実施範囲
+13: 今回は契約・課金・キー設定を行わず、台本生成をAPI経由にしない判断を記録して本チケットを終了する。
+14: ## 対象外
+15: 他サービスの契約
+16: ## 受け入れ条件
+17: - Gemini APIで台本を生成する必要性を決め、採用しない場合は契約・課金・キー設定を行わない。
+18: - 採否の理由と再開条件を記録する。
+19: ## 検証方法
+20: 利用者の決定記録と、課金・キー設定を実施していないことを確認する。
+21: ## 結果と検証証跡
+22: 2026-10-13 利用者判断により、台本はリポジトリ内のAIエージェントで下書き可能でGemini APIを必須としないため、今回はGemini APIを採用しない。契約・課金・キー設定は行わず、本チケットを「今回は不採用」として終了する。これはAPI接続や生成の成功を意味しない。再開条件: 制作サービス単体での台本自動生成が必要になった場合に、新しい判断チケットで採否・費用を見直す。
+23: ## ブロック理由と再開
+24: 今回は不採用として終了。将来、制作サービスから台本を直接自動生成する要件が生じた場合に再評価する。
+25: ## 所要時間
+26: 今回は不採用のため作業なし。将来このチケットを再開する場合の目安は各30〜60分（審査・承認待ち別）。
+27: ## 操作手順
+28: 今回は実行しない。再開する場合は、まず利用者が採用を改めて決定し、docs/RESEARCH-AI.md と公式の料金・規約を確認して上限額を定める。その後、明示的な契約・課金の承認を得た範囲だけ設定する。キーはローカルの環境変数またはGit対象外ファイルに保存し、会話・Git・ログへ貼らない。
+29: ## 成功時の状態
+30: 今回は「台本生成では不採用」の判断・理由・再開条件が記録されている。契約・課金・キー設定は未実施であり、成功したAPI設定として扱わない。
+31: ## 困った場合の対処
+32: 将来の再評価で料金・規約が不明なら契約せず、秘密を含まない疑問点を記録して止める。
+
+tickets/T026.md
+1: ---
+2: id: T026
+3: title: Gemini API台本接続と実試験（今回は不採用）
+4: owner: agent
+5: status: done
+6: priority: P1
+7: milestone: M2
+8: depends: T024,T025
+9: ---
+10: ## 目的
+11: Gemini APIを使った台本生成接続を実装する案を検討する。利用者の判断により今回は採用しない。
+12: ## 実施範囲
+13: API接続、課金実行、実試験は行わず、Gemini APIを台本生成に使わない判断を記録して本チケットを終了する。
+14: ## 対象外
+15: 承認額を超える試験
+16: ## 受け入れ条件
+17: - 採否の判断と理由、将来の再開条件が記録されている。
+18: - APIを実装・実行したかのような記述をせず、未実施を明記する。
+19: ## 検証方法
+20: チケットの終了判断と親チケットにおける依存関係を確認する。
+21: ## 結果と検証証跡
+22: 2026-10-13 利用者判断により、台本下書きはリポジトリ内のAIエージェントで実施でき、Gemini APIは必須でないため今回は不採用。API接続・模擬接続試験・有料実試験はいずれも未実施であり、実装完了を意味しない。台本案は後続のエージェント用Skill/制作ワークフローチケットT123で扱う。将来、サービス単体でのAPI生成が必要になった場合は別チケットで再起票する。
+23: ## ブロック理由と再開
+24: 今回は不採用として終了。制作サービス単体での台本自動生成要件が生じた場合に再評価する。
+
+tickets/T029.md
+1: ---
+2: id: T029
+3: title: Runway契約・クレジット上限設定
+4: owner: human
+5: status: backlog
+6: priority: P1
+7: milestone: M2
+8: depends: T020
+9: ---
+10: ## 目的
+11: 必要箇所だけ映像生成するため少額クレジットを用意
+12: ## 実施範囲
+13: クレジット購入額決定、学習利用と表示要件の確認、キーのローカル設定
+14: ## 対象外
+15: 大量購入
+16: ## 受け入れ条件
+17: 購入額・確認結果の事実の記録
+18: ## 検証方法
+19: 値を表示せず設定有無を確認
+20: ## 結果と検証証跡
+21: 2026-10-10回答レビュー: Q2=Bで、事象・経緯・行動を分かりやすくイメージ化する部分映像を希望。一方Q1=Aで当面の外部設定は保留。将来の用途の希望として記録し、今のRunway採用・契約や生成実行の承認とは解釈しない。サービス比較はT108。秒数・購入額・キー設定は未確定のためbacklog維持。
+22: 未実施
+23: ## ブロック理由と再開
+24: 需要が確認できるまで保留可
+25: ## 所要時間
+26: 各30〜60分目安（審査・承認待ち別）
+27: ## 操作手順
+28: 1. docs/RESEARCH-AI.md の該当節と公式の料金・規約ページを自分で読み直す。
+29: 2. 上限額（月額・1本あたり）を決め、チケットに金額だけ記録する。
+30: 3. 公式画面で契約・課金設定・利用上限設定を自分で行う。
+31: 4. APIキーはローカルの環境変数またはGit対象外ファイルにだけ保存する。会話・Git・ログへ貼らない。
+32: 5. 設定した事実（有無・上限額・日付）だけをこのチケットへ書く。
+33: ## 成功時の状態
+34: 承認範囲と上限額、キー設定済みの事実だけが記録され、値はどこにもコピーされていない。
+35: ## 困った場合の対処
+36: 料金・規約が不明なら契約せず、秘密を含まない疑問点をこのチケットに書いて止める。
+
+tickets/T040.md
+1: ---
+2: id: T040
+3: title: 図解・編集と継続制作を拡充
+4: owner: agent
+5: status: backlog
+6: priority: P2
+7: milestone: M4
+8: depends: T022
+9: ---
+10: 
+11: ## 目的
+12: 長尺を無理なく継続制作できるようにする
+13: 
+14: ## 実施範囲
+15: 比較図・数値・分岐、辞書、同期、部分生成、複数ジョブ、同時数制限、素材管理、Remotion採用時ライセンス再調査
+16: 
+17: ## 対象外
+18: 今回の実装
+19: 
+20: ## 受け入れ条件
+21: 具体チケット分解と各部品の検証を完了
+22: 
+23: ## 検証方法
+24: 10〜20分試作、字幕・読み上げ・素材検証
+25: 
+26: ## 結果と検証証跡
+27: 2026-10-08: このうちローカルで完結する部分をT041（台本v2）、T042（安全検査）、T043（図解・文字調整・段階表示）、T044（字幕・媒体検査）で実施した。残りの読み方辞書、部分再生成、複数ジョブ、同時数制限、素材管理、Remotionの再調査は未着手。10〜20分の試作はナレーション接続（T028）の後に行う。
+28: 
+29: ## ブロック理由と再開
+30: 依存先の完了後に着手。外部操作は対象・費用・操作を具体化して明示的承認を得る。
+
+tickets/T070.md
+1: ---
+2: id: T070
+3: title: 動画ごとの独自性と人の創作工程の方針を決める
+4: owner: human
+5: status: done
+6: priority: P0
+7: milestone: M3
+8: depends: T017
+9: ---
+10: ## 目的
+11: 量産的・反復的なコンテンツ（inauthentic content）と判定され、チャンネル単位で収益化が止まるのを防ぐ。根拠と現状はdocs/RESEARCH-GROWTH.mdの2章#1と文献G19。
+12: ## 実施範囲
+13: チャンネル独自の価値（独自の分析観点、実体験、独自データなど）と、各動画で人が書く・判断する部分を決める
+14: ## 対象外
+15: 実装（決定後にagentが台本形式・工程へ反映するチケットを作る）
+16: ## 受け入れ条件
+17: 方針と、各動画で人が担う部分がこのチケットに書かれている
+18: ## 検証方法
+19: agentが方針を読み、実装チケットに分解できることを確認する
+20: ## 結果と検証証跡
+21: 2026-10-10: docs/HUMAN-TASKS.md 1-2〜1-5の本人回答と完了報告を確認しCodexが転記。
+22: - テーマは投資に限定せず、日常に結び付く概念・知識を初歩から深掘りし、活かし方まで扱う。
+23: - 独自性は本人の疑問/理解で困った視点、AIと調べて理解を深める過程、生活への活用指針。
+24: - 本人がAIの候補から題材を選び、考察を執筆し、台本全体を修正/承認、完成動画を承認/差戻しする。
+25: - 個人情報を公開しない。専門資格なし・特記する利害関係なしという本人申告を反映。
+26: - 概要欄は具体的ニュースや事象からの導入と、研究/調査/論文の出典リンクを掲載する方針。
+27: docs/CHANNEL-POLICY.md、SPEC、README、prompts/script.md、config/channel.json（decided=true）へ反映。正式名称は未決定でT031設定時に決める。実装はT103/T104へ分離。動画ごとの承認・投稿・契約はこの方針決定に含まない。
+28: 検証は作業回 logs/2026-10-10/085231-T070-3d950f02 に記録。
+29: ## ブロック理由と再開
+30: 方針決定は完了。生成経路と人の必須工程はT103/T104で実装する。
+31: ## 所要時間
+32: 30〜60分
+33: ## 操作手順
+34: 1. docs/RESEARCH-GROWTH.mdの1章と2章#1を読む。
+35: 2. YouTube公式の収益化ポリシー（inauthentic content: https://support.google.com/youtube/answer/1311392）を読む。
+36: 3. このチャンネルだけが出せる価値（例: 自分の失敗談、独自の観点、独自に集めたデータ）を3つまで書く。
+37: 4. 各動画で人が必ず担う部分（例: 考察場面の執筆、最終台本の承認、事例の選定）を決めて書く。
+38: 5. このチケットの「結果と検証証跡」に記入し、agentに実装の分解を依頼する。
+39: ## 成功時の状態
+40: 方針と人の担当範囲が記録され、agentが実装チケットを作れる状態
+41: ## 困った場合の対処
+42: 判断材料が足りなければ、疑問点をこのチケットに書き、agentに追加調査を依頼する
+
+tickets/T126.md
+1: ---
+2: id: T126
+3: title: Remotion描画を本体VisualProviderへ統合し場面テンプレートを描画する
+4: owner: agent
+5: status: done
+6: priority: P1
+7: milestone: M4
+8: depends: T114,T117,T118
+9: ---
+10: ## 目的
+11: motion-labで検証・準備したRemotion描画を既存の制作パイプラインから選択可能にし、台本から説明に沿ったモーショングラフィックスを生成する。
+12: ## 実施範囲
+13: VisualProvider実装、PlanからRemotion propsへの変換再利用、Prologue/Mechanism/Reflection/Epilogue等の必要テンプレート、字幕とreveal/motion時刻の連携、既存rendererとの段階的な併存、共通lint/layout/media検査との接続。
+14: ## 対象外
+15: 外部の生成動画API、素材の無断取得、既存Swift rendererの一括削除、YouTube投稿。
+16: ## 受け入れ条件
+17: - 本番以外の隔離デモ案件でRemotionを選択してMP4を書き出せる。
+18: - Planの内容・字幕時刻と描画結果の対応が検証される。
+19: - 解像度・fps・音声・字幕を含む媒体検査とレイアウト検査に合格する。
+20: - 失敗時に既存ジョブを上書きせず、選択したrendererと版がjob記録に残る。
+21: ## 検証方法
+22: 隔離出力によるCLI制作、媒体検査、代表フレームの目視、関連テストと型検査。
+23: ## 結果と検証証跡
+24: 完了。
+25: - `RemotionVisual`（`src/remotion-visual.ts`）を実装し、`VisualProvider` インターフェースに準拠。
+26: - `motion-lab/src/PlanVideo.tsx` を実装し、`Root.tsx` に動的メタデータ計算（`calculateMetadata`）付きで `PlanVideo` コンポジションを登録。`SceneTemplate`（ダーク背景、スポットライト、ProgressiveBarメーター、フロー図、比較・分岐カード、ピクトグラム配置、焼き込み字幕同期）を実装。
+27: - `cli.ts sample` および `cli.ts produce render` に `--renderer remotion` オプションを追加し、`RemotionVisual` による描画経路を統合。`job.json` に `rendererKind: "remotion"` およびバージョン情報を記録。
+28: - 隔離出力検証: `./scripts/run src/cli.ts sample --plan fixtures/sample-v2.json --renderer remotion --resolution 720` を実行。`outputs/bias-check-demo-ee27087b/sample.mp4`（1280x720 24fps 48秒 1152フレーム、H.264/AAC、媒体検査・全フレームデコード・文字配置検査・見やすさ検査・代表フレーム・サムネイル3案出力すべて合格）を生成確認。
+29: - 証跡: `logs/2026-10-12/231006-T126-15eb5886/evidence/remotion-sample-job.json`
+30: - テスト: 全321件テスト合格、TypeScript型検査（ルートおよびmotion-lab）0エラー合格。
+31: ## ブロック理由と再開
+32: なし。受け入れ条件を全件充足。
+
+tickets/T127.md
+1: ---
+2: id: T127
+3: title: 長尺ナレーション・字幕同期・音響仕上げの制作工程を統合する
+4: owner: agent
+5: status: done
+6: priority: P1
+7: milestone: M4
+8: depends: T024,T125
+9: ---
+10: ## 目的
+11: 採用済み音声接続から長尺ナレーションを作り、発話時刻に字幕・図解を同期し、動画用音声として検査できる工程を作る。
+12: ## 実施範囲
+13: 台本分割・依頼ID・合成音声結合、発話タイミング/字幕cueとの同期、必要なBGMとナレーションのミックス、音量記録、リトライ/費用記録、声のSkillによる人の試聴を連携する。
+14: ## 対象外
+15: サービス未選定のままの実API実行、自動的な自然さ判定、人の試聴の省略、利用許諾が不明な音声/BGM。
+16: ## 受け入れ条件
+17: - 採用した接続で10〜20分の台本を分割・結合でき、失敗箇所と費用/使用量が追跡できる。
+18: - 音声長・字幕cue・場面タイミングにずれがないことを機械検査し、人の試聴評価を別記録で残す。
+19: - 予算上限超過や課金不明の再送を安全に停止する。
+20: - API模擬と承認範囲内の実試験を区別する。
+21: ## 検証方法
+22: 模擬接続の長尺試験、タイミング・音量・失敗時の費用記録試験。実API試験はT027/T028の承認範囲に限定する。
+23: ## 結果と検証証跡
+24: 完了。
+25: - 長尺ナレーション制作統合モジュール `src/audio-pipeline.ts` を実装:
+26:   - 10〜20分の台本をシーン・cue単位に分割する `sliceScriptForNarration`
+27:   - 接続抽象（Connection / callWithBudget）に則り、試行（Attempt）と使用量（Usage）を記録しながら安全に結合する `synthesizeLongFormAudio`
+28:   - 予算超過時に呼出前に安全停止する事前予約・予算ガード機構
+29:   - 発話タイミングと字幕cueの累積ドリフトを検査する `checkSubtitleSync`（許容誤差0.5秒）
+30:   - ナレーション発話区間を検知してBGMを減衰（-18dB -> -28dB）するダッキングプロファイル計算 `calculateBgmDucking`
+31:   - YouTube推奨規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）に基づく音量検査 `checkAudioLoudness`
+32:   - T125の人の試聴評価メタデータ（NarrationMetadata）との台本版ハッシュ整合性検証 `verifyNarrationLink`
+33: - 単体テスト `tests/audio-pipeline.test.ts` を実装し全7件のテストに合格。
+34: - 全体テスト（全346件合格）およびTypeScript型検査（0エラー）を確認。
+35: - 証跡: `logs/2026-10-13/150820-T127-18fd964f/evidence/audio-pipeline-test.txt`
+36: ## ブロック理由と再開
+37: なし。模擬・手元接続抽象およびT125の試聴メタデータ連携により受け入れ条件を満たし完了。実API呼出しは別途有料契約後に実施。
+
+tickets/T129.md
+1: ---
+2: id: T129
+3: title: 段階別制作パイプラインのE2E品質・安全・再現性試験を整備する
+4: owner: agent
+5: status: done
+6: priority: P1
+7: milestone: M4
+8: depends: T119,T128
+9: ---
+10: ## 目的
+11: 段階連携した制作が、形式・出典記録・費用制御・媒体品質・人の承認条件を保って最後まで動くことをローカルで検証する。
+12: ## 実施範囲
+13: 架空題材/合成素材によるE2Eケース、Plan schema/lint、出典と素材根拠の受け渡し、承認失効、音声/映像生成失敗、予算超過、再実行、字幕/タイミング/レイアウト/媒体検査のシナリオを整備する。
+14: ## 対象外
+15: 素材権利・事実性・自然さの自動保証、未承認API課金、公開投稿。
+16: ## 受け入れ条件
+17: - 人の必須承認を省略しようとする経路が拒否される。
+18: - 成功・失敗・費用不明・再実行の出力が期待どおり記録される。
+19: - 媒体検査と構造検査に合格し、実API試験がある場合は模擬結果と明確に区分される。
+20: - E2E手順がローカルで再現可能で、成果物がGit管理外に保たれる。
+21: ## 検証方法
+22: 隔離出力で全E2E試験、テスト、型検査を実行し、コマンドと終了コードを証跡化する。
+23: ## 結果と検証証跡
+24: 完了。
+25: - 段階別制作パイプラインE2Eテストスイート `tests/documentary-pipeline-e2e.test.ts` を実装し全5シナリオを検証:
+26:   1. **E2E正常系**: 題材候補選定（superstar-economics）→ 本人考察入力 → エージェント台本案作成（lint合格）→ 事実確認・素材権利レポート登録（T124、エスカレーション0件）→ 音声スライス分割・合成・字幕同期・BGMダッキング・音量基準判定・メタデータ登録（T127）→ 本人台本承認（`produce script-review`）→ 制作ジョブリンク → 完成動画の本人承認（`review approve`）までの一連のパイプライン完走を確認。
+27:   2. **必須承認省略の安全停止**: 台本未承認状態での動画制作着手（`assertRenderable`）が確実に拒否され、`advancePipelineStage` が人待ち（`waiting_human`）で安全停止することを確認。
+28:   3. **事実・権利未確認時のブロック**: 事実確認レポートに未確認主張（`unverified`）が含まれる場合、エスカレーションにより台本承認・制作への進行が即座にブロックされることを確認。
+29:   4. **予算上限超過時の安全停止と成果物保護**: 音声合成時に予算上限（`Budget`）を超える試行が呼出前に安全停止し、既存の台本等の成果物が保護されることを確認。
+30:   5. **承認失効・旧版動画の失効**: 台本承認後に考察や題材が変更された場合、台本状態が `stale` となり古い動画の承認が失効（`expired`）して再制作が要求されることを確認。
+31: - 単体テスト `tests/documentary-pipeline-e2e.test.ts` 5件合格。
+32: - 全体テスト（全387件合格）およびTypeScript型検査（0エラー）を確認。
+33: - 証跡: `logs/2026-10-13/220050-T129-6b864324/evidence/documentary-pipeline-e2e-test.txt`
+34: ## ブロック理由と再開
+35: なし。受け入れ条件を全件充足。後続のYouTube投稿はT031/T032の契約・明示承認後に実施。
+
+tickets/T140.md
+1: ---
+2: id: T140
+3: title: 投稿Publisherの模擬契約と重複・応答喪失の安全試験
+4: owner: agent
+5: status: done
+6: priority: P1
+7: milestone: M3
+8: depends: T095,T128
+9: ---
+10: ## 目的
+11: YouTubeへ送信せず、承認版の一致・重複防止・応答喪失時の照合を投稿境界で検証できるようにする。
+12: ## 実施範囲
+13: 注入可能なPublisher契約と決定的なmock adapter、ジョブID/確認対象ハッシュの台帳、タイムアウト後照合、再試行、クォータ停止を模擬する。
+14: ## 対象外
+15: YouTube API接続、認証情報、投稿・予約・公開、実API試行。
+16: ## 受け入れ条件
+17: - 未承認/失効版を送信前に拒否する。
+18: - 模擬応答喪失後に照合し、同一動画の二重作成を防ぐ。
+19: - クォータ・認証エラーで安全停止し秘密を出力しない。
+20: - Publisherはデフォルト無効を維持し、実通信経路がないことを試験する。
+21: ## 検証方法
+22: mock adapterの正常/異常系テスト、既存review試験、コード上のネットワーク境界確認。
+23: ## 結果と検証証跡
+24: 2026-10-14 JST Codex / GPT-6（runtime、詳細実モデルIDとトークン使用量は取得不可）。mock範囲を完了。
+25: - `src/mock-publisher.ts`: 注入必須のMockPublisherContract（create/reconcile）、決定的なFileMockPublisher、simulatePublishを追加。既存Publisher契約・DisabledPublisher・CLI・制作経路には接続しない。HTTP/ネットワーク/認証情報の実装なし。結果・台帳・動画IDはmock表示。
+26: - 送信前にapprovalOfで現在の確認対象ハッシュと承認版を一致検査。本番形式はpublishReadinessも必須。デモはmock試験専用として扱う。照合後の再送直前にも版を再検査し、台本承認失効・未リンクの制作動画も拒否。
+27: - ジョブIDと確認ハッシュからSHA-256冪等キーを作り、原子保存のmock JSON台帳へ送信意図/累計試行数/状態/模擬receiptを記録。台帳・mock remoteに排他ロック。ジョブの別版は再承認しても二重作成を拒否。
+28: - 応答喪失・プロセス再起動後は必ずreconcile。foundは元の模擬receiptへ収束、unknown/例外/不正receiptは再送なし、authoritative absentのみ再送可能。既定2回、最大3回の累計上限（再起動でリセットしない）。quota/authは送信・照合どちらでも台帳全体の停止を永続化し、後続ジョブも停止。外部エラー本文を結果/台帳へ保存しない。
+29: - `tests/mock-publisher.test.ts` 17件: 未承認/差戻し/失効/古い画面、冪等台帳と再起動、応答喪失、照合不明、再試行上限、quota/auth停止、同時実行、再承認した別版、照合中の承認失効、例外秘匿、破損台帳、非mock拒否、DisabledPublisher、ネットワーク境界、本番工程と台本失効、送信意図だけ残る中断、不正receipt・remoteロックを検査。
+30: - 最終検証: `./scripts/run --test --test-skip-pattern='確認画面' tests/mock-publisher.test.ts tests/approval.test.ts tests/review.test.ts tests/production.test.ts tests/orchestration-pipeline.test.ts tests/pipeline.test.ts` 62/62成功、終了0。`./node_modules/.bin/tsc --noEmit` 成功、終了0。対象ファイル指定のgit diff --check終了0。全体diffには既存のdocs/DECISIONS.md・tests/production.test.tsの末尾空行警告があり、変更しない。
+31: - 初回Node型除去非対応構文を修正。既存HTTP4件は最初のtest-name-patternが除外に効かずlisten EPERMで失敗（66件中62成功、終了1）。最終はskip-patternでHTTPを除外。外部API・YouTubeへの通信なし、実HTTP試験成功を主張しない。
+32: - 証跡: `logs/2026-10-13/225922-T140-5b231b46/evidence/`（initial-tests、mock-tests、contract-review-tests、offline-tests、typecheck、metering）。計測確認は`agentctl status T140 --require-metered`終了2（登録実行なし）。モデルの細別名・使用量を推測補完しない。
+33: 
+34: ### mockの再現・運用制約
+35: 一時ディレクトリの承認済み模擬ジョブで、`new FileMockPublisher(remotePath, ['response-lost'])`を`simulatePublish(jobDir, expectedBundleHash, ledgerPath, adapter)`へ明示注入する。ledgerPathとremotePathは別ファイル、同じシミュレーションでは同じ組を保持する（台帳削除・別remoteへの切替えで再試行しない）。親ディレクトリは事前作成。状態はpublishedも含めすべてmockであり、YouTubeの投稿成功ではない。
+36: 停止の自動解除なし。残存lockは自動削除せず、実行プロセスが終了したことと台帳/remoteの状態を照合してから手動復旧。原子renameはプロセス中断に備えるもので、電源断時のディスク永続性や実サービスの照合保証は未検証。
+37: ## ブロック理由と再開
+38: mock範囲のブロックなし。実接続・実投稿・認証・課金・YouTubeのクォータ挙動は未実施で対象外。実投稿はT031/T032と利用者の別途明示承認が必要。既存HTTP確認画面の実試験はlocalhost listenが許可された環境で別作業回に実施する。
+
+tickets/T141.md
+1: ---
+2: id: T141
+3: title: ローカル制作ジョブのキュー・同時実行制限・中断復旧
+4: owner: agent
+5: status: done
+6: priority: P2
+7: milestone: M4
+8: depends: T094,T098,T128
+9: ---
+10: ## 目的
+11: 複数のローカル制作案件を安全に順番処理し、失敗・中断後に既存成果物を保護して復旧できるようにする。
+12: ## 実施範囲
+13: ローカルキュー、同時実行数上限、状態永続化、失敗隔離、有限再試行、完了済み工程の再利用条件、再開と成果物ハッシュ検証を実装する。
+14: ## 対象外
+15: クラウド/常駐ワーカー、無人投稿、自動公開、実API課金。
+16: ## 受け入れ条件
+17: - 並行数上限を超えず順序・状態が記録される。
+18: - 異常終了後の再開で完了成果物を上書きしない。
+19: - 重複投入・不明費用・破損状態では安全停止する。
+20: - 合成ジョブで正常・失敗・再開・復元を再現できる。
+21: ## 検証方法
+22: 一時ディレクトリの複数模擬ジョブと異常注入テスト。
+23: ## 結果と検証証跡
+24: 2026-10-14 JST、Codex / GPT-6（runtime。実行環境が提示するモデル名。詳細モデルID・使用量は取得不可）で実装・検証。
+25: - 新規 `src/local-queue.ts` の `LocalQueue` に隔離したopt-inライブラリー。既存CLI・sample・produce・production.ts・T128の記録を変更しない。既存outputsも操作しない。
+26: - 空のローカル一時ディレクトリを明示指定。JSON状態にSHA-256、fsyncとatomic rename。単一ownerの排他、FIFOジョブ開始、永続設定の同時数1〜16、工程ごとの累計試行数1〜10（既定3）、順序付きイベント、local/mock種別、入力/成果物ハッシュと試行履歴を保持。
+27: - 同一IDは完了・失敗後も拒否。工程は入力一式と前段成果物に結び付く。完了成果物は検証して再利用し、試行ごとの専用ディレクトリ・wx書込みで上書きしない。衝突・symlink・欠落・ハッシュ不一致・不正JSON/状態は安全停止。保存失敗ではキュー全体を停止し、メモリー上だけの成功を返さない。
+28: - T098のConnError契約を使用。SERVER/RATE_LIMITかつcharge=noneだけ有限再試行。unknownは0 USD相当でも再送禁止、他ジョブから隔離。failed/blockedを再投入やrecoverで自動リセットしない。実API費用台帳ではない。
+29: - 異常終了時のrunningは明示recover。完了receiptを入力版・成果物ハッシュで照合して復元。receipt未完成のlocal/mock試行はinterruptedとして残し、次の試行領域で再開（試行上限を維持）。破損receiptは拒否し、以前の状態や成果物を推測で採用しない。
+30: - `enqueueProduction` はsrc/production.tsのassertRenderableとT128のassessStagePrerequisitesを投入時/実行時/復旧時に検査。台本の版変更・承認失効・人待ちを拒否。承認やrenderリンクをキューが代理記録しない。
+31: - `tests/local-queue.test.ts` 新規21件: 複数mockジョブ、並行数2/FIFO、重複、排他、有限再試行、unknown、失敗隔離、入力/出力/状態破損、衝突、symlink、保存失敗、receipt復元、SIGKILLした実プロセスからの復旧、上限維持、承認失効と承認済みmock工程を検証。
+32: - 最終の対象試験は新規21件＋既存制作/工程/予算/整理/承認/pipeline63件、84件成功（終了0）。型検査終了0。HTTP試験4件はlisten EPERMで失敗したため最終対象から明示除外（成功扱いしない）。証跡: `logs/2026-10-13/230629-T141-59f185ea/evidence/verified-local-tests.txt`、`typecheck.txt`、失敗の`regression-tests.txt`等。
+33: - Token Monitor: `scripts/agentctl status T141 --require-metered` は終了2「実行がない」。別モデル/管理対象実行は起動していない。本対話の使用量は取得不可で、計測完了とは扱わない。
+34: 
+35: 利用例（専用の一時領域、合成入力、mock工程。MP4生成や実接続ではない）:
+36: ```ts
+37: import {mkdtempSync, writeFileSync} from 'node:fs';
+38: import {tmpdir} from 'node:os';
+39: import {join} from 'node:path';
+40: import {LocalQueue} from './src/local-queue.ts';
+41: const work = mkdtempSync(join(tmpdir(), 'local-queue-'));
+42: const input = join(work, 'input.json');
+43: writeFileSync(input, JSON.stringify({schema: 1, mock: true, executorVersion: 1}));
+44: const queue = LocalQueue.open(join(work, 'queue'), {concurrency: 2});
+45: try {
+46:   queue.enqueue({id: 'mock-one', mode: 'mock', inputs: [input], stages: ['audio', 'video'], maxAttempts: 3});
+47:   await queue.drain(async ctx => {ctx.writeArtifact('mock.json', JSON.stringify({mode: 'mock', stage: ctx.stage}));});
+48:   console.log(queue.snapshot());
+49: } finally {queue.close();}
+50: ```
+51: Executorはlocal/mockだけで、成果物を書き込む副作用はctx.writeArtifactに限定する。実装版・設定など再利用に影響する全情報をinputsに含める。ファイル名は拡張子を使用可、receipt.jsonは予約。既存成果物を読み出す場合はqueue.rootとctx.previousのfileを結合する。制作案件はenqueueProduction(root, id, stages, 'mock'|'local', maxAttempts)を使用する。工程関数は呼出側で提供する契約であり、既存レンダラーの自動起動・既存T128成果物の自動インポートは行わない。
+52: ## ブロック理由と再開
+53: ブロックなし。依存T094/T098/T128の契約を保持。クラウド・常駐ワーカー・投稿・認証・課金・実APIは未実施。
+54: 再現: `./scripts/run --test tests/local-queue.test.ts`。上記最終対象は `./scripts/run --test --test-skip-pattern='確認画面[:（]' tests/local-queue.test.ts tests/production.test.ts tests/orchestration-pipeline.test.ts tests/jobs.test.ts tests/budget.test.ts tests/approval.test.ts tests/review.test.ts tests/pipeline.test.ts`。
+55: 中断復旧: 同じ一時領域とconcurrencyでopenしrecover→drain。ownerが残る場合は元プロセス停止を確認し、openのrecoverDeadOwner:trueを指定する（ESRCHだけで回収、生存PID/EPERM/壊れたownerは拒否）。PID再利用時は自動回収しない。回収そのものが中断してrecovery.lockが残った場合は全利用者を停止し、状態・成果物のコピーを保全してから人がlockを調査する。破損状態・unknown・failed/blockedは自動修復/再送しない。キューはtrustedなローカル関数の制御で、任意JS関数のネットワークアクセスを隔離するsandboxではない。停電・媒体故障、実動画制作、実サービスの費用照合・復旧は未検証。T050の無人運用や投稿機能は含めない。

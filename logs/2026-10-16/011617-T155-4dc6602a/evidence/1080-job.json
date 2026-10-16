@@ -1,0 +1,168 @@
+{
+  "id": "remotion-layout-stress-6da01511",
+  "kind": "production-job",
+  "status": "completed",
+  "createdAt": "2026-10-16T01:20:44.568Z",
+  "pid": 83104,
+  "mode": "demo",
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.remotion",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.sine-cues-1",
+      "inputUnits": 0,
+      "outputUnits": 20,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "visual",
+      "provider": "local.remotion",
+      "model": "none",
+      "mode": "local",
+      "requestId": "local-local.remotion-1",
+      "inputUnits": 0,
+      "outputUnits": 20,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-a70d5f0e",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-16T01:20:44.567Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-5d0437bf",
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-16T01:20:44.627Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.sine-cues-1"
+    },
+    {
+      "attemptId": "att-bad10a5a",
+      "domain": "visual",
+      "provider": "local.remotion",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-16T01:20:44.634Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "local-local.remotion-1"
+    }
+  ],
+  "inputHash": "3a4dcac4a26d5c6810ae5d6e96735c2d5f129fea721e7fe044829fb0add42d41",
+  "input": "fixtures/remotion-layout-stress.json",
+  "durationSeconds": 20,
+  "subtitles": "burn",
+  "resolution": 1080,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "546f9ea7c54dadca21755bc291325aea108d5dc139cf2c34c72cdac2e88589e4",
+    "rendererKind": "local.remotion",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready",
+    "video-checked"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 2
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": false,
+    "issues": [
+      "概要欄が5000バイトを超える（9865）"
+    ],
+    "chapters": 0
+  },
+  "thumbnails": [
+    {
+      "file": "thumbnail-a.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-b.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-c.png",
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "readability": {
+    "ok": true,
+    "scale": 1.5,
+    "minFont720": 16,
+    "minContrast": 5.38,
+    "issues": []
+  },
+  "layout": {
+    "ok": true,
+    "checked": 498,
+    "issues": []
+  },
+  "outputHash": "babed6d4c06c1a59f3d3ee2f780d732748684829183056b0fa5cd9471ecc17a1"
+}

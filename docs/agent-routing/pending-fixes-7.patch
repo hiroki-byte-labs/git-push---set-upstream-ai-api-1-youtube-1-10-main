@@ -1,0 +1,105 @@
+diff -ru a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 19:05:08
++++ b/orchestration/hooks/hook.ts	2026-10-11 19:14:46
+@@ -8,7 +8,7 @@
+ import {mint} from '../gateway/approval.ts';
+ import {logEvent,openDb,type DB} from '../telemetry/db.ts';
+ import {claudeTranscriptUsage,codexRolloutUsage,readJsonlFrom,recordUnavailable,recordUsage,refreshMetering} from '../telemetry/monitor.ts';
+-import {fromAnthropic} from '../telemetry/normalize.ts';
++import {agyLastUserInput,agyTranscriptPath,agyTranscriptUsage,fromAnthropic} from '../telemetry/normalize.ts';
+ import {classifyPrompt,nextTier,route,type Decision,type Env,type Task} from '../router/router.ts';
+ import {classifyCommand,isProtectedFile,patchPaths} from './detect.ts';
+ import {normalizeModel,verifyChild} from './child.ts';
+@@ -71,6 +71,7 @@
+   const parent=nestedMarker(n,env);
+   if(parent){managed=`REJECTED:未承認の入れ子実行（親 ${parent}）。agentctl run を使う`;logEvent(db,'nested_unmanaged_session',{parent},{product:n.product,session_id:n.session_id})}
+  }
++ if(n.product==='antigravity')logEvent(db,'agy_payload_keys',{event:n.event,keys:Object.keys(n.raw).sort(),env_markers:Object.keys(env).filter(k=>/^(ANTIGRAVITY_|AGENTCTL_)/.test(k)).sort()},{product:n.product,session_id:n.session_id});
+  db.prepare('INSERT INTO sessions(product,session_id,model_id,managed_execution_id,current_task_id,current_execution_id,transcript_path,transcript_offset,started_at,last_seen_at) VALUES(?,?,?,?,NULL,NULL,?,0,?,?) ON CONFLICT(product,session_id) DO NOTHING')
+   .run(n.product,n.session_id,normalizeModel(n.product,n.model),managed,n.transcript_path,now(),now());
+  return session(db,n);
+@@ -264,7 +265,7 @@
+  const key=kind==='main'?n.session_id!:`${n.session_id}:${n.agent_id}`;
+  const row=db.prepare('SELECT transcript_offset FROM sessions WHERE product=? AND session_id=?').get(`${n.product}:${kind}`,key) as {transcript_offset:number}|undefined;
+  const {records,next}=readJsonlFrom(path,row?.transcript_offset??0);
+- const usage=n.product==='claude'?claudeTranscriptUsage(records,{sessionId:n.session_id!,skipSidechain:kind==='main'}):codexRolloutUsage(records).usage.filter(u=>kind==='agent'||u.source.session_id===n.session_id);
++ const usage=n.product==='claude'?claudeTranscriptUsage(records,{sessionId:n.session_id!,skipSidechain:kind==='main'}):n.product==='antigravity'?agyTranscriptUsage(records,n.session_id!,normalizeModel('antigravity',n.model)):codexRolloutUsage(records).usage.filter(u=>kind==='agent'||u.source.session_id===n.session_id);
+  for(const u of usage)recordUsage(db,executionId,u,'subscription');
+  // セッション開始時のHookを観測できなかった（Hook導入前に始まった等）場合、実モデルを記録から補う。
+  const seen=usage.map(u=>u.model_id).filter((m):m is string=>!!m),top=seen.sort((a,b)=>seen.filter(x=>x===b).length-seen.filter(x=>x===a).length)[0];
+@@ -288,9 +289,13 @@
+  if(!s)return pass(n);
+  const target=managedExe(s)??s.current_execution_id;
+  if(target){
+-  if(n.product==='antigravity'){if(!managedExe(s))recordUnavailable(db,target,'antigravity',s.model_id,'Antigravityの対話セッションはHook・トランスクリプトに使用量がない','subscription')}
++  // Antigravity 1.3.3 の会話記録にはステップごとの使用量がある（2026-10-12確認）。Gatewayが起動した子は結果JSONで計測するため取り込まない。
++  if(n.product==='antigravity'){if(!managedExe(s)){const path=n.transcript_path&&existsSync(n.transcript_path)?n.transcript_path:agyTranscriptPath(n.session_id!);
++   if(!ingestTranscript(db,n,path,target,'main')&&!(db.prepare('SELECT COUNT(*) AS c FROM usage WHERE execution_id=?').get(target) as {c:number}).c)recordUnavailable(db,target,'antigravity',s.model_id,'Antigravityの会話記録に使用量が見つからない','subscription')}}
+   else if(!(n.product==='claude'&&managedExe(s)))ingestTranscript(db,n,n.transcript_path,target,'main');
+   if(!managedExe(s))finishExecution(db,target,'completed');
++  // Antigravityは発言ごとのHookがないため、実行ループの終了（Stop）で区切り、次のPreInvocationで新しいタスクにする。
++  if(n.product==='antigravity'&&!managedExe(s))db.prepare('UPDATE sessions SET current_execution_id=NULL,current_task_id=NULL WHERE product=? AND session_id=?').run(n.product,n.session_id);
+  }
+  const open=db.prepare("SELECT COUNT(*) AS c FROM executions WHERE session_product=? AND session_id=? AND managed=1 AND status='completed' AND metering_status='missing'").get(n.product,n.session_id) as {c:number};
+  if(open.c){logEvent(db,'stop_with_unmetered',{count:open.c},{product:n.product,session_id:n.session_id});if(n.product==='claude')return out('claude',{systemMessage:`[agentctl] 計測のない管理対象実行が ${open.c} 件あります（agentctl status で確認）`})}
+@@ -313,7 +318,9 @@
+     case 'SubagentStop':return onSubagentStop(db,n);
+     case 'Stop':return onStop(db,n,env);
+     case 'PreInvocation':{const s=registerSession(db,n,env);if(rejected(s))return context(n,`[agentctl] このセッションは拒否されています: ${s!.managed_execution_id!.slice(9)}`);
+-     if(s&&!managedExe(s)&&!s.current_execution_id)return onPrompt(db,{...n,event:'PreInvocation'},env);return pass(n)}
++     // 発言の本文はHookに来ないため、会話記録の最後の利用者の発言で分類する（本文は保存しない）。
++     if(s&&!managedExe(s)&&!s.current_execution_id){const path=n.transcript_path&&existsSync(n.transcript_path)?n.transcript_path:agyTranscriptPath(n.session_id!);const prompt=n.prompt??(existsSync(path)?agyLastUserInput(readJsonlFrom(path,0).records):null);return onPrompt(db,{...n,prompt,event:'PreInvocation'},env)}
++     return pass(n)}
+     case 'PostInvocation':{const s=session(db,n);return rejected(s)?blockPrompt(n,s!.managed_execution_id!.slice(9)):pass(n)}
+     default:return pass(n);
+    }
+diff -ru a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 19:05:08
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 19:14:46
+@@ -46,14 +46,29 @@
+  assert.equal(one('SELECT model_id FROM executions WHERE execution_id=?',exe).model_id,'claude-opus-5-5');
+  assert.equal(one("SELECT model_id FROM sessions WHERE product='claude' AND session_id='cl-ns'").model_id,'claude-opus-5-5');
+ });
+-test('TEST-003: Antigravityで開始するとモデル選択が記録され、取得できない使用量はunavailable', ()=>{
+- H('antigravity','PreInvocation',{conversationId:'ag-1',modelName:'Gemini 3.8 Flash (High)',invocationNum:1,initialNumSteps:0});
++test('TEST-003: Antigravityの対話: 会話記録から使用量を実測し、実行ループの終了ごとにタスクを区切り、直前の発言で分類する', ()=>{
++ const tr=join(dir,'agy-ag1.jsonl');
++ writeJsonl(tr,[{step_index:0,source:'USER_EXPLICIT',type:'USER_INPUT',content:'ログを要約して'},{step_index:1,type:'PLANNER_RESPONSE',input_tokens:100,cache_read_tokens:40,output_tokens:5}]);
++ H('antigravity','PreInvocation',{conversationId:'ag-1',modelName:'Gemini 3.8 Flash (High)',transcriptPath:tr,invocationNum:1,initialNumSteps:0});
+  const s=one("SELECT current_execution_id,model_id FROM sessions WHERE product='antigravity' AND session_id='ag-1'");
+  assert.equal(s.model_id,'gemini-3.8-flash-high','表示名を登録簿IDへ正規化');
+- assert.ok(one('SELECT decision_id FROM executions WHERE execution_id=?',s.current_execution_id).decision_id);
+- const stop=H('antigravity','Stop',{conversationId:'ag-1',modelName:'Gemini 3.8 Flash (High)',executionNum:1,terminationReason:'model_stop',fullyIdle:true});
++ const first=s.current_execution_id;
++ assert.deepEqual(Object.values(one('SELECT d.difficulty,d.task_type FROM executions e JOIN decisions d ON d.decision_id=e.decision_id WHERE e.execution_id=?',first)),['L1','summarization'],'発言で分類');
++ const stop=H('antigravity','Stop',{conversationId:'ag-1',modelName:'Gemini 3.8 Flash (High)',transcriptPath:tr,executionNum:1,terminationReason:'model_stop',fullyIdle:true});
+  assert.equal(stop.decision,'stop');
+- assert.equal(one('SELECT metering_status FROM executions WHERE execution_id=?',s.current_execution_id).metering_status,'unavailable');
++ assert.deepEqual(Object.values(one('SELECT status,metering_status FROM executions WHERE execution_id=?',first)),['completed','measured']);
++ assert.equal(one('SELECT SUM(total) AS t FROM usage WHERE execution_id=?',first).t,105);
++ assert.equal(one("SELECT current_execution_id FROM sessions WHERE product='antigravity' AND session_id='ag-1'").current_execution_id,null,'次の発言は新しいタスク');
++ writeJsonl(tr,[{step_index:0,source:'USER_EXPLICIT',type:'USER_INPUT',content:'ログを要約して'},{step_index:1,type:'PLANNER_RESPONSE',input_tokens:100,cache_read_tokens:40,output_tokens:5},{step_index:2,source:'USER_EXPLICIT',type:'USER_INPUT',content:'この関数のバグを修正して'},{step_index:3,type:'PLANNER_RESPONSE',input_tokens:300,cache_read_tokens:100,output_tokens:9}]);
++ H('antigravity','PreInvocation',{conversationId:'ag-1',modelName:'Gemini 3.8 Flash (High)',transcriptPath:tr,invocationNum:2});
++ const second=one("SELECT current_execution_id FROM sessions WHERE product='antigravity' AND session_id='ag-1'").current_execution_id;
++ assert.notEqual(second,first);
++ assert.equal(one('SELECT d.task_type FROM executions e JOIN decisions d ON d.decision_id=e.decision_id WHERE e.execution_id=?',second).task_type,'implementation');
++ H('antigravity','Stop',{conversationId:'ag-1',transcriptPath:tr,executionNum:2,fullyIdle:true});
++ assert.equal(one('SELECT SUM(total) AS t FROM usage WHERE execution_id=?',second).t,309,'前のターンの分を重ねて数えない');
++ assert.ok(!readFileSync(join(env.AGENTCTL_DATA_DIR!,'telemetry.db')).includes(Buffer.from('バグを修正')),'発言の本文は保存しない');
++ const keys=JSON.parse(one("SELECT detail_json FROM events WHERE kind='agy_payload_keys' AND session_id='ag-1'").detail_json);
++ assert.ok(keys.keys.includes('conversationId'));
+ });
+ test('TEST-004: Codexのサブエージェント起動を識別し、子の使用量を親子関係つきで記録する', ()=>{
+  H('codex','SessionStart',{session_id:'cx-2',model:'gpt-6-astra',source:'startup'});
+diff -ru a/orchestration/model-registry/models.json b/orchestration/model-registry/models.json
+--- a/orchestration/model-registry/models.json	2026-10-11 09:31:25
++++ b/orchestration/model-registry/models.json	2026-10-11 19:14:46
+@@ -31,7 +31,7 @@
+         "subscription": {"verified": true, "basis": "agy models / agy agents がGoogleアカウント認証で成功（2026-10-11）"},
+         "api_key": {"verified": false, "env": ["GEMINI_API_KEY", "GOOGLE_API_KEY"], "basis": "未設定。Gatewayは子プロセスから除去する"}
+       },
+-      "native_subagents": {"supported": true, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": "1.3.3", "verified_at": "2026-10-11", "basis": "実機（1.3.3、agy -p）: invoke_subagent の最上位の引数は Subagents・toolAction・toolSummary でモデル指定はない（Subagents内の項目は未確認）。子は親のモデル（gemini-3.8-flash-low / medium）で動いた（2回、子の会話のHookで照合）。子単独の使用量はHookにも結果JSONにも出ない。結果JSONの usage は total=input+output、thinking は output の内数（41,307トークンの実データ）"}
++      "native_subagents": {"supported": true, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": "1.3.3", "verified_at": "2026-10-11", "basis": "実機（1.3.3、agy -p）: invoke_subagent の最上位の引数は Subagents・toolAction・toolSummary でモデル指定はない（Subagents内の項目は未確認）。子は親のモデル（gemini-3.8-flash-low / medium）で動いた（2回、子の会話のHookで照合）。子単独の使用量は親の結果JSONに含まれず、Hookにも出ないが、子の会話記録（brain/<会話>/.system_generated/logs/transcript.jsonl）のステップごとの使用量で実測できる。Gateway経由の子はGatewayが結び付けて実測し、対話中の子は結び付け方が未確認のため unavailable のまま。結果JSONの usage は total=input+output、thinking は output の内数（41,307トークンの実データ、会話記録の合計と一致）"}
+     },
+     "gemini-api": {
+       "cli": null,

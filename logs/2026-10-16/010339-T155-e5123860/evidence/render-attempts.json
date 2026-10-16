@@ -1,0 +1,20 @@
+[
+  {
+    "resolution": 720,
+    "directory": "/private/tmp/T155-verify-fk5z30xo/outputs/remotion-layout-stress-579a73f7",
+    "status": "failed",
+    "mp4Exists": false,
+    "domExists": false,
+    "renderReportExists": false,
+    "fixture": "fixtures/remotion-layout-stress.json"
+  },
+  {
+    "resolution": 1080,
+    "directory": "/private/tmp/T155-verify-fk5z30xo/outputs/remotion-layout-stress-5eb6fa1f",
+    "status": "failed",
+    "mp4Exists": false,
+    "domExists": false,
+    "renderReportExists": false,
+    "fixture": "fixtures/remotion-layout-stress.json"
+  }
+]

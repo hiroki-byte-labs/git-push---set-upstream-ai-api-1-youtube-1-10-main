@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "errors": 0,
+  "warnings": 2,
+  "findings": [
+    {
+      "level": "warning",
+      "rule": "story-order",
+      "where": "台本",
+      "text": "situation→conflict→insight→situation→conflict→insight→situation→conflict→insight→situation→conflict→insight→situation→conflict",
+      "message": "物語は状況→葛藤→気づき→学びの順に置く"
+    },
+    {
+      "level": "warning",
+      "rule": "story-incomplete",
+      "where": "台本",
+      "text": "situation→conflict→insight→situation→conflict→insight→situation→conflict→insight→situation→conflict→insight→situation→conflict",
+      "message": "物語にlessonがない"
+    }
+  ]
+}

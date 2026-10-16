@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/private/tmp/t139-avplayer-verifier",
+    "/private/tmp/t084-demo.vli4AQ/outputs/checklist-demo-827dc748/sample.mp4",
+    "1",
+    "60"
+  ],
+  "exitCode": 0,
+  "stdout": "{\n  \"durationSeconds\" : 32,\n  \"elapsedSeconds\" : 32.22564196586609,\n  \"ended\" : true,\n  \"file\" : \"sample.mp4\",\n  \"firstProgressSeconds\" : 0,\n  \"lastProgressSeconds\" : 32,\n  \"muted\" : true,\n  \"observedProgressSamples\" : 629,\n  \"playbackRate\" : 1,\n  \"status\" : \"readyToPlay\"\n}\n",
+  "stderr": ""
+}

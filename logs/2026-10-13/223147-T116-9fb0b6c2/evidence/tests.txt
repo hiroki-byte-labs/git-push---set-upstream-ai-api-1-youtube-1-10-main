@@ -1,0 +1,32 @@
+✔ all three complete artifacts validate with pinned Ajv and semantic checks (2.117792ms)
+✔ unknown observations use null; unavailable public URL remains unavailable (0.265584ms)
+✔ schema rejects missing fields, extra fields, invalid confidence, invalid hashes and owner (0.192334ms)
+✔ entity IDs, object references and evidence references cannot dangle or duplicate (0.158833ms)
+✔ timeline bounds and unknown numerical claims are rejected (0.520583ms)
+✔ page/specification inspection is not a measured frame comparison (0.141042ms)
+✔ metric pass is derived from nonnegative error and positive threshold (0.111083ms)
+✔ one metric per axis prevents contradictory or selectively repeated comparisons (0.0575ms)
+✔ subjective scores require a named reviewer, reason and actual frame references (0.101834ms)
+✔ unsafe evidence paths cannot be offered for handoff (0.498292ms)
+✔ unavailable comparison requires honest empty measurements and explanation (0.102375ms)
+✔ YouTube request sends key in header only and embeds the actual analysis schema (1.613333ms)
+✔ already uploaded video URI builds fileData without uploading or reading files (0.527291ms)
+✔ missing/empty keys stop before calling the mock (0.149375ms)
+✔ transport exceptions are sanitized and never retried (0.105292ms)
+✔ HTTP auth, rate limit and server failures stop without parsing raw bodies (0.269667ms)
+✔ invalid JSON, missing fields, extra fields and bad semantics become unavailable (0.805375ms)
+✔ blocked, truncated, thought and empty candidates become unavailable (0.280958ms)
+✔ response body read failure and credential echo never escape (0.105542ms)
+✔ deadline bounds an unresponsive transport and response reader, aborting both (12.659417ms)
+✔ non-mock transports and invalid deadlines are rejected without dispatch (0.220084ms)
+✔ invalid caller identity and uploaded source fail locally before dispatch (0.1605ms)
+✔ parser preserves contract data and rejects invented evidence paths (0.223667ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 98.864334
+EXIT=0

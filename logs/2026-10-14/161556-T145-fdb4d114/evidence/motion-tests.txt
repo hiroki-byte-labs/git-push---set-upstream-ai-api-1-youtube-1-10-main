@@ -1,0 +1,27 @@
+✔ 解析器のイージング候補はRemotionのEasingと同じ値を返す (0.712ms)
+✔ 再現用チャンネルの値は解析器側とRemotion側（interpolate）で一致する (1.235959ms)
+✔ formatTime: 正確なタイムスタンプ文字列フォーマット (0.650834ms)
+✔ extractFrames: 30fps動画から指定FPSでフレーム抽出とframes.json検証 (1574.73375ms)
+✔ イージングと開始・終了時刻（小数フレーム）を復元する (900.623667ms)
+✔ 雑音に対して候補の差が小さいときはambiguousとして断定しない (183.8245ms)
+✔ 候補にない動きはunknownとし、最良候補を断定しない (192.636166ms)
+✔ 動作中から観測が始まる場合は開始値を観測済みとしない (212.310041ms)
+✔ 大きさの下限（0以上）を使って開始時刻のモデル値を決める (192.299583ms)
+✔ 半分以上のフレームで動く系列でも雑音を過大に見積もらない (0.118625ms)
+✔ animation_spec.json aligns with PrologueQuestion component implementation (0.696333ms)
+✔ Rendered MP4 file exists and has correct size (0.070083ms)
+✔ toRemotionPlanProps: 台本JSONからRemotion Propsへの正常変換 (5.94825ms)
+✔ 単色背景と、重ならない図形の位置・大きさをサブピクセルで測る (93.815959ms)
+✔ 画面端で見切れた成分には見切れの印が付く (144.045334ms)
+✔ 細長い図形の主軸角（時計回りが正）を測る (170.617292ms)
+✔ 縁のサブピクセル位置: 被覆率の和だけ外側へ伸ばす (0.128708ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1758.143625
+
+EXIT=0

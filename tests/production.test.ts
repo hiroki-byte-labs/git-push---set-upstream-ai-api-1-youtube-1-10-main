@@ -21,8 +21,9 @@ function ready(root:string,demo=true){const by=demo?T:H;const id=createProject(r
 // 制作ジョブ（動画の代わりに小さなファイル）を作り、案件の現在の台本に結び付ける。
 function fakeRender(root:string,id:string,jobId:string){
  const st=projectState(root,id);const d=join(root,jobId);mkdirSync(d,{recursive:true});const mp4=Buffer.from('fake-mp4-'+jobId);writeFileSync(join(d,'sample.mp4'),mp4);writeFileSync(join(d,'subtitles.vtt'),'WEBVTT\n');
+ writeFileSync(join(d,'thumbnail-a.png'),Buffer.from('fake-thumb-a'));writeFileSync(join(d,'thumbnail-b.png'),Buffer.from('fake-thumb-b'));writeFileSync(join(d,'thumbnail-c.png'),Buffer.from('fake-thumb-c'));
  writeFileSync(join(d,'metadata.json'),JSON.stringify(buildMetadata(readScript(root,id,st.script!),{sources:'',stance:''})));
- writeFileSync(join(d,'job.json'),JSON.stringify({id:jobId,kind:'production-job',status:'completed',createdAt:new Date().toISOString(),inputHash:'in',outputHash:sha(mp4),mode:st.mode,project:id,scriptHash:st.script!.hash,scriptVersion:st.script!.version,events:[]}));
+ writeFileSync(join(d,'job.json'),JSON.stringify({id:jobId,kind:'production-job',status:'completed',createdAt:new Date().toISOString(),inputHash:'in',outputHash:sha(mp4),mode:st.mode,project:id,scriptHash:st.script!.hash,scriptVersion:st.script!.version,events:[],thumbnails:[{file:'thumbnail-a.png',ok:true,issues:[]},{file:'thumbnail-b.png',ok:true,issues:[]},{file:'thumbnail-c.png',ok:true,issues:[]}],thumbnailQuality:{ok:true,canProceed:true,allPassed:true,selectedVariant:'a',reasons:[]}}));
  linkRender(root,id,jobId,st.script!.hash,st.script!.version);return d;
 }
 const approveVideo=(d:string,by=T)=>recordReview(d,'approve','',approvalOf(d).currentHash!,by);
@@ -194,7 +195,27 @@ test('CLI: produce の入口で、未入力なら制作を拒否し不足を表�
  assert.equal(run('reflection',id,'--text',REFL,'--by',T).status,0);
  const sc=run('script',id,'--plan',resolve('fixtures/draft-general-demo.json'),'--by',T);assert.equal(sc.status,0,sc.stderr);const hash=sc.stdout.match(/台本の版: ([a-f0-9]{64})/)![1];
  const r1=run('render',id);assert.equal(r1.status,1);assert.match(r1.stderr,/台本が未承認/);
+ assert.equal(run('script-review',id,'approve','--hash',hash,'--by',T).status,1);
+ assert.equal(run('fact-check',id,'--by',T).status,0);
  assert.equal(run('script-review',id,'approve','--hash',hash,'--by',T).status,0);
  const st=run('status',id);assert.match(st.stdout,/制作待ち/);assert.match(st.stdout,/デモ用の仮文（本人の考察ではない）/);assert.doesNotMatch(st.stdout,/本人執筆/);
  assert.match(run('render',id,'--plan','x.json').stderr,/--plan は指定できない/);
 }));
+
+test('T118: produce script は --plan 省略時に確定構成（fixtures/draft-price-index.json）を既定として使う',tmp(root=>{
+ const cli=resolve('src/cli.ts');const run=(...a:string[])=>spawnSync(process.execPath,[cli,'produce',...a],{cwd:root,encoding:'utf8'});
+ const made=run('new','--candidates',resolve('fixtures/topic-candidates-demo.json'),'--by',T,'--demo');assert.equal(made.status,0);
+ const id=made.stdout.match(/作成: (production-demo-[a-f0-9]{8})/)![1];
+ assert.equal(run('select',id,'--candidate','price-index','--by',T).status,0);
+ assert.equal(run('reflection',id,'--text',REFL,'--by',T).status,0);
+ const sc=run('script',id,'--by',T);assert.equal(sc.status,0,sc.stderr);
+ const hash=sc.stdout.match(/台本の版: ([a-f0-9]{64})/)![1];
+ const p=readScript(join(root,'outputs'),id,projectState(join(root,'outputs'),id).script!);
+ assert.deepEqual([...new Set(p.scenes.map(s=>s.chapter))],['導入','身近な例','仕組み','本人の考察','活かし方']);
+ assert.equal(p.scenes.filter(s=>s.role==='reflection').length,1);
+ assert.ok(p.scenes.some(s=>s.diagram.type==='meter'));
+ assert.equal(run('fact-check',id,'--by',T).status,0);
+ assert.equal(run('script-review',id,'approve','--hash',hash,'--by',T).status,0);
+ assert.equal(projectState(join(root,'outputs'),id).stage,'render');
+}));
+

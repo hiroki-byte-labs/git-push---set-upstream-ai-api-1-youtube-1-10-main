@@ -1,0 +1,7 @@
+Rendered 0 images
+
+Rendered 48 images
+
+生成完了: /private/tmp/T153-verify-fxj8u64o/outputs/source-labels-demo-0a030cec/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+EXIT=0

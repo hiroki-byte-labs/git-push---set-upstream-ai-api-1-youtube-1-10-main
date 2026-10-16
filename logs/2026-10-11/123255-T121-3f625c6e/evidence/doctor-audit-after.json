@@ -1,0 +1,123 @@
+{
+  "checks": [
+    {
+      "id": "node",
+      "status": "ok",
+      "detail": "Node 26.11.1（SQLite 3.53.4）"
+    },
+    {
+      "id": "db",
+      "status": "ok",
+      "detail": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/telemetry.db integrity=ok"
+    },
+    {
+      "id": "approval_key",
+      "status": "ok",
+      "detail": "/Users/hongj/.config/agentctl/approval.key mode=600"
+    },
+    {
+      "id": "policy",
+      "status": "ok",
+      "detail": "routing-policy 2026-10-11.1 sha256=3a223b71ca3f overrides=0"
+    },
+    {
+      "id": "registry",
+      "status": "ok",
+      "detail": "models.json 17モデル（確認日 2026-10-11）"
+    },
+    {
+      "id": "cli_claude",
+      "status": "ok",
+      "detail": "2.1.293 (Claude Code)"
+    },
+    {
+      "id": "cli_codex",
+      "status": "ok",
+      "detail": "codex-cli 0.161.0"
+    },
+    {
+      "id": "cli_agy",
+      "status": "ok",
+      "detail": "installed"
+    },
+    {
+      "id": "cli_gemini",
+      "status": "ok",
+      "detail": "0.46.0"
+    },
+    {
+      "id": "auth_claude",
+      "status": "warn",
+      "detail": "未ログイン（claude auth login が必要。Gatewayからのclaude実行は不可）"
+    },
+    {
+      "id": "auth_codex",
+      "status": "ok",
+      "detail": "subscription"
+    },
+    {
+      "id": "auth_antigravity",
+      "status": "ok",
+      "detail": "subscription"
+    },
+    {
+      "id": "auth_gemini-api",
+      "status": "warn",
+      "detail": "GEMINI_API_KEY未設定（従量課金経路は無効のまま）"
+    },
+    {
+      "id": "hooks_claude",
+      "status": "ok",
+      "detail": ".claude/settings.json: SessionStart,UserPromptSubmit,PreToolUse,PostToolUse,SubagentStart,SubagentStop,Stop"
+    },
+    {
+      "id": "hooks_codex_file",
+      "status": "ok",
+      "detail": ".codex/hooks.json"
+    },
+    {
+      "id": "hooks_codex_project_trust",
+      "status": "ok",
+      "detail": "プロジェクトは信頼済み"
+    },
+    {
+      "id": "hooks_codex_hook_trust",
+      "status": "ok",
+      "detail": "信頼済みHook 7件"
+    },
+    {
+      "id": "hooks_antigravity",
+      "status": "ok",
+      "detail": ".agents/hooks.json agentctl: PreToolUse,PostToolUse,PreInvocation,PostInvocation,Stop（フォルダの信頼は agy -p \"/hooks\" で確認）"
+    },
+    {
+      "id": "hook_baseline",
+      "status": "ok",
+      "detail": "基準（2026-10-11T12:19:19.397Z）と一致"
+    },
+    {
+      "id": "events_7d",
+      "status": "info",
+      "detail": "managed_call=10, deny_ai_invocation=4, deny_protected_access=3, child_session_verified=2, audit=1, deny_hook_tamper=1, deny_protected_file=1, model_unverifiable=1, subagent_model_denied=1"
+    },
+    {
+      "id": "unmetered_managed",
+      "status": "ok",
+      "detail": "計測のない管理対象実行 0件"
+    }
+  ],
+  "audit": {
+    "since": "2026-10-11T12:00:22.289Z",
+    "findings": [],
+    "scanned": {
+      "claude": 1,
+      "codex": 2
+    },
+    "limitations": [
+      "Antigravityの会話記録（~/.gemini/antigravity/conversations/*.pb）は形式が非公開で使用量を含まないため照合できない",
+      "Claudeのトランスクリプトは製品内部の形式で、版により変わる可能性がある",
+      "この照合は同じMac・同じユーザーのローカル記録だけが対象"
+    ]
+  }
+}
+EXIT=0

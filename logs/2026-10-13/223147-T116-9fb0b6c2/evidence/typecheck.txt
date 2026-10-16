@@ -1,0 +1,4 @@
+orchestration/gemini-video.test.ts(83,45): error TS2322: Type '{ GEMINI_API_KEY?: undefined; } | { GEMINI_API_KEY: string; }' is not assignable to type 'Pick<ProcessEnv, "GEMINI_API_KEY"> | undefined'.
+  Type '{ GEMINI_API_KEY?: undefined; }' is not assignable to type 'Pick<ProcessEnv, "GEMINI_API_KEY">'.
+    Property 'GEMINI_API_KEY' is optional in type '{ GEMINI_API_KEY?: undefined; }' but required in type 'Pick<ProcessEnv, "GEMINI_API_KEY">'.
+EXIT=2

@@ -1,0 +1,166 @@
+{
+  "id": "superstar-illustration-demo-da478091",
+  "kind": "production-job",
+  "status": "completed",
+  "createdAt": "2026-10-14T16:01:37.126Z",
+  "pid": 6544,
+  "mode": "demo",
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.remotion",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.sine-cues-1",
+      "inputUnits": 0,
+      "outputUnits": 30,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "visual",
+      "provider": "local.remotion",
+      "model": "none",
+      "mode": "local",
+      "requestId": "local-local.remotion-1",
+      "inputUnits": 0,
+      "outputUnits": 30,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-b55640fa",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-14T16:01:37.125Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-4ad3424f",
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-14T16:01:37.188Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.sine-cues-1"
+    },
+    {
+      "attemptId": "att-4e56456c",
+      "domain": "visual",
+      "provider": "local.remotion",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-14T16:01:37.197Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "local-local.remotion-1"
+    }
+  ],
+  "inputHash": "1141359adb4f31bbd95761d1291577295b5ab9d1a95e50085d300504e712b820",
+  "input": "fixtures/sample-superstar-illustration.json",
+  "durationSeconds": 30,
+  "subtitles": "burn",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "cd128369d7c1f329309a2246a40b44b06f14477cc75920ef7c5327f825b2f464",
+    "rendererKind": "local.remotion",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready",
+    "video-checked"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 0
+  },
+  "thumbnails": [
+    {
+      "file": "thumbnail-a.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-b.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-c.png",
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "readability": {
+    "ok": true,
+    "scale": 1,
+    "minFont720": 24,
+    "minContrast": 16,
+    "issues": []
+  },
+  "layout": {
+    "ok": true,
+    "checked": 8,
+    "issues": []
+  },
+  "outputHash": "761b7e27fc797ba1612bbf935a4b1aff063ca876fc2b87a4e1b6c6ddce6076ad"
+}

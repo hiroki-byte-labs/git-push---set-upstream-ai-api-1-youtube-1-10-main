@@ -1,0 +1,252 @@
+{
+  "id": "t139-short-mock",
+  "title": "ニュースの「物価」と自分の買い物",
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "totalFrames": 1728,
+  "durationSeconds": 72,
+  "scenes": [
+    {
+      "index": 1,
+      "title": "「物価が上がった」って何？",
+      "seconds": 10,
+      "startFrame": 0,
+      "durationFrames": 240,
+      "narration": "ニュースで「物価が上がった」と聞いても、何の値段が上がったのか分かりにくくありませんか？一緒に、物価の測り方と生活での活かし方を見ていきましょう。",
+      "cues": [
+        {
+          "text": "「物価が上がった」と聞いて、何の値段か分かりますか？",
+          "startFrame": 0,
+          "durationFrames": 120
+        },
+        {
+          "text": "物価の測り方と、生活での活かし方を見ていきます。",
+          "startFrame": 120,
+          "durationFrames": 120
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "ニュース",
+          "素朴な疑問",
+          "測り方を知る"
+        ]
+      },
+      "role": "hook",
+      "chapter": "導入"
+    },
+    {
+      "index": 2,
+      "title": "気になる値札、変わらない値札",
+      "seconds": 10,
+      "startFrame": 240,
+      "durationFrames": 240,
+      "narration": "ここからは架空の例です。よく買うパンの値札は上がった気がするのに、別の品はあまり変わらない。あなたなら、どちらを見て物価を判断しますか？",
+      "cues": [
+        {
+          "text": "架空の例：よく買うパンの値札は上がった気がする。",
+          "startFrame": 240,
+          "durationFrames": 120
+        },
+        {
+          "text": "でも、あまり変わらない品もある。どちらが物価？",
+          "startFrame": 360,
+          "durationFrames": 120
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "気になった1品",
+        "right": "家計全体",
+        "leftItems": [
+          "値札が上がった気がする"
+        ],
+        "rightItems": [
+          "上がった品",
+          "変わらない品"
+        ]
+      },
+      "role": "example",
+      "chapter": "身近な例"
+    },
+    {
+      "index": 3,
+      "title": "1品の値段と、家計全体の値段",
+      "seconds": 8,
+      "startFrame": 480,
+      "durationFrames": 192,
+      "narration": "1つの品の値段だけを見ると、全体の動きを見誤ることがあります。家計全体では、何を見ればよいのでしょうか？",
+      "cues": [
+        {
+          "text": "1つの品だけ見ると、全体の動きを見誤ることも。",
+          "startFrame": 480,
+          "durationFrames": 96
+        },
+        {
+          "text": "家計全体では、何を見ればよい？",
+          "startFrame": 576,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "1つの値札で判断する？",
+        "yes": "全体を見誤るおそれ",
+        "no": "多くの品をまとめて見る"
+      },
+      "role": "question",
+      "chapter": "身近な例"
+    },
+    {
+      "index": 4,
+      "title": "消費者物価指数とは",
+      "seconds": 12,
+      "startFrame": 672,
+      "durationFrames": 288,
+      "narration": "消費者物価指数とは、全国の世帯が買うモノやサービスの値段の動きを、まとめて測る指数です。総務省統計局が毎月作成しています。",
+      "cues": [
+        {
+          "text": "世帯が買うモノやサービスの値段の動きを、まとめて測る指数。",
+          "startFrame": 672,
+          "durationFrames": 144
+        },
+        {
+          "text": "総務省統計局が毎月作成しています。",
+          "startFrame": 816,
+          "durationFrames": 144
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "多くの品目",
+          "値段を調べる",
+          "指数にまとめる"
+        ]
+      },
+      "role": "glossary",
+      "chapter": "物価の測り方"
+    },
+    {
+      "index": 5,
+      "title": "買い物の中身を固定して比べる",
+      "seconds": 10,
+      "startFrame": 960,
+      "durationFrames": 240,
+      "narration": "ポイントは、家計の買い物の中身を一定に固定して、その費用が物価でどう変わるかを見ることです。1つの値札ではなく、全体の変化を見ています。",
+      "cues": [
+        {
+          "text": "家計の買い物の中身を固定して、費用の変化を見ます。",
+          "startFrame": 960,
+          "durationFrames": 120
+        },
+        {
+          "text": "1つの値札ではなく、全体の変化を見る指標です。",
+          "startFrame": 1080,
+          "durationFrames": 120
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "1つの値札",
+        "right": "物価の指数",
+        "leftItems": [
+          "その品だけの変化"
+        ],
+        "rightItems": [
+          "多くの品目の変化",
+          "買い物の中身を固定"
+        ]
+      },
+      "role": "recap",
+      "chapter": "物価の測り方"
+    },
+    {
+      "index": 6,
+      "title": "考察：調べて気づいたこと",
+      "seconds": 4,
+      "startFrame": 1200,
+      "durationFrames": 96,
+      "narration": "デモ用の仮の考察です。本人の考察ではありません。",
+      "cues": [
+        {
+          "text": "デモ用の仮の考察です。本人の考察ではありません。",
+          "startFrame": 1200,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "気になったこと",
+          "調べて分かったこと",
+          "自分の考え"
+        ]
+      },
+      "role": "reflection",
+      "chapter": "活かし方"
+    },
+    {
+      "index": 7,
+      "title": "明日からの活かし方",
+      "seconds": 10,
+      "startFrame": 1296,
+      "durationFrames": 240,
+      "narration": "明日からは、ニュースの物価と自分の買い物を分けて考えてみましょう。あなたがよく買う品は何ですか？値段をメモすると、家計への影響が見えてきます。",
+      "cues": [
+        {
+          "text": "ニュースの物価と、自分の買い物を分けて考えてみましょう。",
+          "startFrame": 1296,
+          "durationFrames": 120
+        },
+        {
+          "text": "よく買う品の値段をメモすると、家計への影響が見えてきます。",
+          "startFrame": 1416,
+          "durationFrames": 120
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "ニュースの物価",
+          "よく買う品をメモ",
+          "自分の家計と比べる"
+        ]
+      },
+      "role": "question",
+      "chapter": "活かし方"
+    },
+    {
+      "index": 8,
+      "title": "まとめ",
+      "seconds": 8,
+      "startFrame": 1536,
+      "durationFrames": 192,
+      "narration": "物価は、多くの品の値段の動きをまとめたものでした。これは学習用の解説で、実践の結果を保証するものではありません。",
+      "cues": [
+        {
+          "text": "物価は、多くの品の値段の動きをまとめたもの。",
+          "startFrame": 1536,
+          "durationFrames": 96
+        },
+        {
+          "text": "学習用の解説です。実践の結果を保証するものではありません。",
+          "startFrame": 1632,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "ニュース",
+          "物価の測り方",
+          "自分の家計"
+        ]
+      },
+      "role": "recap",
+      "chapter": "活かし方"
+    }
+  ]
+}

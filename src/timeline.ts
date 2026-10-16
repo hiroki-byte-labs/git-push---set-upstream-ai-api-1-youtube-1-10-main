@@ -2,13 +2,15 @@
 // 変わる時点で区間を切り、区間ごとに1枚の画像（scripts/render.swiftが描く）を割り当てる。
 import type {Plan, Diagram} from './plan.ts';
 import {thumbnailText, diagramSteps} from './plan.ts';
+import {illustrationFrame, illustrationReveals, PERSON_CONTOURS} from './illustration.ts';
+import type {IllustrationFrame} from './illustration.ts';
 export {diagramSteps} from './plan.ts';
 
 export const FPS = 24;
 // fade: 最新の段の不透明度（1=完全表示）。highlight: 最新の段を縁取りで強調中か（T079）。
 // motion（T106）: 動きのある段の進み具合（0〜1、1未満の区間だけ持つ）。1フレームずつの区間になる。
-export type Segment = {file: string; scene: number; step: number; cue: number; startFrame: number; frames: number; fade: number; highlight: boolean; motion?: number};
-export type RenderFrame = {file: string; scene: number; step: number; cue: number | null; fade?: number; highlight?: boolean; motion?: number};
+export type Segment = {file: string; scene: number; step: number; cue: number; startFrame: number; frames: number; fade: number; highlight: boolean; motion?: number; illustration?:IllustrationFrame};
+export type RenderFrame = {file: string; scene: number; step: number; cue: number | null; fade?: number; highlight?: boolean; motion?: number; illustration?:IllustrationFrame};
 // フェードは2フレームずつ3段階（不透明度1/3、2/3→1）。強調は段の出現から1秒。
 export const FADE_STEPS = [1 / 3, 2 / 3];
 export const FADE_FRAMES_EACH = 2;
@@ -21,7 +23,7 @@ export function hasMotion(d: Diagram, stepIndex: number) {
 }
 // サムネイル（T073、T106で再設計）: a=問い型、b=図解型、c=対比型。
 export type ThumbSpec = {file: string; variant: 'a' | 'b' | 'c'; headline: string; sub: string; scene: number; keyword?: string; contrast?: [string, string]};
-export type RenderSpec = {fps: number; subtitles: 'burn' | 'none'; frames: RenderFrame[]; thumbnails?: ThumbSpec[]};
+export type RenderSpec = {fps: number; subtitles: 'burn' | 'none'; frames: RenderFrame[]; thumbnails?: ThumbSpec[]; illustrationGlyph?:number[][][]};
 
 // 段の出現間隔: 最大1秒、場面の前半40%以内に全段が出そろう。
 export const revealInterval = (seconds: number, steps: number) => Math.min(1, (seconds * 0.4) / steps);
@@ -41,6 +43,22 @@ export function buildSegments(plan: Plan): Segment[] {
     for (const c of s.cues) {
       cueStarts.push(Math.round(acc * FPS));
       acc += c.seconds;
+    }
+    if(s.diagram.illustration){
+      // Illustrations use independent clocks for each element. Render each changed
+      // frame and merge only identical holds; the generic 3-step fade cannot do this.
+      let previousKey='';
+      for(let f=0;f<total;f++){
+        const cue=cueStarts.filter(x=>x<=f).length-1;
+        const step=stepStarts.filter(x=>x<=f).length;
+        const illustration=illustrationFrame(s.diagram.illustration,f/FPS,stepStarts.map(x=>x/FPS),s.seconds,plan.style?.transitions!==false);
+        const key=JSON.stringify([cue,step,illustration]);
+        if(key===previousKey){segments[segments.length-1].frames++;continue;}
+        segments.push({file:`s${i+1}-illustration-${f}-c${cue+1}.png`,scene:i,step,cue,startFrame:sceneStart+f,frames:1,fade:1,highlight:false,illustration});
+        previousKey=key;
+      }
+      sceneStart+=total;
+      return;
     }
     // 段の出現後のフェード・強調の境目（T079）。次の段までに収まらない分は付けない。
     const transitions = plan.style?.transitions !== false;
@@ -79,10 +97,10 @@ export function buildRenderSpec(plan: Plan, segments: Segment[], subtitles: Rend
   for (const g of segments) {
     if (seen.has(g.file)) continue;
     seen.add(g.file);
-    frames.push({file: g.file, scene: g.scene, step: g.step, cue: subtitles === 'burn' ? g.cue : null, fade: g.fade, highlight: g.highlight, ...(g.motion !== undefined ? {motion: g.motion} : {})});
+    frames.push({file: g.file, scene: g.scene, step: g.step, cue: subtitles === 'burn' ? g.cue : null, fade: g.fade, highlight: g.highlight, ...(g.motion !== undefined ? {motion: g.motion} : {}), ...(g.illustration ? {illustration:g.illustration}: {})});
   }
-  plan.scenes.forEach((s, i) => frames.push({file: `scene-${i + 1}.png`, scene: i, step: diagramSteps(s.diagram), cue: subtitles === 'burn' ? 0 : null}));
-  return {fps: FPS, subtitles, frames};
+  plan.scenes.forEach((s, i) => frames.push({file: `scene-${i + 1}.png`, scene: i, step: diagramSteps(s.diagram), cue: subtitles === 'burn' ? 0 : null, ...(s.diagram.illustration ? {illustration:illustrationFrame(s.diagram.illustration,s.seconds,illustrationReveals(s.diagram,s.seconds),s.seconds,false)}:{})}));
+  return {fps: FPS, subtitles, frames, ...(plan.scenes.some(s=>s.diagram.illustration) ? {illustrationGlyph:PERSON_CONTOURS}:{})};
 }
 
 // サムネイルの描画仕様。図解に使う場面は指定がなければ最初のhook以外の場面。

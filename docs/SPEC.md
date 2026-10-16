@@ -8,12 +8,18 @@
 M0は仕様・チケット管理・開発手順。M1は36秒・1280×720・24fpsのローカル試作。オリジナルの架空の場面から、字幕・3段階の図解・自作確認音を含むMP4を生成する。自然なナレーション、生成AI、実相場・投資リターンの数値、外部API、公開は含まない。確認音は音声トラック経路の模擬実装であり読み上げではない。長尺制作・自然な日本語音声の品質はM2/M4で検証する。
 
 ## データと構成
-TypeScript CLI → ScriptProvider → AudioProvider → VisualProvider → MP4と検証情報。Publisherは明示的に無効化。制作サービスはAIエージェントのチャットなしで動く。Node 24以上とmacOSのSwift/AppKit、およびFFmpegが必要。実行時npm依存なし。開発時のみTypeScriptとNode型定義を固定導入。n8n/Make、DB、クラウド、常駐ワーカーは使わない。
+TypeScript CLI → ScriptProvider → AudioProvider → VisualProvider → MP4と検証情報。Publisherは明示的に無効化。既定native経路はNode 24以上とmacOSのSwift/AppKit、およびFFmpegが必要で、実行時npm依存なし。任意のRemotion経路はmotion-lab側のRemotion/React等とChromeを使用する。開発時にTypeScriptとNode型定義を固定導入。制作の既定経路ではn8n/Make、クラウド、常駐ワーカーは使わない（エージェント計測には別途SQLiteを使用）。台本下書きはエージェントの作業、承認済みPlanからの描画はCLIの処理と区別する。
 
 企画は fixtures/sample.json、台本の条件は prompts/script.md、ジョブはGit対象外のoutputs。各ジョブは一意のID、版、入力ハッシュ、接続種別、進捗、費用0円、完成ファイルのハッシュを持つ。エラー時はfailed。M1では再実行は新ジョブで、途中再開・自動再試行はしない。
 
 ## 外部サービス境界
-候補はGemini API、ElevenLabs、Runway、YouTube Data API。実接続は未実装。各接続前に公式仕様・モデル・費用・権利を調査し、人の契約設定チケットと実装試験チケットを分ける。キーは環境変数またはGit対象外の設定で管理する。M1は.envを読み込まない。
+台本生成のGemini APIは今回は不採用（T025/T026 doneは判断の終了で、接続成功ではない）。台本下書きはT123とproduce scriptで扱う。音声選定はT027、実音声接続はT028、任意の生成映像はT029/T060、投稿はT031/T032で別管理し、実接続は未完了。T116は台本生成とは別の動画理解モジュールで、mock transport限定、実API互換性・実解析は未検証。各実接続前に公式仕様・モデル・費用・権利を調査し、人の契約設定チケットと実装試験チケットを分ける。キーは環境変数またはGit対象外の設定で管理する。M1は.envを読み込まない。
+
+## 現在の検証境界（2026-10-15、T139追試）
+- T129はmock音声パス・偽MP4による段階連携、lint、承認と安全停止のE2E。実媒体のデコード・字幕表示同期・自然な音声品質・実APIの合格を示さない。
+- T126には48秒/1152フレームのRemotion実MP4の過去生成記録がある（今回は再生成していない）。T156以前のRemotionVisualのmedia-check.jsonはフレーム数を期待値、fullDecodeを固定passedとして記録していたため、過去のJSON単独では実デコード合格の証明にならない。T156の現実装はffprobeのstream/尺/解像度/fps、FFmpeg全映像・音声デコードと実フレーム数、PCM尺/peak/RMSを測定し、コマンド・終了値・期待値・未測定を分離して保存する。失敗は例外となりjobをfailedで止める。合成MP4による対象試験と描画subprocess置換のジョブ試験は成功したが、T150題材の実Remotion再生成はChrome起動失敗で未完了。T139では隔離native経路で72秒/604秒の実MP4を生成し、独立ffprobe・全映像/音声デコード・字幕cue同期・代表フレーム目視・AVPlayer全編再生を確認した。RemotionのChrome Headless Shellは起動せず、Remotion固有の再生は未検証。
+- T127のsynthesizeLongFormAudioは各スライスの音声パスと秒数を集計するだけで、実WAVを結合しない。BGMは減衰区間計算、音量は渡された数値の閾値判定。実WAV結合・BGMミックス・PCM再デコード/LUFS実測はT138の合成トーン専用mock経路で実装済み。実TTS・通常制作への長尺音声統合・人の試聴は未完了。
+- Runwayは任意だがT021/T022の既存依存に残るため親と後続の完了を阻む。T060自身のT029依存は実接続の安全条件として必要。依存変更は方針決定後の別作業とし、今回は変更しない。根拠と具体案は[T142調査記録](../logs/2026-10-13/232152-T142-b79bc42b/evidence/AUDIT.md)。
 
 ## 後続で必須の制御
 承認は完成物の版/ハッシュに結び付け、変更時に失効。公開制限・審査を先行調査。費用は確定額に実行中見込額を加える。投稿成功後の応答喪失は照合してから処置する。公開APIの再試行で重複投稿させない。無人運用前には異常注入と非公開連続運転を行う。
@@ -25,7 +31,7 @@ TypeScript CLI → ScriptProvider → AudioProvider → VisualProvider → MP4�
 - 台本はschema 2（src/plan.ts）。ナレーション、字幕cue、図解4種（flow、compare、number、branch）、出典（https・確認日）を持つ。総尺は25分まで。v1は読み込み時に変換する。
 - 制作前に安全検査（src/lint.ts）を行う。対象は禁止表現、出典のない数値、最終場面の免責。errorがあれば制作しない。
 - 描画は文字を計測して縮小し、収まらなければ失敗する。図解は段階表示する。字幕は焼き込み（T106から既定）、ソフト、両方から選ぶ。
-- 完成動画の検査: フレーム数の一致、ソフト字幕、確認音、描画画像とのPSNR、LUFSの記録。
+- native経路の完成動画検査: フレーム数の一致、ソフト字幕、確認音、描画画像とのPSNR、LUFSの記録。Remotion経路はT156で全映像/音声デコード、実フレーム数、映像/音声/コンテナ尺（許容差0.1秒）、必要stream、解像度/fpsとPCM統計を検査する。期待frame数は厳密一致とし、失敗/未実施はvideo-checkedに進めない。PSNRはnative固有のまま、RemotionのLUFS/true peak・字幕内容/時刻・場面ごとの確認音は未測定と明記する。実Remotion再生成での経路統合検証は環境制約で未完了。レイアウト等の固定レポート値も実文字計測の合格と同一視しない（src/remotion-visual.ts）。
 - 台本・音声・描画は接続抽象と予算上限（既定0 USD）を通す。job.jsonはmock/local/realを区別して記録する。
 - 承認は確認対象一式（動画、採用タイトル・概要欄・タグ・チャプター、字幕、サムネイル全案）の版に結び付き、変更で失効する（T095、src/review.ts、serve）。投稿は引き続き無効。
 - 詳細と不変条件はdocs/HANDOFF.md。
@@ -47,10 +53,10 @@ TypeScript CLI → ScriptProvider → AudioProvider → VisualProvider → MP4�
 ## 見せ方（2026-10-10、T106）
 - 文字は入れ物の枠の中で上下中央（または上寄せ）に置き、画面の区画（見出し行・題名・強調・図解・字幕・フッター）を重ねない。文字配置の検査結果をjob.json.layoutに記録する。
 - 図解に集計の図（meter）を追加。flowは任意でmotion: travel（矢印が伸びて次の段が出る）。段の表示時刻はdiagram.revealで説明に合わせられる。
-- 字幕の既定は焼き込み。サムネイルは問い型・図解型・対比型の3案（thumbnail.keyword/contrastは任意）。
+- 字幕の既定は焼き込み。字幕は本人希望により背景枠なしの白文字と控えめな影で、下部の専用区画に表示する（T144）。サムネイルは問い型・図解型・対比型の3案（thumbnail.keyword/contrastは任意）。
 - 構成案と参考動画の観察はdocs/T106-DESIGN.md。構成の合意とサムネイルの選択は本人の確認待ち。詳細はADR-019。
 
 ## 参考動画の動きの解析・再現の検証環境（2026-10-10、T110）
-- motion-lab/ は本体の制作パイプラインとは独立した検証環境。参考動画（利用を許可された手元の素材だけ。取得機能なし）の動きをFFmpegで解析してJSON（motion-lab/analysis@1）に保存し、Remotionで自作の図形により再現・レンダリングし、フレーム比較（SSIM/PSNR・動きの差）で差異を直す。
-- 本体の実行時npm依存なしの方針は変えない（Remotion等はmotion-lab内だけ。ADR-020）。制作ジョブ・承認・投稿とは接続しない。
+- motion-lab/ の参考動画解析・比較は独立した検証用途。参考動画（利用を許可された手元の素材だけ。取得機能なし）の動きをFFmpegで解析してJSON（motion-lab/analysis@1）に保存し、Remotionで自作の図形により再現・レンダリングし、フレーム比較（SSIM/PSNR・動きの差）で差異を直す。
+- T126でPlanVideo描画とPlan変換を本体VisualProviderへ統合済み。sample/produce renderの--renderer remotionで選択し、job.json.versions.rendererKindにlocal.remotionを記録する。Remotion等の依存配置はmotion-lab側で、native経路と併存。参考動画解析結果の自動制作接続や投稿を意味しない。ADR-020の「本体と独立」はT110時点の判断で、現在の描画統合にはこの追記を適用する。
 - 観測できない項目は確からしさ（upper_bound/unknown等）と理由を付けて記録し、断定しない。詳細はmotion-lab/README.md。

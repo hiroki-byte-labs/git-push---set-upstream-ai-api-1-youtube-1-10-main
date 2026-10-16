@@ -1,0 +1,46 @@
+{
+  "plan": {
+    "cases": 25,
+    "strategies": ["light", "standard"],
+    "executions": 50,
+    "task_varieties": ["arithmetic", "extraction", "classification", "sorting_and_transformation", "formatting"],
+    "acceptance": "answer.txt exists and grep -Fqx matches the expected value",
+    "estimated_subscription_turns": 50,
+    "estimated_tokens": 2070000,
+    "estimated_api_equivalent_usd": 0.88,
+    "actual_billing": "subscription quota; actual billed amount unavailable"
+  },
+  "actual_added": {
+    "all_metered": true,
+    "light": {
+      "model_id": "gpt-6-luna",
+      "executions": 25,
+      "completed": 17,
+      "failed": 8,
+      "total_tokens": 922213,
+      "api_equivalent_usd": 0.034824
+    },
+    "standard": {
+      "model_id": "gpt-6.1-sol",
+      "executions": 25,
+      "completed": 24,
+      "failed": 1,
+      "total_tokens": 995820,
+      "api_equivalent_usd": 0.858604
+    }
+  },
+  "optimizer_group_with_prior_runs": {
+    "light": {"evaluated": 29, "pass_rate": 0.72, "cost_per_pass_usd": 0.002069},
+    "standard": {"evaluated": 29, "pass_rate": 0.97, "cost_per_pass_usd": 0.035368}
+  },
+  "optimizer": {
+    "due": true,
+    "executions_since_previous_proposal": 50,
+    "proposal_id": "prp_0mv4n6i056174d8de9c2c",
+    "decision": "approve",
+    "reason": "light pass rate 0.72 was below min_pass_rate 0.90; standard pass rate was 0.97",
+    "applied_policy_from": "2026-10-11.1",
+    "applied_policy_to": "2026-10-12.1",
+    "override": "extraction/L1 light -> standard"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "mistake": "integration harness started with repository cwd instead of isolated cwd",
+  "ownJobsMovedTo": "/private/tmp/T156-render-eoykiwq4/misplaced-jobs",
+  "ownJobIds": [
+    "surname-illustration-demo-0698e57e",
+    "surname-illustration-demo-720698d2",
+    "surname-illustration-demo-8f546f85",
+    "surname-illustration-demo-182d6d3b",
+    "surname-illustration-demo-7fe9c188"
+  ],
+  "latestRestoredFromMostRecentPreexistingCompletedJob": "bias-check-demo-ee27087b",
+  "originalLatestBytesNotCaptured": true,
+  "existingJobArtifactsNotModified": true,
+  "historicalLatestManifest": [
+    33,
+    1791847261524165571
+  ],
+  "restoredLatestSha256": "149119346e2ebf6acb858c0e3c147196bbef10f5c7157c668338191cc9b799cb",
+  "historicalLatestHashMatched": true,
+  "historicalSizeMtimeManifestFileCount": 2253,
+  "sizeMtimeManifestMatches": true,
+  "historicalHashManifestFiles": 2248,
+  "historicalHashesChanged": [],
+  "restoredLatestMtimeNs": 1791847261524165571
+}

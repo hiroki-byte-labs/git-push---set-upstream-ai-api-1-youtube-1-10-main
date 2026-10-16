@@ -1,0 +1,4 @@
+COMMAND=['swiftc', 'scripts/verify-avplayer-playback.swift', '-o', '/private/tmp/t139-avplayer-verifier']
+EXIT=0
+STDOUT=
+STDERR=

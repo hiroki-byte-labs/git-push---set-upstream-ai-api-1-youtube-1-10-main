@@ -1,0 +1,5 @@
+dyld[69488]: Library not loaded: libavdevice.dylib
+  Referenced from: <AD2E933B-8D72-3417-A0F1-EFB5A765C569> /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe
+  Reason: tried: 'libavdevice.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibavdevice.dylib' (no such file), 'libavdevice.dylib' (no such file), '/private/tmp/T139-render-nti1mann/libavdevice.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/private/tmp/T139-render-nti1mann/libavdevice.dylib' (no such file), '/private/tmp/T139-render-nti1mann/libavdevice.dylib' (no such file)
+
+EXIT=-6

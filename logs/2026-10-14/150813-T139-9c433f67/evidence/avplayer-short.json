@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/private/tmp/t139-avplayer-verifier",
+    "/private/tmp/T139-render-nti1mann/outputs/t139-short-mock-75b5a0e9/sample.mp4",
+    "4",
+    "60"
+  ],
+  "exitCode": 0,
+  "elapsedWallSeconds": 18.553,
+  "stdout": "{\n  \"durationSeconds\" : 72,\n  \"elapsedSeconds\" : 18.19686007499695,\n  \"ended\" : true,\n  \"file\" : \"sample.mp4\",\n  \"firstProgressSeconds\" : 0,\n  \"lastProgressSeconds\" : 71.952849168,\n  \"muted\" : true,\n  \"observedProgressSamples\" : 350,\n  \"playbackRate\" : 4,\n  \"status\" : \"readyToPlay\"\n}\n",
+  "stderr": ""
+}

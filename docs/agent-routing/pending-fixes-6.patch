@@ -1,0 +1,33 @@
+diff -ru a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 09:31:25
++++ b/orchestration/hooks/hook.ts	2026-10-11 19:04:58
+@@ -266,6 +266,9 @@
+  const {records,next}=readJsonlFrom(path,row?.transcript_offset??0);
+  const usage=n.product==='claude'?claudeTranscriptUsage(records,{sessionId:n.session_id!,skipSidechain:kind==='main'}):codexRolloutUsage(records).usage.filter(u=>kind==='agent'||u.source.session_id===n.session_id);
+  for(const u of usage)recordUsage(db,executionId,u,'subscription');
++ // セッション開始時のHookを観測できなかった（Hook導入前に始まった等）場合、実モデルを記録から補う。
++ const seen=usage.map(u=>u.model_id).filter((m):m is string=>!!m),top=seen.sort((a,b)=>seen.filter(x=>x===b).length-seen.filter(x=>x===a).length)[0];
++ if(top){const m=normalizeModel(n.product as Provider,top);db.prepare('UPDATE executions SET model_id=COALESCE(model_id,?) WHERE execution_id=?').run(m,executionId);if(kind==='main')db.prepare('UPDATE sessions SET model_id=COALESCE(model_id,?) WHERE product=? AND session_id=?').run(m,n.product,n.session_id)}
+  db.prepare('INSERT INTO sessions(product,session_id,transcript_path,transcript_offset,started_at,last_seen_at) VALUES(?,?,?,?,?,?) ON CONFLICT(product,session_id) DO UPDATE SET transcript_offset=excluded.transcript_offset,last_seen_at=excluded.last_seen_at')
+   .run(`${n.product}:${kind}`,key,path,next,now(),now());
+  return usage.length;
+diff -ru a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 09:31:25
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 19:04:58
+@@ -36,6 +36,16 @@
+  H('claude','Stop',{session_id:'cl-1',transcript_path:tr,stop_hook_active:false});
+  assert.equal(one('SELECT SUM(total) AS t FROM usage WHERE execution_id=?',e.execution_id).t,1243);
+ });
++test('セッション開始のHookを観測できなかった対話は、トランスクリプトの実モデルで補う', ()=>{
++ const tr=join(dir,'claude-nostart.jsonl');
++ writeJsonl(tr,[{type:'assistant',message:{id:'msg_ns',model:'claude-opus-5-5',usage:{input_tokens:1,cache_read_input_tokens:10,cache_creation_input_tokens:0,output_tokens:2}}}]);
++ H('claude','UserPromptSubmit',{session_id:'cl-ns',prompt:'ログを要約して',transcript_path:tr});
++ const exe=one("SELECT current_execution_id FROM sessions WHERE product='claude' AND session_id='cl-ns'").current_execution_id;
++ assert.equal(one('SELECT model_id FROM executions WHERE execution_id=?',exe).model_id,null);
++ H('claude','Stop',{session_id:'cl-ns',transcript_path:tr,stop_hook_active:false});
++ assert.equal(one('SELECT model_id FROM executions WHERE execution_id=?',exe).model_id,'claude-opus-5-5');
++ assert.equal(one("SELECT model_id FROM sessions WHERE product='claude' AND session_id='cl-ns'").model_id,'claude-opus-5-5');
++});
+ test('TEST-003: Antigravityで開始するとモデル選択が記録され、取得できない使用量はunavailable', ()=>{
+  H('antigravity','PreInvocation',{conversationId:'ag-1',modelName:'Gemini 3.8 Flash (High)',invocationNum:1,initialNumSteps:0});
+  const s=one("SELECT current_execution_id,model_id FROM sessions WHERE product='antigravity' AND session_id='ag-1'");

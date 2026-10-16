@@ -1,0 +1,2 @@
+Antigravity会話記録（e91bbbfa…、fd89b04f…）のHook拒否文（モデル名のみ抜粋）:
+   4 親のモデル gemini-3.8-flash-high で動く。Model Routerの推奨は gemini-3.8-flash-medium（L2/general）

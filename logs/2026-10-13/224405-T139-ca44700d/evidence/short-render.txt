@@ -1,0 +1,12 @@
+Rendered 0 images
+
+Error: Remotionレンダリング失敗 (1): Error: Failed to launch the browser process!
+Troubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch
+    at Socket.onClose (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)
+    at Socket.emit (node:events:526:24)
+    at Pipe.<anonymous> (node:net:362:12)
+
+       26.88 real        22.76 user         1.57 sys
+time: sysctl kern.clockrate: Operation not permitted
+
+EXIT=1

@@ -1,0 +1,259 @@
+{
+  "expectedDuration": 30,
+  "expectedFrames": 720,
+  "videoFrames": 720,
+  "decodedAudioDuration": 30.037333333333333,
+  "fullDecode": "passed",
+  "subtitles": "burn",
+  "subtitleStreams": 0,
+  "audioPeak": 5246,
+  "audioRms": 692.8981991863211,
+  "nonzeroSamples": 66675,
+  "cuePeaks": [
+    5242,
+    5246,
+    5240,
+    5244
+  ],
+  "framesExtracted": 4,
+  "psnr": {
+    "minDb": 41.218834,
+    "threshold": 30,
+    "checked": 45,
+    "segments": 45,
+    "samples": [
+      {
+        "file": "s1-st1-c1-f0-h.png",
+        "time": 0.041666666666666664,
+        "db": 42.017583
+      },
+      {
+        "file": "s1-st1-c1-f1-h.png",
+        "time": 0.125,
+        "db": 42.074007
+      },
+      {
+        "file": "s1-st1-c1-f2-h.png",
+        "time": 0.5833333333333334,
+        "db": 42.076548
+      },
+      {
+        "file": "s1-st1-c1.png",
+        "time": 1.5,
+        "db": 42.076548
+      },
+      {
+        "file": "s1-st2-c1-f0-h.png",
+        "time": 2.0416666666666665,
+        "db": 41.218834
+      },
+      {
+        "file": "s1-st2-c1-f1-h.png",
+        "time": 2.125,
+        "db": 41.22401
+      },
+      {
+        "file": "s1-st2-c1-f2-h.png",
+        "time": 2.5833333333333335,
+        "db": 41.225672
+      },
+      {
+        "file": "s1-st2-c1.png",
+        "time": 3.5,
+        "db": 41.225714
+      },
+      {
+        "file": "s1-st3-c1-f0-h.png",
+        "time": 4.041666666666667,
+        "db": 41.227332
+      },
+      {
+        "file": "s1-st3-c1-f1-h.png",
+        "time": 4.125,
+        "db": 41.227815
+      },
+      {
+        "file": "s1-st3-c1-f2-h.png",
+        "time": 4.583333333333333,
+        "db": 41.227761
+      },
+      {
+        "file": "s1-st3-c1.png",
+        "time": 5.5,
+        "db": 41.227905
+      },
+      {
+        "file": "s2-st1-c1-f0-h.png",
+        "time": 6.041666666666667,
+        "db": 42.275375
+      },
+      {
+        "file": "s2-st1-c1-f1-h.png",
+        "time": 6.125,
+        "db": 42.293265
+      },
+      {
+        "file": "s2-st1-c1-f2-h.png",
+        "time": 6.583333333333333,
+        "db": 42.294483
+      },
+      {
+        "file": "s2-st1-c1.png",
+        "time": 8,
+        "db": 42.294483
+      },
+      {
+        "file": "s2-st2-c1-f0-h.png",
+        "time": 9.041666666666666,
+        "db": 41.978404
+      },
+      {
+        "file": "s2-st2-c1-f1-h.png",
+        "time": 9.125,
+        "db": 41.979323
+      },
+      {
+        "file": "s2-st2-c1-f2-h.png",
+        "time": 9.583333333333334,
+        "db": 41.979321
+      },
+      {
+        "file": "s2-st2-c1.png",
+        "time": 11,
+        "db": 41.979321
+      },
+      {
+        "file": "s3-st1-c1-f0-h.png",
+        "time": 12.041666666666666,
+        "db": 42.480209
+      },
+      {
+        "file": "s3-st1-c1-f1-h.png",
+        "time": 12.125,
+        "db": 42.508322
+      },
+      {
+        "file": "s3-st1-c1-f2-h.png",
+        "time": 12.583333333333334,
+        "db": 42.50843
+      },
+      {
+        "file": "s3-st1-c1.png",
+        "time": 13.5,
+        "db": 42.50843
+      },
+      {
+        "file": "s3-st2-c1-f0-h.png",
+        "time": 14.041666666666666,
+        "db": 41.932558
+      },
+      {
+        "file": "s3-st2-c1-f1-h.png",
+        "time": 14.125,
+        "db": 41.940922
+      },
+      {
+        "file": "s3-st2-c1-f2-h.png",
+        "time": 14.583333333333334,
+        "db": 41.94279
+      },
+      {
+        "file": "s3-st2-c1.png",
+        "time": 15.5,
+        "db": 41.94279
+      },
+      {
+        "file": "s3-st3-c1-f0-h.png",
+        "time": 16.041666666666668,
+        "db": 41.769046
+      },
+      {
+        "file": "s3-st3-c1-f1-h.png",
+        "time": 16.125,
+        "db": 41.769336
+      },
+      {
+        "file": "s3-st3-c1-f2-h.png",
+        "time": 16.583333333333332,
+        "db": 41.768893
+      },
+      {
+        "file": "s3-st3-c1.png",
+        "time": 17.5,
+        "db": 41.768893
+      },
+      {
+        "file": "s4-st1-c1-f0-h.png",
+        "time": 18.041666666666668,
+        "db": 42.320894
+      },
+      {
+        "file": "s4-st1-c1-f1-h.png",
+        "time": 18.125,
+        "db": 42.346392
+      },
+      {
+        "file": "s4-st1-c1-f2-h.png",
+        "time": 18.583333333333332,
+        "db": 42.347764
+      },
+      {
+        "file": "s4-st1-c1.png",
+        "time": 20.5,
+        "db": 42.347743
+      },
+      {
+        "file": "s4-st2-c1-f0-h.png",
+        "time": 22.041666666666668,
+        "db": 41.444265
+      },
+      {
+        "file": "s4-st2-c1-f1-h.png",
+        "time": 22.125,
+        "db": 41.450171
+      },
+      {
+        "file": "s4-st2-c1-f2-h.png",
+        "time": 22.583333333333332,
+        "db": 41.688663
+      },
+      {
+        "file": "s4-st2-c1.png",
+        "time": 23.5,
+        "db": 41.688707
+      },
+      {
+        "file": "s4-st2-c2.png",
+        "time": 25,
+        "db": 41.586301
+      },
+      {
+        "file": "s4-st3-c2-f0-h.png",
+        "time": 26.041666666666668,
+        "db": 41.570758
+      },
+      {
+        "file": "s4-st3-c2-f1-h.png",
+        "time": 26.125,
+        "db": 41.574319
+      },
+      {
+        "file": "s4-st3-c2-f2-h.png",
+        "time": 26.583333333333332,
+        "db": 41.573869
+      },
+      {
+        "file": "s4-st3-c2.png",
+        "time": 28.5,
+        "db": 41.573869
+      }
+    ]
+  },
+  "loudness": {
+    "integratedLufs": -24.3,
+    "truePeakDbfs": -15.9,
+    "target": "未設定（ナレーション接続時に決める）"
+  },
+  "renderer": "AppKit + FFmpeg H264/AAC",
+  "narration": false
+}

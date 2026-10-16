@@ -1,0 +1,92 @@
+✔ 台本の指定原文・場面・出典・架空表示を保持し、全項目を概要欄に接続 (3.515417ms)
+✔ 未指定の旧台本は助言を補完せずテキストと画像ページを出す (0.1945ms)
+✔ 原文にない項目・未出典・不正参照・制御文字・長文・項目超過を拒否 (0.570208ms)
+✔ actionは末尾・実践あり・字幕と音声の案内あり、免責を弱めない (0.401125ms)
+✔ 最大文字数12項目を4ページへ欠落なく分割し、概要欄超過も記録 (0.216334ms)
+✔ テキストはURL・確認日を保存し、チェックリスト変更・欠落・追加で承認失効 (4.937917ms)
+✖ 確認画面と限定GET経路からチェックリストを確認できる (5.541708ms)
+✔ タイムスタンプ (0.402708ms)
+✔ v2: 同梱の尺では8秒の章があるためチャプターを出さず理由を残す (1.343625ms)
+✔ タイトル案・チャプター（00:00開始・4つ）・用語・タグ (0.582042ms)
+✔ チャプター: 3つ未満は出さない、本番尺ではissue (0.2525ms)
+✔ タイトルの検査: 100文字・<>・禁止表現 (0.109459ms)
+✔ 概要欄はバイト数で検査（日本語は約3バイト/字） (0.1555ms)
+✔ タグの長さ: 区切りと空白タグの引用符を数える (0.045709ms)
+✔ 公開後の見直し: 理由必須・検査・履歴 (1.901875ms)
+✔ T071: AI利用・人の監修説明文と合成メディア開示判定（デフォルト） (0.23325ms)
+✔ T071: 台本のaiDisclosureカスタム指定とrealisticSyntheticMedia開示判定 (0.192833ms)
+✔ T118: 採用サムネイルの既定値（thumbnail-a.png）と見直し（reviseThumbnail） (0.707917ms)
+✔ v1は自動でv2へ変換される (1.05525ms)
+✔ v2サンプルは4種の図解を含み検証を通る (0.138708ms)
+✔ cue合計と場面秒数の不一致を拒否 (0.195709ms)
+✔ ナレーションが秒数に対して長すぎると拒否 (0.079667ms)
+✔ 存在しない出典の参照を拒否、正しい出典は受理 (0.177ms)
+✔ 不正な図解を拒否 (0.076167ms)
+✔ 長尺: 20分は受理、25分超は拒否 (0.508958ms)
+✔ 不正なidを拒否（出力先の逸脱防止） (0.054334ms)
+✔ VTTはcueごと・ミリ秒 (0.134875ms)
+✔ sampleの引数 (0.116375ms)
+✔ --budget-usdの引数 (0.074875ms)
+✔ roleとpromiseの検証（T075） (0.084166ms)
+✔ 章（T080）: 一覧、全場面必須、連続必須 (0.238291ms)
+✔ beatとfictionalの検証（T081） (0.084958ms)
+✔ glossaryの検証（T083） (0.07125ms)
+✔ emphasisの検証と既定の字幕（T078、T106でburn） (0.128ms)
+✔ styleの検証（T079） (0.049208ms)
+✔ aiDisclosureの検証（T071） (0.14375ms)
+✔ 承認は版に結び付き、ファイル変更で失効 (2.631375ms)
+✔ 表示していない版・未完了・理由なし差戻しは記録しない (1.809583ms)
+✔ 中断の検出とabandon (6.121417ms)
+✔ cleanは移動のみ: failed/abandonedと直下ファイル、completed・latestは残す (2.32525ms)
+✔ POSTはHost/Originを検査 (0.0795ms)
+✖ 確認画面: 一覧・詳細（エスケープ）・動画Range・承認POST (3.745833ms)
+✖ 確認画面: 許可Hostからの承認POSTは記録される (1.749166ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 40
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 118.105667
+
+✖ failing tests:
+
+test at tests/checklist.test.ts:90:1
+✖ 確認画面と限定GET経路からチェックリストを確認できる (5.541708ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      at listenInCluster (node:net:2224:12)
+      at node:net:2448:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/review.test.ts:14:1
+✖ 確認画面: 一覧・詳細（エスケープ）・動画Range・承認POST (3.745833ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      at listenInCluster (node:net:2224:12)
+      at node:net:2448:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/review.test.ts:24:1
+✖ 確認画面: 許可Hostからの承認POSTは記録される (1.749166ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      at listenInCluster (node:net:2224:12)
+      at node:net:2448:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

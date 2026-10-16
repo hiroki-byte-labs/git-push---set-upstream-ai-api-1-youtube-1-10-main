@@ -1,0 +1,25 @@
+diff -ru -x n a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 23:54:03
++++ b/orchestration/hooks/hook.ts	2026-10-11 23:54:28
+@@ -303,7 +303,7 @@
+   for(const m of c.matchAll(/"conversationId"\s*:\s*"([0-9a-fA-F-]{8,64})"/g))if(!ids.includes(m[1]!))ids.push(m[1]!)}
+  return ids;
+ }
+-function linkAgyInteractiveChildren(db:DB,n:N){
++export function linkAgyInteractiveChildren(db:DB,n:Pick<N,'product'|'session_id'|'transcript_path'>){
+  const path=n.transcript_path&&existsSync(n.transcript_path)?n.transcript_path:agyTranscriptPath(n.session_id!);
+  if(!existsSync(path))return;
+  for(const id of agyCreatedChildren(readJsonlFrom(path,0).records)){
+@@ -343,10 +343,11 @@
+   if(!managedExe(s))finishExecution(db,target,'completed');
+   if(n.product==='antigravity')db.prepare('DELETE FROM usage WHERE execution_id=? AND dedupe_key=? AND EXISTS (SELECT 1 FROM usage WHERE execution_id=? AND dedupe_key<>?)').run(target,`unavailable:${target}`,target,`unavailable:${target}`);
+   if(n.product==='antigravity')refreshMetering(db,target);
+-  if(n.product==='antigravity'&&!managedExe(s))linkAgyInteractiveChildren(db,n);
+   // Antigravityは発言ごとのHookがないため、実行ループの終了（Stop）で区切り、次のPreInvocationで新しいタスクにする。
+   if(n.product==='antigravity'&&!managedExe(s))db.prepare('UPDATE sessions SET current_execution_id=NULL,current_task_id=NULL WHERE product=? AND session_id=?').run(n.product,n.session_id);
+  }
++ // 子の結び付けは親の実行の有無に依らない（親の発言がなくても、Stopのたびに未結び付けの子を処理する）。
++ if(n.product==='antigravity'&&!managedExe(s))linkAgyInteractiveChildren(db,n);
+  const open=db.prepare("SELECT COUNT(*) AS c FROM executions WHERE session_product=? AND session_id=? AND managed=1 AND status='completed' AND metering_status='missing'").get(n.product,n.session_id) as {c:number};
+  if(open.c){logEvent(db,'stop_with_unmetered',{count:open.c},{product:n.product,session_id:n.session_id});if(n.product==='claude')return out('claude',{systemMessage:`[agentctl] 計測のない管理対象実行が ${open.c} 件あります（agentctl status で確認）`})}
+  return pass(n);

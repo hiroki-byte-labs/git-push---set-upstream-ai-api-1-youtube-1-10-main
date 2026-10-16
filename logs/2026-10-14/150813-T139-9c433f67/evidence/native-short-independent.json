@@ -1,0 +1,43 @@
+{
+  "video": "/private/tmp/T139-render-nti1mann/outputs/t139-short-mock-75b5a0e9/sample.mp4",
+  "commands": [
+    {
+      "name": "probe",
+      "argv": [
+        "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+        "-v",
+        "error",
+        "-count_frames",
+        "-show_entries",
+        "format=duration,size:stream=codec_type,codec_name,width,height,avg_frame_rate,nb_frames,nb_read_frames,sample_rate,channels,duration",
+        "-of",
+        "json",
+        "/private/tmp/T139-render-nti1mann/outputs/t139-short-mock-75b5a0e9/sample.mp4"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n    \"programs\": [\n\n    ],\n    \"stream_groups\": [\n\n    ],\n    \"streams\": [\n        {\n            \"codec_name\": \"h264\",\n            \"codec_type\": \"video\",\n            \"width\": 1280,\n            \"height\": 720,\n            \"avg_frame_rate\": \"24/1\",\n            \"duration\": \"72.000000\",\n            \"nb_frames\": \"1728\",\n            \"nb_read_frames\": \"1728\"\n        },\n        {\n            \"codec_name\": \"aac\",\n            \"codec_type\": \"audio\",\n            \"sample_rate\": \"24000\",\n            \"channels\": 1,\n            \"avg_frame_rate\": \"0/0\",\n            \"duration\": \"72.000000\",\n            \"nb_frames\": \"1689\",\n            \"nb_read_frames\": \"1688\"\n        },\n        {\n            \"codec_name\": \"mov_text\",\n            \"codec_type\": \"subtitle\",\n            \"avg_frame_rate\": \"0/0\",\n            \"duration\": \"72.000000\",\n            \"nb_frames\": \"16\"\n        }\n    ],\n    \"format\": {\n        \"duration\": \"72.000000\",\n        \"size\": \"1233186\"\n    }\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "decode",
+      "argv": [
+        "/private/tmp/T139-render-nti1mann/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "/private/tmp/T139-render-nti1mann/outputs/t139-short-mock-75b5a0e9/sample.mp4",
+        "-map",
+        "0:v:0",
+        "-map",
+        "0:a:0",
+        "-f",
+        "null",
+        "-"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

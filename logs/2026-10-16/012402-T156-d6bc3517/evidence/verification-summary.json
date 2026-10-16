@@ -1,0 +1,38 @@
+{
+  "jobId": "surname-illustration-demo-a1684851",
+  "jobStatus": "completed",
+  "events": [
+    "lint-checked",
+    "audio-ready",
+    "video-checked"
+  ],
+  "mediaStatus": "passed",
+  "fullDecode": "passed",
+  "videoFrames": 720,
+  "videoDuration": 30,
+  "audioDuration": 30,
+  "containerDuration": 30,
+  "subtitleStreams": 1,
+  "decodedAudioDuration": 30.037333333333333,
+  "streamTypes": [
+    "video",
+    "audio",
+    "subtitle"
+  ],
+  "independentVideoReadFrames": "720",
+  "readability": {
+    "ok": false,
+    "scale": 1,
+    "minFont720": 16,
+    "minContrast": 1,
+    "issues": [
+      "コントラスト比4.5未満 18件: diagram 1.00, diagram 1.01, diagram 4.40"
+    ]
+  },
+  "layout": {
+    "ok": true,
+    "checked": 78,
+    "issues": []
+  },
+  "outputsPreserved": true
+}

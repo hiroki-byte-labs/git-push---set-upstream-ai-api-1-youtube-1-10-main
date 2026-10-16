@@ -1,0 +1,21 @@
+.agents/skills/task-work-units/SKILL.md
+  front matter: OK
+  name: task-work-units | dir一致: True | description字数: 183
+  ref exists .agents/skills/repository-task-closeout/SKILL.md
+  ref exists docs/AGENT-WORKFLOW.md
+  ref exists docs/CLAUDE-IMPLEMENTATION-BATCH.md
+  ref exists docs/CLAUDE-REPAIR-INSTRUCTIONS.md
+  ref exists docs/HUMAN-BLOCKERS.md
+  ref exists docs/HUMAN-TASKS.md
+  ref exists docs/PRIORITY-TASKS-2026-10-11.md
+  ref exists docs/PRIORITY-WORK-UNITS.md
+  ref exists src/cli.ts
+  ref missing(本文で非実在の例として記載) src/connectors
+.agents/skills/repository-task-closeout/SKILL.md
+  front matter: OK
+  name: repository-task-closeout | dir一致: True | description字数: 139
+  ref exists docs/AGENT-WORKFLOW.md
+  ref exists docs/STATUS.md
+  ref exists src/worklog-cli.ts
+skill検査: OK
+EXIT=0

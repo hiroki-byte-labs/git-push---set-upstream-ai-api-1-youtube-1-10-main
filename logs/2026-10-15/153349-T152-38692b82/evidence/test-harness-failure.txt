@@ -1,0 +1,70 @@
+✔ toRemotionPlanProps: 台本JSONからRemotion Propsへの正常変換 (1.657708ms)
+node:internal/modules/cjs/loader:1517
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module 'esbuild'
+Require stack:
+- /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1517:15)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1071:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1095:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1122:12)
+    at Module._load (node:internal/modules/cjs/loader:1294:5)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.require (node:internal/modules/cjs/loader:1617:12)
+    at require (node:internal/modules/helpers:153:16)
+    at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:10:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts'
+  ]
+}
+
+Node.js v24.19.0
+✖ motion-lab/tests/standard-diagram.test.ts (56.428875ms)
+✔ v1は自動でv2へ変換される (0.98275ms)
+✔ v2サンプルは4種の図解を含み検証を通る (0.128458ms)
+✔ cue合計と場面秒数の不一致を拒否 (0.172958ms)
+✔ ナレーションが秒数に対して長すぎると拒否 (0.071084ms)
+✔ 存在しない出典の参照を拒否、正しい出典は受理 (0.178667ms)
+✔ 不正な図解を拒否 (0.083541ms)
+✔ 長尺: 20分は受理、25分超は拒否 (0.133208ms)
+✔ 不正なidを拒否（出力先の逸脱防止） (0.052542ms)
+✔ 台本で選べるオリジナルイラストを検証する (0.104333ms)
+✔ VTTはcueごと・ミリ秒 (0.16225ms)
+✔ sampleの引数 (0.094875ms)
+✔ --budget-usdの引数 (0.077417ms)
+✔ roleとpromiseの検証（T075） (0.165375ms)
+✔ 章（T080）: 一覧、全場面必須、連続必須 (0.32575ms)
+✔ beatとfictionalの検証（T081） (0.101916ms)
+✔ glossaryの検証（T083） (0.080708ms)
+✔ emphasisの検証と既定の字幕（T078、T106でburn） (0.142208ms)
+✔ styleの検証（T079） (0.078042ms)
+✔ aiDisclosureの検証（T071） (0.177459ms)
+✔ T150: 名字絶滅と寛容パラドックスの図解サンプルが検証を通る (0.260208ms)
+✔ meterの検証: 棒は2〜5本、値は−1〜1、まとめの見出しが必要。motionはflowのtravelだけ (1.508333ms)
+✔ revealの検証: 段数と同じ長さ・0始まり・昇順・場面の秒数未満 (0.499084ms)
+✔ 段の表示は説明の時刻（reveal）に合わせる。動きのある段は1フレームずつ進み、総フレーム数は変わらない (2.097709ms)
+✔ meterとサムネイルの文言も禁止表現の検査対象（改行で分けても検出） (2.017334ms)
+✔ サムネイル案: 問い型・図解型・対比型。対比の文言は明示か図解から補う (0.310708ms)
+✔ 文字配置の検査: 正しい配置は合格 (0.139041ms)
+✔ 文字配置の検査: 旧描画のずれ（番号が枠の外、1行の字幕が枠の上寄り、字幕とフッターの重なり、強調と図解の重なり）を検出 (0.630417ms)
+✔ 区画どうしは重ならない（scripts/render.swiftのZONE_*と同じ値） (0.158125ms)
+✔ 下書き（fixtures/draft-price-index.json）: 考察を差し込めば安全検査に合格し、構成案の章がそろう (0.272459ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 30
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.572666
+
+✖ failing tests:
+
+test at motion-lab/tests/standard-diagram.test.ts:1:1
+✖ motion-lab/tests/standard-diagram.test.ts (56.428875ms)
+  'test failed'
+EXIT=1

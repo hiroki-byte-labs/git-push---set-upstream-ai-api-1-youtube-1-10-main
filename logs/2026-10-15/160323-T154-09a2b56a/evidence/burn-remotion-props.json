@@ -1,0 +1,300 @@
+{
+  "id": "subtitle-timing-demo",
+  "title": "字幕と登場時刻の検証",
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "totalFrames": 480,
+  "durationSeconds": 20,
+  "scenes": [
+    {
+      "index": 1,
+      "title": "経緯",
+      "seconds": 4,
+      "startFrame": 0,
+      "durationFrames": 96,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "startFrame": 0,
+          "durationFrames": 12
+        },
+        {
+          "text": "端数の境界",
+          "startFrame": 12,
+          "durationFrames": 12
+        },
+        {
+          "text": "時刻を合わせる",
+          "startFrame": 24,
+          "durationFrames": 12
+        },
+        {
+          "text": "表示を確認する",
+          "startFrame": 36,
+          "durationFrames": 13
+        },
+        {
+          "text": "切り替える",
+          "startFrame": 49,
+          "durationFrames": 12
+        },
+        {
+          "text": "結果を保証しません。",
+          "startFrame": 61,
+          "durationFrames": 35
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "記録",
+          "確認",
+          "判断"
+        ],
+        "reveal": [
+          0,
+          1.13,
+          2.63
+        ]
+      },
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": true
+    },
+    {
+      "index": 2,
+      "title": "比較",
+      "seconds": 4,
+      "startFrame": 96,
+      "durationFrames": 96,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "startFrame": 96,
+          "durationFrames": 12
+        },
+        {
+          "text": "端数の境界",
+          "startFrame": 108,
+          "durationFrames": 12
+        },
+        {
+          "text": "時刻を合わせる",
+          "startFrame": 120,
+          "durationFrames": 12
+        },
+        {
+          "text": "表示を確認する",
+          "startFrame": 132,
+          "durationFrames": 13
+        },
+        {
+          "text": "切り替える",
+          "startFrame": 145,
+          "durationFrames": 12
+        },
+        {
+          "text": "結果を保証しません。",
+          "startFrame": 157,
+          "durationFrames": 35
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "観測した事実",
+        "right": "自分の解釈",
+        "leftItems": [
+          "気温が下がった",
+          "雨が降った",
+          "風が吹いた"
+        ],
+        "rightItems": [
+          "寒く感じた",
+          "外出を迷った",
+          "服を選んだ"
+        ],
+        "reveal": [
+          0,
+          2.13
+        ]
+      },
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": true
+    },
+    {
+      "index": 3,
+      "title": "分岐",
+      "seconds": 4,
+      "startFrame": 192,
+      "durationFrames": 96,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "startFrame": 192,
+          "durationFrames": 12
+        },
+        {
+          "text": "端数の境界",
+          "startFrame": 204,
+          "durationFrames": 12
+        },
+        {
+          "text": "時刻を合わせる",
+          "startFrame": 216,
+          "durationFrames": 12
+        },
+        {
+          "text": "表示を確認する",
+          "startFrame": 228,
+          "durationFrames": 13
+        },
+        {
+          "text": "切り替える",
+          "startFrame": 241,
+          "durationFrames": 12
+        },
+        {
+          "text": "結果を保証しません。",
+          "startFrame": 253,
+          "durationFrames": 35
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "確認した？",
+        "yes": "進む",
+        "no": "記録する",
+        "reveal": [
+          0,
+          2.13
+        ]
+      },
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": true
+    },
+    {
+      "index": 4,
+      "title": "集計",
+      "seconds": 4,
+      "startFrame": 288,
+      "durationFrames": 96,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "startFrame": 288,
+          "durationFrames": 12
+        },
+        {
+          "text": "端数の境界",
+          "startFrame": 300,
+          "durationFrames": 12
+        },
+        {
+          "text": "時刻を合わせる",
+          "startFrame": 312,
+          "durationFrames": 12
+        },
+        {
+          "text": "表示を確認する",
+          "startFrame": 324,
+          "durationFrames": 13
+        },
+        {
+          "text": "切り替える",
+          "startFrame": 337,
+          "durationFrames": 12
+        },
+        {
+          "text": "結果を保証しません。",
+          "startFrame": 349,
+          "durationFrames": 35
+        }
+      ],
+      "diagram": {
+        "type": "meter",
+        "bars": [
+          {
+            "label": "減少",
+            "value": -0.6
+          },
+          {
+            "label": "増加",
+            "value": 0.8
+          }
+        ],
+        "total": "平均",
+        "reveal": [
+          0,
+          1.13,
+          2.63
+        ]
+      },
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": true
+    },
+    {
+      "index": 5,
+      "title": "数値",
+      "seconds": 4,
+      "startFrame": 384,
+      "durationFrames": 96,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "最短字幕",
+          "startFrame": 384,
+          "durationFrames": 12
+        },
+        {
+          "text": "端数の境界",
+          "startFrame": 396,
+          "durationFrames": 12
+        },
+        {
+          "text": "時刻を合わせる",
+          "startFrame": 408,
+          "durationFrames": 12
+        },
+        {
+          "text": "表示を確認する",
+          "startFrame": 420,
+          "durationFrames": 13
+        },
+        {
+          "text": "切り替える",
+          "startFrame": 433,
+          "durationFrames": 12
+        },
+        {
+          "text": "結果を保証しません。",
+          "startFrame": 445,
+          "durationFrames": 35
+        }
+      ],
+      "diagram": {
+        "type": "number",
+        "value": "1例",
+        "label": "架空の確認用データ",
+        "reveal": [
+          0
+        ]
+      },
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": true
+    }
+  ],
+  "sources": [],
+  "production": {
+    "mode": "demo"
+  },
+  "subtitles": "burn"
+}

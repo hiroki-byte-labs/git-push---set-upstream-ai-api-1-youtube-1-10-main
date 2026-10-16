@@ -1,0 +1,139 @@
+[
+  {
+    "name": "new",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "new",
+      "--demo",
+      "--candidates",
+      "fixtures/topic-candidates-demo.json",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.119301333
+  },
+  {
+    "name": "unselected-render-rejected",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "render",
+      "production-demo-110ed262",
+      "--renderer",
+      "remotion"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 1,
+    "elapsedSec": 0.11984945799999996
+  },
+  {
+    "name": "select",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "select",
+      "production-demo-110ed262",
+      "--candidate",
+      "price-index",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.11928979100000003
+  },
+  {
+    "name": "reflection",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "reflection",
+      "production-demo-110ed262",
+      "--text",
+      "\u30c7\u30e2\u7528\u306e\u4eee\u306e\u8003\u5bdf\u3067\u3059\u3002\u672c\u4eba\u306e\u8003\u5bdf\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.11932087499999999
+  },
+  {
+    "name": "script",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "script",
+      "production-demo-110ed262",
+      "--plan",
+      "/private/tmp/T139-render-nti1mann/fixtures/t139-long.json",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.12172299999999991
+  },
+  {
+    "name": "unapproved-render-rejected",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "render",
+      "production-demo-110ed262",
+      "--renderer",
+      "remotion"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 1,
+    "elapsedSec": 0.12079087500000008
+  },
+  {
+    "name": "demo-script-approval",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "script-review",
+      "production-demo-110ed262",
+      "approve",
+      "--hash",
+      "e08643deee5c2e73d42b3379c204da1aa4168fa364329eaffe2e01897cc2b5df",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.12063220799999996
+  },
+  {
+    "name": "render",
+    "argv": [
+      "/usr/bin/time",
+      "-l",
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "render",
+      "production-demo-110ed262",
+      "--renderer",
+      "remotion",
+      "--resolution",
+      "720",
+      "--subtitles",
+      "both"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 1,
+    "elapsedSec": 7.8095969169999995
+  }
+]

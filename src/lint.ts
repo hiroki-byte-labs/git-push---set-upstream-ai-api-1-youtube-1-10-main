@@ -149,6 +149,7 @@ export function lintPlan(plan: Plan): LintResult {
   plan.scenes.forEach((s, i) => {
     const texts: [string, string][] = [
       ['見出し', s.title], ['ナレーション', s.narration],
+      ...(s.practice ?? []).map((t): [string, string] => ['実践項目', t]),
       ...s.cues.map((c, k): [string, string] => [`字幕${k + 1}`, c.text]),
       ...diagramTexts(s.diagram).map((t): [string, string] => ['図解', t]),
     ];

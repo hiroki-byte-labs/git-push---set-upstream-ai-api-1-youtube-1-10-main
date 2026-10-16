@@ -1,0 +1,2 @@
+標準ライブラリ検査: front matter name/description、ひな型未残存、参照先、両試作の存在を確認。追記の密なフレーム検査は本作業回のdecoded-motion.json/ブラウザー再生で試用。quick_validate.pyはPyYAML不在でexit1のため形式ツール成功とは扱わない。
+EXIT=0

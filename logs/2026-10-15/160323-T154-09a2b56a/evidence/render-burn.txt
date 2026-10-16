@@ -1,0 +1,5 @@
+Rendered 0 images
+
+Error: Remotionレンダリング失敗 (1): Could not find a tsconfig.json file in your project. Did you delete it? Create a tsconfig.json in the root of your project. Copy the default file from https://github.com/remotion-dev/template-helloworld/blob/main/tsconfig.json. The root directory is: /private/tmp/T154-verify-gWatoCHf/motion-lab
+
+EXIT=1

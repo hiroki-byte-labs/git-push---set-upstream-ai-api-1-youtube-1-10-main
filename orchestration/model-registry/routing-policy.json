@@ -1,0 +1,365 @@
+{
+  "schema_version": "1",
+  "version": "2026-10-12.1",
+  "description": "Model Routerのルール（LLMを使わない）。変更は agentctl optimize apply（Codex PMの確認つき）だけで行い、旧版は data/policy-history/ とDBに残す。",
+  "difficulty_tiers": {
+    "L0": "none",
+    "L1": "light",
+    "L2": "standard",
+    "L3": "high",
+    "L4": "high"
+  },
+  "l3_start_tier": {
+    "low": "standard",
+    "normal": "standard",
+    "high": "high",
+    "critical": "high"
+  },
+  "quality_floor": {
+    "low": "light",
+    "normal": "light",
+    "high": "standard",
+    "critical": "high"
+  },
+  "l4_review": {
+    "required": true,
+    "prefer_other_provider": true
+  },
+  "task_types": {
+    "program": {
+      "default_difficulty": "L0",
+      "providers": [
+        "local"
+      ],
+      "capabilities": []
+    },
+    "extraction": {
+      "default_difficulty": "L1",
+      "providers": [
+        "initiator",
+        "codex",
+        "claude",
+        "antigravity"
+      ],
+      "capabilities": []
+    },
+    "classification": {
+      "default_difficulty": "L1",
+      "providers": [
+        "initiator",
+        "codex",
+        "claude",
+        "antigravity"
+      ],
+      "capabilities": []
+    },
+    "summarization": {
+      "default_difficulty": "L1",
+      "providers": [
+        "initiator",
+        "claude",
+        "codex",
+        "antigravity"
+      ],
+      "capabilities": []
+    },
+    "analysis": {
+      "default_difficulty": "L2",
+      "providers": [
+        "initiator",
+        "codex",
+        "claude",
+        "antigravity"
+      ],
+      "capabilities": [
+        "analysis"
+      ]
+    },
+    "implementation": {
+      "default_difficulty": "L2",
+      "providers": [
+        "initiator",
+        "codex",
+        "claude",
+        "antigravity"
+      ],
+      "capabilities": [
+        "code"
+      ]
+    },
+    "design": {
+      "default_difficulty": "L3",
+      "providers": [
+        "codex",
+        "claude"
+      ],
+      "capabilities": [
+        "analysis"
+      ]
+    },
+    "review": {
+      "default_difficulty": "L2",
+      "providers": [
+        "codex",
+        "claude"
+      ],
+      "capabilities": [
+        "analysis"
+      ]
+    },
+    "video_analysis": {
+      "default_difficulty": "L2",
+      "providers": [
+        "antigravity",
+        "gemini-api"
+      ],
+      "capabilities": [
+        "video"
+      ]
+    },
+    "animation": {
+      "default_difficulty": "L2",
+      "providers": [
+        "claude",
+        "codex"
+      ],
+      "capabilities": [
+        "code"
+      ]
+    },
+    "render": {
+      "default_difficulty": "L1",
+      "providers": [
+        "claude",
+        "codex"
+      ],
+      "capabilities": [
+        "code"
+      ]
+    },
+    "orchestration": {
+      "default_difficulty": "L2",
+      "providers": [
+        "codex",
+        "claude"
+      ],
+      "capabilities": [
+        "analysis"
+      ]
+    },
+    "general": {
+      "default_difficulty": "L2",
+      "providers": [
+        "initiator",
+        "codex",
+        "claude",
+        "antigravity"
+      ],
+      "capabilities": []
+    }
+  },
+  "agents": {
+    "project-orchestrator": {
+      "task_type": "orchestration",
+      "difficulty": "L2"
+    },
+    "architecture-reviewer": {
+      "task_type": "review",
+      "difficulty": "L3"
+    },
+    "quality-evaluator": {
+      "task_type": "review",
+      "difficulty": "L2"
+    },
+    "improvement-planner": {
+      "task_type": "analysis",
+      "difficulty": "L2"
+    },
+    "animation-director": {
+      "task_type": "design",
+      "difficulty": "L3"
+    },
+    "remotion-developer": {
+      "task_type": "animation",
+      "difficulty": "L2"
+    },
+    "render-engineer": {
+      "task_type": "render",
+      "difficulty": "L1"
+    },
+    "animation-refiner": {
+      "task_type": "animation",
+      "difficulty": "L2"
+    },
+    "video-analysis-director": {
+      "task_type": "video_analysis",
+      "difficulty": "L2"
+    },
+    "video-content-analyst": {
+      "task_type": "video_analysis",
+      "difficulty": "L2"
+    },
+    "motion-analyst": {
+      "task_type": "video_analysis",
+      "difficulty": "L3"
+    },
+    "Explore": {
+      "task_type": "extraction",
+      "difficulty": "L1"
+    },
+    "claude-code-guide": {
+      "task_type": "extraction",
+      "difficulty": "L1"
+    },
+    "statusline-setup": {
+      "task_type": "implementation",
+      "difficulty": "L1"
+    },
+    "Plan": {
+      "task_type": "design",
+      "difficulty": "L3"
+    },
+    "general-purpose": {
+      "task_type": "general",
+      "difficulty": "L2"
+    },
+    "explorer": {
+      "task_type": "extraction",
+      "difficulty": "L1"
+    },
+    "worker": {
+      "task_type": "implementation",
+      "difficulty": "L2"
+    },
+    "default": {
+      "task_type": "general",
+      "difficulty": "L2"
+    }
+  },
+  "prompt_rules": [
+    {
+      "id": "P-design",
+      "pattern": "設計|アーキテクチャ|architecture|設計判断|方針を決",
+      "task_type": "design",
+      "difficulty": "L3"
+    },
+    {
+      "id": "P-video",
+      "pattern": "動画解析|参考動画|フレーム|video|映像の解析",
+      "task_type": "video_analysis",
+      "difficulty": "L2"
+    },
+    {
+      "id": "P-animation",
+      "pattern": "アニメーション|remotion|animation|モーション",
+      "task_type": "animation",
+      "difficulty": "L2"
+    },
+    {
+      "id": "P-review",
+      "pattern": "レビュー|review|監査|audit",
+      "task_type": "review",
+      "difficulty": "L2"
+    },
+    {
+      "id": "P-impl",
+      "pattern": "実装|implement|修正|fix|バグ|bug|テストを|refactor|リファクタ",
+      "task_type": "implementation",
+      "difficulty": "L2"
+    },
+    {
+      "id": "P-summary",
+      "pattern": "要約|summar|まとめて",
+      "task_type": "summarization",
+      "difficulty": "L1"
+    },
+    {
+      "id": "P-extract",
+      "pattern": "抽出|extract|一覧|列挙|list up|探して|find",
+      "task_type": "extraction",
+      "difficulty": "L1"
+    },
+    {
+      "id": "P-classify",
+      "pattern": "分類|classif|仕分け",
+      "task_type": "classification",
+      "difficulty": "L1"
+    }
+  ],
+  "prompt_bumps": [
+    {
+      "id": "B-critical",
+      "pattern": "本番|重大|セキュリティ|security|移行|migration|データ損失|課金|最高難度|critical",
+      "delta": 1
+    }
+  ],
+  "estimates_total_tokens": {
+    "L1": 30000,
+    "L2": 120000,
+    "L3": 300000,
+    "L4": 600000
+  },
+  "limits": {
+    "max_retries": 2,
+    "max_escalations": 1,
+    "max_depth": 3,
+    "approval_ttl_seconds": 900,
+    "timeout_seconds": {
+      "L0": 600,
+      "L1": 600,
+      "L2": 1800,
+      "L3": 3600,
+      "L4": 3600
+    }
+  },
+  "escalation": {
+    "escalate_on": [
+      "capability",
+      "quality"
+    ],
+    "retry_same_on": [
+      "transient"
+    ],
+    "stop_on": [
+      "auth",
+      "budget",
+      "policy",
+      "input",
+      "tooling",
+      "model_mismatch",
+      "unknown"
+    ]
+  },
+  "auth": {
+    "allow_api_billing": false,
+    "api_billing_requires_human_approval": true
+  },
+  "native_subagents": {
+    "enforce_model": true,
+    "missing_model": "inject",
+    "mismatch": "deny"
+  },
+  "metering": {
+    "required_when_audit": true
+  },
+  "llm_classifier": {
+    "enabled": false,
+    "note": "判断が難しい場合だけ軽量モデルで分類する。既定は無効で、決められないときはL2・difficulty_source=defaultを記録する。"
+  },
+  "optimizer": {
+    "min_samples_per_group": 20,
+    "trigger_every_n_executions": 50,
+    "min_pass_rate": 0.9,
+    "max_pass_rate_drop": 0.1,
+    "regression_min_samples": 10
+  },
+  "overrides": [
+    {
+      "task_type": "extraction",
+      "difficulty": "L1",
+      "tier": "standard",
+      "proposal_id": "prp_0mv4n6i056174d8de9c2c",
+      "reason": "合格1件当たり 0.035368 USD（合格率 0.97、評価29件）。現行 light は 0.002069 USD・合格率 0.72"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+✔ mock multiple jobs: FIFO starts, concurrency bound, states persist, completions are reused (330.353959ms)
+✔ duplicate ids, invalid configuration and real connections are rejected before writes (16.9035ms)
+✔ failure isolation, retryable none errors bounded across reopen, fatal never retried (154.994875ms)
+✔ transient failures succeed within limit and retain isolated attempt outputs (81.645291ms)
+✔ unknown cost at zero dollars blocks all resends but other jobs continue (105.097417ms)
+✔ changed input and completed artifacts block reuse, never overwrite files (85.274458ms)
+✔ malformed JSON, checksum, and semantically invalid state stop before mutation (20.110292ms)
+✔ actual process kill: exclusive dead-owner recovery and completed-stage reuse (146.09425ms)
+✔ actual process kill: preserve completed output, isolate interrupted output, resume next attempt (163.022708ms)
+✔ interrupted attempt uses cumulative cap, no reset on recovery (118.74775ms)
+✔ restore receipt after snapshot loss; corrupt receipt blocks without overwriting (71.991541ms)
+✔ artifact writes refuse collisions, traversal, late writes; failed output preserved (57.263625ms)
+✔ production bridge requires human approval, rechecks version before running, preserves project (33.818917ms)
+✔ orphaned attempt directory collision is isolated before writes (83.164209ms)
+✔ symlinked artifact directory rejected without writing outside queue (32.587ms)
+✔ snapshot persistence failure stops queue; verified receipt restores completion (112.267958ms)
+✔ stage input version tampering and missing output block completed reuse (69.156625ms)
+✔ approved production mock queue completes without changing production workflow (133.629625ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1888.166666
+EXIT=0

@@ -1,0 +1,101 @@
+{
+  "schema": 2,
+  "id": "surname-illustration-demo",
+  "title": "なぜ名字は絶滅する運命にあるのか？",
+  "version": 1,
+  "theme": "general",
+  "note": "T150の描画確認（名字絶滅・分枝過程）に使う短尺デモ。本人の考察・台本承認・自然なナレーションを含まず、本番用ではない。",
+  "promise": "世代交代で名字が減り続ける数学的理由を知る",
+  "intro": {
+    "text": "何万種類もある名字がなぜ数百年後には極めて少数に収斂するのか。ゴルトン・ワトソン過程を手掛かりに、分枝と消失の数理を見ていきます。",
+    "sources": ["galton-1874", "stat-japan-2025"]
+  },
+  "thumbnail": {"headline": "なぜ名字は消える？", "keyword": "絶滅", "scene": 1},
+  "sources": [
+    {"id": "galton-1874", "title": "Watson & Galton (1874), On the Probability of the Extinction of Families", "url": "https://www.jstor.org/stable/2841223", "accessedAt": "2026-10-15"},
+    {"id": "stat-japan-2025", "title": "総務省統計局 (2025), 日本の統計・人口動態調査統計", "url": "https://www.stat.go.jp/data/jinsui/", "accessedAt": "2026-10-15"}
+  ],
+  "scenes": [
+    {
+      "title": "名字が失われていく確率",
+      "narration": "何万種類もある名字が、なぜ世代交代だけで減っていくのでしょう？",
+      "cues": [{"text": "何万種類もある名字が、なぜ世代交代だけで減っていくのでしょう？", "seconds": 6}],
+      "diagram": {
+        "type": "flow",
+        "items": ["祖先", "世代交代", "消失と残存"],
+        "illustration": "branching-tree",
+        "archetype": "causal-relation",
+        "focus": "ancestor-tree",
+        "motionPurpose": "generational-branching",
+        "reveal": [0, 2, 4]
+      },
+      "sources": ["galton-1874"],
+      "seconds": 6,
+      "role": "hook",
+      "chapter": "分枝の数理"
+    },
+    {
+      "title": "家系の分岐とランダムな消失",
+      "narration": "均等な確率でも、子が途絶えた枝は二度と復活できないためです。",
+      "cues": [{"text": "均等な確率でも、子が途絶えた枝は二度と復活できません。", "seconds": 6}],
+      "diagram": {
+        "type": "flow",
+        "items": ["分岐", "途絶", "残存の集中"],
+        "illustration": "branching-tree",
+        "archetype": "data-quantity",
+        "focus": "extinction-loss",
+        "motionPurpose": "branch-loss-reveal",
+        "reveal": [0, 2, 4]
+      },
+      "sources": ["galton-1874"],
+      "seconds": 6,
+      "role": "body",
+      "chapter": "分枝の数理"
+    },
+    {
+      "title": "極少数の姓への収斂",
+      "narration": "長い世代交代の果てに、無数の名字はごく少数の巨大な姓へ集約されます。",
+      "cues": [{"text": "世代交代の果てに、無数の名字はごく少数へ集約されます。", "seconds": 6}],
+      "diagram": {
+        "type": "flow",
+        "items": ["多様な姓", "世代交代", "少数へ集約"],
+        "illustration": "lineage-convergence",
+        "archetype": "resonance",
+        "focus": "lineage-convergence",
+        "motionPurpose": "converge-to-dominant",
+        "reveal": [0, 2, 4]
+      },
+      "sources": ["galton-1874", "stat-japan-2025"],
+      "seconds": 6,
+      "role": "example",
+      "chapter": "集約の帰結"
+    },
+    {
+      "title": "確率が導く名字の未来",
+      "narration": "名字の減少は制度だけでなく確率論の帰結です。なお、本動画は結果を保証するものではありません。",
+      "cues": [
+        {"text": "名字の減少は制度だけでなく確率論の必然的帰結です。", "seconds": 6},
+        {"text": "なお、本動画は結果を保証するものではありません。", "seconds": 6}
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": ["確率論", "世代交代", "集約の必然"],
+        "illustration": "lineage-convergence",
+        "archetype": "resonance",
+        "focus": "final-inevitability",
+        "motionPurpose": "resonant-conclusion",
+        "reveal": [0, 4, 8]
+      },
+      "sources": ["galton-1874"],
+      "seconds": 12,
+      "role": "recap",
+      "chapter": "集約の帰結"
+    }
+  ],
+  "aiDisclosure": {
+    "scopes": ["説明用の図形イラスト作成"],
+    "supervisor": "制作監修者",
+    "verified": ["使用した図形はコードから生成", "確認用デモであること"],
+    "realisticSyntheticMedia": false
+  }
+}

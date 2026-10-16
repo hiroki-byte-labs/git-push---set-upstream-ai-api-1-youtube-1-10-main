@@ -1,0 +1,85 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mv4w4tue4e905c1d5f18",
+    "parent_task_id": "tsk_0mv4w4mvdeb70ff5fe4c9",
+    "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+    "parent_execution_id": "exe_0mv4w4mve9bbef6fb889a",
+    "decision_id": "rdc_0mv4w4tuee1bb871c6b94",
+    "initiator": "antigravity",
+    "agent_name": "default",
+    "provider": "antigravity",
+    "model_id": "gemini-3.8-flash-medium",
+    "reasoning_level": "medium",
+    "task_type": "general",
+    "difficulty": "L2",
+    "routing_reason": "L2/general/品質normal → standard枠の antigravity:gemini-3.8-flash-medium（antigravityの順で最初に条件を満たしたモデル）",
+    "status": "completed",
+    "managed": true,
+    "route": "native_subagent",
+    "auth_mode": "subscription",
+    "start_time": null,
+    "end_time": "2026-10-12T06:48:20.396Z",
+    "duration_ms": null,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "antigravity",
+      "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+      "agent_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1"
+    },
+    "error": null,
+    "tree": {
+      "executions": 2,
+      "total": 30795,
+      "api_usd": 0.024689
+    },
+    "usage": [
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "source_kind": "transcript",
+        "input_total": 9449,
+        "cache_read": 0,
+        "cache_write": null,
+        "output_total": 318,
+        "reasoning": null,
+        "total": 9767,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"unavailable\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.008279
+      },
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "source_kind": "transcript",
+        "input_total": 10262,
+        "cache_read": 0,
+        "cache_write": null,
+        "output_total": 183,
+        "reasoning": null,
+        "total": 10445,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"unavailable\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.008383
+      },
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "source_kind": "transcript",
+        "input_total": 10553,
+        "cache_read": 0,
+        "cache_write": null,
+        "output_total": 30,
+        "reasoning": null,
+        "total": 10583,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"unavailable\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.008027
+      }
+    ]
+  }
+]

@@ -1,0 +1,240 @@
+{
+  "checks": [
+    {
+      "id": "node",
+      "status": "ok",
+      "detail": "Node 26.11.1（SQLite 3.53.4）"
+    },
+    {
+      "id": "db",
+      "status": "ok",
+      "detail": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/telemetry.db integrity=ok"
+    },
+    {
+      "id": "approval_key",
+      "status": "ok",
+      "detail": "/Users/hongj/.config/agentctl/approval.key mode=600"
+    },
+    {
+      "id": "policy",
+      "status": "ok",
+      "detail": "routing-policy 2026-10-11.1 sha256=3a223b71ca3f overrides=0"
+    },
+    {
+      "id": "registry",
+      "status": "ok",
+      "detail": "models.json 17モデル（確認日 2026-10-11）"
+    },
+    {
+      "id": "cli_claude",
+      "status": "ok",
+      "detail": "2.1.293 (Claude Code)"
+    },
+    {
+      "id": "cli_codex",
+      "status": "ok",
+      "detail": "codex-cli 0.161.0"
+    },
+    {
+      "id": "cli_agy",
+      "status": "ok",
+      "detail": "installed"
+    },
+    {
+      "id": "cli_gemini",
+      "status": "ok",
+      "detail": "0.46.0"
+    },
+    {
+      "id": "auth_claude",
+      "status": "warn",
+      "detail": "未ログイン（claude auth login が必要。Gatewayからのclaude実行は不可）"
+    },
+    {
+      "id": "auth_codex",
+      "status": "ok",
+      "detail": "subscription"
+    },
+    {
+      "id": "auth_antigravity",
+      "status": "ok",
+      "detail": "subscription"
+    },
+    {
+      "id": "auth_gemini-api",
+      "status": "warn",
+      "detail": "GEMINI_API_KEY未設定（従量課金経路は無効のまま）"
+    },
+    {
+      "id": "hooks_claude",
+      "status": "ok",
+      "detail": ".claude/settings.json: SessionStart,UserPromptSubmit,PreToolUse,PostToolUse,SubagentStart,SubagentStop,Stop"
+    },
+    {
+      "id": "hooks_codex_file",
+      "status": "ok",
+      "detail": ".codex/hooks.json"
+    },
+    {
+      "id": "hooks_codex_project_trust",
+      "status": "warn",
+      "detail": "未信頼: Codexは .codex/hooks.json を読まない。利用者がCodexでこのフォルダを信頼する（setup.md 手順4）"
+    },
+    {
+      "id": "hooks_codex_hook_trust",
+      "status": "warn",
+      "detail": "Hookごとの信頼がない: 利用者がCodexの /hooks で確認・信頼する（setup.md 手順4）"
+    },
+    {
+      "id": "hooks_antigravity",
+      "status": "ok",
+      "detail": ".agents/hooks.json agentctl: PreToolUse,PostToolUse,PreInvocation,PostInvocation,Stop（フォルダの信頼は agy -p \"/hooks\" で確認）"
+    },
+    {
+      "id": "hook_baseline",
+      "status": "ok",
+      "detail": "基準（2026-10-11T12:00:22.288Z）と一致"
+    },
+    {
+      "id": "events_7d",
+      "status": "info",
+      "detail": "managed_call=2"
+    },
+    {
+      "id": "unmetered_managed",
+      "status": "ok",
+      "detail": "計測のない管理対象実行 0件"
+    }
+  ],
+  "audit": {
+    "since": "2026-10-10T00:00:00Z",
+    "findings": [
+      {
+        "product": "claude",
+        "session_id": "47181d99-4d74-4105-bec2-7b181742560c",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-11T10:17:23.915Z",
+        "local_total_tokens": 11388069,
+        "db_total_tokens": 0,
+        "detail": "Hookが動いていないセッション（--bare / --safe-mode / Hook無効 / 導入前 の可能性）"
+      },
+      {
+        "product": "claude",
+        "session_id": "4cac9ed8-8fbb-4d36-b052-e1535d3f80a4",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-10T23:16:36.646Z",
+        "local_total_tokens": 49446362,
+        "db_total_tokens": 0,
+        "detail": "Hookが動いていないセッション（--bare / --safe-mode / Hook無効 / 導入前 の可能性）"
+      },
+      {
+        "product": "claude",
+        "session_id": "939cc691-13bd-413b-a378-34bc2fb67a9e",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-10T16:46:51.519Z",
+        "local_total_tokens": 80517804,
+        "db_total_tokens": 0,
+        "detail": "Hookが動いていないセッション（--bare / --safe-mode / Hook無効 / 導入前 の可能性）"
+      },
+      {
+        "product": "claude",
+        "session_id": "e6aaa1d8-9010-4f8b-b91a-5be153706769",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-10T16:44:58.643Z",
+        "local_total_tokens": 2650230,
+        "db_total_tokens": 0,
+        "detail": "Hookが動いていないセッション（--bare / --safe-mode / Hook無効 / 導入前 の可能性）"
+      },
+      {
+        "product": "claude",
+        "session_id": "f0dd1919-f48c-48e2-b48a-70a30990c467",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-10T05:24:10.104Z",
+        "local_total_tokens": 64306751,
+        "db_total_tokens": 0,
+        "detail": "Hookが動いていないセッション（--bare / --safe-mode / Hook無効 / 導入前 の可能性）"
+      },
+      {
+        "product": "claude",
+        "session_id": "f7e607af-c09f-478b-804d-008f7e34102a",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-10T06:00:40.866Z",
+        "local_total_tokens": 12517085,
+        "db_total_tokens": 0,
+        "detail": "Hookが動いていないセッション（--bare / --safe-mode / Hook無効 / 導入前 の可能性）"
+      },
+      {
+        "product": "claude",
+        "session_id": "fd2a2fa4-4cfc-4e1c-be1e-9fad6e0af02a",
+        "kind": "usage_gap",
+        "started_at": "2026-10-11T11:17:25.329Z",
+        "local_total_tokens": 30544507,
+        "db_total_tokens": 0,
+        "detail": "記録済みの使用量がトランスクリプトより少ない（未計測のターンがある）"
+      },
+      {
+        "product": "codex",
+        "session_id": "01a12858-fb46-7e91-954d-7c0d943ff5b9",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-11T00:24:42.589Z",
+        "local_total_tokens": 21884,
+        "db_total_tokens": 0,
+        "detail": "未観測のサブエージェント（親スレッドあり）"
+      },
+      {
+        "product": "codex",
+        "session_id": "01a12859-9cf0-7fc3-90e3-5d0579b1b3a1",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-11T00:25:23.989Z",
+        "local_total_tokens": 1685104,
+        "db_total_tokens": 0,
+        "detail": "未観測のサブエージェント（親スレッドあり）"
+      },
+      {
+        "product": "codex",
+        "session_id": "01a12859-9d43-7170-91f0-b8b760c4cb82",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-11T00:25:24.067Z",
+        "local_total_tokens": 141772,
+        "db_total_tokens": 0,
+        "detail": "未観測のサブエージェント（親スレッドあり）"
+      },
+      {
+        "product": "codex",
+        "session_id": "01a1285a-3156-7f50-8ba5-99aafd1d0da0",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-11T00:26:01.979Z",
+        "local_total_tokens": 863631,
+        "db_total_tokens": 0,
+        "detail": "未観測のサブエージェント（親スレッドあり）"
+      },
+      {
+        "product": "codex",
+        "session_id": "01a1285a-31a5-7ad3-af71-ae899ebe5b94",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-11T00:26:02.047Z",
+        "local_total_tokens": 25552,
+        "db_total_tokens": 0,
+        "detail": "未観測のサブエージェント（親スレッドあり）"
+      },
+      {
+        "product": "codex",
+        "session_id": "01a1285a-fa28-7751-9328-4dcb0d325249",
+        "kind": "unobserved_session",
+        "started_at": "2026-10-11T00:26:53.389Z",
+        "local_total_tokens": 732602,
+        "db_total_tokens": 0,
+        "detail": "未観測のサブエージェント（親スレッドあり）"
+      }
+    ],
+    "scanned": {
+      "claude": 8,
+      "codex": 7
+    },
+    "limitations": [
+      "Antigravityの会話記録（~/.gemini/antigravity/conversations/*.pb）は形式が非公開で使用量を含まないため照合できない",
+      "Claudeのトランスクリプトは製品内部の形式で、版により変わる可能性がある",
+      "この照合は同じMac・同じユーザーのローカル記録だけが対象"
+    ]
+  }
+}

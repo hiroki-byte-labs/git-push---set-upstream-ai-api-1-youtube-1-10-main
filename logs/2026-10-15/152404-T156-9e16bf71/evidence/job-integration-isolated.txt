@@ -1,0 +1,17 @@
+Rendered 0 images
+
+生成完了: /private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-4fca8ad5/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+Rendered 0 images
+
+Rendered 0 images
+
+Rendered 0 images
+
+Rendered 0 images
+
+PASS: 5 sample job scenarios; renderer subprocess substituted, actual mux/decode/inspection
+(node:59069) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:59069) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+EXIT=0

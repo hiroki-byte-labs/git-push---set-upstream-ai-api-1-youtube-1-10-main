@@ -1,0 +1,16 @@
+Sun Oct 11 10:35:29 UTC 2026
+## 参照されるが存在しないファイル
+missing: orchestration/README.md
+missing: .agents/skills/multi-product-motion/SKILL.md
+## 参照元
+CLAUDE.md:5:動画解析・再現の担当定義は `.claude/agents/`、工程は [orchestration/README.md](orchestration/README.md)、共通Skillは `.agents/skills/multi-product-motion/SKILL.md` です。Skillの自動検出に依存せず、ファイルを明示的に読んでください。役割名は `animation-director` / `remotion-developer` / `render-engineer` / `animation-refiner`。
+orchestration/check-definitions.py:97:        for ref in ['AGENTS.md', 'orchestration/README.md',
+orchestration/check-definitions.py:98:                    '.agents/skills/multi-product-motion/SKILL.md', 'manifest.json']:
+## Python
+Python 3.9.6
+17:import tomllib
+Traceback (most recent call last):
+  File "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/orchestration/check-definitions.py", line 17, in <module>
+    import tomllib
+ModuleNotFoundError: No module named 'tomllib'
+EXIT=1

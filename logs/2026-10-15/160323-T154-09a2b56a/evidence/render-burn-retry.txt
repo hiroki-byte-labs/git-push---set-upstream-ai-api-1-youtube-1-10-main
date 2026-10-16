@@ -1,0 +1,15 @@
+Rendered 0 images
+
+Error: Remotionレンダリング失敗 (1): /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269
+            reject(new Error([
+                   ^
+
+Error: Failed to launch the browser process!
+Troubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch
+    at Socket.onClose (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)
+    at Socket.emit (node:events:526:24)
+    at Pipe.<anonymous> (node:net:362:12)
+
+Node.js v26.11.1
+
+EXIT=1

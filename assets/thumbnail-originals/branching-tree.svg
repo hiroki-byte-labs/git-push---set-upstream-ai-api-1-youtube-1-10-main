@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <!-- 自作サムネイル素材: 家系分岐ツリー（T162自作図形） -->
+  <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 幹（祖先） -->
+    <line x1="200" y1="280" x2="200" y2="200"/>
+    <circle cx="200" cy="285" r="8" fill="currentColor"/>
+    
+    <!-- 第1世代分岐 -->
+    <path d="M200 200 C200 170 120 170 120 140"/>
+    <path d="M200 200 C200 170 280 170 280 140"/>
+    <circle cx="120" cy="140" r="7" fill="currentColor"/>
+    <circle cx="280" cy="140" r="7" fill="currentColor"/>
+    
+    <!-- 第2世代分岐（左: 途絶と分岐） -->
+    <path d="M120 140 C120 110 70 110 70 80"/>
+    <path d="M120 140 C120 110 160 110 160 80"/>
+    <circle cx="70" cy="80" r="6" fill="currentColor"/>
+    <line x1="62" y1="72" x2="78" y2="88" stroke-width="4"/> <!-- 途絶の印 -->
+    <line x1="78" y1="72" x2="62" y2="88" stroke-width="4"/>
+    <circle cx="160" cy="80" r="6" fill="currentColor"/>
+
+    <!-- 第2世代分岐（右: 残存） -->
+    <path d="M280 140 C280 110 240 110 240 80"/>
+    <path d="M280 140 C280 110 330 110 330 80"/>
+    <circle cx="240" cy="80" r="6" fill="currentColor"/>
+    <circle cx="330" cy="80" r="6" fill="currentColor"/>
+    
+    <!-- 第3世代（集中） -->
+    <path d="M330 80 C330 50 350 50 350 25" stroke-width="8"/>
+    <circle cx="350" cy="20" r="10" fill="currentColor"/>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+48:function fakeRender(root: string, id: string, jobId: string) {
+52:  const mp4 = Buffer.from('fake-mp4-' + jobId);
+112:  const mockAudioConn: any = {
+118:      output: {audioPath: 'mock/path/audio.wav', durationSec: input.expectedDurationSec},
+132:  const audioRes = await synthesizeLongFormAudio(slices, mockAudioConn, budget, 0.001);
+146:  const loud = checkAudioLoudness(-14.0, -1.2);
+164:  const renderDir = fakeRender(root, id, jobId);
+244:    {audioPath: 'mock/path/audio.wav', durationSec: 10}
+267:  const renderDir = fakeRender(root, id, jobId);

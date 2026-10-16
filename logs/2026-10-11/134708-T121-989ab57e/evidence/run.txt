@@ -1,0 +1,21 @@
+{
+  "task_id": "tsk_0mv3vnubf11cb8c1e7cce",
+  "status": "failed",
+  "executions": [
+    {
+      "execution_id": "exe_0mv3vnuea2724db47d88f",
+      "decision_id": "rdc_0mv3vnuebc0de232b1153",
+      "provider": "codex",
+      "model_id": "gpt-6-luna",
+      "tier": "light",
+      "status": "failed",
+      "metering_status": "unavailable",
+      "failure_cause": "unknown",
+      "message": "WARNING: proceeding, even though we could not create PATH aliases: Operation not permitted (os error 1)\nError: failed to initialize in-process app-server client: Operation not permitted (os error 1)\n / 原因 unknown は再試行・切替えで解決しないため停止",
+      "retry_count": 0,
+      "escalation_count": 0
+    }
+  ],
+  "message": "WARNING: proceeding, even though we could not create PATH aliases: Operation not permitted (os error 1)\nError: failed to initialize in-process app-server client: Operation not permitted (os error 1)\n / 原因 unknown は再試行・切替えで解決しないため停止",
+  "review": null
+}

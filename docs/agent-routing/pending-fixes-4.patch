@@ -1,0 +1,125 @@
+diff -ru a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 09:26:04
++++ b/orchestration/hooks/hook.ts	2026-10-11 09:30:11
+@@ -146,7 +146,8 @@
+  const agentType=String((n.product==='claude'?i.subagent_type:n.product==='codex'?i.agent_type:(i.agentName??i.name??i.subagent))??'default');
+  const cap=registry.providers[provider]?.native_subagents;
+  // 起動引数の項目名だけを記録する（値は記録しない）。製品の引数にモデル指定があるかの確認用。
+- logEvent(db,'spawn_args',{tool:n.tool_name,keys:Object.keys(i).sort()},{product:n.product,session_id:n.session_id});
++ const nested=Array.isArray(i.Subagents)&&i.Subagents[0]&&typeof i.Subagents[0]==='object'?Object.keys(i.Subagents[0] as object).sort():null;
++ logEvent(db,'spawn_args',{tool:n.tool_name,keys:Object.keys(i).sort(),...(nested?{subagent_keys:nested,subagents:(i.Subagents as unknown[]).length}:{})},{product:n.product,session_id:n.session_id});
+  const requestedRaw=str(i[cap?.model_param??'model']);
+  const requested=requestedRaw?normalizeModel(provider,requestedRaw):null;
+  const parentExe=managedExe(s)??s?.current_execution_id??null;
+diff -ru a/orchestration/tests/doctor.test.ts b/orchestration/tests/doctor.test.ts
+--- a/orchestration/tests/doctor.test.ts	2026-10-11 08:13:37
++++ b/orchestration/tests/doctor.test.ts	2026-10-11 09:30:11
+@@ -22,14 +22,14 @@
+ });
+ test('版の変化: 能力を確認した版と違えば警告し、前回のdoctorからの変化も報告する', ()=>{
+  const {db}=sandbox();
+- const base={claude:'2.1.293',codex:'0.161.0',antigravity:'1.3.3',codex_app:null};
++ const base={claude:'2.1.293',codex:'0.162.1',antigravity:'1.3.3',codex_app:null};
+  const first=versionChecks(db,base);
+  assert.ok(first.filter(c=>c.id.startsWith('version_')&&c.id!=='version_codex_app').every(c=>c.status==='ok'),JSON.stringify(first));
+- const newer={...base,codex:'0.162.1',codex_app:'0.162.0-alpha.2'};
++ const newer={...base,codex:'0.163.0',codex_app:'0.163.0-alpha.1'};
+  const second=versionChecks(db,newer);
+  assert.equal(second.find(c=>c.id==='version_codex')?.status,'warn');
+  assert.equal(second.find(c=>c.id==='version_codex_app')?.status,'warn','デスクトップアプリの同梱版も比べる');
+- assert.match(second.find(c=>c.id==='version_changed')?.detail??'',/0\.161\.0→0\.162\.1/);
++ assert.match(second.find(c=>c.id==='version_changed')?.detail??'',/0\.162\.1→0\.163\.0/);
+  assert.equal(versionChecks(db,newer).find(c=>c.id==='version_changed'),undefined,'変化がなければ報告しない');
+ });
+ test('Codexのデスクトップアプリの版を、このリポジトリの直近のrolloutから読む', ()=>{
+diff -ru a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 09:26:04
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 09:30:41
+@@ -1,7 +1,7 @@
+ // 3製品のHook入力（各公式仕様の形式）を共通処理へ流す結合テスト。実際の製品がこの入力を送るかは実機試験で別に確認する。
+ import {test} from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readFileSync} from 'node:fs';
++import {readFileSync,writeFileSync} from 'node:fs';
+ import {join} from 'node:path';
+ import {sandbox,writeJsonl} from './helpers.ts';
+ import {handle} from '../hooks/hook.ts';
+@@ -71,16 +71,29 @@
+  assert.equal(H('codex','PreToolUse',{session_id:'cx-ns',tool_name:'collaboration.wait_agent',tool_input:{timeout_ms:1}}),null);
+  assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='agent_tool_seen' AND session_id='cx-ns'").n,1,'ツール名だけを記録');
+ });
+-test('Codex: 指定が実機で未確認のため、子が別のモデルで起動しても止めずに記録する', ()=>{
+- H('codex','SessionStart',{session_id:'cx-nv',model:'gpt-6.1-sol',source:'startup'});
+- H('codex','UserPromptSubmit',{session_id:'cx-nv',model:'gpt-6.1-sol',prompt:'実装して'});
+- H('codex','PreToolUse',{session_id:'cx-nv',tool_name:'collaborationspawn_agent',tool_use_id:'nv-1',tool_input:{task_name:'t',agent_type:'explorer',fork_turns:0,message:'m'}});
+- H('codex','SubagentStart',{session_id:'cx-nv',agent_id:'th-nv',agent_type:'explorer',model:'gpt-6.1-sol'});
+- const c=one("SELECT * FROM executions WHERE agent_id='th-nv'");
+- assert.deepEqual([c.status,c.model_id,c.managed],['running','gpt-6.1-sol',1]);
+- assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='subagent_model_not_applied' AND execution_id=?",c.execution_id).n,1);
+- assert.equal(H('codex','PreToolUse',{session_id:'cx-nv',agent_id:'th-nv',tool_name:'Bash',tool_input:{command:'ls'}}),null,'子のツールは止めない');
++test('Codex: モデル指定は確認済み（enforced）のため、子が別のモデルで起動したら失敗にして子のツールを拒否する', ()=>{
++ H('codex','SessionStart',{session_id:'cx-en',model:'gpt-6.1-sol',source:'startup'});
++ H('codex','UserPromptSubmit',{session_id:'cx-en',model:'gpt-6.1-sol',prompt:'実装して'});
++ H('codex','PreToolUse',{session_id:'cx-en',tool_name:'collaborationspawn_agent',tool_use_id:'en-1',tool_input:{task_name:'t',agent_type:'explorer',fork_turns:0,message:'m'}});
++ H('codex','SubagentStart',{session_id:'cx-en',agent_id:'th-en',agent_type:'explorer',model:'gpt-6.1-sol'});
++ const c=one("SELECT * FROM executions WHERE agent_id='th-en'");
++ assert.deepEqual([c.status,c.error_cause,c.managed],['failed','model_mismatch',1]);
++ assert.ok(denied(H('codex','PreToolUse',{session_id:'cx-en',agent_id:'th-en',tool_name:'Bash',tool_input:{command:'ls'}})));
+ });
++test('能力が未確認（unverified）の製品では、子が別のモデルで起動しても止めずに記録する', ()=>{
++ const reg=join(env.AGENTCTL_REGISTRY_DIR!,'models.json'),orig=readFileSync(reg,'utf8');
++ const j=JSON.parse(orig);j.providers.codex.native_subagents.model_override='unverified';writeFileSync(reg,JSON.stringify(j));
++ try{
++  H('codex','SessionStart',{session_id:'cx-nv',model:'gpt-6.1-sol',source:'startup'});
++  H('codex','UserPromptSubmit',{session_id:'cx-nv',model:'gpt-6.1-sol',prompt:'実装して'});
++  H('codex','PreToolUse',{session_id:'cx-nv',tool_name:'collaborationspawn_agent',tool_use_id:'nv-1',tool_input:{task_name:'t',agent_type:'explorer',fork_turns:0,message:'m'}});
++  H('codex','SubagentStart',{session_id:'cx-nv',agent_id:'th-nv',agent_type:'explorer',model:'gpt-6.1-sol'});
++  const c=one("SELECT * FROM executions WHERE agent_id='th-nv'");
++  assert.deepEqual([c.status,c.model_id,c.managed],['running','gpt-6.1-sol',1]);
++  assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='subagent_model_not_applied' AND execution_id=?",c.execution_id).n,1);
++  assert.equal(H('codex','PreToolUse',{session_id:'cx-nv',agent_id:'th-nv',tool_name:'Bash',tool_input:{command:'ls'}}),null,'子のツールは止めない');
++ }finally{writeFileSync(reg,orig)}
++});
+ test('TEST-005: Claude Codeのサブエージェントは親子関連付けと計測ができ、承認と異なるモデルを検知する', ()=>{
+  H('claude','SessionStart',{session_id:'cl-2',model:'claude-opus-5-5',source:'startup'});
+  H('claude','UserPromptSubmit',{session_id:'cl-2',prompt:'ファイルを探して'});
+@@ -111,6 +124,11 @@
+  assert.equal(no.decision,'deny');assert.match(no.reason,/親のモデル gemini-3\.8-flash-high.*推奨は gemini-3\.8-flash-medium.*agentctl run/);
+  assert.equal(one("SELECT COUNT(*) AS n FROM executions WHERE session_id='ag-2' AND route='native_subagent'").n,0,'拒否した子は記録しない');
+  assert.deepEqual(JSON.parse(one("SELECT detail_json FROM events WHERE kind='spawn_args' AND session_id='ag-2'").detail_json).keys,['agentName','task'],'引数は項目名だけ記録');
++ H('antigravity','PreInvocation',{conversationId:'ag-4',modelName:'gemini-3.8-flash-medium',invocationNum:1});
++ H('antigravity','PreToolUse',{conversationId:'ag-4',modelName:'gemini-3.8-flash-medium',toolCall:{name:'invoke_subagent',args:{Subagents:[{Name:'x',Prompt:'秘密の本文'}],toolAction:'a',toolSummary:'s'}},stepIdx:1});
++ const sa=JSON.parse(one("SELECT detail_json FROM events WHERE kind='spawn_args' AND session_id='ag-4'").detail_json);
++ assert.deepEqual([sa.keys,sa.subagent_keys,sa.subagents],[['Subagents','toolAction','toolSummary'],['Name','Prompt'],1],'実機のinvoke_subagentの形。値は記録しない');
++ assert.ok(!JSON.stringify(sa).includes('秘密の本文'));
+  H('antigravity','PreInvocation',{conversationId:'ag-3',modelName:'Gemini 3.8 Flash (Medium)',invocationNum:1});
+  const ok=H('antigravity','PreToolUse',{conversationId:'ag-3',modelName:'Gemini 3.8 Flash (Medium)',toolCall:{name:'invoke_subagent',args:{agentName:'motion-analyst',task:'x'}},stepIdx:8});
+  assert.equal(ok.decision,'allow');
+diff -ru a/orchestration/model-registry/models.json b/orchestration/model-registry/models.json
+--- a/orchestration/model-registry/models.json	2026-10-11 09:26:04
++++ b/orchestration/model-registry/models.json	2026-10-11 09:30:11
+@@ -5,13 +5,13 @@
+   "providers": {
+     "codex": {
+       "cli": "codex",
+-      "version_seen": "0.161.0",
++      "version_seen": "0.162.1",
+       "default_auth": "subscription",
+       "auth_modes": {
+         "subscription": {"verified": true, "basis": "codex doctor: stored auth mode chatgpt（2026-10-11）"},
+         "api_key": {"verified": false, "env": ["OPENAI_API_KEY", "CODEX_API_KEY"], "basis": "未設定。Gatewayは子プロセスからこれらを除去し、勝手にAPI課金へ切り替えない"}
+       },
+-      "native_subagents": {"supported": true, "model_override": "unverified", "model_param": "model", "child_usage": "measured", "verified_version": "0.161.0", "verified_at": "2026-10-11", "basis": "協調ツールの spawn_agent（Hookには collaborationspawn_agent の名前で届く）に任意の model 引数がある（バイナリの説明文）。注入して子がそのモデルで動くかは実機で未確認。子の使用量は SubagentStop の agent_transcript_path（rollout）から実測（18,583トークン、2026-10-11）"}
++      "native_subagents": {"supported": true, "model_override": "enforced", "model_param": "model", "child_usage": "measured", "verified_version": "0.162.1", "verified_at": "2026-10-11", "basis": "実機（0.162.1、codex exec）: 親gpt-6.1-solのspawn_agent呼出しにモデル指定はなかったが、HookがupdatedInputでmodel=gpt-6-lunaを入れ、子スレッドはgpt-6-lunaで動いた（rolloutのturn_context）。Hookには collaborationspawn_agent の名前で届く。子の使用量はSubagentStopのrolloutから実測（22,882トークン）"}
+     },
+     "claude": {
+       "cli": "claude",
+@@ -31,7 +31,7 @@
+         "subscription": {"verified": true, "basis": "agy models / agy agents がGoogleアカウント認証で成功（2026-10-11）"},
+         "api_key": {"verified": false, "env": ["GEMINI_API_KEY", "GOOGLE_API_KEY"], "basis": "未設定。Gatewayは子プロセスから除去する"}
+       },
+-      "native_subagents": {"supported": true, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": "1.3.3", "verified_at": "2026-10-11", "basis": "invoke_subagent の引数にモデル指定があるかは未確認（定義のmodelは inherit / flash / pro）。実機で子は親のモデル（gemini-3.8-flash-low）で動いた。子単独の使用量はHookにも結果JSONにも出ない"}
++      "native_subagents": {"supported": true, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": "1.3.3", "verified_at": "2026-10-11", "basis": "実機（1.3.3、agy -p）: invoke_subagent の最上位の引数は Subagents・toolAction・toolSummary でモデル指定はない（Subagents内の項目は未確認）。子は親のモデル（gemini-3.8-flash-low / medium）で動いた（2回、子の会話のHookで照合）。子単独の使用量はHookにも結果JSONにも出ない。結果JSONの usage は total=input+output、thinking は output の内数（41,307トークンの実データ）"}
+     },
+     "gemini-api": {
+       "cli": null,

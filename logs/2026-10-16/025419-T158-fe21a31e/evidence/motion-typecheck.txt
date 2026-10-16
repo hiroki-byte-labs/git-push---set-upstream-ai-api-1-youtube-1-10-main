@@ -1,0 +1,4 @@
+
+> motion-lab@0.1.0 typecheck
+> tsc -p tsconfig.json && tsc -p tsconfig.tools.json
+

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentctl.local/schemas/common.schema.json",
+  "title": "agentctl common definitions v1",
+  "description": "3製品（Codex / Claude Code / Antigravity）とGatewayで共有する列挙・ID。取得できない値はnull。",
+  "definitions": {
+    "task_id": {"type": "string", "pattern": "^tsk_[0-9a-z]{10,40}$"},
+    "execution_id": {"type": "string", "pattern": "^exe_[0-9a-z]{10,40}$"},
+    "decision_id": {"type": "string", "pattern": "^rdc_[0-9a-z]{10,40}$"},
+    "usage_id": {"type": "string", "pattern": "^use_[0-9a-z]{10,64}$"},
+    "evaluation_id": {"type": "string", "pattern": "^evl_[0-9a-z]{10,40}$"},
+    "approval_id": {"type": "string", "pattern": "^apr_[0-9a-z]{10,40}$"},
+    "nullable_task_id": {"oneOf": [{"$ref": "#/definitions/task_id"}, {"type": "null"}]},
+    "nullable_execution_id": {"oneOf": [{"$ref": "#/definitions/execution_id"}, {"type": "null"}]},
+    "provider": {"enum": ["claude", "codex", "antigravity", "gemini-api", "local", "mock"]},
+    "initiator": {"enum": ["codex", "claude", "antigravity", "human", "gateway", "unknown"]},
+    "difficulty": {"enum": ["L0", "L1", "L2", "L3", "L4"]},
+    "tier": {"enum": ["none", "light", "standard", "high"]},
+    "reasoning_level": {"enum": ["none", "low", "medium", "high", "xhigh", "max", "ultra", null]},
+    "task_type": {"enum": ["program", "extraction", "classification", "summarization", "analysis", "implementation", "design", "review", "video_analysis", "animation", "render", "orchestration", "general"]},
+    "quality_requirement": {"enum": ["low", "normal", "high", "critical"]},
+    "auth_mode": {"enum": ["subscription", "api_key", "none", "unknown"]},
+    "route": {"enum": ["program", "cli", "api", "native_subagent", "interactive"]},
+    "method": {"enum": ["measured", "estimated", "unavailable"]},
+    "execution_status": {"enum": ["planned", "approved", "running", "completed", "failed", "rejected", "unmetered", "cancelled"]},
+    "metering_status": {"enum": ["measured", "partial", "unavailable", "missing", "not_applicable", "included_in_parent"]},
+    "failure_cause": {"enum": ["capability", "quality", "transient", "auth", "budget", "policy", "input", "tooling", "model_mismatch", "unknown", null]},
+    "nullable_int": {"type": ["integer", "null"], "minimum": 0},
+    "nullable_number": {"type": ["number", "null"], "minimum": 0},
+    "datetime": {"type": "string", "format": "date-time"},
+    "nullable_datetime": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

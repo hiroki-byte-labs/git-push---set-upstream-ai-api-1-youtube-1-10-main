@@ -165,7 +165,9 @@ export function analyzeElement(track: Track, id: string, ctx: Ctx): ElementAnaly
     runs.forEach((r, k) => {
       const cons = [...(k === 0 && r.ia === 1 ? unseen(c, 'before') : []), ...(k === runs.length - 1 && r.ib === s.values.length - 1 ? unseen(c, 'after') : [])];
       const fit = fitSegment(s, r, k ? runs[k - 1].ib : -1, k + 1 < runs.length ? runs[k + 1].ia : s.values.length, 8, BOUNDS[c], cons);
-      fits.push({channel: c, fit, easing: classifyEasing(fit.candidates, sigma, fit.samples), sigma, series: s});
+      if (fit.candidates.length > 0) {
+        fits.push({channel: c, fit, easing: classifyEasing(fit.candidates, sigma, fit.samples), sigma, series: s});
+      }
     });
   }
 

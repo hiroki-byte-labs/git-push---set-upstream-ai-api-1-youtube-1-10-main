@@ -1,0 +1,21 @@
+✔ Remotion media: valid (44.566583ms)
+✔ Remotion media: soft (37.553541ms)
+✔ Remotion media: truncated (30.35575ms)
+✔ Remotion media: duration (21.66125ms)
+✔ Remotion media: audio-duration (21.32925ms)
+✔ Remotion media: no-audio (19.32575ms)
+✔ Remotion media: no-subtitle (21.572583ms)
+✔ Remotion media: inspector-failure (13.893875ms)
+✔ Remotion media: decoder-failure (22.88075ms)
+✔ Remotion media: wrong-size (22.019042ms)
+✔ Remotion media: wrong-fps (21.905958ms)
+✔ Remotion media: frame-count (30.7085ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 358.638375
+EXIT=0

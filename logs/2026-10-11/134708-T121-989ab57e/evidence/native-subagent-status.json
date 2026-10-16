@@ -1,0 +1,71 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mv3vqjz84a998c9ab7bd",
+    "parent_task_id": "tsk_0mv3vpsgpfff790a52cd0",
+    "execution_id": "exe_0mv3vqjz982f3b0bf4986",
+    "parent_execution_id": "exe_0mv3vpsgpdd441c7417d7",
+    "decision_id": null,
+    "initiator": "codex",
+    "agent_name": "explorer",
+    "provider": "codex",
+    "model_id": "gpt-6-luna",
+    "reasoning_level": null,
+    "task_type": "general",
+    "difficulty": null,
+    "routing_reason": null,
+    "status": "completed",
+    "managed": false,
+    "route": "native_subagent",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-11T13:49:28.102Z",
+    "end_time": "2026-10-11T13:49:32.778Z",
+    "duration_ms": 4675,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "codex",
+      "session_id": "01a12b39-0088-7df0-8a61-2db87657fbbb",
+      "agent_id": "01a12b39-bbb2-75f0-ab02-daa72b44b708"
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 48179,
+      "api_usd": null
+    },
+    "usage": [
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-luna",
+        "source_kind": "rollout",
+        "input_total": 23873,
+        "cache_read": 6912,
+        "cache_write": 0,
+        "output_total": 73,
+        "reasoning": 0,
+        "total": 23946,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": null
+      },
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-luna",
+        "source_kind": "rollout",
+        "input_total": 24206,
+        "cache_read": 23296,
+        "cache_write": 0,
+        "output_total": 27,
+        "reasoning": 0,
+        "total": 24233,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": null
+      }
+    ]
+  }
+]

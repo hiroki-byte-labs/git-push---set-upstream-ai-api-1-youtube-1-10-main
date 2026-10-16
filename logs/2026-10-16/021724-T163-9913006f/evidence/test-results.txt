@@ -1,0 +1,11 @@
+✔ サムネイル専用PNG描画（T163）: 動画を生成せず3構図のPNGと実測レポートを出力 (922.398084ms)
+✔ 名字題材でのPNG描画（T163）: 関係図解・ツリー構図のPNG生成 (908.026458ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1905.02125
+EXIT=0

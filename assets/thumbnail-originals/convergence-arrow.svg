@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">
+  <!-- 自作サムネイル素材: 収束・集約矢印（T162自作図形） -->
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 多数から1つへ向かう流線 -->
+    <path d="M30 30 C120 40 180 80 230 100" stroke-width="4" opacity="0.6"/>
+    <path d="M30 70 C120 75 180 90 230 100" stroke-width="5" opacity="0.8"/>
+    <path d="M30 100 L230 100" stroke-width="8"/>
+    <path d="M30 130 C120 125 180 110 230 100" stroke-width="5" opacity="0.8"/>
+    <path d="M30 170 C120 160 180 120 230 100" stroke-width="4" opacity="0.6"/>
+    <!-- 収束先端の矢印ヘッド -->
+    <polygon points="220,75 275,100 220,125" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

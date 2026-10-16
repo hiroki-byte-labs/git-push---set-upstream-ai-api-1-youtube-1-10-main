@@ -1,0 +1,19 @@
+{
+ "note": "模擬APIレスポンス（T134）。YouTube Data API v3の応答形式に合わせた合成データで、実際の取得値ではない。収集は source=synthetic として記録される。",
+ "responses": {
+  "videoCategories?hl=ja&regionCode=JP": {"status": 200, "body": {"items": [
+   {"id": "10", "snippet": {"title": "音楽", "assignable": true}},
+   {"id": "20", "snippet": {"title": "ゲーム", "assignable": true}},
+   {"id": "27", "snippet": {"title": "教育", "assignable": true}}]}},
+  "videos?chart=mostPopular&maxResults=50&regionCode=JP&videoCategoryId=0": {"status": 200, "body": {"nextPageToken": "P2", "items": [
+   {"id": "mockVid0001", "snippet": {"channelId": "mockCh01", "categoryId": "10", "title": "模擬動画1", "publishedAt": "2026-10-01T09:00:00Z"}, "statistics": {"viewCount": "120000", "likeCount": "3000", "commentCount": "200"}},
+   {"id": "mockVid0002", "snippet": {"channelId": "mockCh02", "categoryId": "20", "title": "模擬動画2", "publishedAt": "2026-10-02T09:00:00Z"}, "statistics": {"viewCount": "80000", "commentCount": "90"}}]}},
+  "videos?chart=mostPopular&maxResults=50&pageToken=P2&regionCode=JP&videoCategoryId=0": {"status": 200, "body": {"items": [
+   {"id": "mockVid0003", "snippet": {"channelId": "mockCh01", "categoryId": "27", "title": "模擬動画3", "publishedAt": "2026-10-03T09:00:00Z"}, "statistics": {"viewCount": "5000", "likeCount": "100", "commentCount": "4"}}]}},
+  "videos?id=mockVid0009,mockGone001": {"status": 200, "body": {"items": [
+   {"id": "mockVid0009", "snippet": {"channelId": "mockCh02", "categoryId": "20", "title": "模擬動画9", "publishedAt": "2026-09-01T09:00:00Z"}, "statistics": {"viewCount": "999", "likeCount": "9", "commentCount": "0"}}]}},
+  "channels?id=mockCh01,mockCh02": {"status": 200, "body": {"items": [
+   {"id": "mockCh01", "snippet": {"title": "模擬チャンネル1"}, "statistics": {"viewCount": "5000000", "subscriberCount": "123000", "hiddenSubscriberCount": false, "videoCount": "321"}},
+   {"id": "mockCh02", "snippet": {"title": "模擬チャンネル2"}, "statistics": {"viewCount": "800000", "hiddenSubscriberCount": true, "videoCount": "45"}}]}}
+ }
+}

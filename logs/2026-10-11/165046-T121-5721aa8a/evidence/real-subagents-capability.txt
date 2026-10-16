@@ -1,0 +1,29 @@
+# 実機試験（2026-10-11、利用者の許可、各1回）: Codex 0.162.1 と Antigravity 1.3.3 のサブエージェント
+## 実行（親）と子
+execution_id|parent_execution_id|agent_name|bound|model_id|route|managed|status|metering_status|tokens|usage_model
+exe_0mv41cp6ue34f90cf0854|||0|gpt-6.1-sol|cli|1|completed|measured|59164|gpt-6.1-sol
+exe_0mv41cvas7f1dccfd7aef|exe_0mv41cp6ue34f90cf0854|explorer|1|gpt-6-luna|native_subagent|1|completed|measured|22882|gpt-6-luna
+exe_0mv41f43k48f4a4124ed8|||0|gemini-3.8-flash-medium|cli|1|completed|measured|41307|gemini-3.8-flash-medium
+exe_0mv41fnwge865019c81ee|exe_0mv41f43k48f4a4124ed8|default|0|gemini-3.8-flash-medium|native_subagent|1|completed|unavailable||
+## Hookのイベント
+at|kind|product|sid|execution_id|detail_json
+2026-10-11T16:26:43.423Z|child_session_verified|codex|01a12bc9-abc7|exe_0mv41cp6ue34f90cf0854|{"reason":"承認と実モデルが一致","model":"gpt-6.1-sol"}
+2026-10-11T16:26:47.283Z|spawn_args|codex|01a12bc9-abc7||{"tool":"collaborationspawn_agent","keys":["agent_type","fork_turns","message","task_name"]}
+2026-10-11T16:26:50.681Z|agent_tool_seen|codex|01a12bc9-abc7||{"tool":"collaborationwait_agent"}
+2026-10-11T16:28:36.708Z|child_session_verified|antigravity|c4779f61-0d0b|exe_0mv41f43k48f4a4124ed8|{"reason":"承認と実モデルが一致","model":"gemini-3.8-flash-medium"}
+2026-10-11T16:28:57.664Z|spawn_args|antigravity|c4779f61-0d0b||{"tool":"invoke_subagent","keys":["Subagents","toolAction","toolSummary"]}
+2026-10-11T16:28:57.689Z|subagent_parent_model_allowed|antigravity|c4779f61-0d0b|exe_0mv41fnwge865019c81ee|{"agentType":"default","model":"gemini-3.8-flash-medium"}
+2026-10-11T16:28:57.788Z|usage_unavailable|||exe_0mv41fnwge865019c81ee|{"reason":"antigravityのサブエージェントは子単独の使用量を出さない（models.json native_subagents.child_usage）"}
+2026-10-11T16:28:57.830Z|child_session_verified|antigravity|12374bd3-8e95|exe_0mv41f43k48f4a4124ed8|{"reason":"承認と実モデルが一致","model":"gemini-3.8-flash-medium"}
+## Antigravity親の使用量（正規化後）
+input_total|input_uncached|cache_read|output_total|reasoning|total|methods_json
+38780|26567|12213|2527|2435|41307|{"input_total":"measured","input_uncached":"estimated","cache_read":"measured","cache_write":"unavailable","output_total":"measured","reasoning":"measured","total":"measured"}
+## Codex rollout（名前・引数名・モデルのみ）
+thread 01a12bc9-abc7-7e20-8fdd-32c4f0caf74e parent null cli 0.162.1
+ model gpt-6.1-sol
+ call collaboration spawn_agent task_name,agent_type,message,fork_turns model= (none)
+ call collaboration wait_agent timeout_ms model= (none)
+thread 01a12bc9-ca93-7f02-b105-601297c9affb parent 01a12bc9-abc7-7e20-8fdd-32c4f0caf74e cli 0.162.1
+ model gpt-6-luna
+## Antigravityの認証判定の誤り（試行はモデル呼出し前に拒否）
+トークンファイル ~/.gemini/jetski-standalone-oauth-token が無くなり『認証済みの実行経路なし』→ agy models の成功で判定するよう修正

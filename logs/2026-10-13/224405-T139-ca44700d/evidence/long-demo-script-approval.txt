@@ -1,0 +1,3 @@
+記録: 台本 v1 を承認（test-agent）
+
+EXIT=0

@@ -1,0 +1,11 @@
+✔ nativeとRemotionの共通サムネイル仕様（T164）: 同一Planから同一専用3候補が出力される (909.939ms)
+✔ 動画frame抽出との分離（T164）: RemotionVisualが動画からサムネイルを抜き出さない (10.568375ms)
+✔ 不合格サムネイルの安全停止契約（T164）: 破損・欠測時にcanProceedがfalseとなり進行を拒否 (0.904875ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 982.914458

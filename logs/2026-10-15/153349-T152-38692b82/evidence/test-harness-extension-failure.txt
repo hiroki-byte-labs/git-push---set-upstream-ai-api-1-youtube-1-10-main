@@ -1,0 +1,68 @@
+✔ toRemotionPlanProps: 台本JSONからRemotion Propsへの正常変換 (1.651792ms)
+node:fs:484
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/src/primitives/icons'
+    at readFileSync (node:fs:484:20)
+    at loadTsx (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:14:18)
+    at localRequire (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:17:65)
+    at eval (eval at loadTsx (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:18:3), <anonymous>:20:14)
+    at loadTsx (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:18:68)
+    at localRequire (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:17:65)
+    at eval (eval at loadTsx (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:18:3), <anonymous>:16:18)
+    at loadTsx (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:18:68)
+    at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/standard-diagram.test.ts:21:25
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/src/primitives/icons'
+}
+
+Node.js v24.19.0
+✖ motion-lab/tests/standard-diagram.test.ts (210.812166ms)
+✔ v1は自動でv2へ変換される (1.008667ms)
+✔ v2サンプルは4種の図解を含み検証を通る (0.125167ms)
+✔ cue合計と場面秒数の不一致を拒否 (0.178417ms)
+✔ ナレーションが秒数に対して長すぎると拒否 (0.07275ms)
+✔ 存在しない出典の参照を拒否、正しい出典は受理 (0.676209ms)
+✔ 不正な図解を拒否 (0.211709ms)
+✔ 長尺: 20分は受理、25分超は拒否 (0.243333ms)
+✔ 不正なidを拒否（出力先の逸脱防止） (0.10175ms)
+✔ 台本で選べるオリジナルイラストを検証する (0.251375ms)
+✔ VTTはcueごと・ミリ秒 (0.485125ms)
+✔ sampleの引数 (0.172292ms)
+✔ --budget-usdの引数 (0.096292ms)
+✔ roleとpromiseの検証（T075） (0.112292ms)
+✔ 章（T080）: 一覧、全場面必須、連続必須 (0.304458ms)
+✔ beatとfictionalの検証（T081） (0.087375ms)
+✔ glossaryの検証（T083） (0.081208ms)
+✔ emphasisの検証と既定の字幕（T078、T106でburn） (0.1775ms)
+✔ styleの検証（T079） (0.049666ms)
+✔ aiDisclosureの検証（T071） (0.174084ms)
+✔ T150: 名字絶滅と寛容パラドックスの図解サンプルが検証を通る (0.265792ms)
+✔ meterの検証: 棒は2〜5本、値は−1〜1、まとめの見出しが必要。motionはflowのtravelだけ (1.383208ms)
+✔ revealの検証: 段数と同じ長さ・0始まり・昇順・場面の秒数未満 (0.411458ms)
+✔ 段の表示は説明の時刻（reveal）に合わせる。動きのある段は1フレームずつ進み、総フレーム数は変わらない (1.574875ms)
+✔ meterとサムネイルの文言も禁止表現の検査対象（改行で分けても検出） (1.953917ms)
+✔ サムネイル案: 問い型・図解型・対比型。対比の文言は明示か図解から補う (0.329875ms)
+✔ 文字配置の検査: 正しい配置は合格 (0.131875ms)
+✔ 文字配置の検査: 旧描画のずれ（番号が枠の外、1行の字幕が枠の上寄り、字幕とフッターの重なり、強調と図解の重なり）を検出 (0.643542ms)
+✔ 区画どうしは重ならない（scripts/render.swiftのZONE_*と同じ値） (0.162667ms)
+✔ 下書き（fixtures/draft-price-index.json）: 考察を差し込めば安全検査に合格し、構成案の章がそろう (0.284958ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 30
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 215.792083
+
+✖ failing tests:
+
+test at motion-lab/tests/standard-diagram.test.ts:1:1
+✖ motion-lab/tests/standard-diagram.test.ts (210.812166ms)
+  'test failed'
+EXIT=1

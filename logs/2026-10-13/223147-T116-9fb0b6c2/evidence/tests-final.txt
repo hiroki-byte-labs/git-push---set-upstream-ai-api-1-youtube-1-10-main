@@ -1,0 +1,46 @@
+✔ all three complete artifacts validate with pinned Ajv and semantic checks (1.9615ms)
+✔ unknown observations use null; unavailable public URL remains unavailable (0.23575ms)
+✔ schema rejects missing fields, extra fields, invalid confidence, invalid hashes and owner (0.186584ms)
+✔ entity IDs, object references and evidence references cannot dangle or duplicate (0.161084ms)
+✔ timeline bounds and unknown numerical claims are rejected (0.128375ms)
+✔ page/specification inspection is not a measured frame comparison (0.514583ms)
+✔ metric pass is derived from nonnegative error and positive threshold (0.153583ms)
+✔ one metric per axis prevents contradictory or selectively repeated comparisons (0.068833ms)
+✔ subjective scores require a named reviewer, reason and actual frame references (0.108917ms)
+✔ unsafe evidence paths cannot be offered for handoff (0.559917ms)
+✔ unavailable comparison requires honest empty measurements and explanation (0.093625ms)
+✔ YouTube request sends key in header only and embeds the actual analysis schema (1.650042ms)
+✔ already uploaded video URI builds fileData without uploading or reading files (0.517583ms)
+✔ missing/empty keys stop before calling the mock (0.1485ms)
+✔ transport exceptions are sanitized and never retried (0.101625ms)
+✔ HTTP auth, rate limit and server failures stop without parsing raw bodies (0.263917ms)
+✔ invalid JSON, missing fields, extra fields and bad semantics become unavailable (0.837ms)
+✔ blocked, truncated, thought and empty candidates become unavailable (0.316709ms)
+✔ response body read failure and credential echo never escape (0.198166ms)
+✔ deadline bounds an unresponsive transport and response reader, aborting both (12.429833ms)
+✔ non-mock transports and invalid deadlines are rejected without dispatch (0.246917ms)
+✔ invalid caller identity and uploaded source fail locally before dispatch (0.166541ms)
+✔ parser preserves contract data and rejects invented evidence paths (0.235459ms)
+✔ complete mock response preserves all schema fields; unavailable mock invents no observations (0.176958ms)
+✔ file handoff preserves all revisions, passes fidelity, waits for real quality then completes (28.333916ms)
+✔ URL-only reference is recorded honestly and stops without rendering (2.670167ms)
+✔ wrong role, stale reference, duplicate ID, missing code and out of order are rejected (5.929ms)
+✔ stale evaluation/version/tasks and missing evidence bindings cannot advance (12.86275ms)
+✔ no improvement or regression stops the loop without retry (18.100958ms)
+✔ two improvements maximum even if each iteration improves (29.808541ms)
+✔ unknown metrics never pass fidelity and cannot cause a retry (6.348583ms)
+✔ tampered code, reference, evidence and manifest fail hash/history checks (4.862125ms)
+✔ absolute, parent traversal and symlink evidence rejected; external artifact rejected (3.2205ms)
+✔ single-writer lock prevents race and is never removed by a second writer (2.780292ms)
+✔ threshold changes cannot fabricate progress and review cannot alter metrics (18.287333ms)
+✔ init refuses overwrites, rights omissions and inconsistent source type (1.389459ms)
+✔ CLI validates artifacts and rejects unexpected arguments without mutation (143.71175ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 366.650583
+EXIT=0

@@ -1,0 +1,4 @@
+Error: 制作を開始できない（production-demo-ebf84adc）。不足:
+- 台本が未承認: 台本の確認待ち（produce script-review）
+
+EXIT=1

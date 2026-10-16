@@ -1,0 +1,51 @@
+{
+  "applied": true,
+  "patch": "docs/agent-routing/pending-fixes-12.patch",
+  "sha256": "dcb55ff532af4036ec7ac607edd737c4ae621fb03073caa1675144f480b24d59",
+  "files": [
+    "orchestration/hooks/hook.ts"
+  ],
+  "steps": [
+    {
+      "step": "check",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "copy-apply",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "copy-test:node --test（12ファイル）",
+      "ok": true,
+      "detail": "ℹ skipped 0 / ℹ todo 0 / ℹ duration_ms 3823.488083"
+    },
+    {
+      "step": "copy-test:node_modules/typescript/bin/tsc --noEmit -p orchestration/ag",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "apply",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "test:node --test（12ファイル）",
+      "ok": true,
+      "detail": "ℹ skipped 0 / ℹ todo 0 / ℹ duration_ms 3516.557708"
+    },
+    {
+      "step": "test:node_modules/typescript/bin/tsc --noEmit -p orchestration/ag",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "baseline",
+      "ok": true,
+      "detail": "Hook基準ハッシュを更新 2026-10-12T06:55:01.458Z"
+    }
+  ],
+  "codex_retrust_required": false
+}

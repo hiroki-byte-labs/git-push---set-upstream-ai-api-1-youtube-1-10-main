@@ -1,0 +1,35 @@
+sysctlbyname for kern.hv_vmm_present failed with status -1kIOSurfaceMethodSetCoreVideoBridgedKeys failed: 10000003
+文字が枠に収まりません（1件。checklist-report.json参照）
+- 題名: 題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+題
+
+
+EXIT=1

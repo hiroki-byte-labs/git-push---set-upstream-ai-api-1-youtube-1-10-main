@@ -1,0 +1,6 @@
+{
+
+}
+/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-145e66b1/sample.mp4: No such file or directory
+
+EXIT=1

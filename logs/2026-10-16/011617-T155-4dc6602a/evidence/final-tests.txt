@@ -1,0 +1,31 @@
+✔ source catalogと各場面はmetadata/sources.txtと同じID・初出番号で対応する (0.841458ms)
+✔ 出典だけ・複数/長い題名・出典なしを混同せず番号を描く (3.335708ms)
+✔ fictionalとreflectionとmodeは独立、欠落contextも本人と呼ばない (0.772042ms)
+✔ ジョブcontextはPlanのproductionを上書きでき、sampleを本人と誤認させない (0.097375ms)
+✔ 本番SceneTemplateは720p/1080pとも札・出典・字幕・図解を描画し座標を縮尺する (6.808333ms)
+✔ compare: 左右の所属・ラベル・全項目を保持する (4.7465ms)
+✔ number: value/label/noteを描画し、任意noteの省略も扱う (0.497292ms)
+✔ meter: 負は基準左・0は幅0・正は右、totalは算術平均で描く (1.415208ms)
+✔ meter: 登場前は全棒幅0、進行中も負方向を保つ (0.817792ms)
+✔ supported diagramは人型fallbackに置換しない (0.354459ms)
+✔ 24fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (0.600375ms)
+✔ 24fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (42.709208ms)
+✔ 24fps: all ordinary diagrams honor delayed reveals and transitions=false (5.185834ms)
+✔ 30fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (0.088042ms)
+✔ 30fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (54.372ms)
+✔ 30fps: all ordinary diagrams honor delayed reveals and transitions=false (3.440083ms)
+✔ stress Plan contains all diagram kinds, maximum fields, later 55-character cues (1.933042ms)
+✔ measured Remotion overflow, same-zone collision and third subtitle line fail layout (0.20375ms)
+✔ contrast is calculated from actual color pairs (0.071416ms)
+✔ coverage rejects a missing later cue, title and source sample in either resolution (1.547416ms)
+✔ measured box outside the output screen cannot pass by moving its zone with it (0.058541ms)
+✔ report converts DOM pixel rectangles and measures real background PNG colors at 720p/1080p (synthetic DOM input) (473.366625ms)
+✔ intentional overflow Plan is schema-valid and exceeds the dedicated source row (0.401834ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 551.645958

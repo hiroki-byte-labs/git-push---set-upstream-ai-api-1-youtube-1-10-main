@@ -1,0 +1,7 @@
+WARN  [promise-missing] 台本: promise（この動画で得られること）が必要
+WARN  [hook-missing] 冒頭30秒: role=hookの場面を冒頭30秒以内に置く
+WARN  [chapter-missing] 台本: 章（chapter）で約6分以内に分割する
+WARN  [conversational-missing] ナレーション: 視聴者への語りかけ（あなた、私たち、〜しましょう等）がない
+WARN  [unused-source] 出典unused: どの場面からも参照されていない 「未使用の出典」
+安全検査: error 0 / warning 5
+EXIT=0

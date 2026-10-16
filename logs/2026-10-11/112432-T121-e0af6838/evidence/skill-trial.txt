@@ -1,0 +1,24 @@
+## token-monitor Skillの試用: 実機のサブエージェント実行の計測確認
+EXIT=0
+## 未計測の検出（Claude未ログインで拒否された実行は対象外、L0はnot_applicable）
+claude/claude-haiku-5-5 1 65998 0.007649 0
+local/? 1 0 null 0
+?/? 1 0 null 0
+## Skillの形式（name/descriptionと参照先の存在）
+.agents/skills/model-router/SKILL.md name=model-router desc_bytes=     544
+.agents/skills/token-monitor/SKILL.md name=token-monitor desc_bytes=     476
+.agents/skills/routing-optimizer/SKILL.md name=routing-optimizer desc_bytes=     441
+.claude/skills/model-router/SKILL.md name=model-router desc_bytes=     544
+.claude/skills/token-monitor/SKILL.md name=token-monitor desc_bytes=     476
+.claude/skills/routing-optimizer/SKILL.md name=routing-optimizer desc_bytes=     441
+exists orchestration/router/router.ts
+exists orchestration/model-registry/models.json
+exists orchestration/model-registry/routing-policy.json
+exists orchestration/telemetry/normalize.ts
+exists orchestration/telemetry/monitor.ts
+exists orchestration/telemetry/db.ts
+exists schemas/usage.schema.json
+exists schemas/task.schema.json
+exists orchestration/optimizer/optimizer.ts
+exists docs/agent-routing/architecture.md
+exists docs/agent-routing/setup.md

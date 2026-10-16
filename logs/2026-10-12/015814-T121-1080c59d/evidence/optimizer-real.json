@@ -1,0 +1,182 @@
+{
+  "since_last_proposal": 11,
+  "threshold": 50,
+  "due": false
+}
+{
+  "proposal_id": "prp_0mv4lzqos77087a1db3de",
+  "status": "no_change",
+  "changes": [],
+  "insufficient": [
+    {
+      "task_type": "extraction",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "general",
+      "difficulty": "L2",
+      "model": "antigravity:gemini-3.8-flash-medium",
+      "evaluated": 0
+    },
+    {
+      "task_type": "implementation",
+      "difficulty": "L2",
+      "model": "codex:gpt-6.1-sol",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "codex:gpt-6-luna",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "claude:claude-haiku-5-5",
+      "evaluated": 0
+    }
+  ],
+  "notes": [],
+  "report": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/optimizer/prp_0mv4lzqos77087a1db3de.md"
+}
+[
+  {
+    "group": "claude/?",
+    "executions": 7,
+    "usage_rows": 267,
+    "input_total": 136737687,
+    "cache_read": 135331595,
+    "cache_write": 1405556,
+    "output_total": 493937,
+    "reasoning": 168981,
+    "total": 137231624,
+    "api_equivalent_usd": 43.974988,
+    "unmetered": 3
+  },
+  {
+    "group": "codex/gpt-6-astra",
+    "executions": 9,
+    "usage_rows": 39,
+    "input_total": 2097357,
+    "cache_read": 1810176,
+    "cache_write": 0,
+    "output_total": 13606,
+    "reasoning": 464,
+    "total": 2110963,
+    "api_equivalent_usd": null,
+    "unmetered": 3
+  },
+  {
+    "group": "codex/gpt-6-luna",
+    "executions": 9,
+    "usage_rows": 21,
+    "input_total": 697329,
+    "cache_read": 504064,
+    "cache_write": 0,
+    "output_total": 3515,
+    "reasoning": 578,
+    "total": 700844,
+    "api_equivalent_usd": null,
+    "unmetered": 1
+  },
+  {
+    "group": "claude/claude-haiku-5-5",
+    "executions": 2,
+    "usage_rows": 3,
+    "input_total": 102236,
+    "cache_read": 54624,
+    "cache_write": 47606,
+    "output_total": 528,
+    "reasoning": 319,
+    "total": 102764,
+    "api_equivalent_usd": 0.011678,
+    "unmetered": 0
+  },
+  {
+    "group": "antigravity/gemini-3.8-flash-low",
+    "executions": 3,
+    "usage_rows": 3,
+    "input_total": 93277,
+    "cache_read": 0,
+    "cache_write": 0,
+    "output_total": 257,
+    "reasoning": 0,
+    "total": 93534,
+    "api_equivalent_usd": 0.070922,
+    "unmetered": 0
+  },
+  {
+    "group": "codex/gpt-6.1-sol",
+    "executions": 1,
+    "usage_rows": 3,
+    "input_total": 59078,
+    "cache_read": 38912,
+    "cache_write": 0,
+    "output_total": 86,
+    "reasoning": 0,
+    "total": 59164,
+    "api_equivalent_usd": null,
+    "unmetered": 0
+  },
+  {
+    "group": "antigravity/gemini-3.8-flash-medium",
+    "executions": 3,
+    "usage_rows": 2,
+    "input_total": 38780,
+    "cache_read": 12213,
+    "cache_write": 0,
+    "output_total": 2527,
+    "reasoning": 2435,
+    "total": 41307,
+    "api_equivalent_usd": 0.038561,
+    "unmetered": 2
+  },
+  {
+    "group": "local/?",
+    "executions": 1,
+    "usage_rows": 0,
+    "input_total": 0,
+    "cache_read": 0,
+    "cache_write": 0,
+    "output_total": 0,
+    "reasoning": 0,
+    "total": 0,
+    "api_equivalent_usd": null,
+    "unmetered": 0
+  },
+  {
+    "group": "antigravity/gemini-3.8-flash-high",
+    "executions": 1,
+    "usage_rows": 1,
+    "input_total": 0,
+    "cache_read": 0,
+    "cache_write": 0,
+    "output_total": 0,
+    "reasoning": 0,
+    "total": 0,
+    "api_equivalent_usd": null,
+    "unmetered": 1
+  },
+  {
+    "group": "?/?",
+    "executions": 2,
+    "usage_rows": 0,
+    "input_total": 0,
+    "cache_read": 0,
+    "cache_write": 0,
+    "output_total": 0,
+    "reasoning": 0,
+    "total": 0,
+    "api_equivalent_usd": null,
+    "unmetered": 0
+  }
+]

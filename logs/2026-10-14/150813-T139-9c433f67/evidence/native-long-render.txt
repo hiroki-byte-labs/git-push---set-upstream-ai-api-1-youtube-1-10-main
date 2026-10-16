@@ -1,0 +1,14 @@
+COMMAND=['./scripts/run', 'src/cli.ts', 'produce', 'render', 'production-demo-110ed262', '--renderer', 'native', '--resolution', '720', '--subtitles', 'both']
+EXIT=0
+ELAPSED=34.381s
+--- stdout ---
+Rendered 0 images
+
+Rendered 209 images
+
+生成完了: /private/tmp/T139-render-nti1mann/outputs/t139-long-mock-91612294/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+制作ジョブ: t139-long-mock-91612294（台本 v1）。完成動画は確認画面か review t139-long-mock-91612294 で本人が確認する
+
+--- stderr ---
+

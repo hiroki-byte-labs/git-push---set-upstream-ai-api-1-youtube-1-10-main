@@ -1,0 +1,25 @@
+✔ trends-metrics: 動画の増加はTRENDS-METRICS.mdの手計算例と一致する (7.009667ms)
+✔ trends-metrics: チャンネルの増加と登録者数の切り捨て誤差 (0.225167ms)
+✔ trends-metrics: カテゴリ構成比の変化と増加の中央値 (0.318208ms)
+✔ trends-metrics: 境界例で誤った伸びを出さない (0.119417ms)
+✔ trends-metrics: APIデータの派生指標は承認の記録がなければ停止する (0.327625ms)
+✔ trends-schema: 合成の履歴と境界例がスキーマに適合する (1.473917ms)
+✔ trends-schema: 不正なbatchを拒否する (1.00275ms)
+✔ trends-schema: ポリシーは承認の参照なしに派生指標を許さない (0.251209ms)
+✔ trends-schema: 保持期限はT131の条件どおり (0.575167ms)
+✔ trends-store: 取込・再取込で重複せず、過去の観測を上書きしない (6.011792ms)
+✔ trends-store: 保存は原子的で、壊れた本体はバックアップから復旧する (10.466292ms)
+✔ trends-store: スキーマ版の変更を検知して読み書きしない (0.268125ms)
+✔ trends-store: standardではAPIデータを取得から30日で削除し、合成データは残す (0.530667ms)
+✔ trends-store: 承認後は統計を残し、タイトル等だけ30日で消す (0.166042ms)
+✔ trends-store: 指定した動画・チャンネル・出所を削除できる (0.210792ms)
+✔ trends-store: 排他・書き出し・クォータ台帳 (7.808291ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 104.823667
+EXIT=0

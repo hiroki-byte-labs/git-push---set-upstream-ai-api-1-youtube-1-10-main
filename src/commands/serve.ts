@@ -7,6 +7,7 @@ import type {IncomingMessage, ServerResponse} from 'node:http';
 import {JOB_ID, listJobs} from '../jobs.ts';
 import {approvalOf, history, readJob, recordReview, publishReadiness, workflowStatus} from '../review.ts';
 import {addReflection, authorshipLabel, readProject, readScript, reviewScript, selectTopic, PROJECT_ID} from '../production.ts';
+import {reviseThumbnail} from '../metadata.ts';
 import {lintPlan} from '../lint.ts';
 import {stageLabel} from './produce.ts';
 
@@ -89,11 +90,19 @@ function detailPage(root: string, id: string, message = '') {
   const shown = approval.bundle?.metadata;
   const metaHtml = shown ? `<p>タイトル: <b>${esc(shown.selectedTitle)}</b>（候補: ${(meta?.titles ?? []).map(esc).join(' / ')}）</p><p>タグ: ${esc(shown.tags.join(', ') || 'なし')}</p><p>問題: ${esc(meta?.issues?.join(' / ') || 'なし')}</p><pre style="white-space:pre-wrap;background:#13233a;padding:12px">${esc(shown.description)}</pre>` : '<p>記録なし</p>';
   const thumbChecks = new Map<string, any>((job.thumbnails ?? []).map((t: any) => [t.file, t]));
-  const thumbHtml = (approval.bundle?.thumbnails ?? []).map(t => {
-    const c = thumbChecks.get(t.file);
-    return `<figure style="display:inline-block;margin:0 12px 12px 0">${t.sha256 ? `<img src="/job/${esc(id)}/${esc(t.file)}" width="320" alt="${esc(t.file)}">` : ''}<figcaption>${esc(t.file)} ${!t.sha256 ? '画像がない' : c ? (c.ok ? 'OK' : esc(c.issues.join(' / '))) : '検査記録なし'}</figcaption></figure>`;
-  }).join('') || '<p>なし</p>';
+  const thumbs = approval.bundle?.thumbnails ?? [];
+  const selectedThumb = meta?.selectedThumbnail ?? 'thumbnail-a.png';
+  let thumbHtml = '<p>なし</p>';
+  if (thumbs.length > 0) {
+    const cards = thumbs.map(t => {
+      const c = thumbChecks.get(t.file);
+      const isSelected = selectedThumb === t.file;
+      return `<figure style="display:inline-block;margin:0 12px 12px 0;border:${isSelected ? '2px solid #38bdf8' : '1px solid #243'};padding:8px;border-radius:6px;vertical-align:top">${t.sha256 ? `<img src="/job/${esc(id)}/${esc(t.file)}" width="320" alt="${esc(t.file)}">` : ''}<figcaption style="margin-top:6px"><div><label><input type="radio" name="thumbnail" value="${esc(t.file)}"${isSelected ? ' checked' : ''}> <b>${esc(t.file)}</b></label>${isSelected ? ' <span class="tag" style="background:#1f5b45">採用中</span>' : ''}</div><div>${!t.sha256 ? '画像がない' : c ? (c.ok ? 'OK' : esc(c.issues.join(' / '))) : '検査記録なし'}</div></figcaption></figure>`;
+    }).join('');
+    thumbHtml = `<form method="post" action="/job/${esc(id)}/revise-thumbnail"><div style="margin-bottom:12px">${cards}</div><p><label>変更理由（必須） <input name="reason" required placeholder="例: 縮小表示での視認性向上のため" style="width:360px"></label></p><p><label>操作者名 <input name="by" placeholder="web-user" maxlength="60"></label></p><button>採用サムネイルを変更</button></form>`;
+  }
   const short = (h: string | null | undefined) => (h ? esc(h.slice(0, 12)) : 'なし');
+  const checklistHtml = (approval.bundle?.checklist ?? []).map(t => t.sha256 ? (/\.png$/.test(t.file) ? `<figure><img src="/job/${esc(id)}/${esc(t.file)}" width="640" alt="${esc(t.file)}"><figcaption>${esc(t.file)}</figcaption></figure>` : `<p><a href="/job/${esc(id)}/${esc(t.file)}">${esc(t.file)}</a></p>`) : `<p>${esc(t.file)}: 欠落</p>`).join('') || '<p>記録なし</p>';
   const bundleHtml = approval.bundle ? `<ul><li>動画: ${short(approval.bundle.video)}</li><li>字幕: ${short(approval.bundle.subtitles)}</li><li>タイトル・概要欄・タグ・チャプター: ${approval.bundle.metadata ? 'あり' : 'なし'}</li><li>サムネイル案（全案）: ${approval.bundle.thumbnails.map(t => `${esc(t.file)} ${short(t.sha256)}`).join(', ') || 'なし'}</li></ul>` : '';
   const reviews = history(dir).map(r => `<li>${esc(r.at)} ${esc(r.decision === 'approve' ? '承認' : '差戻し')} ${esc(r.note)}（${r.bundleHash ? `一式の版 ${esc(r.bundleHash.slice(0, 12))}` : `旧形式: 動画の版 ${esc(r.outputHash.slice(0, 12))}`}、${esc(r.reviewer)}）</li>`).join('');
   const form = approval.state === 'not-reviewable' ? '' : `<form method="post" action="/job/${esc(id)}/review">
@@ -107,6 +116,8 @@ ${modeHtml}<p>状態: ${esc(job.status)} / 確認: <span class="tag ${esc(approv
 <h2>確認</h2>${form}<ul>${reviews || '<li>履歴なし</li>'}</ul>
 <h2>サムネイル案</h2>${thumbHtml}
 <h2>タイトル・概要欄</h2>${metaHtml}
+<h2>判断前チェックリスト</h2>${checklistHtml}
+<h2>AI利用と開示設定</h2><p>YouTube合成コンテンツ開示（containsSyntheticMedia）: <b>${meta?.syntheticMedia ? (meta.syntheticMedia.containsSyntheticMedia ? '開示が必要（true）' : '開示不要（false）') : '未判定'}</b></p><p>判定理由: ${esc(meta?.syntheticMedia?.reason ?? '記録なし')}</p>${meta?.aiDisclosureText ? `<p>概要欄の記載:</p><pre style="white-space:pre-wrap;background:#13233a;padding:12px">${esc(meta.aiDisclosureText)}</pre>` : ''}
 <h2>見やすさ</h2><p>${job.readability ? `${job.readability.ok ? 'OK' : '要確認'}（${esc(job.resolution ?? 720)}p、最小文字 ${esc(job.readability.minFont720?.toFixed?.(0))}pt相当、最小コントラスト比 ${esc(job.readability.minContrast)}）${esc(job.readability.issues.join(' / '))}` : '記録なし'}</p>
 <h2>文字配置</h2><p>${job.layout ? `${job.layout.ok ? 'OK' : '要確認'}（${esc(job.layout.checked)}件を検査）${esc((job.layout.issues ?? []).join(' / '))}` : '記録なし（T106より前のジョブ）'}</p>
 <h2>安全検査</h2><p>${lint ? `error ${lint.errors} / warning ${lint.warnings}` : '記録なし'}</p><ul>${findings}</ul>
@@ -179,7 +190,7 @@ export function createHandler(root = 'outputs') {
         if (!JOB_ID.test(id)) return notFound(res);
         return sendFile(req, res, join(root, id, 'sample.mp4'), 'video/mp4');
       }
-      const m = path.match(/^\/job\/([^/]+)(?:\/(sample\.mp4|subtitles\.vtt|review|thumbnail-[abc]\.png|select|reflection|script-review))?$/);
+      const m = path.match(/^\/job\/([^/]+)(?:\/(sample\.mp4|subtitles\.vtt|review|thumbnail-[abc]\.png|checklist\.txt|checklist\.json|checklist-\d+\.png|select|reflection|script-review|revise-thumbnail))?$/);
       if (!m || !JOB_ID.test(m[1]) || !existsSync(join(root, m[1], 'job.json'))) return notFound(res);
       const [, id, sub] = m;
       const dir = join(root, id);
@@ -187,6 +198,24 @@ export function createHandler(root = 'outputs') {
       if (req.method === 'GET' && sub === 'sample.mp4') return sendFile(req, res, join(dir, 'sample.mp4'), 'video/mp4');
       if (req.method === 'GET' && sub?.startsWith('thumbnail-')) return sendFile(req, res, join(dir, sub), 'image/png');
       if (req.method === 'GET' && sub === 'subtitles.vtt') return sendFile(req, res, join(dir, 'subtitles.vtt'), 'text/vtt; charset=utf-8');
+      if (req.method === 'GET' && sub?.startsWith('checklist')) return sendFile(req, res, join(dir, sub), sub.endsWith('.png') ? 'image/png' : sub.endsWith('.json') ? 'application/json; charset=utf-8' : 'text/plain; charset=utf-8');
+      if (req.method === 'POST' && sub === 'revise-thumbnail') {
+        if (!trustedPost(req)) {
+          res.writeHead(403, {'Content-Type': 'text/plain; charset=utf-8'});
+          return res.end('許可されていない送信元です');
+        }
+        const form = new URLSearchParams(await readBody(req));
+        const to = form.get('thumbnail') ?? '';
+        const reason = form.get('reason') ?? '';
+        const by = form.get('by')?.trim() || 'web-user';
+        try {
+          reviseThumbnail(dir, to, reason, by);
+        } catch (e) {
+          return html(res, detailPage(root, id, String(e)), 409);
+        }
+        res.writeHead(303, {Location: `/job/${id}`});
+        return res.end();
+      }
       if (req.method === 'POST' && sub === 'review') {
         if (!trustedPost(req)) {
           res.writeHead(403, {'Content-Type': 'text/plain; charset=utf-8'});

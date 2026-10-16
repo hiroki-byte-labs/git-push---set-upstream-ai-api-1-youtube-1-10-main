@@ -1,0 +1,13 @@
+sysctlbyname for kern.hv_vmm_present failed with status -1{
+  "durationSeconds" : 24,
+  "elapsedSeconds" : 3.0418779850006104,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 23.678614664,
+  "muted" : true,
+  "observedProgressSamples" : 59,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}
+EXIT=0

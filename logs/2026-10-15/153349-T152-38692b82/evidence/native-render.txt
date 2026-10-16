@@ -1,0 +1,7 @@
+Rendered 0 images
+
+Rendered 147 images
+
+生成完了: /private/tmp/T152-verify-hjoqb_28/outputs/standard-diagrams-demo-0e3b757b/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+EXIT=0

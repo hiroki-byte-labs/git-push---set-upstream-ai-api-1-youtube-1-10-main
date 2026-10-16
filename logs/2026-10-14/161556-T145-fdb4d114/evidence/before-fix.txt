@@ -1,0 +1,37 @@
+✔ late reveal starts invisible and enters gradually, without resetting prior people (1.075416ms)
+✔ digital listeners fade in after signal travel, not as binary threshold pops (0.083708ms)
+✖ native render schedule carries continuous, cue-relative illustration frames (1.33325ms)
+✔ easing is monotonic, bounded and stationary at endpoints; transitions=false settles (0.07775ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 55.17625
+
+✖ failing tests:
+
+test at tests/illustration.test.ts:22:1
+✖ native render schedule carries continuous, cue-relative illustration frames (1.33325ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 12
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/illustration.test.ts:27:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 12,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+EXIT=1

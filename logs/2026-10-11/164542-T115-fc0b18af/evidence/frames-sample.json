@@ -1,0 +1,32 @@
+{
+  "video": "prologue-question.mp4",
+  "sourceFps": 30,
+  "targetFps": 60,
+  "durationSeconds": 4.0,
+  "totalFrames": 240,
+  "width": 1920,
+  "height": 1080,
+  "frames_excerpt": [
+    {
+      "index": 0,
+      "file": "frame_0000.png",
+      "timeSeconds": 0,
+      "timeMilliseconds": 0,
+      "timestamp": "00:00:00.000"
+    },
+    {
+      "index": 1,
+      "file": "frame_0001.png",
+      "timeSeconds": 0.0167,
+      "timeMilliseconds": 17,
+      "timestamp": "00:00:00.016"
+    },
+    {
+      "index": 239,
+      "file": "frame_0239.png",
+      "timeSeconds": 3.9833,
+      "timeMilliseconds": 3983,
+      "timestamp": "00:00:03.983"
+    }
+  ]
+}

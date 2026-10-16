@@ -1,0 +1,168 @@
+{
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 29.97,
+    "frameCount": 3117,
+    "duration": 104.004,
+    "hasAudio": true
+  },
+  "scenesCount": 10,
+  "scenes": [
+    {
+      "index": 0,
+      "start": 0,
+      "end": 21.4214,
+      "frames": "0-641",
+      "bg": {
+        "color": "#0b0b0b",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 1,
+      "start": 21.4214,
+      "end": 42.042,
+      "frames": "642-1259",
+      "bg": {
+        "color": "#0b0b0b",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 2,
+      "start": 42.042,
+      "end": 49.7831,
+      "frames": "1260-1491",
+      "bg": {
+        "color": "#0b0b0b",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 3,
+      "start": 49.7831,
+      "end": 59.0257,
+      "frames": "1492-1768",
+      "bg": {
+        "color": "#0b0b0b",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 4,
+      "start": 59.0257,
+      "end": 79.9132,
+      "frames": "1769-2394",
+      "bg": {
+        "color": "#0b0b0b",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 5,
+      "start": 79.9132,
+      "end": 94.4278,
+      "frames": "2395-2829",
+      "bg": {
+        "color": "#0b0b0b",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 6,
+      "start": 94.4278,
+      "end": 98.365,
+      "frames": "2830-2947",
+      "bg": {
+        "color": "#0c0d10",
+        "coverage": 0.9986,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 7,
+      "start": 98.365,
+      "end": 100.8675,
+      "frames": "2948-3022",
+      "bg": {
+        "color": "#0c0e12",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 8,
+      "start": 100.8675,
+      "end": 103.8038,
+      "frames": "3023-3110",
+      "bg": {
+        "color": "#0b0b0b",
+        "coverage": 1,
+        "status": "measured"
+      }
+    },
+    {
+      "index": 9,
+      "start": 103.8038,
+      "end": 104.004,
+      "frames": "3111-3116",
+      "bg": {
+        "color": "#0d0d10",
+        "coverage": 0.9969,
+        "status": "measured"
+      }
+    }
+  ],
+  "elementsCount": 566,
+  "motionSegmentsCount": 68,
+  "unresolvedCount": 2038,
+  "unresolvedSample": [
+    {
+      "item": "シーン0の成分（追跡29）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡30）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡31）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡34）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡35）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡36）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡37）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡43）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡44）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    },
+    {
+      "item": "シーン0の成分（追跡48）",
+      "reason": "位置と大きさを復元できる観測がない（常に両端が見切れている等）"
+    }
+  ]
+}

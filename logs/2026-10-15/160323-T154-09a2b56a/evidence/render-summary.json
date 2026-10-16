@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "burn",
+    "jobStatus": "failed",
+    "propsMode": "burn",
+    "mp4Exists": false,
+    "totalFrames": 480,
+    "fps": 24,
+    "job": "/private/tmp/T154-verify-gWatoCHf/outputs/subtitle-timing-demo-0f62f6dc"
+  },
+  {
+    "mode": "soft",
+    "jobStatus": "failed",
+    "propsMode": "soft",
+    "mp4Exists": false,
+    "totalFrames": 480,
+    "fps": 24,
+    "job": "/private/tmp/T154-verify-gWatoCHf/outputs/subtitle-timing-demo-5f27ef5d"
+  },
+  {
+    "mode": "burn",
+    "jobStatus": "failed",
+    "propsMode": "burn",
+    "mp4Exists": false,
+    "totalFrames": 480,
+    "fps": 24,
+    "job": "/private/tmp/T154-verify-gWatoCHf/outputs/subtitle-timing-demo-742f86e1"
+  },
+  {
+    "mode": "both",
+    "jobStatus": "failed",
+    "propsMode": "both",
+    "mp4Exists": false,
+    "totalFrames": 480,
+    "fps": 24,
+    "job": "/private/tmp/T154-verify-gWatoCHf/outputs/subtitle-timing-demo-856af417"
+  }
+]

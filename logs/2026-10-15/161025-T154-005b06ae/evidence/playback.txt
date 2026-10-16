@@ -1,0 +1,51 @@
+{
+  "durationSeconds" : 20,
+  "elapsedSeconds" : 2.747444987297058,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 20,
+  "muted" : true,
+  "observedProgressSamples" : 51,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}
+{
+  "durationSeconds" : 20,
+  "elapsedSeconds" : 2.701328992843628,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 20,
+  "muted" : true,
+  "observedProgressSamples" : 51,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}
+{
+  "durationSeconds" : 20,
+  "elapsedSeconds" : 2.701207995414734,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 20,
+  "muted" : true,
+  "observedProgressSamples" : 51,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}
+{
+  "durationSeconds" : 20,
+  "elapsedSeconds" : 2.6964149475097656,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 20,
+  "muted" : true,
+  "observedProgressSamples" : 51,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}
+
+EXIT=0
+

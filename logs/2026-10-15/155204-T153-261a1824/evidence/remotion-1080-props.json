@@ -1,0 +1,267 @@
+{
+  "id": "source-labels-demo",
+  "title": "表示情報の検証",
+  "fps": 24,
+  "width": 1920,
+  "height": 1080,
+  "totalFrames": 576,
+  "durationSeconds": 24,
+  "scenes": [
+    {
+      "index": 1,
+      "title": "出典ひとつ",
+      "seconds": 4,
+      "startFrame": 0,
+      "durationFrames": 96,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "startFrame": 0,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "role": "body",
+      "sources": [
+        "short"
+      ],
+      "sourceReferences": [
+        {
+          "id": "short",
+          "title": "表示用の架空文献",
+          "url": "https://example.com/short",
+          "accessedAt": "2026-10-16",
+          "number": 1
+        }
+      ],
+      "fictional": false
+    },
+    {
+      "index": 2,
+      "title": "複数と長い出典",
+      "seconds": 4,
+      "startFrame": 96,
+      "durationFrames": 96,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "startFrame": 96,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "role": "body",
+      "sources": [
+        "long",
+        "short"
+      ],
+      "sourceReferences": [
+        {
+          "id": "long",
+          "title": "長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料（実在研究の主張ではありません）長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料",
+          "url": "https://example.com/long",
+          "accessedAt": "2026-10-16",
+          "number": 2
+        },
+        {
+          "id": "short",
+          "title": "表示用の架空文献",
+          "url": "https://example.com/short",
+          "accessedAt": "2026-10-16",
+          "number": 1
+        }
+      ],
+      "fictional": false
+    },
+    {
+      "index": 3,
+      "title": "出典も札もなし",
+      "seconds": 4,
+      "startFrame": 192,
+      "durationFrames": 96,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "startFrame": 192,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "role": "body",
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": false
+    },
+    {
+      "index": 4,
+      "title": "架空の例",
+      "seconds": 4,
+      "startFrame": 288,
+      "durationFrames": 96,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "startFrame": 288,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "role": "example",
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": true
+    },
+    {
+      "index": 5,
+      "title": "考察の区別",
+      "seconds": 4,
+      "startFrame": 384,
+      "durationFrames": 96,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "startFrame": 384,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "role": "reflection",
+      "sources": [],
+      "sourceReferences": [],
+      "fictional": false
+    },
+    {
+      "index": 6,
+      "title": "札と出典の併用",
+      "seconds": 4,
+      "startFrame": 480,
+      "durationFrames": 96,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "startFrame": 480,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "role": "reflection",
+      "sources": [
+        "long"
+      ],
+      "sourceReferences": [
+        {
+          "id": "long",
+          "title": "長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料（実在研究の主張ではありません）長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料",
+          "url": "https://example.com/long",
+          "accessedAt": "2026-10-16",
+          "number": 2
+        }
+      ],
+      "fictional": true
+    }
+  ],
+  "sources": [
+    {
+      "id": "short",
+      "title": "表示用の架空文献",
+      "url": "https://example.com/short",
+      "accessedAt": "2026-10-16",
+      "number": 1
+    },
+    {
+      "id": "long",
+      "title": "長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料（実在研究の主張ではありません）長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料",
+      "url": "https://example.com/long",
+      "accessedAt": "2026-10-16",
+      "number": 2
+    },
+    {
+      "id": "unused",
+      "title": "未使用の出典",
+      "url": "https://example.com/unused",
+      "accessedAt": "2026-10-16",
+      "number": 3
+    }
+  ],
+  "production": {
+    "mode": "demo"
+  }
+}

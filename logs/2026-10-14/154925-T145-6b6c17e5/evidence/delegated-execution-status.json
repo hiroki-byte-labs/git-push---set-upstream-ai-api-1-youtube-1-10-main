@@ -1,0 +1,115 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mv8acj2g03c9efb6b5b5",
+    "parent_task_id": "tsk_0mv8a0i1y86be19667bfa",
+    "execution_id": "exe_0mv8acj64a9c22b6a2e63",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mv8acj65b5b2ecdcd0f6",
+    "initiator": "codex",
+    "agent_name": null,
+    "provider": "codex",
+    "model_id": "gpt-6-astra",
+    "reasoning_level": "high",
+    "task_type": "animation",
+    "difficulty": "L3",
+    "routing_reason": "L3/animation/品質high → high枠の codex:gpt-6-astra（codexの順で最初に条件を満たしたモデル）",
+    "status": "running",
+    "managed": true,
+    "route": "cli",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-14T15:49:32.816Z",
+    "end_time": "2026-10-14T15:50:13.854Z",
+    "duration_ms": 41038,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "codex",
+      "session_id": "01a13b1a-c671-7672-a5c8-d9d3c386f03b",
+      "agent_id": null
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 191466,
+      "api_usd": 0.652244
+    },
+    "usage": [
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-astra",
+        "source_kind": "rollout",
+        "input_total": 21071,
+        "cache_read": 0,
+        "cache_write": 0,
+        "output_total": 127,
+        "reasoning": 0,
+        "total": 21198,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.21706
+      },
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-astra",
+        "source_kind": "rollout",
+        "input_total": 33000,
+        "cache_read": 20864,
+        "cache_write": 0,
+        "output_total": 153,
+        "reasoning": 0,
+        "total": 33153,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.149874
+      },
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-astra",
+        "source_kind": "rollout",
+        "input_total": 44986,
+        "cache_read": 32768,
+        "cache_write": 0,
+        "output_total": 140,
+        "reasoning": 11,
+        "total": 45126,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.161948
+      },
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-astra",
+        "source_kind": "rollout",
+        "input_total": 45445,
+        "cache_read": 44800,
+        "cache_write": 0,
+        "output_total": 132,
+        "reasoning": 0,
+        "total": 45577,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.05785
+      },
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-astra",
+        "source_kind": "rollout",
+        "input_total": 46182,
+        "cache_read": 45312,
+        "cache_write": 0,
+        "output_total": 230,
+        "reasoning": 65,
+        "total": 46412,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.065512
+      }
+    ]
+  }
+]
+
+EXIT=0

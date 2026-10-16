@@ -1,0 +1,50 @@
+diff -ru a/orchestration/hooks/detect.ts b/orchestration/hooks/detect.ts
+--- a/orchestration/hooks/detect.ts	2026-10-11 05:19:15
++++ b/orchestration/hooks/detect.ts	2026-10-11 19:00:04
+@@ -66,8 +66,28 @@
+  if(/^(node|tsx|bun|run)$/.test(base)&&k>=0)return rest.slice(k+1);
+  return null;
+ }
++// ヒアドキュメントの本文は文章やデータのことが多く、コマンドとして判定すると誤って拒否する（2026-10-11の実機で2回）。
++// 本文を取り除いて判定し、シェルへ流し込む本文（bash <<EOF 等）だけは本文もコマンドとして判定する。
++// 承認鍵・計測DBのパスは、Pythonなどの本文から読み書きされうるため本文中でも拒否する（安全側）。
++export function splitHeredocs(command:string):{command:string;bodies:{shell:boolean;body:string}[]}{
++ const bodies:{shell:boolean;body:string}[]=[];
++ const re=/<<-?[ \t]*(['"]?)([A-Za-z_][A-Za-z0-9_]*)\1([^\n]*)\n([\s\S]*?)\n[ \t]*\2[ \t]*(?=\n|$)/g;
++ const out=command.replace(re,(_m,_q,_tag,rest:string,body:string,offset:number)=>{
++  const line=command.slice(command.lastIndexOf('\n',offset-1)+1,offset);
++  bodies.push({shell:/(^|[\s|;&(])(sh|bash|zsh|dash|ksh)(\s+-[A-Za-z]+)*\s*$/.test(line),body});
++  return `<<HEREDOC${rest}`;
++ });
++ return {command:out,bodies};
++}
+ export function classifyCommand(command:string,depth=0):CommandVerdict{
+  let verdict:CommandVerdict={kind:'ok',reason:''};
++ const hd=splitHeredocs(command);
++ for(const b of hd.bodies){
++  if(b.shell&&depth<3){const inner=classifyCommand(b.body,depth+1);if(inner.kind==='managed')verdict=inner;else if(inner.kind!=='ok')return inner}
++  else if(KEY_PATH.test(b.body))return {kind:'protected_access',reason:'承認鍵へのアクセスは禁止（ヒアドキュメントの本文に承認鍵のパスがある。文章ならファイル編集ツールで書く）'};
++  else if(DB_PATH.test(b.body)&&SQL_WRITE.test(b.body))return {kind:'protected_access',reason:'計測DBの直接変更は禁止（ヒアドキュメントの本文）'};
++ }
++ command=hd.command;
+  for(const seg of segments(command)){
+   const ts=tokens(seg),p=program(ts);
+   // リダイレクトでHook設定へ書き込む
+diff -ru a/orchestration/tests/detect.test.ts b/orchestration/tests/detect.test.ts
+--- a/orchestration/tests/detect.test.ts	2026-10-11 05:19:15
++++ b/orchestration/tests/detect.test.ts	2026-10-11 19:00:04
+@@ -18,6 +18,14 @@
+   assert.equal(kind(c),'ai_invocation',c);
+  assert.deepEqual(segments('a 2>&1 | b'),['a 2>&1','b']);
+ });
++test('ヒアドキュメントの本文は文章として扱い、シェルへ流す本文だけ判定する（2026-10-11の誤判定）', ()=>{
++ assert.equal(kind("cat >> notes.md <<'EOF'\nCodex 0.161 から codex 0.162.1 へ。claude -p は禁止\nEOF"),'ok');
++ assert.equal(kind("python3 - <<'EOF'\nprint('agy -p は agentctl run で')\nEOF\necho done"),'ok');
++ assert.equal(kind("bash <<'EOF'\ncodex exec hi\nEOF"),'ai_invocation','シェルへ流す本文は判定する');
++ assert.equal(kind("sh -s <<EOF\nclaude -p x\nEOF"),'ai_invocation');
++ assert.equal(kind("python3 - <<'EOF'\nopen('/Users/u/.config/agentctl/approval.key').read()\nEOF"),'protected_access','鍵のパスは本文でも拒否');
++ assert.equal(kind("cat <<'EOF' | codex exec -\nhello\nEOF"),'ai_invocation','本文の外のコマンドは判定する');
++});
+ test('agentctl経由は管理対象、人専用のサブコマンドは拒否', ()=>{
+  assert.equal(kind('scripts/agentctl run --task t.json'),'managed');
+  assert.equal(kind('./scripts/run orchestration/gateway/agentctl.ts status'),'managed');

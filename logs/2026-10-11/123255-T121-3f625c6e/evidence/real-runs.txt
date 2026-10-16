@@ -1,0 +1,27 @@
+# 実機試験（2026-10-11、利用者の許可による。購読枠、各1回）
+status tsk_0mv3t0s83d44d45f3daa0 --require-metered EXIT=0
+status tsk_0mv3t1bz389a27a3d99b5 --require-metered EXIT=0
+## 実行
+execution_id|provider|model_id|status|metering_status|duration_ms|session_id|managed|used_llm|routing_reason
+exe_0mv3t0sb7ea276bb64a85|codex|gpt-6-luna|completed|measured|10290|01a12af4-2875-7e60-be9b-9a0f840e1c7d|1|0|L1/summarization/品質normal → light枠の codex:gpt-6-luna（codexの順で最初に条件を満たしたモデル）
+exe_0mv3t1c221f7aaeeb0601|antigravity|gemini-3.8-flash-low|completed|measured|13236|9fafcaee-6958-4aee-8fe8-82b186f34c7e|1|0|L1/summarization/品質normal → light枠の antigravity:gemini-3.8-flash-low（antigravityの順で最初に条件を満たしたモデル）
+## 承認（1回限り、消費済み）
+approval_id|execution_id|provider|model_id|issuer|issued_at|expires_at|consumed
+apr_0mv3t0sb9716cd979f1b4|exe_0mv3t0sb7ea276bb64a85|codex|gpt-6-luna|gateway|2026-10-11T12:33:26.613Z|2026-10-11T12:48:26.613Z|1
+apr_0mv3t1c242ff6cf52ae83|exe_0mv3t1c221f7aaeeb0601|antigravity|gemini-3.8-flash-low|gateway|2026-10-11T12:33:52.204Z|2026-10-11T12:48:52.204Z|1
+## 使用量
+execution_id|source_kind|model_id|input_total|input_uncached|cache_read|cache_write|output_total|reasoning|total|billing_mode|api_equivalent_usd|api_equivalent_method|actual_billed_method
+exe_0mv3t0sb7ea276bb64a85|rollout|gpt-6-luna|18780|11868|6912|0|5|0|18785|subscription||unavailable|unavailable
+exe_0mv3t1c221f7aaeeb0601|cli_result|gemini-3.8-flash-low|15028|15028|0||1|0|15029|subscription|0.011275|estimated|unavailable
+## 子セッションのHook（実製品のHookが発火し承認と実モデルを照合）
+at|kind|product|session_id|execution_id|detail_json
+2026-10-11T12:33:32.763Z|child_session_verified|codex|01a12af4-2875-7e60-be9b-9a0f840e1c7d|exe_0mv3t0sb7ea276bb64a85|{"reason":"承認と実モデルが一致","model":"gpt-6-luna"}
+2026-10-11T12:33:58.341Z|child_session_verified|antigravity|9fafcaee-6958-4aee-8fe8-82b186f34c7e|exe_0mv3t1c221f7aaeeb0601|{"reason":"承認と実モデルが一致","model":"gemini-3.8-flash-low"}
+2026-10-11T12:34:05.444Z|model_unverifiable|||exe_0mv3t1c221f7aaeeb0601|{"provider":"antigravity","model":"gemini-3.8-flash-low"}
+## 製品の実出力（応答本文以外）
+{"type":"turn.completed","usage":{"input_tokens":18780,"cached_input_tokens":6912,"cache_write_input_tokens":0,"output_tokens":5,"reasoning_output_tokens":0}}
+{"conversation_id":"9fafcaee-6958-4aee-8fe8-82b186f34c7e","status":"SUCCESS","duration_seconds":3.55712,"num_turns":1,"usage":{"input_tokens":15028,"output_tokens":1,"thinking_tokens":0,"cache_read_tokens":0,"total_tokens":15029}}
+## 対話セッションでのRouter記録（UserPromptSubmit Hook、プロンプト本文は保存しない）
+session_product|initiator|actual|recommended|difficulty|task_type|route|managed|prompt_chars|hashed
+codex|codex|gpt-6-astra|gpt-6.1-sol|L2|general|interactive|0|4|1
+claude|claude||claude-sonnet-5-5|L2|general|interactive|0|40|1

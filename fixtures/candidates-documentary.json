@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "note": "参考動画10本（スーパースター経済学・名字絶滅・寛容のパラドックス等）の分析に基づくドキュメンタリー題材候補（T122）。一次文献URL・二重の学術フック・対比構造を完備。",
+  "candidates": [
+    {
+      "id": "superstar-economics",
+      "title": "なぜ2位ではダメなのか？【スーパースター経済学】",
+      "hook": "スポーツや芸能、ビジネスで1位と2位の実力差はわずか数%なのに、報酬や注目度は数百倍に跳ね上がる不条理。",
+      "concept": "スーパースターの経済学（不完全代替性×規模の経済）。技術進歩による複製の低コスト化が勝者総取りを加速させる。",
+      "example": "オペラ歌手やテニス選手、配信市場におけるトップ1%とそれ以外の格差拡大。",
+      "sources": [
+        {
+          "title": "Sherwin Rosen (1981) 'The Economics of Superstars', American Economic Review",
+          "url": "https://www.jstor.org/stable/1803469"
+        },
+        {
+          "title": "Adler, Moshe (1985) 'Stardom and Talent', American Economic Review",
+          "url": "https://www.jstor.org/stable/1805626"
+        }
+      ]
+    },
+    {
+      "id": "surname-extinction",
+      "title": "なぜあなたの名字は絶滅する運命にあるのか？【確率論と分枝過程】",
+      "hook": "何万種類もある日本の名字が、数百年後には極めて少数の名字に収斂していくという数学的予測。",
+      "concept": "ゴルトン・ワトソン過程（確率論・分枝過程）。均等な出生確率でも世代交代を重ねることで多様性がランダムに失われる現象。",
+      "example": "中国における三大姓（王・李・張）への集中や、日本における夫婦同姓制度下でのシミュレーション。",
+      "sources": [
+        {
+          "title": "Watson & Galton (1874) 'On the Probability of the Extinction of Families'",
+          "url": "https://www.jstor.org/stable/2841223"
+        },
+        {
+          "title": "総務省統計局 (2025)『日本の統計・人口動態調査統計』",
+          "url": "https://www.stat.go.jp/data/jinsui/"
+        }
+      ]
+    },
+    {
+      "id": "paradox-of-tolerance",
+      "title": "なぜ差別をなくすほど社会は分断されるのか？【寛容のパラドックス】",
+      "hook": "寛容で多様性を重んじる社会を目指して発言を規制・配慮するほど、人々の対立や不信が激化する現代の逆説。",
+      "concept": "カール・ポパーの寛容のパラドックスと認知的不協和。無制限の寛容は不寛容な思想を野放しにし、過度な排除は分断を深める。",
+      "example": "SNS上の言葉狩りやエコーチェンバー現象による分断の先鋭化。",
+      "sources": [
+        {
+          "title": "Karl Popper (1945) 'The Open Society and Its Enemies'",
+          "url": "https://www.routledge.com/The-Open-Society-and-Its-Enemies/Popper/p/book/9780415610216"
+        },
+        {
+          "title": "Leon Festinger (1957) 'A Theory of Cognitive Dissonance'",
+          "url": "https://www.sup.org/books/title/?id=3850"
+        }
+      ]
+    }
+  ]
+}

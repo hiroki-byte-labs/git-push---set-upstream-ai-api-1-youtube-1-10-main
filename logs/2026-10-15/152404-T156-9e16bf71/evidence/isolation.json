@@ -1,0 +1,15 @@
+{
+  "root": "/private/tmp/T156-render-eoykiwq4",
+  "command": [
+    "./scripts/run",
+    "src/cli.ts",
+    "sample",
+    "--plan",
+    "fixtures/sample-surname-illustration.json",
+    "--renderer",
+    "remotion",
+    "--subtitles",
+    "both"
+  ],
+  "NODE_BIN": "/opt/homebrew/bin/node"
+}

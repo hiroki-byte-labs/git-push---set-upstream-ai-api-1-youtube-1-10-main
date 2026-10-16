@@ -1,0 +1,22 @@
+✔ mock: pending, rejected, expired and stale displayed hashes never send (3.956417ms)
+✔ mock: durable job/hash idempotency survives coordinator and adapter restart (1.89625ms)
+✔ mock: response loss reconciles created video without second create (1.478042ms)
+✔ mock: unknown reconciliation blocks sends; restart resolves original receipt (1.590875ms)
+✔ mock: authoritative absence permits bounded retry; limit survives restart (2.3265ms)
+✔ mock: quota persists service stop across jobs and restarts (1.432917ms)
+✔ mock: auth persists service stop across jobs and restarts (1.360083ms)
+✔ mock: concurrent coordinators cannot double-send and pending intent is durable (1.650375ms)
+✔ mock: reapproval of changed bundle cannot create a second video for job (1.837875ms)
+✔ mock: approval revoked during reconcile blocks retry (1.4835ms)
+✔ mock: untrusted error text is discarded and corrupt ledger fails closed (1.388125ms)
+✔ mock: real adapter denied, DisabledPublisher unchanged, no network transport (1.611375ms)
+✔ mock: production prerequisite enforcement and script expiry use existing review gate (6.331916ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.231709
+EXIT=0

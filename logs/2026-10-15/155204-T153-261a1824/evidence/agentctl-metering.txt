@@ -1,0 +1,17 @@
+{
+  "task_id": "tsk_0mv9plyqx018a170f7671",
+  "execution_id": "exe_0mv9plyuc631e81c70ef6",
+  "provider": "codex",
+  "model_id": "gpt-6.1-sol",
+  "status": "completed",
+  "metering_status": "measured",
+  "duration_ms": 441075,
+  "tree": {
+    "executions": 1,
+    "total": 2210489,
+    "api_usd": 0.602776
+  }
+}
+
+EXIT=0
+

@@ -1,0 +1,177 @@
+// T172: sample/produce コマンドと LocalQueue のオプトイン接続アダプター
+import {existsSync, lstatSync, readFileSync, realpathSync} from 'node:fs';
+import {join, resolve} from 'node:path';
+import {randomUUID} from 'node:crypto';
+import {LocalQueue} from './local-queue.ts';
+import type {QueueExecutor, StageContext, QueueJob, QueueState} from './local-queue.ts';
+import type {SampleOptions} from './commands/sample.ts';
+
+export const DEFAULT_QUEUE_DIR = 'work/queue';
+export const DEFAULT_CONCURRENCY = 1;
+export const DEFAULT_MAX_ATTEMPTS = 3;
+
+export type QueueOptions = {
+  queueDir?: string;
+  concurrency?: number;
+  maxAttempts?: number;
+  recoverDeadOwner?: boolean;
+  timeoutMs?: number;
+};
+
+export type RunnerOverrides = {
+  sampleRunner?: (opts: SampleOptions) => Promise<{id: string; dir: string}>;
+  produceRunner?: (root: string, id: string, opts: SampleOptions) => Promise<{id: string; dir: string}>;
+};
+
+export async function openQueue(options: QueueOptions = {}): Promise<LocalQueue> {
+  const queueDir = options.queueDir ?? process.env.QUEUE_DIR ?? DEFAULT_QUEUE_DIR;
+  const concurrency = options.concurrency ?? DEFAULT_CONCURRENCY;
+  const timeout = options.timeoutMs ?? 10000;
+  const poll = 100;
+  const start = Date.now();
+  while (true) {
+    try {
+      return LocalQueue.open(queueDir, {concurrency, recoverDeadOwner: options.recoverDeadOwner ?? true});
+    } catch (e: any) {
+      if ((e?.message?.includes('owner is alive') || e?.code === 'EEXIST') && Date.now() - start < timeout) {
+        await new Promise(r => setTimeout(r, poll));
+        continue;
+      }
+      throw e;
+    }
+  }
+}
+
+export function enqueueSample(queue: LocalQueue, opts: SampleOptions = {}): {jobId: string; planPath: string} {
+  const rawPlan = opts.plan ?? 'fixtures/sample.json';
+  if (!existsSync(rawPlan)) throw Error(`台本ファイルが見つかりません: ${rawPlan}`);
+  const planPath = realpathSync(rawPlan);
+  if (!lstatSync(planPath).isFile()) throw Error(`台本は通常ファイルである必要があります: ${planPath}`);
+  const jobId = `sample-${randomUUID().slice(0, 8)}`;
+  queue.enqueue({
+    id: jobId,
+    mode: 'local',
+    inputs: [planPath],
+    stages: ['render'],
+    maxAttempts: opts.maxAttempts ?? DEFAULT_MAX_ATTEMPTS,
+  });
+  return {jobId, planPath};
+}
+
+export function enqueueProduce(queue: LocalQueue, root: string, id: string, maxAttempts = DEFAULT_MAX_ATTEMPTS): {jobId: string} {
+  queue.enqueueProduction(root, id, ['render'], 'local', maxAttempts);
+  return {jobId: id};
+}
+
+export function createQueueExecutor(
+  defaultOpts: SampleOptions = {},
+  overrides?: RunnerOverrides
+): QueueExecutor {
+  return async (context: StageContext) => {
+    const j = context.job;
+    if (j.production) {
+      const prod = j.production;
+      const runProduce = overrides?.produceRunner ?? (async (root, id, o) => {
+        const {sample} = await import('./commands/sample.ts');
+        const {assertRenderable} = await import('./production.ts');
+        const {state, planPath} = assertRenderable(root, id);
+        return sample({
+          ...o,
+          queue: false,
+          plan: planPath,
+          job: {mode: state.mode, project: id, scriptHash: state.script!.hash, scriptVersion: state.script!.version},
+        });
+      });
+      const res = await runProduce(prod.root, prod.id, defaultOpts);
+      context.writeArtifact('result.json', JSON.stringify(res));
+    } else {
+      const runSample = overrides?.sampleRunner ?? (async (o) => {
+        const {sample} = await import('./commands/sample.ts');
+        return sample({...o, queue: false});
+      });
+      const res = await runSample(defaultOpts);
+      context.writeArtifact('result.json', JSON.stringify(res));
+    }
+  };
+}
+
+function extractResult(queue: LocalQueue, job: QueueJob): {id: string; dir: string; jobId: string} {
+  const stage = job.stages[0];
+  const artifact = stage?.outputs.find(a => a.file.endsWith('/result.json'));
+  if (!artifact) throw Error(`ジョブ ${job.id} の実行結果アーティファクトが見つかりません`);
+  const data = JSON.parse(readFileSync(join(queue.root, artifact.file), 'utf8'));
+  return {...data, jobId: job.id};
+}
+
+export async function runSampleWithQueue(
+  opts: SampleOptions = {},
+  overrides?: RunnerOverrides
+): Promise<{id: string; dir: string; jobId: string}> {
+  const queue = await openQueue({
+    queueDir: opts.queueDir,
+    concurrency: opts.concurrency,
+    maxAttempts: opts.maxAttempts,
+  });
+  try {
+    const {jobId} = enqueueSample(queue, opts);
+    console.log(`[queue] ジョブ ${jobId} をキューに登録しました (キュー: ${queue.root}, 並行数: ${opts.concurrency ?? DEFAULT_CONCURRENCY})`);
+    const executor = createQueueExecutor(opts, overrides);
+    await queue.drain(executor);
+    const snapshot = queue.snapshot();
+    const j = snapshot.jobs.find(x => x.id === jobId);
+    if (!j) throw Error(`キューからジョブ ${jobId} が消失しました`);
+    if (j.status === 'failed') throw Error(`ジョブ ${jobId} の実行に失敗しました: ${j.error ?? 'unknown error'}`);
+    if (j.status === 'blocked') throw Error(`ジョブ ${jobId} の実行がブロックされました: ${j.error ?? 'unknown error'}`);
+    if (j.status !== 'completed') throw Error(`ジョブ ${jobId} が完了していません: status=${j.status}`);
+    return extractResult(queue, j);
+  } finally {
+    queue.close();
+  }
+}
+
+export async function runProduceRenderWithQueue(
+  root: string,
+  id: string,
+  opts: SampleOptions = {},
+  overrides?: RunnerOverrides
+): Promise<{id: string; dir: string; jobId: string}> {
+  const queue = await openQueue({
+    queueDir: opts.queueDir,
+    concurrency: opts.concurrency,
+    maxAttempts: opts.maxAttempts,
+  });
+  try {
+    const {jobId} = enqueueProduce(queue, root, id, opts.maxAttempts ?? DEFAULT_MAX_ATTEMPTS);
+    console.log(`[queue] 制作案件 ${id} のレンダリングジョブをキューに登録しました (キュー: ${queue.root}, 並行数: ${opts.concurrency ?? DEFAULT_CONCURRENCY})`);
+    const executor = createQueueExecutor(opts, overrides);
+    await queue.drain(executor);
+    const snapshot = queue.snapshot();
+    const j = snapshot.jobs.find(x => x.id === jobId);
+    if (!j) throw Error(`キューからジョブ ${jobId} が消失しました`);
+    if (j.status === 'failed') throw Error(`ジョブ ${jobId} の実行に失敗しました: ${j.error ?? 'unknown error'}`);
+    if (j.status === 'blocked') throw Error(`ジョブ ${jobId} の実行がブロックされました: ${j.error ?? 'unknown error'}`);
+    if (j.status !== 'completed') throw Error(`ジョブ ${jobId} が完了していません: status=${j.status}`);
+    const result = extractResult(queue, j);
+    // キュー完了後に制作案件へレンダリング結果を紐付ける
+    const {assertRenderable, linkRender} = await import('./production.ts');
+    const {state} = assertRenderable(root, id);
+    linkRender(root, id, result.id, state.script!.hash, state.script!.version);
+    return result;
+  } finally {
+    queue.close();
+  }
+}
+
+export async function processQueue(
+  options: QueueOptions = {},
+  overrides?: RunnerOverrides
+): Promise<QueueState> {
+  const queue = await openQueue(options);
+  try {
+    const executor = createQueueExecutor({}, overrides);
+    await queue.drain(executor);
+    return queue.snapshot();
+  } finally {
+    queue.close();
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/scripts/agentctl-hook\" codex SessionStart",
+            "timeout": 15,
+            "statusMessage": "agentctl"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/scripts/agentctl-hook\" codex UserPromptSubmit",
+            "timeout": 15,
+            "statusMessage": "agentctl"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "^(Bash|apply_patch|Edit|Write|Agent)$|spawn_agent$|agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/scripts/agentctl-hook\" codex PreToolUse",
+            "timeout": 15,
+            "statusMessage": "agentctl"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "spawn_agent$|^Agent$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/scripts/agentctl-hook\" codex PostToolUse",
+            "timeout": 15,
+            "statusMessage": "agentctl"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/scripts/agentctl-hook\" codex SubagentStart",
+            "timeout": 15,
+            "statusMessage": "agentctl"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/scripts/agentctl-hook\" codex SubagentStop",
+            "timeout": 15,
+            "statusMessage": "agentctl"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/scripts/agentctl-hook\" codex Stop",
+            "timeout": 15,
+            "statusMessage": "agentctl"
+          }
+        ]
+      }
+    ]
+  }
+}

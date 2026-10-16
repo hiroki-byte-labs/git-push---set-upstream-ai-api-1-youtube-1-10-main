@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "catalog": [
+    {
+      "id": "short",
+      "title": "表示用の架空文献",
+      "url": "https://example.com/short",
+      "accessedAt": "2026-10-16",
+      "number": 1
+    },
+    {
+      "id": "long",
+      "title": "長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料（実在研究の主張ではありません）長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料",
+      "url": "https://example.com/long",
+      "accessedAt": "2026-10-16",
+      "number": 2
+    },
+    {
+      "id": "unused",
+      "title": "未使用の出典",
+      "url": "https://example.com/unused",
+      "accessedAt": "2026-10-16",
+      "number": 3
+    }
+  ],
+  "remotionProps": [
+    {
+      "scene": 1,
+      "ids": [
+        "short"
+      ],
+      "numbers": [
+        1
+      ]
+    },
+    {
+      "scene": 2,
+      "ids": [
+        "long",
+        "short"
+      ],
+      "numbers": [
+        2,
+        1
+      ]
+    },
+    {
+      "scene": 3,
+      "ids": [],
+      "numbers": []
+    },
+    {
+      "scene": 4,
+      "ids": [],
+      "numbers": []
+    },
+    {
+      "scene": 5,
+      "ids": [],
+      "numbers": []
+    },
+    {
+      "scene": 6,
+      "ids": [
+        "long"
+      ],
+      "numbers": [
+        2
+      ]
+    }
+  ],
+  "nativeSourceRows": [
+    {
+      "text": "出典: 表示用の架空文献",
+      "box": [
+        480,
+        22,
+        600,
+        36
+      ],
+      "maxSize": 17,
+      "size": 17,
+      "drawn": [
+        480,
+        30,
+        167,
+        20
+      ],
+      "contrast": 8.278613236047711,
+      "zone": "footer",
+      "fitted": true,
+      "role": "出典",
+      "file": "scene-1.png",
+      "pixelSize": 17,
+      "align": "center"
+    },
+    {
+      "text": "出典: 概要欄 [2][1]",
+      "box": [
+        480,
+        22,
+        600,
+        36
+      ],
+      "maxSize": 17,
+      "size": 17,
+      "drawn": [
+        480,
+        30,
+        134,
+        20
+      ],
+      "contrast": 8.278613236047711,
+      "zone": "footer",
+      "fitted": true,
+      "role": "出典",
+      "file": "scene-2.png",
+      "pixelSize": 17,
+      "align": "center"
+    },
+    {
+      "align": "center",
+      "role": "出典",
+      "box": [
+        480,
+        22,
+        600,
+        36
+      ],
+      "size": 17,
+      "maxSize": 17,
+      "text": "出典: 概要欄 [2]",
+      "file": "scene-6.png",
+      "pixelSize": 17,
+      "contrast": 8.278613236047711,
+      "fitted": true,
+      "drawn": [
+        480,
+        30,
+        114,
+        20
+      ],
+      "zone": "footer"
+    }
+  ],
+  "limits": "Remotionはpropsのみ。実Remotion描画フレームとの照合は未実施。"
+}

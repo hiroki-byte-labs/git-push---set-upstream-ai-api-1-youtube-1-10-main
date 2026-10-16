@@ -1,0 +1,11 @@
+Command: node --test orchestration/tests/*.test.ts
+First run after Optimizer apply: EXIT=1, tests=79 pass=74 fail=5.
+Cause: five Hook tests fixed the expected native-subagent model to the former extraction/L1 light policy. The applied policy now selects standard.
+Repair: derive the injected model from the current Router decision and use a different registered model for mismatch assertions.
+Final run: EXIT=0, tests=79 pass=79 fail=0 skipped=0.
+
+Command: node node_modules/typescript/bin/tsc --noEmit -p orchestration/agentctl.tsconfig.json
+Final run: EXIT=0, no diagnostics.
+
+Command: ./scripts/agentctl doctor
+Final run: EXIT=0. version_codex_app=ok, hook_baseline=ok, unmetered_managed missing=0 unavailable=0. The only hook error is the historical seven-line database-lock entry.

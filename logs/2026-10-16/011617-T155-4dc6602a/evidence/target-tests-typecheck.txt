@@ -1,0 +1,18 @@
+✔ stress Plan contains all diagram kinds, maximum fields, later 55-character cues (1.506834ms)
+✔ measured Remotion overflow, same-zone collision and third subtitle line fail layout (0.18775ms)
+✔ contrast is calculated from actual color pairs (0.064166ms)
+✔ coverage rejects a missing later cue, title and source sample in either resolution (1.354833ms)
+✔ measured box outside the output screen cannot pass by moving its zone with it (0.050666ms)
+✔ report converts DOM pixel rectangles and measures real background PNG colors at 720p/1080p (synthetic DOM input) (394.802709ms)
+✔ intentional overflow Plan is schema-valid and exceeds the dedicated source row (0.461458ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 452.161417
+
+EXIT=0
+

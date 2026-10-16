@@ -1,0 +1,41 @@
+[
+  {
+    "id": 263,
+    "at": "2026-10-12T06:55:09.651Z",
+    "kind": "agy_child_session_bound",
+    "product": "antigravity",
+    "session_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+    "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+    "detail": {
+      "parent": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+      "via": "parent_transcript"
+    }
+  }
+]
+[
+  {
+    "id": 264,
+    "at": "2026-10-12T06:55:09.679Z",
+    "kind": "agy_child_usage_linked",
+    "product": "antigravity",
+    "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+    "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+    "detail": {
+      "conversation": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+      "steps": 3,
+      "moved_from": 1
+    }
+  },
+  {
+    "id": 112,
+    "at": "2026-10-12T02:15:52.683Z",
+    "kind": "agy_child_usage_linked",
+    "product": null,
+    "session_id": null,
+    "execution_id": "exe_0mv4me1vl47d8aa375b87",
+    "detail": {
+      "conversation": "0f337166-c551-4822-9956-85adb89b7250",
+      "steps": 2
+    }
+  }
+]

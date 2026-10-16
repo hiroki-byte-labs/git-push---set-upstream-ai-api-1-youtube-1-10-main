@@ -1,0 +1,32 @@
+✔ late reveal starts invisible and enters gradually, without resetting prior people (2.419ms)
+✔ digital listeners fade in after signal travel, not as binary threshold pops (0.152334ms)
+✔ native render schedule carries continuous, cue-relative illustration frames (4.491791ms)
+✔ easing is monotonic, bounded and stationary at endpoints; transitions=false settles (0.086792ms)
+✔ meterの検証: 棒は2〜5本、値は−1〜1、まとめの見出しが必要。motionはflowのtravelだけ (1.355584ms)
+✔ revealの検証: 段数と同じ長さ・0始まり・昇順・場面の秒数未満 (0.403625ms)
+✔ 段の表示は説明の時刻（reveal）に合わせる。動きのある段は1フレームずつ進み、総フレーム数は変わらない (1.464625ms)
+✔ meterとサムネイルの文言も禁止表現の検査対象（改行で分けても検出） (1.979416ms)
+✔ サムネイル案: 問い型・図解型・対比型。対比の文言は明示か図解から補う (0.313ms)
+✔ 文字配置の検査: 正しい配置は合格 (0.20025ms)
+✔ 文字配置の検査: 旧描画のずれ（番号が枠の外、1行の字幕が枠の上寄り、字幕とフッターの重なり、強調と図解の重なり）を検出 (0.87025ms)
+✔ 区画どうしは重ならない（scripts/render.swiftのZONE_*と同じ値） (0.167084ms)
+✔ 下書き（fixtures/draft-price-index.json）: 考察を差し込めば安全検査に合格し、構成案の章がそろう (0.329541ms)
+✔ 区間は隙間なく総フレーム数を覆う (1.704ms)
+✔ 段数: flowは要素数、compare/branchは2、numberは1 (0.539917ms)
+✔ 段階表示: 場面の最初は1段目、全段は前半40%以内に出そろう (0.35625ms)
+✔ 字幕cueの切替時点で区間が切れる (0.154167ms)
+✔ 間隔は最大1秒 (0.066291ms)
+✔ 描画仕様: 重複なし＋各場面の完成画像 (0.428708ms)
+✔ frames.txtは区間の秒数を使う (0.190708ms)
+✔ フェードと強調（T079）: 段の出現直後に2フレームずつ1/3・2/3、1秒間強調、完成状態は従来名 (0.421625ms)
+✔ フェードと強調（T079）: style.transitions=falseで従来の区間に戻る (0.295708ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 72.03575
+
+EXIT=0

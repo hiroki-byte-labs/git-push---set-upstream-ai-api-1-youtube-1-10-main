@@ -1,0 +1,111 @@
+
+src/timeline.ts
+120: export function buildThumbSpecs(plan: Plan): ThumbSpec[] {
+121:   const {headline, sub} = thumbnailText(plan);
+122:   const fallback = plan.scenes.findIndex(s => s.role !== 'hook');
+123:   const scene = plan.thumbnail?.scene !== undefined ? plan.thumbnail.scene - 1 : Math.max(0, fallback);
+124:   const keyword = plan.thumbnail?.keyword, contrast = thumbContrast(plan);
+125:   return (['a', 'b', 'c'] as const).map(variant => ({file: `thumbnail-${variant}.png`, variant, headline, sub, scene, ...(keyword ? {keyword} : {}), ...(contrast ? {contrast} : {})}));
+126: }
+
+src/remotion-visual.ts
+99:     // Thumbnails are actual sampled video frames; report the measured heading from that frame.
+100:     const samples = [...new Set(records.map(r => r.frame))];
+101:     const thumbs = ['a','b','c'].map((variant,i) => {
+102:       const frame = samples[Math.min(i,samples.length-1)];
+103:       const heading = records.filter(r => r.frame === frame && r.zone === 'title');
+104:       const file = `thumbnail-${variant}.png`;
+105:       ff(['-i', outVideo, '-vf', `select=eq(n\\,${frame})`, '-frames:v', '1', join(dir,file)]);
+106:       return {file,variant, headlineSize: Math.min(...heading.map(r => r.pixelSize)),
+107:         fitted: heading.every(r => r.drawn[0] >= r.box[0]-1 && r.drawn[1] >= r.box[1]-1 && r.drawn[0]+r.drawn[2] <= r.box[0]+r.box[2]+1 && r.drawn[1]+r.drawn[3] <= r.box[1]+r.box[3]+1),
+108:         contrast: Math.min(...heading.map(r => r.contrast))};
+109:     });
+110:     writeFileSync(join(dir, 'thumbnails-report.json'), JSON.stringify(thumbs, null, 2));
+111:   }
+112: }
+
+src/thumbnails.ts
+10: export function checkThumbnails(dir: string): ThumbResult[] {
+11:   const path = join(dir, 'thumbnails-report.json');
+12:   if (!existsSync(path)) throw Error('thumbnails-report.jsonがない');
+13:   const report: {file: string; variant: string; headlineSize: number; fitted: boolean; contrast: number}[] = JSON.parse(readFileSync(path, 'utf8'));
+14:   return report.map(r => {
+15:     const issues: string[] = [];
+16:     const bytes = existsSync(join(dir, r.file)) ? statSync(join(dir, r.file)).size : 0;
+17:     if (!bytes) issues.push('画像がない');
+18:     if (bytes > THUMB_MAX_BYTES) issues.push(`${THUMB_MAX_BYTES}バイト（モバイル上限）を超える`);
+19:     if (!r.fitted) issues.push('見出しが収まらない');
+20:     if (r.contrast < MIN_CONTRAST) issues.push(`コントラスト比${r.contrast.toFixed(2)}が${MIN_CONTRAST}未満`);
+21:     return {file: r.file, variant: r.variant, bytes, contrast: Number(r.contrast.toFixed(2)), headlineSize: r.headlineSize, ok: !issues.length, issues};
+22:   });
+23: }
+
+src/commands/sample.ts
+187:     // サムネイル案の検査（T073）。不合格でも動画は残し、公開前の確認で直す。
+188:     const thumbs = checkThumbnails(dir);
+189:     job.thumbnails = thumbs.map(t => ({file: t.file, ok: t.ok, issues: t.issues}));
+190:     // 見やすさ（T091）。不合格でも制作は止めず、公開前の確認で直す。
+191:     job.readability = checkReadability(dir, visual.scale ?? 1);
+192:     // 文字配置（T106）。枠からのはみ出し・中央からのずれ・区画の重なり。不合格でも制作は止めず、確認で直す。
+193:     job.layout = checkLayout(dir);
+194:     job.status = 'completed';
+195:     job.outputHash = sha256(readFileSync(join(dir, 'sample.mp4')));
+196:     job.events.push('video-checked');
+197:     save();
+198:     writeFileSync('outputs/latest.json', JSON.stringify({id}));
+199:     console.log(`生成完了: ${dir}/sample.mp4`);
+200:     if (link.mode === 'demo') console.log('（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）');
+201:     return {id, dir};
+202:   } catch (e) {
+203:     job.status = 'failed';
+204:     job.error = String(e);
+205:     save();
+206:     throw e;
+207:   }
+208: }
+
+src/review.ts
+36: export function reviewBundle(dir: string, job = readJob(dir)): ReviewBundle {
+37:   const metaPath = join(dir, 'metadata.json');
+38:   const m = existsSync(metaPath) ? JSON.parse(readFileSync(metaPath, 'utf8')) : null;
+39:   const listed: string[] = (job.thumbnails ?? []).map((t: any) => t.file).filter((f: unknown) => typeof f === 'string' && THUMB.test(f));
+40:   const files = [...new Set([...listed, ...readdirSync(dir).filter(f => THUMB.test(f))])].sort();
+41:   return {
+42:     schema: 1,
+43:     video: fileHash(dir, 'sample.mp4'),
+44:     subtitles: fileHash(dir, 'subtitles.vtt'),
+45:     metadata: m ? {selectedTitle: m.selectedTitle ?? '', description: m.description ?? '', tags: m.tags ?? [], chapters: m.chapters ?? []} : null,
+46:     thumbnails: files.map(file => ({file, sha256: fileHash(dir, file)})),
+47:     ...(job.project ? {script: typeof job.scriptHash === 'string' ? job.scriptHash : null} : {}),
+48:     ...(job.checklist || readdirSync(dir).some(f => /^checklist(?:\.json|\.txt|-\d+\.png)$/.test(f)) ? {
+49:       checklist: [...new Set(['checklist.json', 'checklist.txt', ...(job.checklist?.files ?? []).filter((f: unknown) => typeof f === 'string' && /^checklist-\d+\.png$/.test(f)), ...readdirSync(dir).filter(f => /^checklist-\d+\.png$/.test(f))])].sort().map(file => ({file, sha256: fileHash(dir, file)})),
+50:     } : {}),
+51:   };
+52: }
+53: 
+54: // 一式の版。キーの順序を固定したJSONのSHA-256。承認時と判定時で同じ計算を使う。
+55: export function bundleHash(bundle: ReviewBundle) {
+56:   const {schema, video, subtitles, metadata, thumbnails, script, checklist} = bundle;
+57:   const meta = metadata && {selectedTitle: metadata.selectedTitle, description: metadata.description, tags: metadata.tags, chapters: metadata.chapters.map(c => ({time: c.time, title: c.title}))};
+58:   return sha256(JSON.stringify({schema, video, subtitles, metadata: meta, thumbnails: thumbnails.map(t => ({file: t.file, sha256: t.sha256})), ...(script !== undefined ? {script} : {}), ...(checklist !== undefined ? {checklist} : {})}));
+59: }
+60: 
+61: export function readJob(dir: string) {
+62:   return JSON.parse(readFileSync(join(dir, 'job.json'), 'utf8'));
+63: }
+
+src/metadata.ts
+158: export function reviseThumbnail(dir: string, to: string, reason: string, by = 'cli-user'): Revision {
+159:   const path = join(dir, 'metadata.json');
+160:   if (!existsSync(path)) throw Error('metadata.jsonがない');
+161:   if (!reason.trim()) throw Error('見直しの理由（--reason）が必要');
+162:   if (!/^thumbnail-[a-c]\.png$/.test(to)) throw Error('サムネイルは thumbnail-a.png, thumbnail-b.png, thumbnail-c.png のいずれか');
+163:   const m: Metadata = JSON.parse(readFileSync(path, 'utf8'));
+164:   const from = m.selectedThumbnail ?? 'thumbnail-a.png';
+165:   const rev: Revision = {at: new Date().toISOString(), field: 'thumbnail', from, to, reason, by};
+166:   const histPath = join(dir, 'metadata-revisions.json');
+167:   const hist: Revision[] = existsSync(histPath) ? JSON.parse(readFileSync(histPath, 'utf8')) : [];
+168:   writeFileSync(histPath, JSON.stringify([...hist, rev], null, 2));
+169:   writeFileSync(path, JSON.stringify({...m, selectedThumbnail: to}, null, 2));
+170:   return rev;
+171: }

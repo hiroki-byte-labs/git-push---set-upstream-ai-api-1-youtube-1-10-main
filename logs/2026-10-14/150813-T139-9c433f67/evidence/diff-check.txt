@@ -1,0 +1,5 @@
+COMMAND=['git', 'diff', '--check', '--', 'README.md', 'docs/SPEC.md', 'docs/STATUS.md', 'tickets/T139.md', '.agents/skills/sample-render-verification/SKILL.md', 'scripts/verify-avplayer-playback.swift']
+EXIT=0
+--- stdout ---
+
+--- stderr ---

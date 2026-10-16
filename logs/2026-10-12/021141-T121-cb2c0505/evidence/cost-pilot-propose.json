@@ -1,0 +1,53 @@
+{
+  "proposal_id": "prp_0mv4ml85pe7f2e97894e4",
+  "status": "proposed",
+  "changes": [
+    {
+      "task_type": "extraction",
+      "difficulty": "L1",
+      "from_tier": "light",
+      "to_tier": "standard",
+      "reason": "合格1件当たり 39768 tokens（合格率 1.00、評価4件）。現行 light は 43202 tokens・合格率 1.00"
+    }
+  ],
+  "insufficient": [
+    {
+      "task_type": "extraction",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "general",
+      "difficulty": "L2",
+      "model": "antigravity:gemini-3.8-flash-medium",
+      "evaluated": 0
+    },
+    {
+      "task_type": "implementation",
+      "difficulty": "L2",
+      "model": "codex:gpt-6.1-sol",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "codex:gpt-6-luna",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "claude:claude-haiku-5-5",
+      "evaluated": 0
+    }
+  ],
+  "notes": [],
+  "report": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/optimizer/prp_0mv4ml85pe7f2e97894e4.md"
+}

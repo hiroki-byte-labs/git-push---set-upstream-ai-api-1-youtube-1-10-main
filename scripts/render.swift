@@ -9,29 +9,35 @@ import CoreVideo
 // 台本形式v2（src/plan.ts）。図解は種別ごとに使う欄が異なるため任意項目にする。
 struct Cue: Codable { let text:String; let seconds:Double }
 struct Bar: Codable { let label:String; let value:Double }
-struct Diagram: Codable { let type:String; let items:[String]?; let left:String?; let right:String?; let leftItems:[String]?; let rightItems:[String]?; let value:String?; let label:String?; let note:String?; let question:String?; let yes:String?; let no:String?; let bars:[Bar]?; let total:String?; let motion:String? }
+struct Diagram: Codable { let type:String; let items:[String]?; let left:String?; let right:String?; let leftItems:[String]?; let rightItems:[String]?; let value:String?; let label:String?; let note:String?; let question:String?; let yes:String?; let no:String?; let bars:[Bar]?; let total:String?; let motion:String?; let illustration:String? }
 struct Scene: Codable { let title:String; let narration:String; let cues:[Cue]; let diagram:Diagram; let seconds:Int; let chapter:String?; let fictional:Bool?; let sources:[String]; let emphasis:[String]?; let role:String? }
 struct Source: Codable { let id:String; let title:String }
 struct Production: Codable { let mode:String; let project:String }
 struct Plan: Codable { let schema:Int; let id:String; let title:String; let version:Int; let scenes:[Scene]; let sources:[Source]; let theme:String?; let production:Production? }
-struct RenderFrame: Codable { let file:String; let scene:Int; let step:Int; let cue:Int?; let fade:Double?; let highlight:Bool?; let motion:Double? }
+struct IllustrationFigure: Codable {let x:CGFloat; let y:CGFloat; let height:CGFloat; let opacity:CGFloat; let accent:Bool}
+struct IllustrationLine: Codable {let x1:CGFloat; let y1:CGFloat; let x2:CGFloat; let y2:CGFloat; let opacity:CGFloat; let width:CGFloat}
+struct IllustrationHalo: Codable {let x:CGFloat; let y:CGFloat; let rx:CGFloat; let ry:CGFloat; let opacity:CGFloat}
+struct IllustrationLabel: Codable {let x:CGFloat; let y:CGFloat; let text:String; let opacity:CGFloat; let accent:Bool}
+struct IllustrationFrame: Codable {let opacity:CGFloat; let figures:[IllustrationFigure]; let lines:[IllustrationLine]; let halos:[IllustrationHalo]; let labels:[IllustrationLabel]}
+struct RenderFrame: Codable { let file:String; let scene:Int; let step:Int; let cue:Int?; let fade:Double?; let highlight:Bool?; let motion:Double?; let illustration:IllustrationFrame? }
 struct ThumbSpec: Codable { let file:String; let variant:String; let headline:String; let sub:String; let scene:Int; let keyword:String?; let contrast:[String]? }
 struct ThumbRecord: Codable { let file:String; let variant:String; let headlineSize:Double; let fitted:Bool; let contrast:Double }
-struct RenderSpec: Codable { let fps:Int; let subtitles:String; let frames:[RenderFrame]; let thumbnails:[ThumbSpec]?; let scale:Double? }
+struct RenderSpec: Codable { let fps:Int; let subtitles:String; let frames:[RenderFrame]; let thumbnails:[ThumbSpec]?; let scale:Double?; var illustrationGlyph:[[[CGFloat]]]? = nil }
 // box: 入れ物の枠、drawn: 実際に描いた文字の外接矩形（どちらも1280×720の論理座標、左下原点）。zone: 画面上の区画（重なりの検査に使う。src/layout.ts）。
 struct FitRecord: Codable { let file:String; let role:String; let text:String; let size:Double; let maxSize:Double; let fitted:Bool; let pixelSize:Double; let contrast:Double; let zone:String; let box:[Double]; let drawn:[Double]; let align:String }
 
 func fail(_ message:String)->Never { fputs(message+"\n",stderr);exit(1) }
-guard CommandLine.arguments.count==2 else { fail("usage: render <job-dir>") }
+guard CommandLine.arguments.count==2 || (CommandLine.arguments.count==3 && CommandLine.arguments[2]=="--checklist") else { fail("usage: render <job-dir> [--checklist]") }
+let checklistMode=CommandLine.arguments.count==3
 let dir=URL(fileURLWithPath:CommandLine.arguments[1])
 let plan=try JSONDecoder().decode(Plan.self,from:Data(contentsOf:dir.appendingPathComponent("plan.json")))
-let spec=try JSONDecoder().decode(RenderSpec.self,from:Data(contentsOf:dir.appendingPathComponent("render-spec.json")))
+let spec = checklistMode ? RenderSpec(fps:24,subtitles:"none",frames:[],thumbnails:nil,scale:1) : try JSONDecoder().decode(RenderSpec.self,from:Data(contentsOf:dir.appendingPathComponent("render-spec.json")))
 // 座標は1280×720の論理座標で書き、scale倍の画素で描く（T091: 1080pはscale=1.5）。
 let scale=CGFloat(spec.scale ?? 1)
 let w=Int(1280*scale),h=Int(720*scale)
 func color(_ r:CGFloat,_ g:CGFloat,_ b:CGFloat)->NSColor {NSColor(srgbRed:r/255,green:g/255,blue:b/255,alpha:1)}
 let dark0=color(12,22,38)
-let accent=color(81,212,184),muted=color(160,177,197),panel=color(27,46,67),subBg=color(20,34,52)
+let accent=color(81,212,184),muted=color(160,177,197),panel=color(27,46,67)
 var records:[FitRecord]=[]
 // 最新の段の描画状態（T079）と動きの進み具合（T106、0〜1）。frame()の中で設定する。
 var curFade:CGFloat=1, curHighlight=false, curMotion:CGFloat=1
@@ -67,7 +73,12 @@ func boxText(_ zone:String,_ role:String,_ value:String,_ box:NSRect,_ maxSize:C
  let y = v == .center ? box.minY+(box.height-m.height)/2 : box.maxY-m.height
  let tw=min(m.width,box.width)
  let x = align == .center ? box.midX-tw/2 : align == .right ? box.maxX-tw : box.minX
- (value as NSString).draw(in:NSRect(x:box.minX,y:y-1,width:box.width,height:m.height+1),withAttributes:attributes(size,c,align,weight))
+ var textAttributes=attributes(size,c,align,weight)
+ if zone=="subtitle" {
+  let shadow=NSShadow();shadow.shadowColor=NSColor.black.withAlphaComponent(0.65);shadow.shadowBlurRadius=6;shadow.shadowOffset=NSSize(width:0,height:2)
+  textAttributes[.shadow]=shadow
+ }
+ (value as NSString).draw(in:NSRect(x:box.minX,y:y-1,width:box.width,height:m.height+1),withAttributes:textAttributes)
  records.append(FitRecord(file:currentFile,role:role,text:value,size:Double(size),maxSize:Double(maxSize),fitted:fitted,pixelSize:Double(size*scale),contrast:contrast(c,bg),zone:zone,
   box:[box.minX,box.minY,box.width,box.height].map{Double($0)},drawn:[x,y,tw,m.height].map{Double($0)},align: v == .top ? "top" : "center"))
  return size
@@ -107,6 +118,52 @@ func arrowLine(_ a:NSPoint,_ b:NSPoint,progress p:CGFloat=1){
  accent.setStroke();let line=NSBezierPath();line.move(to:a);line.line(to:tip);line.lineWidth=4;line.lineCapStyle = .round;line.stroke()
  if p<1 { accent.setFill();NSBezierPath(ovalIn:NSRect(x:tip.x-9,y:tip.y-9,width:18,height:18)).fill(); return }
  let head=NSBezierPath();head.move(to:NSPoint(x:b.x+2,y:b.y));head.line(to:NSPoint(x:b.x-12,y:b.y+9));head.line(to:NSPoint(x:b.x-12,y:b.y-9));head.close();accent.setFill();head.fill()
+}
+
+// T145: 人物・聴衆を元動画から写さず、頭/胴/脚の少数の曲線で描くプロジェクト独自の抽象ピクトグラム。
+// T145: identical original contours and continuous motion states are produced in
+// src/illustration.ts for native and Remotion. Convert its top-left coordinates
+// into the established diagram zone; never reset old elements on a later reveal.
+func drawIllustration(_ frame:IllustrationFrame){
+ let ctx=NSGraphicsContext.current!.cgContext
+ let ratio:CGFloat=220/240
+ let originX:CGFloat=(1280-1000*ratio)/2
+ func point(_ x:CGFloat,_ y:CGFloat)->NSPoint {NSPoint(x:originX+x*ratio,y:455-y*ratio)}
+ ctx.saveGState();ctx.setAlpha(frame.opacity)
+ for halo in frame.halos {
+  let center=point(halo.x,halo.y)
+  // Soft radial falloff instead of a hard, suddenly appearing disc.
+  let gradient=NSGradient(starting:accent.withAlphaComponent(halo.opacity),ending:accent.withAlphaComponent(0))!
+  gradient.draw(in:NSBezierPath(ovalIn:NSRect(x:center.x-halo.rx*ratio,y:center.y-halo.ry*ratio,width:2*halo.rx*ratio,height:2*halo.ry*ratio)),relativeCenterPosition:.zero)
+ }
+ for line in frame.lines {
+  accent.withAlphaComponent(line.opacity).setStroke()
+  let path=NSBezierPath();path.move(to:point(line.x1,line.y1));path.line(to:point(line.x2,line.y2));path.lineWidth=line.width*ratio;path.lineCapStyle = .round;path.stroke()
+ }
+ for person in frame.figures {
+  let tint=person.accent ? accent : muted
+  tint.withAlphaComponent(person.opacity).setFill()
+  let size=person.height/100
+  func glyphPoint(_ x:CGFloat,_ y:CGFloat)->NSPoint {point(person.x+x*size,person.y-person.height+y*size)}
+  for commands in spec.illustrationGlyph ?? [] {
+   let path=NSBezierPath()
+   for c in commands {
+    switch Int(c[0]) {
+    case 0:path.move(to:glyphPoint(c[1],c[2]))
+    case 1:path.line(to:glyphPoint(c[1],c[2]))
+    case 2:path.curve(to:glyphPoint(c[5],c[6]),controlPoint1:glyphPoint(c[1],c[2]),controlPoint2:glyphPoint(c[3],c[4]))
+    default:path.close()
+    }
+   }
+   path.fill()
+  }
+ }
+ for label in frame.labels {
+  let p=point(label.x,label.y)
+  let lw=max(60,measure(label.text,22,500).width+24)
+  boxText("diagram","図解ラベル",label.text,NSRect(x:p.x-lw/2,y:p.y-14,width:lw,height:28),22,(label.accent ? accent:muted).withAlphaComponent(label.opacity),align:.center,minScale:0.7)
+ }
+ ctx.restoreGState()
 }
 
 // 図解。stepまでの要素だけを描く（段階表示）。座標はAppKitの左下原点。すべてZONE_DIAGRAMの中に置く。
@@ -288,6 +345,7 @@ func frame(_ f:RenderFrame)->CGImage {
  var right=ZONE_HEADER.maxX
  if scene.fictional == true { right=badge("架空の例",right:right,ZONE_HEADER) }
  if scene.role == "reflection" { right=badge(plan.production?.mode=="production" ? "本人の考察" : "デモ: 仮の考察（本人ではない）",right:right,ZONE_HEADER,fill:accent,fg:dark0) }
+ if scene.role == "action" { right=badge("判断前チェックリスト",right:right,ZONE_HEADER,fill:accent,fg:dark0) }
  let headerLabel = scene.chapter.map{chapterLabel(f.scene,$0)} ?? (plan.theme=="general" ? "DAILY KNOWLEDGE   /   LOCAL DEMO" : "INVESTMENT × PSYCHOLOGY   /   LOCAL DEMO")
  boxText("header","章",headerLabel,NSRect(x:ZONE_HEADER.minX,y:ZONE_HEADER.minY,width:right-ZONE_HEADER.minX-12,height:ZONE_HEADER.height),21,accent)
  boxText("title","見出し",scene.title,ZONE_TITLE,44,.white)
@@ -303,11 +361,10 @@ func frame(_ f:RenderFrame)->CGImage {
    x+=cw+14
   }
  }
- drawDiagram(scene.diagram,f.step)
- // 焼き込み字幕（T044、T106で既定）。枠の上下中央・左右中央に置く。
+ if let illustration=f.illustration {drawIllustration(illustration)} else {drawDiagram(scene.diagram,f.step)}
+ // 焼き込み字幕（T044、T106で既定、T144で本人希望の枠なしに統一）。図解・フッターと分離した区画に白文字と控えめな影で置く。
  if let cue=f.cue {
-  rect(ZONE_SUB,subBg)
-  boxText("subtitle","字幕",scene.cues[cue].text,ZONE_SUB.insetBy(dx:25,dy:10),30,.white,align:.center,bg:subBg)
+  boxText("subtitle","字幕",scene.cues[cue].text,ZONE_SUB.insetBy(dx:25,dy:10),30,.white,align:.center,bg:dark0)
  }
  muted.withAlphaComponent(0.6).setFill();NSRect(x:60,y:72,width:1160,height:2).fill()
  boxText("footer","フッター","音声：自作の確認音 / ナレーション未接続",NSRect(x:60,y:ZONE_FOOTER.minY,width:400,height:ZONE_FOOTER.height),17,muted,minScale:1)
@@ -385,12 +442,35 @@ for f in spec.frames {
  let bitmap=NSBitmapImageRep(cgImage:frame(f))
  try bitmap.representation(using:.png,properties:[:])!.write(to:dir.appendingPathComponent(f.file))
 }
+// チェックリストも同じ文字計測・縮小・枠の検査で描く。3項目ごとにページを分け、切り捨てない。
+if checklistMode {
+ struct Line:Decodable {let text:String;let reference:String}
+ struct Page:Decodable {let file:String;let lines:[Line]}
+ struct Checklist:Decodable {let title:String;let note:String;let pages:[Page]}
+ let checklist=try JSONDecoder().decode(Checklist.self,from:Data(contentsOf:dir.appendingPathComponent("checklist.json")))
+ for (i,page) in checklist.pages.enumerated() {
+  currentFile=page.file
+  let (ctx,b)=makeContext()
+  dark0.setFill();NSRect(x:0,y:0,width:1280,height:720).fill()
+  boxText("header","チェックリスト","判断前チェックリスト  \(i+1) / \(checklist.pages.count)",NSRect(x:60,y:640,width:1160,height:40),30,accent,minScale:1)
+  boxText("title","題名",checklist.title,NSRect(x:60,y:556,width:1160,height:72),32,.white)
+  for (k,line) in page.lines.enumerated() {
+   let y:CGFloat=410-CGFloat(k)*150
+   rect(NSRect(x:60,y:y,width:1160,height:140),panel)
+   boxText("item","実践項目",line.text,NSRect(x:84,y:y+42,width:1112,height:90),30,.white,bg:panel,minScale:0.8)
+   boxText("reference","出典対応",line.reference,NSRect(x:84,y:y+8,width:1112,height:28),20,muted,bg:panel,minScale:1)
+  }
+  boxText("note","注意",checklist.note,NSRect(x:60,y:30,width:1160,height:60),20,muted,minScale:1)
+  let img=finish(ctx,b)
+  try NSBitmapImageRep(cgImage:img).representation(using:.png,properties:[:])!.write(to:dir.appendingPathComponent(page.file))
+ }
+}
 let encoder=JSONEncoder();encoder.outputFormatting=[.prettyPrinted]
-try encoder.encode(records).write(to:dir.appendingPathComponent("render-report.json"))
+try encoder.encode(records).write(to:dir.appendingPathComponent(checklistMode ? "checklist-report.json" : "render-report.json"))
 let overflow=records.filter{!$0.fitted}
 if !overflow.isEmpty {
  var seen=Set<String>()
  let lines=overflow.compactMap{r->String? in let k="\(r.role)|\(r.text)";if seen.contains(k){return nil};seen.insert(k);return "- \(r.role): \(r.text)"}
- fail("文字が枠に収まりません（\(lines.count)件。render-report.json参照）\n"+lines.joined(separator:"\n"))
+ fail("文字が枠に収まりません（\(lines.count)件。\(checklistMode ? "checklist-report.json" : "render-report.json")参照）\n"+lines.joined(separator:"\n"))
 }
 print("Rendered \(spec.frames.count) images")

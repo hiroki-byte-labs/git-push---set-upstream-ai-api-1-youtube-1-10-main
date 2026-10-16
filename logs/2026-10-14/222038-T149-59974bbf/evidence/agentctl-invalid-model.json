@@ -1,0 +1,67 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mv8oc7r0f423a1ec2896",
+    "parent_task_id": null,
+    "execution_id": "exe_0mv8oc7vjab6ebbf12b3d",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mv8oc7vldce8b3a8ccb6",
+    "initiator": "codex",
+    "agent_name": null,
+    "provider": "antigravity",
+    "model_id": "gemini-3.1-pro-high",
+    "reasoning_level": "high",
+    "task_type": "analysis",
+    "difficulty": "L3",
+    "routing_reason": "L3/analysis/品質high → high枠の antigravity:gemini-3.1-pro-high（antigravityの順で最初に条件を満たしたモデル）",
+    "status": "failed",
+    "managed": true,
+    "route": "cli",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-14T22:21:12.805Z",
+    "end_time": "2026-10-14T22:21:19.502Z",
+    "duration_ms": 6697,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [
+      {
+        "path": "work/T149-antigravity-findings.md",
+        "exists": false,
+        "sha256": null
+      }
+    ],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "antigravity",
+      "session_id": "",
+      "agent_id": null
+    },
+    "error": {
+      "cause": "policy",
+      "message": "\"invalid model selection (--model \\\"gemini-3.1-pro-high\\\" --effort \\\"\\\"): model gemini-3.1-pro-high is not recognized as a known model or custom model in settings\\nAvailable models:\\n  Gemini 3.8 Flash (High)\\n  Gemini 3.8 Flash (Medium)\\n  Gemini 3.8 Flash (Low)\\n  Claude Opus 5.5 (Low)\\n  Claude Opus 5.5 (Medium)\\n  Claude Opus 5.5 (High)\\n  Claude Sonnet 5.5 (Low)\\n  Claude Sonnet 5.5 (Medium)\\n  Claude Sonnet 5.5 (High)\\n  GPT-OSS 120B (Medium)\" / 原因 policy は再試行・切替えで解決しないため停止"
+    },
+    "tree": {
+      "executions": 1,
+      "total": 0,
+      "api_usd": null
+    },
+    "usage": [
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.1-pro-high",
+        "source_kind": "cli_result",
+        "input_total": 0,
+        "cache_read": 0,
+        "cache_write": null,
+        "output_total": 0,
+        "reasoning": 0,
+        "total": 0,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"estimated\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": null
+      }
+    ]
+  }
+]
+EXIT=0

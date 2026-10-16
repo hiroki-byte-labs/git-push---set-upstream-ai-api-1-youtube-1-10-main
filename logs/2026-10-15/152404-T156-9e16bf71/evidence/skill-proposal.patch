@@ -1,0 +1,10 @@
+--- .agents/skills/sample-render-verification/SKILL.md
++++ .agents/skills/sample-render-verification/SKILL.md
+@@ -7,6 +7,7 @@
+ 正本はリポジトリのREADME・docs/AGENT-WORKFLOW.md・AGENTS.md。証跡の保存規則は `.agents/skills/repository-task-closeout/SKILL.md` に従う。ここでは動画固有の手順だけを書く。
+ 
+ ## 1. 隔離コピーで生成する
++- T139/T145のoutputs保護検査とT156のcwd誤指定を踏まえ、実行前に元outputsの相対パス・サイズ・mtime・SHA-256とlatest.jsonの内容を小さな証跡へ保存する。隔離先に置いたスクリプトでも、起動元のcwdは変わらない。生成コマンドは隔離先をcwdに明示し、ハーネスは開始時に実cwdと予定した隔離ルートを照合して、不一致なら書込み前に停止する。実行後は元outputsとマニフェストを照合する。
+ - 利用者のoutputs/を増やさない・整理しない。作業用ディレクトリ（エージェントの一時領域など）へ `src scripts fixtures config prompts package.json` を複製し、`work/python-deps` だけはリポジトリへのsymlinkにする（FFmpegの再取得を避ける）。
+ - `work/swift-cache`・`work/render`・`work/render-source` はコピーしない。Swiftのモジュールキャッシュは作成時のパスを覚えており、別パスで使うとswiftcが「compiled with module cache path …」で失敗する（T104で発生）。描画プログラムはコピー先で再コンパイルされる（約20秒）。
+ - Node 24以上を `NODE_BIN` で明示し、コピー先で `./scripts/run src/cli.ts sample --plan <台本>`（必要なら `--subtitles` `--resolution`）を実行する。終了コードと「生成完了」の行を保存する。

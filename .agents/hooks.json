@@ -1,0 +1,50 @@
+{
+  "agentctl": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": "run_command|invoke_subagent|define_subagent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "../scripts/agentctl-hook antigravity PreToolUse",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "invoke_subagent|define_subagent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "../scripts/agentctl-hook antigravity PostToolUse",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "../scripts/agentctl-hook antigravity PreInvocation",
+        "timeout": 15
+      }
+    ],
+    "PostInvocation": [
+      {
+        "type": "command",
+        "command": "../scripts/agentctl-hook antigravity PostInvocation",
+        "timeout": 15
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "../scripts/agentctl-hook antigravity Stop",
+        "timeout": 15
+      }
+    ]
+  }
+}

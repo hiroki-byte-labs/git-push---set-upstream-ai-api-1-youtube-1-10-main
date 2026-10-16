@@ -1,0 +1,85 @@
+{
+  "command": "./scripts/agentctl status --session e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+  "started_at": "2026-10-13T23:42:20.575391+00:00",
+  "ended_at": "2026-10-13T23:42:20.667595+00:00",
+  "exit_code": 0,
+  "stderr": "",
+  "filter": "product/provider=antigravity only; events.at < 2026-10-13T23:41:42.657Z; this Codex and all other products excluded before saving",
+  "result": {
+    "returned_count": 5,
+    "selected_count": 5,
+    "excluded_count": 0,
+    "rows": [
+      {
+        "execution_id": "exe_0mv4vmcjb560824bdc53f",
+        "task_id": "tsk_0mv4vmcjbcc5e4fe6154c",
+        "parent_execution_id": null,
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-high",
+        "route": "interactive",
+        "status": "completed",
+        "metering_status": "measured",
+        "managed": 0,
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "agent_id": null,
+        "updated_at": "2026-10-12T06:37:40.225Z"
+      },
+      {
+        "execution_id": "exe_0mv4vrdt83d24326e8a83",
+        "task_id": "tsk_0mv4vrdt71e858dddcfd1",
+        "parent_execution_id": null,
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-high",
+        "route": "interactive",
+        "status": "completed",
+        "metering_status": "measured",
+        "managed": 0,
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "agent_id": null,
+        "updated_at": "2026-10-12T06:38:33.091Z"
+      },
+      {
+        "execution_id": "exe_0mv4w4mve9bbef6fb889a",
+        "task_id": "tsk_0mv4w4mvdeb70ff5fe4c9",
+        "parent_execution_id": null,
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "route": "interactive",
+        "status": "completed",
+        "metering_status": "measured",
+        "managed": 0,
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "agent_id": null,
+        "updated_at": "2026-10-12T06:48:25.945Z"
+      },
+      {
+        "execution_id": "exe_0mv4w51q3d0727db96a09",
+        "task_id": "tsk_0mv4w51q3b1935772761c",
+        "parent_execution_id": null,
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "route": "interactive",
+        "status": "completed",
+        "metering_status": "measured",
+        "managed": 0,
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "agent_id": null,
+        "updated_at": "2026-10-12T06:48:48.989Z"
+      },
+      {
+        "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+        "task_id": "tsk_0mv4w4tue4e905c1d5f18",
+        "parent_execution_id": "exe_0mv4w4mve9bbef6fb889a",
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "route": "native_subagent",
+        "status": "completed",
+        "metering_status": "measured",
+        "managed": 1,
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "agent_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+        "updated_at": "2026-10-12T06:55:09.679Z"
+      }
+    ]
+  }
+}

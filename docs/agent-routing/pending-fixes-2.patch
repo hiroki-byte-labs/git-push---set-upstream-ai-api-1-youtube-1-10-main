@@ -1,0 +1,113 @@
+diff -ru a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 05:19:15
++++ b/orchestration/hooks/hook.ts	2026-10-11 05:59:53
+@@ -25,15 +25,18 @@
+ const EDIT:Record<Product,RegExp>={claude:/^(Edit|Write|MultiEdit|NotebookEdit)$/,codex:/^(apply_patch|Edit|Write)$/,antigravity:/^(write_to_file|replace_file_content|multi_replace_file_content)$/};
+ const READ:Record<Product,RegExp>={claude:/^Read$/,codex:/^$/,antigravity:/^view_file$/};
+ const KEY_FILE=/(\/\.config\/agentctl\/|approval\.key$)/;
+-const SPAWN:Record<Product,RegExp>={claude:/^(Agent|Task)$/,codex:/^(spawn_agent|Agent)$/,antigravity:/^(invoke_subagent|define_subagent)$/};
++// Codex 0.161の新しい協調ツールは名前空間（collaboration）付きのため、末尾一致で判定する（2026-10-11の実機試験で判明）。
++const SPAWN:Record<Product,RegExp>={claude:/^(Agent|Task)$/,codex:/(^|[^A-Za-z0-9])spawn_agent$|^Agent$/,antigravity:/^(invoke_subagent|define_subagent)$/};
+ const commandOf=(n:N)=>{const i=n.tool_input;const c=i.command??i.cmd??i.CommandLine??i.commandLine;return Array.isArray(c)?c.join(' '):String(c??'')};
+ const filesOf=(n:N):string[]=>{const i=n.tool_input;const direct=[i.file_path,i.path,i.notebook_path,i.TargetFile,i.targetFile,i.AbsolutePath].filter((x):x is string=>typeof x==='string');const patch=typeof i.input==='string'?patchPaths(i.input):typeof i.patch==='string'?patchPaths(i.patch):[];return [...direct,...patch]};
+ 
+ // 出力（製品ごとの形式）。
+ function out(product:Product,v:Record<string,unknown>|null):HookOut{return {stdout:v?JSON.stringify(v):'',exitCode:0}}
+-const pass=(n:N)=>n.product==='antigravity'?out(n.product,n.event==='PreToolUse'?{decision:'ask'}:n.event==='Stop'?{decision:'stop'}:{}):out(n.product,null);
++// Antigravityの PreToolUse は decision が必須で「判断なし」がない。拒否しない操作は allow（常に許可）を返す
++// （2026-10-11、利用者の指示で ask から変更。AI CLIの直接起動・保護対象への操作は引き続き deny）。
++const pass=(n:N)=>n.product==='antigravity'?out(n.product,n.event==='PreToolUse'?{decision:'allow'}:n.event==='Stop'?{decision:'stop'}:{}):out(n.product,null);
+ const deny=(n:N,reason:string)=>n.product==='antigravity'?out(n.product,{decision:'deny',reason:`[agentctl] ${reason}`}):out(n.product,{hookSpecificOutput:{hookEventName:'PreToolUse',permissionDecision:'deny',permissionDecisionReason:`[agentctl] ${reason}`}});
+-const rewrite=(n:N,input:Record<string,unknown>,reason:string)=>n.product==='antigravity'?out(n.product,{decision:'ask',overwrite:input,reason:`[agentctl] ${reason}`}):out(n.product,{hookSpecificOutput:{hookEventName:'PreToolUse',permissionDecision:'allow',permissionDecisionReason:`[agentctl] ${reason}`,updatedInput:input}});
++const rewrite=(n:N,input:Record<string,unknown>,reason:string)=>n.product==='antigravity'?out(n.product,{decision:'allow',overwrite:input,reason:`[agentctl] ${reason}`}):out(n.product,{hookSpecificOutput:{hookEventName:'PreToolUse',permissionDecision:'allow',permissionDecisionReason:`[agentctl] ${reason}`,updatedInput:input}});
+ const context=(n:N,text:string)=>n.product==='antigravity'?out(n.product,{injectSteps:[{ephemeralMessage:text}]}):out(n.product,{hookSpecificOutput:{hookEventName:n.event,additionalContext:text}});
+ const blockPrompt=(n:N,reason:string)=>n.product==='antigravity'?out(n.product,{terminationBehavior:'terminate'}):out(n.product,{decision:'block',reason:`[agentctl] ${reason}`});
+ 
+@@ -163,7 +166,8 @@
+  }
+  if(policy.native_subagents.missing_model==='inject'&&n.product!=='antigravity'){
+   record('approved');
+-  const updated=n.product==='claude'?{...i,model:alias??sel.model_id}:{...i,model:sel.model_id,...(sel.reasoning_level?{reasoning_effort:sel.reasoning_level}:{})};
++  // Codexの新しいspawn_agentの引数は task_name・agent_type・fork_turns・message・model。未知の引数で失敗しないよう model だけ入れる。
++  const updated=n.product==='claude'?{...i,model:alias??sel.model_id}:{...i,model:sel.model_id};
+   return rewrite(n,updated,`Model Routerが ${sel.model_id} を指定（${d.difficulty}/${d.task_type}）`);
+  }
+  // Antigravityのサブエージェント起動引数にモデル指定があるかは未確認のため、強制せず記録だけする。
+@@ -194,6 +198,8 @@
+   return deny(n,`${hit.f}: ${hit.reason}`);
+  }
+  if(SPAWN[n.product].test(tool))return onSpawn(db,n,s);
++ // 製品がサブエージェント系のツールをどの名前で渡すかの確認用（名前だけを記録）。
++ if(/agent|spawn|collab/i.test(tool))logEvent(db,'agent_tool_seen',{tool},{product:n.product,session_id:n.session_id});
+  return pass(n);
+ }
+ function onPostTool(db:DB,n:N):HookOut{
+diff -ru a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 05:19:15
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 05:59:53
+@@ -49,7 +49,7 @@
+  H('codex','SessionStart',{session_id:'cx-2',model:'gpt-6-astra',source:'startup'});
+  H('codex','UserPromptSubmit',{session_id:'cx-2',model:'gpt-6-astra',prompt:'実装して'});
+  const o=H('codex','PreToolUse',{session_id:'cx-2',model:'gpt-6-astra',tool_name:'spawn_agent',tool_use_id:'call-1',tool_input:{agent_type:'explorer',message:'探して'}});
+- assert.equal(o.hookSpecificOutput.updatedInput.model,'gpt-6-luna');assert.equal(o.hookSpecificOutput.updatedInput.reasoning_effort,'low');
++ assert.equal(o.hookSpecificOutput.updatedInput.model,'gpt-6-luna');assert.equal(o.hookSpecificOutput.updatedInput.reasoning_effort,undefined,'新しいspawn_agentにない引数は入れない');
+  H('codex','SubagentStart',{session_id:'cx-2',agent_id:'th-child',agent_type:'explorer',model:'gpt-6-luna'});
+  const ro=join(dir,'rollout-child.jsonl');
+  writeJsonl(ro,[{type:'session_meta',payload:{id:'th-child',parent_thread_id:'th-main'}},{type:'turn_context',payload:{model:'gpt-6-luna'}},{type:'token_usage_record',payload:{thread_id:'th-child',response_id:'r9',usage:{input_tokens:500,cached_input_tokens:100,output_tokens:50,reasoning_output_tokens:5}}}]);
+@@ -61,6 +61,16 @@
+  // 明示的に違うモデルを指定した起動は拒否
+  assert.ok(denied(H('codex','PreToolUse',{session_id:'cx-2',tool_name:'spawn_agent',tool_use_id:'call-2',tool_input:{agent_type:'explorer',model:'gpt-6-astra'}})));
+ });
++test('Codexの名前空間付きspawn_agent（collaboration）も判定し、modelだけを入れる', ()=>{
++ H('codex','SessionStart',{session_id:'cx-ns',model:'gpt-6-astra',source:'startup'});
++ H('codex','UserPromptSubmit',{session_id:'cx-ns',model:'gpt-6-astra',prompt:'探して'});
++ for(const name of ['collaboration.spawn_agent','collaboration__spawn_agent','collaboration/spawn_agent']){
++  const o=H('codex','PreToolUse',{session_id:'cx-ns',tool_name:name,tool_use_id:`ns-${name}`,tool_input:{task_name:'t1',agent_type:'explorer',fork_turns:0,message:'m'}});
++  assert.deepEqual(o.hookSpecificOutput.updatedInput,{task_name:'t1',agent_type:'explorer',fork_turns:0,message:'m',model:'gpt-6-luna'},name);
++ }
++ assert.equal(H('codex','PreToolUse',{session_id:'cx-ns',tool_name:'collaboration.wait_agent',tool_input:{timeout_ms:1}}),null);
++ assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='agent_tool_seen' AND session_id='cx-ns'").n,1,'ツール名だけを記録');
++});
+ test('TEST-005: Claude Codeのサブエージェントは親子関連付けと計測ができ、承認と異なるモデルを検知する', ()=>{
+  H('claude','SessionStart',{session_id:'cl-2',model:'claude-opus-5-5',source:'startup'});
+  H('claude','UserPromptSubmit',{session_id:'cl-2',prompt:'ファイルを探して'});
+@@ -88,11 +98,18 @@
+ test('TEST-006: Antigravityのサブエージェント起動を親子関係つきで記録する（モデルの強制は未確認のため記録のみ）', ()=>{
+  H('antigravity','PreInvocation',{conversationId:'ag-2',modelName:'gemini-3.8-flash-high',invocationNum:1});
+  const o=H('antigravity','PreToolUse',{conversationId:'ag-2',modelName:'gemini-3.8-flash-high',toolCall:{name:'invoke_subagent',args:{agentName:'motion-analyst',task:'x'}},stepIdx:7});
+- assert.equal(o.decision,'ask','通常の許可処理に任せる');
++ assert.equal(o.decision,'allow','拒否しない操作は常に許可（2026-10-11 利用者の指示）');
+  const c=one("SELECT * FROM executions WHERE session_product='antigravity' AND session_id='ag-2' AND route='native_subagent'");
+  const parent=one("SELECT current_execution_id FROM sessions WHERE product='antigravity' AND session_id='ag-2'").current_execution_id;
+  assert.deepEqual([c.parent_execution_id,c.agent_name,c.model_id,c.task_type],[parent,'motion-analyst','gemini-3.8-flash-medium','video_analysis']);
+  assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='subagent_model_unenforced' AND execution_id=?",c.execution_id).n,1);
++});
++test('Antigravity: 拒否しないコマンドは常に許可し、AI CLIの直接起動は拒否する', ()=>{
++ const run=(c:string)=>H('antigravity','PreToolUse',{conversationId:'allow-1',modelName:'gemini-3.8-flash-low',toolCall:{name:'run_command',args:{CommandLine:c}},stepIdx:1});
++ assert.deepEqual(run('ls -la'),{decision:'allow'});
++ assert.deepEqual(run('node --test orchestration/tests/router.test.ts'),{decision:'allow'});
++ assert.equal(run('codex exec "x"').decision,'deny');
++ assert.equal(run('rm .agents/hooks.json').decision,'deny');
+ });
+ test('TEST-014: Hookの無効化・設定変更を拒否し、拒否を記録する', ()=>{
+  const tries:[string,string,Record<string,unknown>][]=[
+--- a/.codex/hooks.json
++++ b/.codex/hooks.json
+@@ -26,7 +26,7 @@
+     ],
+     "PreToolUse": [
+       {
+-        "matcher": "^(Bash|apply_patch|Edit|Write|spawn_agent|Agent)$",
++        "matcher": "^(Bash|apply_patch|Edit|Write|Agent)$|spawn_agent$|agent",
+         "hooks": [
+           {
+             "type": "command",
+@@ -39,7 +39,7 @@
+     ],
+     "PostToolUse": [
+       {
+-        "matcher": "^(spawn_agent|Agent)$",
++        "matcher": "spawn_agent$|^Agent$",
+         "hooks": [
+           {
+             "type": "command",

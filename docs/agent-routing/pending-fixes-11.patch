@@ -1,0 +1,106 @@
+diff -ru -x n a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 19:17:25
++++ b/orchestration/hooks/hook.ts	2026-10-11 23:53:28
+@@ -293,6 +293,44 @@
+  finishExecution(db,row.execution_id,'completed');
+  return pass(n);
+ }
++// Antigravityの対話中のサブエージェント: 子の会話の環境変数 ANTIGRAVITY_CONVERSATION_ID は子自身のID（2026-10-12実機）で親を示さず、
++// invoke_subagent は非同期で、PostToolUseの時点では子はまだ動いている。そこで親のStopで、親の会話記録の
++// 「Created the following subagents」にある子の会話IDを、親の未結び付けの子の実行へ順に結び付け、
++// 子の会話が独立の対話タスクとして記録した使用量をその子の実行へ移し、子の会話記録から残りを実測する。何度呼んでも同じ結果になる。
++export function agyCreatedChildren(records:Record<string,unknown>[]):string[]{
++ const ids:string[]=[];
++ for(const r of records){const c=r.content;if(typeof c!=='string'||!c.includes('Created the following subagents'))continue;
++  for(const m of c.matchAll(/"conversationId"\s*:\s*"([0-9a-fA-F-]{8,64})"/g))if(!ids.includes(m[1]!))ids.push(m[1]!)}
++ return ids;
++}
++function linkAgyInteractiveChildren(db:DB,n:N){
++ const path=n.transcript_path&&existsSync(n.transcript_path)?n.transcript_path:agyTranscriptPath(n.session_id!);
++ if(!existsSync(path))return;
++ for(const id of agyCreatedChildren(readJsonlFrom(path,0).records)){
++  let target=(db.prepare("SELECT execution_id FROM executions WHERE session_product='antigravity' AND session_id=? AND route='native_subagent' AND agent_id=?").get(n.session_id,id) as {execution_id:string}|undefined)?.execution_id;
++  if(!target){
++   target=(db.prepare("SELECT execution_id FROM executions WHERE session_product='antigravity' AND session_id=? AND route='native_subagent' AND managed=1 AND agent_id IS NULL ORDER BY rowid LIMIT 1").get(n.session_id) as {execution_id:string}|undefined)?.execution_id;
++   if(!target){logEvent(db,'agy_child_unmatched',{conversation:id},{product:n.product,session_id:n.session_id});continue}
++   db.prepare('UPDATE executions SET agent_id=?,updated_at=? WHERE execution_id=?').run(id,now(),target);
++   logEvent(db,'agy_child_session_bound',{parent:n.session_id,via:'parent_transcript'},{product:n.product,session_id:id,execution_id:target});
++  }
++  // 子の会話が独立の対話タスクとして記録したもの（使用量）をこの子の実行へ移し、二重に数えない。
++  const orphans=db.prepare("SELECT execution_id FROM executions WHERE session_product='antigravity' AND session_id=? AND route='interactive' AND managed=0").all(id) as {execution_id:string}[];
++  for(const o of orphans){db.prepare('UPDATE usage SET execution_id=? WHERE execution_id=?').run(target,o.execution_id);
++   db.prepare("UPDATE executions SET parent_execution_id=?,metering_status='included_in_parent',updated_at=? WHERE execution_id=?").run(target,now(),o.execution_id)}
++  const cpath=agyTranscriptPath(id);
++  const childModel=(db.prepare("SELECT model_id FROM sessions WHERE product='antigravity' AND session_id=?").get(id) as {model_id:string|null}|undefined)?.model_id??null;
++  const usage=existsSync(cpath)?agyTranscriptUsage(readJsonlFrom(cpath,0).records,id,childModel):[];
++  for(const u of usage)recordUsage(db,target,u,'subscription');
++  const counted=(db.prepare("SELECT COUNT(*) AS c FROM usage WHERE execution_id=? AND dedupe_key<>?").get(target,`unavailable:${target}`) as {c:number}).c;
++  if(!counted)continue;
++  db.prepare('DELETE FROM usage WHERE execution_id=? AND dedupe_key=?').run(target,`unavailable:${target}`);
++  if(childModel)db.prepare('UPDATE executions SET model_id=? WHERE execution_id=?').run(childModel,target);
++  db.prepare("UPDATE executions SET metering_status='missing' WHERE execution_id=?").run(target);
++  refreshMetering(db,target);
++  logEvent(db,'agy_child_usage_linked',{conversation:id,steps:usage.length,moved_from:orphans.length},{product:n.product,session_id:n.session_id,execution_id:target});
++ }
++}
+ function onStop(db:DB,n:N,env:NodeJS.ProcessEnv):HookOut{
+  const s=registerSession(db,n,env);
+  if(!s)return pass(n);
+@@ -305,6 +343,7 @@
+   if(!managedExe(s))finishExecution(db,target,'completed');
+   if(n.product==='antigravity')db.prepare('DELETE FROM usage WHERE execution_id=? AND dedupe_key=? AND EXISTS (SELECT 1 FROM usage WHERE execution_id=? AND dedupe_key<>?)').run(target,`unavailable:${target}`,target,`unavailable:${target}`);
+   if(n.product==='antigravity')refreshMetering(db,target);
++  if(n.product==='antigravity'&&!managedExe(s))linkAgyInteractiveChildren(db,n);
+   // Antigravityは発言ごとのHookがないため、実行ループの終了（Stop）で区切り、次のPreInvocationで新しいタスクにする。
+   if(n.product==='antigravity'&&!managedExe(s))db.prepare('UPDATE sessions SET current_execution_id=NULL,current_task_id=NULL WHERE product=? AND session_id=?').run(n.product,n.session_id);
+  }
+diff -ru -x n a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 19:43:00
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 23:53:38
+@@ -1,8 +1,8 @@
+ // 3製品のHook入力（各公式仕様の形式）を共通処理へ流す結合テスト。実際の製品がこの入力を送るかは実機試験で別に確認する。
+ import {test} from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readFileSync,writeFileSync} from 'node:fs';
+-import {join} from 'node:path';
++import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
++import {dirname,join} from 'node:path';
+ import {sandbox,writeJsonl} from './helpers.ts';
+ import {handle} from '../hooks/hook.ts';
+ import {mint} from '../gateway/approval.ts';
+@@ -188,6 +188,35 @@
+  assert.deepEqual([c.status,c.metering_status],['completed','measured']);
+  assert.equal(one('SELECT SUM(total) AS t,COUNT(*) AS n FROM usage WHERE execution_id=?',child).t,1010);
+  assert.equal(JSON.parse(one("SELECT detail_json FROM events WHERE kind='agy_payload_keys' AND session_id='agc'").detail_json).env_conversation_is_self,false);
++});
++test('Antigravityの対話中のサブエージェント（実機の順序）: 親のStopで親の会話記録の子IDから結び付け、子の使用量を移して実測する', ()=>{
++ const ptr=join(dir,'agy-parent2.jsonl'),ctr=join(dir,'agy-child2.jsonl');
++ writeJsonl(ptr,[{step_index:0,type:'USER_INPUT',content:'x'},{step_index:1,type:'PLANNER_RESPONSE',input_tokens:500,cache_read_tokens:0,output_tokens:5}]);
++ H('antigravity','PreInvocation',{conversationId:'agp2',modelName:'gemini-3.8-flash-medium',transcriptPath:ptr,invocationNum:1});
++ assert.equal(H('antigravity','PreToolUse',{conversationId:'agp2',modelName:'gemini-3.8-flash-medium',toolCall:{name:'invoke_subagent',args:{Subagents:[{}],toolAction:'a',toolSummary:'s'}},stepIdx:2}).decision,'allow');
++ const child=one("SELECT execution_id FROM executions WHERE session_id='agp2' AND route='native_subagent'").execution_id;
++ H('antigravity','PostToolUse',{conversationId:'agp2',toolCall:{name:'invoke_subagent',args:{}},stepIdx:2});
++ // 子の会話: 環境変数は子自身のID。独立の対話タスクとして記録される。
++ writeJsonl(ctr,[{step_index:0,type:'SYSTEM_MESSAGE'},{step_index:1,type:'PLANNER_RESPONSE',input_tokens:1000,cache_read_tokens:0,output_tokens:10},{step_index:2,type:'PLANNER_RESPONSE',input_tokens:2000,cache_read_tokens:0,output_tokens:20}]);
++ const self={...env,ANTIGRAVITY_CONVERSATION_ID:'00000000-0000-4000-8000-0000000000c2'};
++ const cid='00000000-0000-4000-8000-0000000000c2';
++ H('antigravity','PreInvocation',{conversationId:cid,modelName:'gemini-3.8-flash-medium',transcriptPath:ctr,invocationNum:1},self);
++ H('antigravity','Stop',{conversationId:cid,transcriptPath:ctr,executionNum:1,fullyIdle:true},self);
++ assert.equal(one("SELECT COUNT(*) AS n FROM executions WHERE session_id=? AND route='interactive'",cid).n,1);
++ // 親のStop: 会話記録に子の会話IDがある。子の会話記録は既定の場所（HOME配下）に置く。
++ const home=join(dir,'home2'),cpath=`${home}/.gemini/antigravity-cli/brain/${cid}/.system_generated/logs/transcript.jsonl`;
++ mkdirSync(dirname(cpath),{recursive:true});writeJsonl(cpath,readFileSync(ctr,'utf8').trim().split('\n').map(l=>JSON.parse(l)));
++ writeJsonl(ptr,[{step_index:0,type:'USER_INPUT',content:'x'},{step_index:1,type:'PLANNER_RESPONSE',input_tokens:500,cache_read_tokens:0,output_tokens:5},
++  {step_index:2,source:'MODEL',type:'GENERIC',content:`Created the following subagents:\n{\n  "conversationId":  "${cid}",\n  "logAbsoluteUri":  "file:///x"\n}`}]);
++ const oldHome=process.env.HOME;process.env.HOME=home;
++ try{H('antigravity','Stop',{conversationId:'agp2',transcriptPath:ptr,executionNum:1,fullyIdle:true});H('antigravity','Stop',{conversationId:'agp2',transcriptPath:ptr,executionNum:2,fullyIdle:true})}finally{process.env.HOME=oldHome}
++ const c=one('SELECT agent_id,status,metering_status,model_id FROM executions WHERE execution_id=?',child);
++ assert.deepEqual([c.agent_id,c.status,c.metering_status,c.model_id],[cid,'completed','measured','gemini-3.8-flash-medium']);
++ assert.equal(one('SELECT SUM(total) AS t FROM usage WHERE execution_id=?',child).t,3030,'子の全ステップを1回だけ計上（2回目のStopでも増えない）');
++ const orphan=one("SELECT parent_execution_id,metering_status FROM executions WHERE session_id=? AND route='interactive'",cid);
++ assert.deepEqual([orphan.parent_execution_id,orphan.metering_status],[child,'included_in_parent']);
++ assert.equal(one("SELECT COUNT(*) AS n FROM usage u JOIN executions e ON e.execution_id=u.execution_id WHERE e.session_id=? AND e.route='interactive'",cid).n,0,'独立の対話側に使用量を残さない');
++ assert.equal(one("SELECT COUNT(*) AS n FROM events WHERE kind='agy_child_session_bound' AND execution_id=?",child).n,1);
+ });
+ test('Antigravity: 拒否しないコマンドは常に許可し、AI CLIの直接起動は拒否する', ()=>{
+  const run=(c:string)=>H('antigravity','PreToolUse',{conversationId:'allow-1',modelName:'gemini-3.8-flash-low',toolCall:{name:'run_command',args:{CommandLine:c}},stepIdx:1});

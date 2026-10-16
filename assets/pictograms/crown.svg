@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <!-- 王冠のベースと先端ポイント -->
+  <path d="M3 18h18v2H3v-2zm1.5-12 4 6 3.5-7 3.5 7 4-6 1.5 10H3L4.5 6z" />
+  <!-- 先端の宝石サークル -->
+  <circle cx="4.5" cy="5" r="1.5" />
+  <circle cx="12" cy="4" r="1.5" />
+  <circle cx="19.5" cy="5" r="1.5" />
+</svg>

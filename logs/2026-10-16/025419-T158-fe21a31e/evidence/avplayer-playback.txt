@@ -1,0 +1,12 @@
+{
+  "durationSeconds" : 30,
+  "elapsedSeconds" : 4.0746859312057495,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 30,
+  "muted" : true,
+  "observedProgressSamples" : 76,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}

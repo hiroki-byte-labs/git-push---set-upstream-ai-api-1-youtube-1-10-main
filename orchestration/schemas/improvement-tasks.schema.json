@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://video-agent.local/schemas/improvement-tasks.schema.json",
+  "title": "improvement-tasks",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_id",
+    "evaluation_id",
+    "reference_id",
+    "generated_video_id",
+    "tasks"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_video_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task_id",
+          "owner",
+          "priority",
+          "target_component",
+          "problem",
+          "evidence",
+          "expected_behavior",
+          "acceptance_criteria",
+          "status"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "enum": [
+              "animation-refiner",
+              "remotion-developer",
+              "render-engineer"
+            ]
+          },
+          "priority": {
+            "enum": [
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "target_component": {
+            "type": "string",
+            "minLength": 1
+          },
+          "problem": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "expected_behavior": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acceptance_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "in_progress",
+              "done",
+              "blocked"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

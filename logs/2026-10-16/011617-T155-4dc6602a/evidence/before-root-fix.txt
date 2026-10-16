@@ -1,0 +1,4 @@
+COMMAND=NODE_BIN=/opt/homebrew/bin/node ./scripts/run src/cli.ts sample --plan fixtures/remotion-layout-stress.json --renderer remotion --resolution 720
+Rendered 0 images
+Error: 図解測定欠落 scene=4: YES: はいの答えの最大文字数を検査しますはいの
+EXIT=1

@@ -1,0 +1,12 @@
+✔ 採用a→bの変更で承認が失効し旧bundleHashを拒否（T166） (4.403834ms)
+✔ brief変更や画像差替えでbundleHashが変わり失効（T166） (2.201375ms)
+✔ 不合格・未検査・欠落のサムネイル候補の承認拒否（T166） (2.286416ms)
+✔ 公開前判定（publishReadiness）で不合格・未検査サムネイルを拒否（T166） (1.497583ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.171208

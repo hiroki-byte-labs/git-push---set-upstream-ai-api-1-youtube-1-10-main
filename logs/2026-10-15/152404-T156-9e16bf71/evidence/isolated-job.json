@@ -1,0 +1,125 @@
+{
+  "id": "surname-illustration-demo-2b804c58",
+  "kind": "production-job",
+  "status": "failed",
+  "createdAt": "2026-10-15T15:26:17.933Z",
+  "pid": 57586,
+  "mode": "demo",
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.remotion",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.sine-cues-1",
+      "inputUnits": 0,
+      "outputUnits": 30,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-c1c37432",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-15T15:26:17.932Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-9b5e6914",
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-15T15:26:41.456Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.sine-cues-1"
+    },
+    {
+      "attemptId": "att-6d73032f",
+      "domain": "visual",
+      "provider": "local.remotion",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-15T15:26:41.467Z",
+      "estimateUsd": 0,
+      "outcome": "failed",
+      "charge": "none",
+      "error": "Remotionレンダリング失敗 (1): /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269\n            reject(new Error([\n                   ^\n\nError: Failed to launch the browser process!\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at Socket.onClose (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at Socket.emit (node:events:526:24)\n    at Pipe.<anonymous> (node:net:362:12)\n\nNode.js v26.11.1\n",
+      "costUsd": 0
+    }
+  ],
+  "inputHash": "676b3a1aa3f3103091f5c5ed8fef7cc47efb26e9c43920c8eef319c297577ca5",
+  "input": "fixtures/sample-surname-illustration.json",
+  "durationSeconds": 30,
+  "subtitles": "both",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "6fcbfbe105f54c90550b6a6d7e8dd4fe364d5fd7b95bebf806879258f93bd6f6",
+    "rendererKind": "local.remotion",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 1
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 0
+  },
+  "error": "Error: Remotionレンダリング失敗 (1): /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269\n            reject(new Error([\n                   ^\n\nError: Failed to launch the browser process!\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at Socket.onClose (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at Socket.emit (node:events:526:24)\n    at Pipe.<anonymous> (node:net:362:12)\n\nNode.js v26.11.1\n"
+}

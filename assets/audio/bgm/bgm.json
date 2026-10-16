@@ -1,0 +1,32 @@
+{
+  "description": "知的好奇心探究ドキュメンタリー動画向けアンビエントBGMメタデータ仕様",
+  "audio_standards": {
+    "target_lufs": -14,
+    "ducking_reduction_db": -18,
+    "fade_in_seconds": 1.5,
+    "fade_out_seconds": 2.0
+  },
+  "recommended_presets": [
+    {
+      "id": "deep-inquiry",
+      "genre": "Ambient / Drone",
+      "tempo_bpm": 65,
+      "tone": "理性的、深い内省、低域のドローン音と静かなピアノ",
+      "usage": "序章・本編（スーパースター経済学、愛着理論等の学術解剖）"
+    },
+    {
+      "id": "paradox-tension",
+      "genre": "Minimal Cinematic",
+      "tempo_bpm": 72,
+      "tone": "知的緊張感、わずかなパルス、逆説の提示",
+      "usage": "第1章（直感の解体、0.005秒の段差、分断の加速）"
+    },
+    {
+      "id": "philosophical-resolution",
+      "genre": "Modern Classical / Ambient",
+      "tempo_bpm": 60,
+      "tone": "温かみのある広がり、余韻、生活への昇華",
+      "usage": "終章（本人の考察、明日への活かし方、エピローグ）"
+    }
+  ]
+}

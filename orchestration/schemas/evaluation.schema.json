@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://video-agent.local/schemas/evaluation.schema.json",
+  "title": "evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_id",
+    "reference_id",
+    "generated_video_id",
+    "evaluation_version",
+    "comparison_type",
+    "metrics",
+    "qualitative_findings",
+    "differences",
+    "evidence",
+    "confidence",
+    "improvement_candidates",
+    "limitations",
+    "threshold_profile"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_video_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluation_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "comparison_type": {
+      "enum": [
+        "direct_frames",
+        "specification_only",
+        "unavailable"
+      ]
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "axis",
+          "value",
+          "unit",
+          "threshold",
+          "pass",
+          "basis",
+          "evidence_ids"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "axis": {
+            "enum": [
+              "position",
+              "size",
+              "color",
+              "start_time",
+              "end_time",
+              "displacement",
+              "speed_change",
+              "frame_change"
+            ]
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "threshold": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "pass": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "basis": {
+            "enum": [
+              "measured",
+              "estimated",
+              "unknown"
+            ]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "qualitative_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "axis",
+          "score",
+          "reason",
+          "frame_evidence_ids",
+          "reviewer"
+        ],
+        "properties": {
+          "axis": {
+            "enum": [
+              "naturalness",
+              "readability",
+              "consistency",
+              "tempo",
+              "clarity"
+            ]
+          },
+          "score": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 5
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "frame_evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "reviewer": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "differences": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "sha256",
+          "frame",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "frame": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "improvement_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "threshold_profile": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

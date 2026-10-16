@@ -89,7 +89,7 @@ export async function analyzeVideo(path: string, opts: AnalyzeOptions): Promise<
   }
 
   // 3. 全フレームの前景成分を計測し、シーン内で追跡して図形ごとに解析する。
-  const sceneOf = (k: number) => scenes.find(s => k >= s.startFrame && k <= s.endFrame)!;
+  const sceneOf = (k: number) => scenes.find(s => k >= s.startFrame && k <= s.endFrame) ?? scenes[scenes.length - 1];
   const byScene = new Map<number, Map<number, Observation[]>>();
   await forEachFrame(path, W, H, (px, k) => {
     const sc = sceneOf(k), bg = bgs.get(sc.index);

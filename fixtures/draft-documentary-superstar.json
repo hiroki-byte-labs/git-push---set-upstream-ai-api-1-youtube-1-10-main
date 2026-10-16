@@ -1,0 +1,255 @@
+{
+  "schema": 2,
+  "id": "draft-documentary-superstar",
+  "title": "なぜ2位ではダメなのか？【スーパースター経済学】",
+  "version": 1,
+  "theme": "general",
+  "note": "ドキュメンタリー台本下書き（T123）。一次文献（Rosen 1981, Adler 1985）に基づくスーパースター経済学の解説。本人の考察は未入力で、produce scriptにより差し込まれる。",
+  "promise": "1位と2位の格差の秘密を解き明かし、自分の強みの活かし方を考える",
+  "intro": {
+    "text": "スポーツや芸能の世界で、1位と2位の実力差はごくわずかなのに、なぜ年収や知名度は何十倍も開いてしまうのでしょうか。この動画では、経済学者シャーウィン・ローゼンの理論から、勝者総取りのメカニズムを紐解きます。",
+    "sources": [
+      "rosen-1981"
+    ],
+    "fictional": false
+  },
+  "glossary": [
+    {
+      "term": "スーパースター経済学",
+      "definition": "わずかな実力差が技術と市場規模によって天文学的な格差に拡大する現象"
+    }
+  ],
+  "thumbnail": {
+    "headline": "なぜ2位では\nダメなのか？",
+    "sub": "わずかな差が数千倍の格差を生む",
+    "scene": 1,
+    "keyword": "格差",
+    "contrast": [
+      "1位の勝者",
+      "2位以下の群衆"
+    ]
+  },
+  "sources": [
+    {
+      "id": "rosen-1981",
+      "title": "Sherwin Rosen (1981) 'The Economics of Superstars', American Economic Review",
+      "url": "https://www.jstor.org/stable/1803469",
+      "accessedAt": "2026-10-12"
+    },
+    {
+      "id": "adler-1985",
+      "title": "Adler, Moshe (1985) 'Stardom and Talent', American Economic Review",
+      "url": "https://www.jstor.org/stable/1805626",
+      "accessedAt": "2026-10-12"
+    }
+  ],
+  "scenes": [
+    {
+      "title": "0.01秒の差と、天文学的な格差",
+      "seconds": 12,
+      "narration": "100メートル走で1位と2位の差は、わずか0.01秒。ですが、手にする賞金や知名度は数百倍違います。なぜ私たちは、1位ばかりを選んでしまうのでしょうか？",
+      "cues": [
+        {
+          "text": "100メートル走で1位と2位の差は、わずか0.01秒。",
+          "seconds": 6
+        },
+        {
+          "text": "ですが賞金は数百倍。なぜ私たちは1位ばかり選ぶのでしょうか？",
+          "seconds": 6
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "1位（勝者）",
+        "right": "2位（敗者）",
+        "leftItems": [
+          "0.01秒差",
+          "注目総取り"
+        ],
+        "rightItems": [
+          "同等の実力",
+          "注目なし"
+        ]
+      },
+      "sources": [
+        "rosen-1981"
+      ],
+      "role": "hook",
+      "chapter": "直感の解体",
+      "emphasis": [
+        "0.01秒"
+      ]
+    },
+    {
+      "title": "スーパースター経済学の仕組み",
+      "seconds": 12,
+      "narration": "経済学者シャーウィン・ローゼンは、この現象をスーパースター経済学と名付けました。最高のものを求める人々の欲求と、複製技術の発展が組み合わさることで、格差が加速します。",
+      "cues": [
+        {
+          "text": "この現象は、スーパースター経済学として知られています。",
+          "seconds": 6
+        },
+        {
+          "text": "最高のものを求める欲求と、複製技術が格差を加速させます。",
+          "seconds": 6
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "最高の品質",
+          "技術による複製",
+          "市場の独占"
+        ]
+      },
+      "sources": [
+        "rosen-1981"
+      ],
+      "role": "body",
+      "chapter": "仕組みの解剖",
+      "emphasis": [
+        "スーパースター経済学"
+      ]
+    },
+    {
+      "title": "探索コストと人気の集中",
+      "seconds": 12,
+      "narration": "さらにアドラーの研究によると、人は探す手間を省くため、すでに人気のあるものに集まります。小さな差が雪だるま式に膨らんでいくのです。",
+      "cues": [
+        {
+          "text": "アドラーの研究によると、人は探す手間を省くため人気に集まります。",
+          "seconds": 6
+        },
+        {
+          "text": "こうして、小さな差が雪だるま式に膨らんでいきます。",
+          "seconds": 6
+        }
+      ],
+      "diagram": {
+        "type": "meter",
+        "bars": [
+          {
+            "label": "1位の注目度",
+            "value": 0.9
+          },
+          {
+            "label": "2位の注目度",
+            "value": 0.2
+          }
+        ],
+        "total": "格差の拡大",
+        "reveal": [
+          0,
+          3,
+          6
+        ]
+      },
+      "sources": [
+        "adler-1985"
+      ],
+      "role": "recap",
+      "chapter": "仕組みの解剖",
+      "emphasis": [
+        "雪だるま式"
+      ]
+    },
+    {
+      "title": "身近な選択：配信と音楽",
+      "seconds": 10,
+      "narration": "例えば、私たちが音楽を聴くとき、一番好きな曲を何度も再生し、2番目の曲を聴く時間は減っていきます。技術が誰でも最高を聴けるようにしたからです。",
+      "cues": [
+        {
+          "text": "例えば音楽を聴くとき、一番好きな曲ばかり再生しませんか？",
+          "seconds": 5
+        },
+        {
+          "text": "技術の発展により、誰もが最高のものにアクセスできるからです。",
+          "seconds": 5
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "生演奏の時代",
+        "right": "配信の時代",
+        "leftItems": [
+          "地域の聴衆",
+          "距離の壁"
+        ],
+        "rightItems": [
+          "世界中が聴取",
+          "最高だけ選択"
+        ]
+      },
+      "sources": [],
+      "role": "example",
+      "chapter": "日常の観察",
+      "fictional": true,
+      "emphasis": [
+        "最高"
+      ]
+    },
+    {
+      "title": "考察：調べて気づいたこと",
+      "seconds": 10,
+      "narration": "【本人の考察：未入力】",
+      "cues": [
+        {
+          "text": "【本人の考察：未入力】",
+          "seconds": 10
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "気になったこと",
+          "調べて分かったこと",
+          "自分の考え"
+        ]
+      },
+      "sources": [],
+      "role": "reflection",
+      "chapter": "本人の考察"
+    },
+    {
+      "title": "まとめ：自分の土俵を見つける",
+      "seconds": 12,
+      "narration": "同じ競争では1位しか残れませんが、異なる価値を組み合わせれば、独自の強みを作れます。なお、本動画は特定の結果や成功を保証するものではありません。",
+      "cues": [
+        {
+          "text": "同じ競争では1位しか残れませんが、異なる価値で独自の強みを作れます。",
+          "seconds": 6
+        },
+        {
+          "text": "なお、本動画は特定の結果や成功を保証するものではありません。",
+          "seconds": 6
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "同じ土俵を避ける",
+          "独自の組み合わせ",
+          "自分だけの価値"
+        ]
+      },
+      "sources": [],
+      "role": "recap",
+      "chapter": "結び",
+      "emphasis": [
+        "保証"
+      ]
+    }
+  ],
+  "aiDisclosure": {
+    "scopes": [
+      "構成案・図解配置の生成補助",
+      "音声合成によるナレーション生成"
+    ],
+    "supervisor": "制作責任者",
+    "verified": [
+      "主張と出典の照合",
+      "台本・動画の最終確認"
+    ],
+    "realisticSyntheticMedia": false
+  }
+}

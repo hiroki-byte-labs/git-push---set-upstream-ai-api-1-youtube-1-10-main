@@ -1,0 +1,12 @@
+COMMAND=['./scripts/run', 'src/cli.ts', 'next']
+EXIT=0
+
+私が次に行う作業
+T133 公開データ収集用のGoogle Cloud/API認証を人が準備する
+review: 
+
+AIエージェントが着手可能な作業
+なし
+review: T134
+
+STDERR=

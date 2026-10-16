@@ -1,0 +1,44 @@
+{
+  "burn24": {
+    "probeExit": 0,
+    "decodeExit": 0,
+    "streams": [
+      "video:h264",
+      "audio:aac"
+    ],
+    "frames": "480",
+    "duration": "20.000000"
+  },
+  "soft24": {
+    "probeExit": 0,
+    "decodeExit": 0,
+    "streams": [
+      "video:h264",
+      "audio:aac",
+      "subtitle:mov_text"
+    ],
+    "frames": "480",
+    "duration": "20.000000"
+  },
+  "both24": {
+    "probeExit": 0,
+    "decodeExit": 0,
+    "streams": [
+      "video:h264",
+      "audio:aac",
+      "subtitle:mov_text"
+    ],
+    "frames": "480",
+    "duration": "20.000000"
+  },
+  "burn30off": {
+    "probeExit": 0,
+    "decodeExit": 0,
+    "streams": [
+      "video:h264",
+      "audio:aac"
+    ],
+    "frames": "600",
+    "duration": "20.000000"
+  }
+}

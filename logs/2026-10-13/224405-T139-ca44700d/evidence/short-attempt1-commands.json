@@ -1,0 +1,85 @@
+[
+  {
+    "name": "new",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "new",
+      "--demo",
+      "--candidates",
+      "fixtures/topic-candidates-demo.json",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.950891459
+  },
+  {
+    "name": "unselected-render-rejected",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "render",
+      "production-demo-517028f1",
+      "--renderer",
+      "remotion"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 1,
+    "elapsedSec": 0.12096512500000012
+  },
+  {
+    "name": "select",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "select",
+      "production-demo-517028f1",
+      "--candidate",
+      "price-index",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.12399337499999996
+  },
+  {
+    "name": "reflection",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "reflection",
+      "production-demo-517028f1",
+      "--text",
+      "\u30c7\u30e2\u7528\u306e\u4eee\u306e\u8003\u5bdf\u3067\u3059\u3002\u672c\u4eba\u306e\u8003\u5bdf\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 0,
+    "elapsedSec": 0.12276016599999995
+  },
+  {
+    "name": "script",
+    "argv": [
+      "./scripts/run",
+      "src/cli.ts",
+      "produce",
+      "script",
+      "production-demo-517028f1",
+      "--plan",
+      "/private/tmp/T139-render-nti1mann/fixtures/t139-short.json",
+      "--by",
+      "test-agent"
+    ],
+    "cwd": "/private/tmp/T139-render-nti1mann",
+    "exitCode": 1,
+    "elapsedSec": 0.12290070799999997
+  }
+]

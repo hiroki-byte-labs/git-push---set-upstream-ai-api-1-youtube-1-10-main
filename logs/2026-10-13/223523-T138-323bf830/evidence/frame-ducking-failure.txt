@@ -1,0 +1,62 @@
+✔ 台本のスライス分割: シーンとcue単位に正しく分解される (0.766708ms)
+✔ 長尺ナレーションの合成と予算管理: 正常系完走と使用量・試行記録 (1.202708ms)
+✔ 予算上限超過時の安全な停止: 上限を超える試行は拒否される (0.268708ms)
+✔ 字幕同期検査: 許容誤差内の同期とドリフト超過の検出 (0.222875ms)
+✔ BGMダッキング計算: ナレーション発話区間と音量設定 (0.33975ms)
+✔ 音量検査: YouTube規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）の判定 (0.052083ms)
+✔ 人の試聴評価メタデータ（T125）の整合性確認 (0.073584ms)
+✖ real WAV slices concatenate, decode, synchronize and duck BGM in both stem and final mix (166.783166ms)
+✖ minimum 0.5 second cues still have measured tone and pause windows (112.257458ms)
+✖ FFmpeg mix failure removes partial results and preserves existing files byte for byte (1225.458917ms)
+✔ repository outputs and malformed cue timing are rejected before media writes (0.425041ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 8
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1564.145208
+
+✖ failing tests:
+
+test at tests/mock-audio-media.test.ts:17:1
+✖ real WAV slices concatenate, decode, synchronize and duck BGM in both stem and final mix (166.783166ms)
+  Error: Measured BGM ducking failed
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/mock-audio-media.ts:128:106
+      at Array.map (<anonymous>)
+      at renderMockAudioMedia (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/mock-audio-media.ts:122:31)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:20:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/mock-audio-media.test.ts:41:1
+✖ minimum 0.5 second cues still have measured tone and pause windows (112.257458ms)
+  Error: Measured BGM ducking failed
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/mock-audio-media.ts:128:106
+      at Array.map (<anonymous>)
+      at renderMockAudioMedia (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/mock-audio-media.ts:122:31)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:44:22)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/mock-audio-media.test.ts:51:1
+✖ FFmpeg mix failure removes partial results and preserves existing files byte for byte (1225.458917ms)
+  Error: Measured BGM ducking failed
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/mock-audio-media.ts:128:106
+      at Array.map (<anonymous>)
+      at renderMockAudioMedia (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/mock-audio-media.ts:122:31)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:63:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+EXIT=1

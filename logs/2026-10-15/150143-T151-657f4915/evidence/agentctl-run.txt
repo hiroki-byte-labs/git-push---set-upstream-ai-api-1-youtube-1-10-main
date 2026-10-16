@@ -1,0 +1,8 @@
+Read-only audit delegated via scripts/agentctl run.
+Task: tsk_0mv9o3u7v453d4dd4444c
+Execution: exe_0mv9o3ubbec716bf5cc02
+Provider/model: codex / gpt-6.1-sol, subscription_quota
+Status: completed, metering_status=measured, duration 244196 ms, retries 0, escalations 0.
+Token Monitor status `--require-metered` exited 0. Status reported measured usage records; tree API-equivalent estimate USD 0.507087 (not an actual subscription charge).
+Artifact: work/T151-agent-findings.md, sha256 70a75bc089588401ef70f2ac0ea291f9df6c850e67cfbd2e6eb1ea52f07cbd7e; copied unchanged to this evidence directory.
+Initial `agentctl plan` returned exit 2 because the request added unsupported long_context and an arbitrary 60000-token cap. Removed only those unnecessary input constraints and re-planned; final plan selected gpt-6.1-sol, validation ok. Router policy was not changed.

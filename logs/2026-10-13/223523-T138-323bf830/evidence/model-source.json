@@ -1,0 +1,7 @@
+{
+  "model": "GPT-6",
+  "modelSource": "runtime",
+  "observedFrom": "Runtime instructions identify this agent as based on GPT-6",
+  "exactServingModelId": "unavailable",
+  "metering": "agentctl status T138 --require-metered returned 2: no registered execution; usage unknown, not claimed measured"
+}

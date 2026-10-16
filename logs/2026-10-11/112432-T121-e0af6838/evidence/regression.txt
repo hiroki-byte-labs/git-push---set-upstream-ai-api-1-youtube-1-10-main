@@ -1,0 +1,3 @@
+既存テスト tests/*.test.ts EXIT=0
+既存の型検査 EXIT=0
+T112テスト EXIT=0

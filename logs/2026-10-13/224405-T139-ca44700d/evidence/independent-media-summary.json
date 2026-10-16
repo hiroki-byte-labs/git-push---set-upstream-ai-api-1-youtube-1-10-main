@@ -1,0 +1,470 @@
+[
+  {
+    "mode": "short",
+    "directory": "/private/tmp/T139-render-nti1mann/outputs/t139-short-mock-26a542d8",
+    "audioSeconds": 72,
+    "decodedAudioSamples": 1728000,
+    "wavSha256": "f9074d59a5c62a84a74001659f398a657a3ebcc9fea0faba3a98df7ffc774966",
+    "audioProbeExit": 0,
+    "audioDecodeExit": 0,
+    "cueCount": 15,
+    "cueTiming": [
+      {
+        "startFrame": 0,
+        "durationFrames": 120,
+        "audioStart": 0,
+        "audioEnd": 5,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 120,
+        "durationFrames": 120,
+        "audioStart": 5,
+        "audioEnd": 10,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 240,
+        "durationFrames": 120,
+        "audioStart": 10,
+        "audioEnd": 15,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 360,
+        "durationFrames": 120,
+        "audioStart": 15,
+        "audioEnd": 20,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 480,
+        "durationFrames": 96,
+        "audioStart": 20,
+        "audioEnd": 24,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 576,
+        "durationFrames": 96,
+        "audioStart": 24,
+        "audioEnd": 28,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 672,
+        "durationFrames": 144,
+        "audioStart": 28,
+        "audioEnd": 34,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 816,
+        "durationFrames": 144,
+        "audioStart": 34,
+        "audioEnd": 40,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 960,
+        "durationFrames": 120,
+        "audioStart": 40,
+        "audioEnd": 45,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1080,
+        "durationFrames": 120,
+        "audioStart": 45,
+        "audioEnd": 50,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1200,
+        "durationFrames": 96,
+        "audioStart": 50,
+        "audioEnd": 54,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1296,
+        "durationFrames": 120,
+        "audioStart": 54,
+        "audioEnd": 59,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1416,
+        "durationFrames": 120,
+        "audioStart": 59,
+        "audioEnd": 64,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1536,
+        "durationFrames": 96,
+        "audioStart": 64,
+        "audioEnd": 68,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1632,
+        "durationFrames": 96,
+        "audioStart": 68,
+        "audioEnd": 72,
+        "maxDeltaSec": 0.0
+      }
+    ],
+    "expectedVideoFrames": 1728,
+    "measuredVideoFrames": null,
+    "mp4Exists": false,
+    "mp4ProbeExit": 1,
+    "mp4DecodeExit": 254,
+    "layout": "unverified: renderer produced zero frames; source report uses fixed boxes",
+    "browserPlayback": "unverified",
+    "representativeFramePngs": [],
+    "loudness": {
+      "integratedLufs": -14.3,
+      "truePeakDbfs": -9.9,
+      "passed": true,
+      "targetRange": {
+        "minLufs": -15,
+        "maxLufs": -13,
+        "maxPeakDbfs": -1
+      }
+    },
+    "audioSync": {
+      "ok": true,
+      "totalExpectedDuration": 72,
+      "totalActualDuration": 72,
+      "driftSec": 0,
+      "maxDriftSec": 0,
+      "errors": []
+    }
+  },
+  {
+    "mode": "long",
+    "directory": "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-145e66b1",
+    "audioSeconds": 604,
+    "decodedAudioSamples": 14496000,
+    "wavSha256": "bf173f4cf0f8c106cc39a149b00b6b17128f6bc99bc94ec83ac457feaaa537a0",
+    "audioProbeExit": 0,
+    "audioDecodeExit": 0,
+    "cueCount": 41,
+    "cueTiming": [
+      {
+        "startFrame": 0,
+        "durationFrames": 360,
+        "audioStart": 0,
+        "audioEnd": 15,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 360,
+        "durationFrames": 360,
+        "audioStart": 15,
+        "audioEnd": 30,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 720,
+        "durationFrames": 360,
+        "audioStart": 30,
+        "audioEnd": 45,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1080,
+        "durationFrames": 360,
+        "audioStart": 45,
+        "audioEnd": 60,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1440,
+        "durationFrames": 360,
+        "audioStart": 60,
+        "audioEnd": 75,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 1800,
+        "durationFrames": 360,
+        "audioStart": 75,
+        "audioEnd": 90,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 2160,
+        "durationFrames": 360,
+        "audioStart": 90,
+        "audioEnd": 105,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 2520,
+        "durationFrames": 360,
+        "audioStart": 105,
+        "audioEnd": 120,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 2880,
+        "durationFrames": 360,
+        "audioStart": 120,
+        "audioEnd": 135,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 3240,
+        "durationFrames": 360,
+        "audioStart": 135,
+        "audioEnd": 150,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 3600,
+        "durationFrames": 360,
+        "audioStart": 150,
+        "audioEnd": 165,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 3960,
+        "durationFrames": 360,
+        "audioStart": 165,
+        "audioEnd": 180,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 4320,
+        "durationFrames": 360,
+        "audioStart": 180,
+        "audioEnd": 195,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 4680,
+        "durationFrames": 360,
+        "audioStart": 195,
+        "audioEnd": 210,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 5040,
+        "durationFrames": 360,
+        "audioStart": 210,
+        "audioEnd": 225,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 5400,
+        "durationFrames": 360,
+        "audioStart": 225,
+        "audioEnd": 240,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 5760,
+        "durationFrames": 360,
+        "audioStart": 240,
+        "audioEnd": 255,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 6120,
+        "durationFrames": 360,
+        "audioStart": 255,
+        "audioEnd": 270,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 6480,
+        "durationFrames": 360,
+        "audioStart": 270,
+        "audioEnd": 285,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 6840,
+        "durationFrames": 360,
+        "audioStart": 285,
+        "audioEnd": 300,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 7200,
+        "durationFrames": 360,
+        "audioStart": 300,
+        "audioEnd": 315,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 7560,
+        "durationFrames": 360,
+        "audioStart": 315,
+        "audioEnd": 330,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 7920,
+        "durationFrames": 360,
+        "audioStart": 330,
+        "audioEnd": 345,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 8280,
+        "durationFrames": 360,
+        "audioStart": 345,
+        "audioEnd": 360,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 8640,
+        "durationFrames": 360,
+        "audioStart": 360,
+        "audioEnd": 375,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 9000,
+        "durationFrames": 360,
+        "audioStart": 375,
+        "audioEnd": 390,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 9360,
+        "durationFrames": 360,
+        "audioStart": 390,
+        "audioEnd": 405,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 9720,
+        "durationFrames": 360,
+        "audioStart": 405,
+        "audioEnd": 420,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 10080,
+        "durationFrames": 360,
+        "audioStart": 420,
+        "audioEnd": 435,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 10440,
+        "durationFrames": 360,
+        "audioStart": 435,
+        "audioEnd": 450,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 10800,
+        "durationFrames": 360,
+        "audioStart": 450,
+        "audioEnd": 465,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 11160,
+        "durationFrames": 360,
+        "audioStart": 465,
+        "audioEnd": 480,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 11520,
+        "durationFrames": 360,
+        "audioStart": 480,
+        "audioEnd": 495,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 11880,
+        "durationFrames": 360,
+        "audioStart": 495,
+        "audioEnd": 510,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 12240,
+        "durationFrames": 360,
+        "audioStart": 510,
+        "audioEnd": 525,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 12600,
+        "durationFrames": 360,
+        "audioStart": 525,
+        "audioEnd": 540,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 12960,
+        "durationFrames": 360,
+        "audioStart": 540,
+        "audioEnd": 555,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 13320,
+        "durationFrames": 360,
+        "audioStart": 555,
+        "audioEnd": 570,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 13680,
+        "durationFrames": 96,
+        "audioStart": 570,
+        "audioEnd": 574,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 13776,
+        "durationFrames": 360,
+        "audioStart": 574,
+        "audioEnd": 589,
+        "maxDeltaSec": 0.0
+      },
+      {
+        "startFrame": 14136,
+        "durationFrames": 360,
+        "audioStart": 589,
+        "audioEnd": 604,
+        "maxDeltaSec": 0.0
+      }
+    ],
+    "expectedVideoFrames": 14496,
+    "measuredVideoFrames": null,
+    "mp4Exists": false,
+    "mp4ProbeExit": 1,
+    "mp4DecodeExit": 254,
+    "layout": "unverified: renderer produced zero frames; source report uses fixed boxes",
+    "browserPlayback": "unverified",
+    "representativeFramePngs": [],
+    "loudness": {
+      "integratedLufs": -14,
+      "truePeakDbfs": -9.9,
+      "passed": true,
+      "targetRange": {
+        "minLufs": -15,
+        "maxLufs": -13,
+        "maxPeakDbfs": -1
+      }
+    },
+    "audioSync": {
+      "ok": true,
+      "totalExpectedDuration": 604,
+      "totalActualDuration": 604,
+      "driftSec": 0,
+      "maxDriftSec": 0,
+      "errors": []
+    }
+  }
+]

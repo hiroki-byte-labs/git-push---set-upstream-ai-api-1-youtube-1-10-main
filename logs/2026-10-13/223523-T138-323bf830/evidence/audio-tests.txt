@@ -1,0 +1,20 @@
+✔ 台本のスライス分割: シーンとcue単位に正しく分解される (1.407875ms)
+✔ 長尺ナレーションの合成と予算管理: 正常系完走と使用量・試行記録 (1.286792ms)
+✔ 予算上限超過時の安全な停止: 上限を超える試行は拒否される (0.26325ms)
+✔ 字幕同期検査: 許容誤差内の同期とドリフト超過の検出 (0.228291ms)
+✔ BGMダッキング計算: ナレーション発話区間と音量設定 (0.367541ms)
+✔ 音量検査: YouTube規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）の判定 (0.0545ms)
+✔ 人の試聴評価メタデータ（T125）の整合性確認 (0.069167ms)
+✔ real WAV slices concatenate, decode, synchronize and duck BGM in both stem and final mix (277.485792ms)
+✔ minimum 0.5 second cues still have measured tone and pause windows (163.992041ms)
+✔ FFmpeg mix failure removes partial results and preserves existing files byte for byte (674.683375ms)
+✔ repository outputs and malformed cue timing are rejected before media writes (0.379417ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1178.95175
+EXIT=0

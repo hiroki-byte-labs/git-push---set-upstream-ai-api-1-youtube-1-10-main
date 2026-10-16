@@ -2,10 +2,10 @@
 > T070の回答により、題材を投資と心理から日常に結び付く知識全般へ変更しました。[制作方針](docs/CHANNEL-POLICY.md)を参照。新テーマの台本（テーマ別免責・概要欄の導入文と出典）と無料サンプル `fixtures/sample-general.json` はT103で対応済み。本人の題材選定・考察・台本承認の工程（`produce`）はT104で実装済み。
 > 2026-10-08のエンハンス（台本v2、安全検査、図解4種、字幕選択、媒体検査、確認画面、ジョブ管理）の全体像は [docs/HANDOFF.md](docs/HANDOFF.md) を参照。演出を追加するときは [docs/PRODUCTION-GUIDELINES.md](docs/PRODUCTION-GUIDELINES.md) に従う。
 
-日本の投資初心者向け動画を段階的に自動制作する基盤。M0/M1では36秒の試作を、外部API・課金・YouTube認証なしで生成します。台本は固定、図解・字幕は自作、音声は自作確認音です。自然なナレーションと10〜20分の番組制作は後続段階です。
+日常に結び付く知識を日本語の初学者へ説明する動画制作基盤。M0/M1の固定台本による36秒試作に加え、現在はPlan v2と本人の題材選定・考察・承認工程に対応しています。外部API・課金・YouTube認証なしで、図解・字幕・自作確認音のMP4を生成できます。自然なナレーションと実音声を伴う10〜20分の番組制作の受入れは未完了です。
 
 ## 動作環境と準備
-macOS、Swiftコンパイラ（Command Line Tools）、Node.js 24以上、Python 3/pip。描画はAppKit、変換はFFmpegを使用。Mac以外は未対応。起動はPATHのNode、または利用者が明示指定したNODE_BINを使用します。特定エージェント付属のランタイムは自動選択しません。実行時のnpm依存はありません。静的型検査には開発依存を使います。
+macOS、Swiftコンパイラ（Command Line Tools）、Node.js 24以上、Python 3/pip。既定のnative描画はAppKit、変換はFFmpegを使用し、Mac以外は未対応です。起動はPATHのNode、または利用者が明示指定したNODE_BINを使用します。特定エージェント付属のランタイムは自動選択しません。native経路は実行時のnpm依存なし。T126で本体へ統合した任意のRemotion経路は、motion-lab側のRemotion/React等とChromeを必要とします。静的型検査には開発依存を使います。
 
 ```sh
 # 初回だけ。無料のFFmpegバイナリをwork/へ取得（ネットワーク必要）
@@ -26,6 +26,7 @@ PYTHON_BIN=/path/to/python3 ./scripts/setup-media
 ./scripts/run src/cli.ts sample                                   # M1の36秒（v1台本）
 ./scripts/run src/cli.ts sample --plan fixtures/sample-v2.json    # v2台本（図解4種・48秒、旧テーマ）
 ./scripts/run src/cli.ts sample --plan fixtures/sample-general.json  # 新テーマ（一般・68秒、導入文と出典つき。開発用の架空例）
+./scripts/run src/cli.ts sample --plan fixtures/sample-v2.json --renderer remotion  # 本体に統合済みの任意renderer（T126）
 ./scripts/run src/cli.ts sample --plan fixtures/layout-stress.json --resolution 1080  # 文字配置の検査用（長い見出し・二行字幕）
 ./scripts/run src/cli.ts lint --plan 台本.json                    # 安全検査だけ
 ./scripts/run src/cli.ts serve
@@ -37,6 +38,8 @@ PYTHON_BIN=/path/to/python3 ./scripts/setup-media
 `outputs/<job-id>/sample.mp4` が完成動画。字幕は既定で映像に焼き込み、別ファイル `subtitles.vtt` も作成します（`--subtitles soft` で切り替え式の字幕トラック、`both` で両方）。文字配置の検査結果は `job.json` の `layout`（T106）。`plan.json`、`job.json`、`lint.json`、`metadata.json`、`media-check.json`、サムネイル3案、全場面の確認画像も出力。`outputs/latest.json` は最後に正常完了したジョブを指します。2回実行しても既存出力は上書きせず新しいジョブになります。視聴する確認音は各場面の冒頭だけです。字幕を読み上げる機能はまだありません。
 
 ## 本人の工程を通す制作（T104）
+T084の判断前チェックリストは、台本の`practice`で指定した原文から各ジョブのテキスト・PNGと概要欄を生成します。末尾の案内は`role: action`。形式と検証制約は [チェックリストの使い方](docs/T084-CHECKLIST.md) を参照。隔離デモMP4の全編AVPlayer再生を確認済みで、T084はdone（ブラウザーUI/textTracks固有確認は未実施）。
+
 `sample` は常に**デモ**（本人の題材選定・考察・台本承認を経ていない試作）です。本番の動画は制作案件（`produce`）からだけ作ります。各工程は確認画面（`serve` → 一覧の「制作案件」）からも操作できます。
 
 ```sh
@@ -69,9 +72,13 @@ PYTHON_BIN=/path/to/python3 ./scripts/setup-media
 
 秘密値はGitにも会話にも保存しません。.env.exampleは将来の設定名だけ。
 
-実装の範囲（2026-10-10、詳細と最新は [docs/STATUS.md](docs/STATUS.md) の先頭）:
+実装の範囲（2026-10-14、詳細と最新は [docs/STATUS.md](docs/STATUS.md) の先頭）:
 - **実装済み（ローカル）**: 確認画面での承認・差戻し。承認は確認対象一式（動画、採用タイトル・概要欄・タグ・チャプター、字幕、サムネイル全案）の版に結び付き、変更で失効します（T033、T095）。予算制御は見積り・上限（既定0 USD）・試行ごとの予約と精算・費用不明額の保持と再送判定・全試行の記録まで（T023、T024、T098）。ただし実接続がないため、費用は常にmock/localの0 USDです。
-- **未接続・未実装**: 外部の実API（台本・音声・映像の生成）とYouTube投稿（Publisherは無効）。予算の永続化・ジョブをまたぐ管理・実サービスでの費用照合。無人運用（M5）。自然なナレーション（現在は確認音）。
+- **未接続・未完了**: 外部の実API（台本・音声・映像の生成）とYouTube投稿（通常制作のPublisherは無効）。通常制作の予算永続化・ジョブ横断管理・実サービスでの費用照合、実接続を伴う無人運用（M5）、自然なナレーション（現在は確認音）。T140のmock投稿台帳とT141のローカル/mock永続キューは独立モジュールで、通常制作CLIや実投稿への接続完了ではありません。
+
+Geminiによる台本生成T025/T026は今回は不採用として終了し、API実装の完了を意味しません。下書きはT123のエージェント用Skillと`produce script`で扱います。T116は別用途の動画理解リクエスト/応答処理で、mock transport限定、実動画解析・実API送信は未検証です。
+
+T129のE2Eはmock音声パスと偽MP4による工程・承認検査です。実MP4の媒体検査とは区別します。T126には48秒のRemotion実MP4の過去生成記録がありますが、T156以前のRemotion媒体レポートにある全デコード成功・フレーム数は固定値/期待値で、単独では実検査の証明になりません。T156で独立ffprobe・全映像/音声デコード・実フレーム数・PCM測定へ置き換え、失敗時は生成を拒否します。ただし今回の実Remotion再生成はChrome起動失敗のため未検証で、T156は未完了です。T139では隔離したnative経路で合成音の72秒・604秒MP4を生成し、独立ffprobe・全デコード・字幕同期・代表フレーム目視・AVPlayerでの全編再生を確認しました。Remotion経路はChrome Headless Shellの起動タイムアウトで未検証です。T127は音声スライスのパス・秒数集計と同期/音量値の判定までで、WAVを結合しません。実WAVの結合・BGMミックス・再デコードはT138の隔離された合成トーン専用mock経路にあります。実TTS・人の声質評価・通常制作への統合完了を示しません。行単位の照合とRunway依存案は[T142の調査記録](logs/2026-10-13/232152-T142-b79bc42b/evidence/AUDIT.md)を参照。既存dependsは変更していません。
 
 静的型検査は導入済み。型除去は型検査ではありません。これまで契約・有料API・クラウド・push・YouTube操作は行っていません。
 

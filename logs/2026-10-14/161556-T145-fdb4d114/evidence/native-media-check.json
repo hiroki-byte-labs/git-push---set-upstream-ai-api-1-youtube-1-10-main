@@ -1,0 +1,634 @@
+{
+  "expectedDuration": 30,
+  "expectedFrames": 720,
+  "videoFrames": 720,
+  "decodedAudioDuration": 30.037333333333333,
+  "fullDecode": "passed",
+  "subtitles": "burn",
+  "subtitleStreams": 0,
+  "audioPeak": 5246,
+  "audioRms": 692.8981991863211,
+  "nonzeroSamples": 66675,
+  "cuePeaks": [
+    5242,
+    5246,
+    5240,
+    5244
+  ],
+  "framesExtracted": 4,
+  "psnr": {
+    "minDb": 41.331557,
+    "threshold": 30,
+    "checked": 120,
+    "segments": 353,
+    "samples": [
+      {
+        "file": "s1-illustration-0-c1.png",
+        "time": 0,
+        "db": 42.018628
+      },
+      {
+        "file": "s1-illustration-2-c1.png",
+        "time": 0.08333333333333333,
+        "db": 42.10493
+      },
+      {
+        "file": "s1-illustration-5-c1.png",
+        "time": 0.20833333333333334,
+        "db": 42.111123
+      },
+      {
+        "file": "s1-illustration-8-c1.png",
+        "time": 0.3333333333333333,
+        "db": 42.096787
+      },
+      {
+        "file": "s1-illustration-11-c1.png",
+        "time": 0.4583333333333333,
+        "db": 42.080945
+      },
+      {
+        "file": "s1-illustration-14-c1.png",
+        "time": 0.5833333333333334,
+        "db": 41.963103
+      },
+      {
+        "file": "s1-illustration-17-c1.png",
+        "time": 0.7083333333333334,
+        "db": 41.969528
+      },
+      {
+        "file": "s1-illustration-20-c1.png",
+        "time": 0.8333333333333334,
+        "db": 41.959296
+      },
+      {
+        "file": "s1-illustration-23-c1.png",
+        "time": 0.9583333333333334,
+        "db": 41.904086
+      },
+      {
+        "file": "s1-illustration-26-c1.png",
+        "time": 1.0833333333333333,
+        "db": 41.931301
+      },
+      {
+        "file": "s1-illustration-48-c1.png",
+        "time": 2,
+        "db": 41.93221
+      },
+      {
+        "file": "s1-illustration-51-c1.png",
+        "time": 2.125,
+        "db": 41.928695
+      },
+      {
+        "file": "s1-illustration-54-c1.png",
+        "time": 2.25,
+        "db": 41.861096
+      },
+      {
+        "file": "s1-illustration-57-c1.png",
+        "time": 2.375,
+        "db": 41.785752
+      },
+      {
+        "file": "s1-illustration-60-c1.png",
+        "time": 2.5,
+        "db": 41.651864
+      },
+      {
+        "file": "s1-illustration-63-c1.png",
+        "time": 2.625,
+        "db": 41.56047
+      },
+      {
+        "file": "s1-illustration-66-c1.png",
+        "time": 2.75,
+        "db": 41.544584
+      },
+      {
+        "file": "s1-illustration-69-c1.png",
+        "time": 2.875,
+        "db": 41.488958
+      },
+      {
+        "file": "s1-illustration-71-c1.png",
+        "time": 2.9583333333333335,
+        "db": 41.423311
+      },
+      {
+        "file": "s1-illustration-74-c1.png",
+        "time": 3.0833333333333335,
+        "db": 41.385339
+      },
+      {
+        "file": "s1-illustration-77-c1.png",
+        "time": 3.2083333333333335,
+        "db": 41.38012
+      },
+      {
+        "file": "s1-illustration-80-c1.png",
+        "time": 3.3333333333333335,
+        "db": 41.377672
+      },
+      {
+        "file": "s1-illustration-96-c1.png",
+        "time": 4,
+        "db": 41.37781
+      },
+      {
+        "file": "s1-illustration-99-c1.png",
+        "time": 4.125,
+        "db": 41.366758
+      },
+      {
+        "file": "s1-illustration-102-c1.png",
+        "time": 4.25,
+        "db": 41.392391
+      },
+      {
+        "file": "s1-illustration-105-c1.png",
+        "time": 4.375,
+        "db": 41.371771
+      },
+      {
+        "file": "s1-illustration-108-c1.png",
+        "time": 4.5,
+        "db": 41.345174
+      },
+      {
+        "file": "s1-illustration-111-c1.png",
+        "time": 4.625,
+        "db": 41.356816
+      },
+      {
+        "file": "s1-illustration-114-c1.png",
+        "time": 4.75,
+        "db": 41.33983
+      },
+      {
+        "file": "s1-illustration-117-c1.png",
+        "time": 4.875,
+        "db": 41.335193
+      },
+      {
+        "file": "s1-illustration-134-c1.png",
+        "time": 5.583333333333333,
+        "db": 41.331557
+      },
+      {
+        "file": "s1-illustration-137-c1.png",
+        "time": 5.708333333333333,
+        "db": 41.370068
+      },
+      {
+        "file": "s1-illustration-140-c1.png",
+        "time": 5.833333333333333,
+        "db": 41.884922
+      },
+      {
+        "file": "s1-illustration-143-c1.png",
+        "time": 5.958333333333333,
+        "db": 42.140732
+      },
+      {
+        "file": "s2-illustration-2-c1.png",
+        "time": 6.083333333333333,
+        "db": 42.539701
+      },
+      {
+        "file": "s2-illustration-4-c1.png",
+        "time": 6.166666666666667,
+        "db": 42.534336
+      },
+      {
+        "file": "s2-illustration-7-c1.png",
+        "time": 6.291666666666667,
+        "db": 42.525202
+      },
+      {
+        "file": "s2-illustration-10-c1.png",
+        "time": 6.416666666666667,
+        "db": 42.46849
+      },
+      {
+        "file": "s2-illustration-13-c1.png",
+        "time": 6.541666666666667,
+        "db": 42.381589
+      },
+      {
+        "file": "s2-illustration-16-c1.png",
+        "time": 6.666666666666667,
+        "db": 42.428565
+      },
+      {
+        "file": "s2-illustration-19-c1.png",
+        "time": 6.791666666666667,
+        "db": 42.429419
+      },
+      {
+        "file": "s2-illustration-22-c1.png",
+        "time": 6.916666666666667,
+        "db": 42.432942
+      },
+      {
+        "file": "s2-illustration-73-c1.png",
+        "time": 9.041666666666666,
+        "db": 42.43396
+      },
+      {
+        "file": "s2-illustration-76-c1.png",
+        "time": 9.166666666666666,
+        "db": 42.410974
+      },
+      {
+        "file": "s2-illustration-79-c1.png",
+        "time": 9.291666666666666,
+        "db": 42.332522
+      },
+      {
+        "file": "s2-illustration-82-c1.png",
+        "time": 9.416666666666666,
+        "db": 42.263785
+      },
+      {
+        "file": "s2-illustration-85-c1.png",
+        "time": 9.541666666666666,
+        "db": 42.105503
+      },
+      {
+        "file": "s2-illustration-88-c1.png",
+        "time": 9.666666666666666,
+        "db": 42.049149
+      },
+      {
+        "file": "s2-illustration-91-c1.png",
+        "time": 9.791666666666666,
+        "db": 42.019443
+      },
+      {
+        "file": "s2-illustration-94-c1.png",
+        "time": 9.916666666666666,
+        "db": 42.022083
+      },
+      {
+        "file": "s2-illustration-97-c1.png",
+        "time": 10.041666666666666,
+        "db": 42.015372
+      },
+      {
+        "file": "s2-illustration-100-c1.png",
+        "time": 10.875,
+        "db": 42.010429
+      },
+      {
+        "file": "s2-illustration-135-c1.png",
+        "time": 11.625,
+        "db": 42.014847
+      },
+      {
+        "file": "s2-illustration-138-c1.png",
+        "time": 11.75,
+        "db": 42.136626
+      },
+      {
+        "file": "s2-illustration-141-c1.png",
+        "time": 11.875,
+        "db": 42.492697
+      },
+      {
+        "file": "s3-illustration-0-c1.png",
+        "time": 12,
+        "db": 42.570738
+      },
+      {
+        "file": "s3-illustration-3-c1.png",
+        "time": 12.125,
+        "db": 42.61485
+      },
+      {
+        "file": "s3-illustration-6-c1.png",
+        "time": 12.25,
+        "db": 42.547821
+      },
+      {
+        "file": "s3-illustration-9-c1.png",
+        "time": 12.375,
+        "db": 42.455401
+      },
+      {
+        "file": "s3-illustration-12-c1.png",
+        "time": 12.5,
+        "db": 42.335876
+      },
+      {
+        "file": "s3-illustration-15-c1.png",
+        "time": 12.625,
+        "db": 42.228722
+      },
+      {
+        "file": "s3-illustration-48-c1.png",
+        "time": 14,
+        "db": 42.267712
+      },
+      {
+        "file": "s3-illustration-51-c1.png",
+        "time": 14.125,
+        "db": 42.267572
+      },
+      {
+        "file": "s3-illustration-54-c1.png",
+        "time": 14.25,
+        "db": 42.26859
+      },
+      {
+        "file": "s3-illustration-57-c1.png",
+        "time": 14.375,
+        "db": 42.259347
+      },
+      {
+        "file": "s3-illustration-60-c1.png",
+        "time": 14.5,
+        "db": 42.228041
+      },
+      {
+        "file": "s3-illustration-63-c1.png",
+        "time": 14.625,
+        "db": 42.162211
+      },
+      {
+        "file": "s3-illustration-66-c1.png",
+        "time": 14.75,
+        "db": 42.064918
+      },
+      {
+        "file": "s3-illustration-69-c1.png",
+        "time": 14.875,
+        "db": 41.959876
+      },
+      {
+        "file": "s3-illustration-71-c1.png",
+        "time": 14.958333333333334,
+        "db": 41.908409
+      },
+      {
+        "file": "s3-illustration-74-c1.png",
+        "time": 15.083333333333334,
+        "db": 41.819027
+      },
+      {
+        "file": "s3-illustration-77-c1.png",
+        "time": 15.208333333333334,
+        "db": 41.784732
+      },
+      {
+        "file": "s3-illustration-80-c1.png",
+        "time": 15.333333333333334,
+        "db": 41.814972
+      },
+      {
+        "file": "s3-illustration-83-c1.png",
+        "time": 15.458333333333334,
+        "db": 41.782892
+      },
+      {
+        "file": "s3-illustration-86-c1.png",
+        "time": 15.583333333333334,
+        "db": 41.806168
+      },
+      {
+        "file": "s3-illustration-96-c1.png",
+        "time": 16,
+        "db": 41.811449
+      },
+      {
+        "file": "s3-illustration-99-c1.png",
+        "time": 16.125,
+        "db": 41.803198
+      },
+      {
+        "file": "s3-illustration-102-c1.png",
+        "time": 16.25,
+        "db": 41.824247
+      },
+      {
+        "file": "s3-illustration-105-c1.png",
+        "time": 16.375,
+        "db": 41.811627
+      },
+      {
+        "file": "s3-illustration-108-c1.png",
+        "time": 16.5,
+        "db": 41.781892
+      },
+      {
+        "file": "s3-illustration-111-c1.png",
+        "time": 16.625,
+        "db": 41.790025
+      },
+      {
+        "file": "s3-illustration-114-c1.png",
+        "time": 16.75,
+        "db": 41.777753
+      },
+      {
+        "file": "s3-illustration-117-c1.png",
+        "time": 16.875,
+        "db": 41.76606
+      },
+      {
+        "file": "s3-illustration-134-c1.png",
+        "time": 17.583333333333332,
+        "db": 41.723893
+      },
+      {
+        "file": "s3-illustration-137-c1.png",
+        "time": 17.708333333333332,
+        "db": 41.906289
+      },
+      {
+        "file": "s3-illustration-140-c1.png",
+        "time": 17.833333333333332,
+        "db": 42.251184
+      },
+      {
+        "file": "s3-illustration-142-c1.png",
+        "time": 17.916666666666668,
+        "db": 42.57501
+      },
+      {
+        "file": "s4-illustration-1-c1.png",
+        "time": 18.041666666666668,
+        "db": 42.379269
+      },
+      {
+        "file": "s4-illustration-4-c1.png",
+        "time": 18.166666666666668,
+        "db": 42.401467
+      },
+      {
+        "file": "s4-illustration-7-c1.png",
+        "time": 18.291666666666668,
+        "db": 42.393298
+      },
+      {
+        "file": "s4-illustration-10-c1.png",
+        "time": 18.416666666666668,
+        "db": 42.364135
+      },
+      {
+        "file": "s4-illustration-13-c1.png",
+        "time": 18.541666666666668,
+        "db": 42.285694
+      },
+      {
+        "file": "s4-illustration-16-c1.png",
+        "time": 18.666666666666668,
+        "db": 42.197826
+      },
+      {
+        "file": "s4-illustration-19-c1.png",
+        "time": 18.791666666666668,
+        "db": 42.228053
+      },
+      {
+        "file": "s4-illustration-22-c1.png",
+        "time": 18.916666666666668,
+        "db": 42.233666
+      },
+      {
+        "file": "s4-illustration-25-c1.png",
+        "time": 19.041666666666668,
+        "db": 42.192659
+      },
+      {
+        "file": "s4-illustration-28-c1.png",
+        "time": 20.583333333333332,
+        "db": 42.217464
+      },
+      {
+        "file": "s4-illustration-98-c1.png",
+        "time": 22.083333333333332,
+        "db": 42.217531
+      },
+      {
+        "file": "s4-illustration-101-c1.png",
+        "time": 22.208333333333332,
+        "db": 42.192764
+      },
+      {
+        "file": "s4-illustration-104-c1.png",
+        "time": 22.333333333333332,
+        "db": 42.037284
+      },
+      {
+        "file": "s4-illustration-107-c1.png",
+        "time": 22.458333333333332,
+        "db": 42.14665
+      },
+      {
+        "file": "s4-illustration-110-c1.png",
+        "time": 22.583333333333332,
+        "db": 42.134996
+      },
+      {
+        "file": "s4-illustration-113-c1.png",
+        "time": 22.708333333333332,
+        "db": 42.060468
+      },
+      {
+        "file": "s4-illustration-115-c1.png",
+        "time": 22.791666666666668,
+        "db": 42.040645
+      },
+      {
+        "file": "s4-illustration-118-c1.png",
+        "time": 22.916666666666668,
+        "db": 41.953005
+      },
+      {
+        "file": "s4-illustration-121-c1.png",
+        "time": 23.041666666666668,
+        "db": 41.884991
+      },
+      {
+        "file": "s4-illustration-124-c1.png",
+        "time": 23.166666666666668,
+        "db": 41.86923
+      },
+      {
+        "file": "s4-illustration-127-c1.png",
+        "time": 23.291666666666668,
+        "db": 41.862324
+      },
+      {
+        "file": "s4-illustration-130-c1.png",
+        "time": 23.708333333333332,
+        "db": 41.865109
+      },
+      {
+        "file": "s4-illustration-193-c2.png",
+        "time": 26.041666666666668,
+        "db": 41.761813
+      },
+      {
+        "file": "s4-illustration-196-c2.png",
+        "time": 26.166666666666668,
+        "db": 41.771587
+      },
+      {
+        "file": "s4-illustration-199-c2.png",
+        "time": 26.291666666666668,
+        "db": 41.769802
+      },
+      {
+        "file": "s4-illustration-202-c2.png",
+        "time": 26.416666666666668,
+        "db": 41.733363
+      },
+      {
+        "file": "s4-illustration-205-c2.png",
+        "time": 26.541666666666668,
+        "db": 41.736686
+      },
+      {
+        "file": "s4-illustration-208-c2.png",
+        "time": 26.666666666666668,
+        "db": 41.725216
+      },
+      {
+        "file": "s4-illustration-211-c2.png",
+        "time": 26.791666666666668,
+        "db": 41.736434
+      },
+      {
+        "file": "s4-illustration-214-c2.png",
+        "time": 26.916666666666668,
+        "db": 41.714205
+      },
+      {
+        "file": "s4-illustration-279-c2.png",
+        "time": 29.625,
+        "db": 41.735428
+      },
+      {
+        "file": "s4-illustration-282-c2.png",
+        "time": 29.75,
+        "db": 41.756772
+      },
+      {
+        "file": "s4-illustration-285-c2.png",
+        "time": 29.875,
+        "db": 42.396178
+      }
+    ]
+  },
+  "loudness": {
+    "integratedLufs": -24.3,
+    "truePeakDbfs": -15.9,
+    "target": "未設定（ナレーション接続時に決める）"
+  },
+  "renderer": "AppKit + FFmpeg H264/AAC",
+  "narration": false
+}

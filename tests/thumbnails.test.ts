@@ -17,3 +17,73 @@ test('サムネイル: 明示・部分指定・すべて省略の正常例はerr
  for(const p of cases){assert.equal(thumbErrors(p).length,0);const s=buildThumbSpecs(p)[0];const q={...p,thumbnail:undefined,title:s.headline,promise:'必ず儲かる'};assert.equal(thumbErrors(q).filter(f=>f.text==='必ず儲かる').length,1)}
  const none=cases[3];assert.equal(buildThumbSpecs(none)[0].sub,'');
 });
+
+// T165: 実画像・全テキスト・寸法・欠測・NaN/Infinity拒否・判定契約
+import {checkThumbnailQuality, readPngDimensions} from '../src/thumbnails.ts';
+import {convertPlanThumbnailToBrief} from '../src/thumbnail-brief.ts';
+
+function createMockPng(width: number, height: number): Buffer {
+  const buf = Buffer.alloc(32);
+  // PNG signature
+  buf[0] = 0x89; buf[1] = 0x50; buf[2] = 0x4e; buf[3] = 0x47;
+  buf[4] = 0x0d; buf[5] = 0x0a; buf[6] = 0x1a; buf[7] = 0x0a;
+  // IHDR length: 13
+  buf.writeUInt32BE(13, 8);
+  // 'IHDR'
+  buf.write('IHDR', 12, 'ascii');
+  buf.writeUInt32BE(width, 16);
+  buf.writeUInt32BE(height, 20);
+  return buf;
+}
+
+test('PNGヘッダーの寸法読み取り（T165）: 正しい寸法と破損データを判定', () => {
+  const valid = createMockPng(1280, 720);
+  assert.deepEqual(readPngDimensions(valid), {width: 1280, height: 720});
+  assert.equal(readPngDimensions(Buffer.alloc(10)), null);
+  assert.equal(readPngDimensions(Buffer.from('not a png file at all!')), null);
+});
+
+test('厳格なサムネイル品質検査（T165）: 正常系・寸法違い・欠測/NaN・破損PNG・判定契約', () => {
+  const d = mkdtempSync(join(tmpdir(), 'th-quality-'));
+  try {
+    const validPng = createMockPng(1280, 720);
+    const wrongSizePng = createMockPng(800, 600);
+    const corruptPng = Buffer.from('corrupted');
+
+    writeFileSync(join(d, 'thumbnail-a.png'), validPng);
+    writeFileSync(join(d, 'thumbnail-b.png'), wrongSizePng);
+    writeFileSync(join(d, 'thumbnail-c.png'), corruptPng);
+
+    // 1. 欠測・NaN・空レコードを含む異常レポート
+    writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify([
+      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 9.5},
+      {file: 'thumbnail-b.png', variant: 'b', headlineSize: NaN, fitted: true, contrast: 7.0},
+      {file: 'thumbnail-c.png', variant: 'c', headlineSize: 60, fitted: false, contrast: 3.2},
+    ]));
+
+    const brief = convertPlanThumbnailToBrief(v2());
+    const res = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
+
+    // 候補aは寸法1280x720、contrast9.5で合格
+    assert.equal(res.candidates[0].status, 'pass');
+    // 候補bは寸法不一致とNaNで不合格
+    assert.equal(res.candidates[1].status, 'fail');
+    assert.ok(res.candidates[1].issues.some(i => i.includes('画像寸法') || i.includes('測定値が不正')));
+    // 候補cは破損PNG、低コントラスト、はみ出しで不合格
+    assert.equal(res.candidates[2].status, 'fail');
+    assert.ok(res.candidates[2].issues.some(i => i.includes('破損')));
+
+    // 採用がaなので進行可能
+    assert.equal(res.canProceed, true);
+    // 全体合格ではない
+    assert.equal(res.ok, false);
+
+    // 採用をbにすると進行不可で停止
+    const resB = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-b.png'});
+    assert.equal(resB.canProceed, false);
+    assert.equal(resB.selectedOk, false);
+    assert.ok(resB.reasons.some(r => r.includes('不合格')));
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});

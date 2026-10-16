@@ -1,0 +1,20 @@
+✔ 観察台帳の契約照合（T160）: 既存12標本JSONが適合する (0.683292ms)
+✔ 観察台帳の異常系（T160）: schema不一致・件数不一致・不正hash・重複idを拒否 (0.2975ms)
+✔ 参考画像URLの制作素材への流用防止（T160）: URLや外部参照の混入を拒否する (0.16625ms)
+✔ 旧Plan.thumbnailからのBrief変換（T160）: 3候補・決定論的ハッシュ・互換動作 (1.765791ms)
+✔ 旧Plan.thumbnailの省略値・代替挙動の維持（T160）: title/promise/keyword/contrast (0.301042ms)
+✔ 生成briefの検証と拒否（T160）: 不正hash・候補数不足・重複id・未知構図・過長文字・空見出し (0.361666ms)
+✔ 未確認事項の扱い（T160）: unknownを成功値にせずneeds-reviewを強制する (0.192209ms)
+✔ 3題材（格差・名字・寛容）で異なる3候補が自動構成される（T161） (7.594167ms)
+✔ 禁止表現が含まれる場合はneeds-reviewで停止する（T161） (0.215916ms)
+✔ 文末記号違いのみの重複はneeds-reviewで停止する（T161） (0.15275ms)
+✔ 意味の単位での短縮処理（T161）: 単純末尾切り捨てを行わない (0.146667ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.773375
+EXIT=0

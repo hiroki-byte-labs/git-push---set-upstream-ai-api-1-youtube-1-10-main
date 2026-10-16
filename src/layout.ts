@@ -16,7 +16,7 @@ export const ZONES: Record<string, Rect> = {
 // 許容差（論理座標のpt）。描画の端数と文字の外接矩形の丸めを許す。
 export const TOLERANCE = 1;
 
-type Rec = {file: string; role: string; text: string; zone?: string; box?: number[]; drawn?: number[]; align?: string};
+type Rec = {file: string; role: string; text: string; zone?: string; box?: number[]; drawn?: number[]; align?: string; coordinateSystem?: string; zoneBounds?: number[]; parentBox?: number[]; lines?: number[][]; maxLines?: number};
 export type LayoutResult = {ok: boolean; checked: number; issues: string[]};
 
 const inside = (a: number[], b: number[], tol = TOLERANCE) => a[0] >= b[0] - tol && a[1] >= b[1] - tol && a[0] + a[2] <= b[0] + b[2] + tol && a[1] + a[3] <= b[1] + b[3] + tol;
@@ -28,12 +28,15 @@ export function checkLayoutRecords(recs: Rec[]): LayoutResult {
   const frames = recs.filter(r => r.box && r.drawn && r.zone && !/^thumbnail-/.test(r.file));
   for (const r of frames) {
     const label = `${r.file} ${r.role}「${r.text.slice(0, 12)}」`;
+    if (r.coordinateSystem === 'remotion-720-bottom-left' && !inside(r.drawn!, [0,0,1280,720])) add(`${label}: 画面の外に描かれている`);
     if (!inside(r.drawn!, r.box!)) add(`${label}: 文字が入れ物の枠からはみ出す`);
     if (r.align === 'center') {
       const dy = r.drawn![1] + r.drawn![3] / 2 - (r.box![1] + r.box![3] / 2);
       if (Math.abs(dy) > TOLERANCE) add(`${label}: 枠の上下中央から${dy.toFixed(1)}ptずれる`);
     }
-    const zone = ZONES[r.zone!];
+    if (r.parentBox && !inside(r.drawn!, r.parentBox)) add(`${label}: 文字が親要素からはみ出す`);
+    if (r.maxLines && r.lines && new Set(r.lines.map(l => Math.round(l[1]))).size > r.maxLines) add(`${label}: 行数上限を超える`);
+    const zone = r.coordinateSystem === 'remotion-720-bottom-left' ? r.zoneBounds : ZONES[r.zone!];
     if (!zone) add(`${label}: 不明な区画 ${r.zone}`);
     else if (!inside(r.drawn!, zone)) add(`${label}: 区画「${r.zone}」の外に描かれている`);
   }
@@ -42,7 +45,7 @@ export function checkLayoutRecords(recs: Rec[]): LayoutResult {
   for (const [file, list] of byFile) {
     for (let i = 0; i < list.length; i++) for (let j = i + 1; j < list.length; j++) {
       const a = list[i], b = list[j];
-      if (a.zone !== b.zone && overlap(a.drawn!, b.drawn!)) add(`${file}: ${a.zone}の「${a.text.slice(0, 10)}」と${b.zone}の「${b.text.slice(0, 10)}」が重なる`);
+      if ((a.zone !== b.zone || a.coordinateSystem === 'remotion-720-bottom-left') && overlap(a.drawn!, b.drawn!)) add(`${file}: ${a.zone}の「${a.text.slice(0, 10)}」と${b.zone}の「${b.text.slice(0, 10)}」が重なる`);
     }
   }
   return {ok: issues.length === 0, checked: frames.length, issues: issues.slice(0, 20)};

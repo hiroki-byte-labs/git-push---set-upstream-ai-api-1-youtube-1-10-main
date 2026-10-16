@@ -1,0 +1,17 @@
+{
+  "root": "/private/tmp/T139-render-nti1mann",
+  "node": "/opt/homebrew/bin/node",
+  "ffprobe": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+  "copies": [
+    "src",
+    "scripts",
+    "fixtures",
+    "config",
+    "prompts",
+    "package.json",
+    "motion-lab"
+  ],
+  "outputsCopied": false,
+  "swiftCachesCopied": false,
+  "mockOnly": true
+}

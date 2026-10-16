@@ -1,0 +1,30 @@
+{
+  "command": "./scripts/agentctl events --kind agy_child_session_bound --limit 500",
+  "started_at": "2026-10-13T23:42:20.293402+00:00",
+  "ended_at": "2026-10-13T23:42:20.385759+00:00",
+  "exit_code": 0,
+  "stderr": "",
+  "filter": "product/provider=antigravity only; events.at < 2026-10-13T23:41:42.657Z; this Codex and all other products excluded before saving",
+  "result": {
+    "returned_count": 1,
+    "selected_count": 1,
+    "excluded_count": 0,
+    "rows": [
+      {
+        "id": 263,
+        "at": "2026-10-12T06:55:09.651Z",
+        "kind": "agy_child_session_bound",
+        "product": "antigravity",
+        "session_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+        "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+        "detail": {
+          "parent": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+          "via": "parent_transcript"
+        }
+      }
+    ],
+    "at_min": "2026-10-12T06:55:09.651Z",
+    "at_max": "2026-10-12T06:55:09.651Z",
+    "new_since_previous_count": 0
+  }
+}

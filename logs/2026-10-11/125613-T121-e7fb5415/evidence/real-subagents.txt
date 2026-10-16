@@ -1,0 +1,25 @@
+# サブエージェントの実機試験（2026-10-11、利用者の許可、購読枠）
+## 実行と子の実行
+task_id|execution_id|parent_execution_id|agent_name|bound|model_id|route|managed|status|metering_status|tokens
+tsk_0mv3tv4zm16a05ac6f37d|exe_0mv3tv4zn96a3f608767d|exe_0mv3tuz8db286c22f1387|explorer|1|gpt-6-luna|native_subagent|0|completed|measured|18583
+tsk_0mv3tuz1c038a4f766327|exe_0mv3tuz8db286c22f1387|||0|gpt-6-luna|cli|1|completed|measured|56906
+tsk_0mv3uypzqc669e0617b07|exe_0mv3uypzs35de5e3f1b0a|exe_0mv3uyie273746374eff9|default|0|gemini-3.8-flash-medium|native_subagent|1|completed|missing|
+tsk_0mv3uyib71cf06119bef2|exe_0mv3uyie273746374eff9|||0|gemini-3.8-flash-low|cli|1|completed|measured|62393
+tsk_0mv3uzmzx5bb9b577d815|exe_0mv3uzmzy268e8156262d|exe_0mv3uzg54c3337ea75790|explorer|1|gpt-6-luna|native_subagent|0|completed|measured|18583
+tsk_0mv3uzg1vf3d57d3fb25c|exe_0mv3uzg54c3337ea75790|||0|gpt-6-luna|cli|1|completed|measured|56906
+## Hookのイベント
+at|kind|product|sid|execution_id|d
+2026-10-11T12:56:58.670Z|child_session_verified|codex|01a12b09-a713|exe_0mv3tuz8db286c22f1387|{"reason":"承認と実モデルが一致","model":"gpt-6-luna"}
+2026-10-11T12:57:02.723Z|unmanaged_subagent|codex|01a12b09-a713||{"agent_type":"explorer"}
+2026-10-11T12:59:17.384Z|deny_hook_tamper|claude|fd2a2fa4-4cfc||{"reason":"Hook設定・ルーティング設定・Hook実装をシェルから書き換えようとしている","program":null,"command_sha256":"d4d95ad3193c12e1adbb5674028d21dab3dbab01b65c048a9dd3ef15622607d4"}
+2026-10-11T13:27:46.130Z|child_session_verified|antigravity|0aec887e-21e5|exe_0mv3uyie273746374eff9|{"reason":"承認と実モデルが一致","model":"gemini-3.8-flash-low"}
+2026-10-11T13:27:49.553Z|subagent_model_unenforced|antigravity|0aec887e-21e5|exe_0mv3uypzs35de5e3f1b0a|{"agentType":"default","selected":"gemini-3.8-flash-medium","definition":null}
+2026-10-11T13:27:49.689Z|child_session_verified|antigravity|14d3893a-7d63|exe_0mv3uyie273746374eff9|{"reason":"承認と実モデルが一致","model":"gemini-3.8-flash-low"}
+2026-10-11T13:27:59.922Z|stop_with_unmetered|antigravity|0aec887e-21e5||{"count":1}
+2026-10-11T13:28:27.489Z|child_session_verified|codex|01a12b26-76b6|exe_0mv3uzg54c3337ea75790|{"reason":"承認と実モデルが一致","model":"gpt-6-luna"}
+2026-10-11T13:28:32.302Z|unmanaged_subagent|codex|01a12b26-76b6||{"agent_type":"explorer"}
+2026-10-11T13:34:13.701Z|agent_tool_seen|codex|01a12b2a-aa8a||{"tool":"collaborationspawn_agent"}
+2026-10-11T13:34:16.191Z|unmanaged_subagent|codex|01a12b2a-aa8a||{"agent_type":"default"}
+2026-10-11T13:34:20.972Z|agent_tool_seen|codex|01a12b2a-aa8a||{"tool":"collaborationwait_agent"}
+## Codexの起動ツール（rollout、名前と引数名のみ）: collaboration / spawn_agent（task_name,agent_type,fork_turns,message）、collaboration / wait_agent（timeout_ms）。モデル指定なし（親のgpt-6-lunaを継承）
+## Codexの信頼の記録: ~/.codex/config.toml の更新 2026-10-11 05:23:20 PDT（12:23 UTC）。パッチ適用（約13:24 UTC）後に未更新 → 変更したPreToolUse・PostToolUseは再信頼待ち（doctor: hooks_codex_retrust warn）

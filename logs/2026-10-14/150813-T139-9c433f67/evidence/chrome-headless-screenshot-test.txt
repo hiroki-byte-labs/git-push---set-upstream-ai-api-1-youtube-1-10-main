@@ -1,0 +1,7 @@
+COMMAND=['/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell', '--headless', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--user-data-dir=/private/tmp/t139-chrome-shot-g1m9drp0/profile', '--screenshot=/private/tmp/t139-chrome-shot-g1m9drp0/shot.png', '--window-size=640,360', 'data:text/html,<html><body style="background:#123;color:white">local-ok</body></html>']
+TIMEOUT=20
+STDOUT=
+STDERR=[1015/002225.960018:ERROR:ui/display/mac/cv_display_link_mac.mm:188] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[1015/002225.960208:WARNING:components/viz/service/frame_sinks/external_begin_frame_source_mac.cc:211] Switch to DelayBasedTimeSource. DisplayID 2300000000
+
+SCREENSHOT_EXISTS=False

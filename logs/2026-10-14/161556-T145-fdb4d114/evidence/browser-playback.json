@@ -1,0 +1,24 @@
+{
+  "method": "CUA in-app browser, controls clicked, read-only DOM snapshots",
+  "muted": true,
+  "playbackRate": 1,
+  "remotion": {
+    "duration": 30,
+    "initialTime": 0.150667,
+    "finalTime": 30,
+    "ended": true,
+    "readyState": 4,
+    "width": 1280,
+    "height": 720
+  },
+  "native": {
+    "duration": 30,
+    "initialTime": 0.33948,
+    "finalTime": 30,
+    "ended": true,
+    "readyState": 4,
+    "width": 1280,
+    "height": 720
+  },
+  "limits": "No speaker listening; getVideoPlaybackQuality unavailable in read-only DOM bridge; no dropped-frame count."
+}

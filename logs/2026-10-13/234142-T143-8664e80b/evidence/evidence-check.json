@@ -1,0 +1,39 @@
+{
+  "command": "python3 - (saved JSON selection, prior-ID comparison and usage arithmetic assertions)",
+  "exit_code": 0,
+  "checks": {
+    "same_target_event_ids_as_previous": true,
+    "only_antigravity": true,
+    "before_this_start": true,
+    "child_model": "gemini-3.8-flash-medium",
+    "child_source_kinds": [
+      "transcript",
+      "transcript",
+      "transcript"
+    ],
+    "child_usage_count": 3,
+    "child_totals": [
+      9767,
+      10445,
+      10583
+    ],
+    "child_total": 30795,
+    "child_tree": {
+      "executions": 2,
+      "total": 30795,
+      "api_usd": 0.024689
+    },
+    "event_kind_counts": {
+      "agy_child_usage_linked": 1,
+      "agy_child_session_bound": 1,
+      "managed_call": 6,
+      "agy_payload_keys": 6,
+      "subagent_parent_model_allowed": 3,
+      "spawn_args": 5,
+      "child_session_verified": 9,
+      "subagent_denied_unenforceable": 2,
+      "stop_with_unmetered": 1,
+      "subagent_model_unenforced": 1
+    }
+  }
+}

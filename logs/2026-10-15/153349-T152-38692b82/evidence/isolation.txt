@@ -1,0 +1,2 @@
+/private/tmp/T152-verify-hjoqb_28
+NODE_BIN=/opt/homebrew/bin/node

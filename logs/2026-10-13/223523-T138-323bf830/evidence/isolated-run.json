@@ -1,0 +1,83 @@
+{
+  "directory": "/private/tmp/T138-media-Cgj8b6/audio",
+  "mode": "mock",
+  "material": "locally synthesized sine tones; no TTS or human voice",
+  "decodedDurationSec": 68,
+  "fullDecode": "passed",
+  "sync": {
+    "ok": true,
+    "totalExpectedDuration": 68,
+    "totalActualDuration": 68,
+    "driftSec": 0,
+    "maxDriftSec": 0,
+    "errors": []
+  },
+  "loudness": {
+    "integratedLufs": -14.3,
+    "truePeakDbfs": -9.9,
+    "passed": true,
+    "targetRange": {
+      "minLufs": -15,
+      "maxLufs": -13,
+      "maxPeakDbfs": -1
+    }
+  },
+  "bgmReductionDb": [
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925287
+    },
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925294
+    },
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925287
+    },
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925294
+    },
+    {
+      "stem": 10.000198458467985,
+      "mix": 9.999652556139992
+    },
+    {
+      "stem": 10.000198458467985,
+      "mix": 9.999786599925258
+    },
+    {
+      "stem": 10.000053851342898,
+      "mix": 9.99978659992528
+    },
+    {
+      "stem": 10.000053851342898,
+      "mix": 9.999786599925258
+    },
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925287
+    },
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925294
+    },
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925287
+    },
+    {
+      "stem": 10.000110838938589,
+      "mix": 9.999786599925294
+    },
+    {
+      "stem": 10.000198458467985,
+      "mix": 9.999652556139992
+    },
+    {
+      "stem": 10.000198458467985,
+      "mix": 9.999786599925258
+    }
+  ]
+}

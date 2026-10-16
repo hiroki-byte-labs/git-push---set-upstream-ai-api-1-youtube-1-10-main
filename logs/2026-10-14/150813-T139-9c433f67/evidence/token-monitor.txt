@@ -1,0 +1,6 @@
+COMMAND=['./scripts/agentctl', 'status', 'T139', '--require-metered']
+EXIT=2
+--- stdout ---
+
+--- stderr ---
+実行がない: T139

@@ -1,0 +1,110 @@
+✔ 台本のスライス分割: シーンとcue単位に正しく分解される (0.7575ms)
+✔ 長尺ナレーションの合成と予算管理: 正常系完走と使用量・試行記録 (1.194375ms)
+✔ 予算上限超過時の安全な停止: 上限を超える試行は拒否される (0.268875ms)
+✔ 字幕同期検査: 許容誤差内の同期とドリフト超過の検出 (0.223041ms)
+✔ BGMダッキング計算: ナレーション発話区間と音量設定 (0.335375ms)
+✔ 音量検査: YouTube規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）の判定 (0.050875ms)
+✔ 人の試聴評価メタデータ（T125）の整合性確認 (0.082625ms)
+✖ real WAV slices concatenate, decode, synchronize and duck BGM in both stem and final mix (0.788958ms)
+✖ minimum 0.5 second cues still have measured tone and pause windows (0.251ms)
+✖ FFmpeg mix failure removes partial results and preserves existing files byte for byte (0.8285ms)
+✖ repository outputs and malformed cue timing are rejected before media writes (0.147209ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 7
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.761083
+
+✖ failing tests:
+
+test at tests/mock-audio-media.test.ts:18:1
+✖ real WAV slices concatenate, decode, synchronize and duck BGM in both stem and final mix (0.788958ms)
+  Error: thumbnail.sceneは場面番号（1始まり）
+      at validatePlanV2 (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:160:114)
+      at loadPlan (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:258:28)
+      at fixture (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:15:10)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:21:54)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/mock-audio-media.test.ts:42:1
+✖ minimum 0.5 second cues still have measured tone and pause windows (0.251ms)
+  Error: thumbnail.sceneは場面番号（1始まり）
+      at validatePlanV2 (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:160:114)
+      at loadPlan (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:258:28)
+      at fixture (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:15:10)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:45:43)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/mock-audio-media.test.ts:52:1
+✖ FFmpeg mix failure removes partial results and preserves existing files byte for byte (0.8285ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /FFmpeg failed \(17\).*injected mix failure/s. Input:
+  
+  'Error: thumbnail.sceneは場面番号（1始まり）'
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:60:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: thumbnail.sceneは場面番号（1始まり）
+        at validatePlanV2 (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:160:114)
+        at loadPlan (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:258:28)
+        at fixture (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:15:10)
+        at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:60:46
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:60:12)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:960:18),
+    expected: /FFmpeg failed \(17\).*injected mix failure/s,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/mock-audio-media.test.ts:68:1
+✖ repository outputs and malformed cue timing are rejected before media writes (0.147209ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /isolated temporary/. Input:
+  
+  'Error: thumbnail.sceneは場面番号（1始まり）'
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:69:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: thumbnail.sceneは場面番号（1始まり）
+        at validatePlanV2 (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:160:114)
+        at loadPlan (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/plan.ts:258:28)
+        at fixture (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:15:10)
+        at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:69:44
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/mock-audio-media.test.ts:69:10)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:960:18),
+    expected: /isolated temporary/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+EXIT=1

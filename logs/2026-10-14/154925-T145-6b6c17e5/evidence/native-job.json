@@ -1,0 +1,166 @@
+{
+  "id": "superstar-illustration-demo-81f02c0c",
+  "kind": "production-job",
+  "status": "completed",
+  "createdAt": "2026-10-14T16:01:31.425Z",
+  "pid": 6546,
+  "mode": "demo",
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.appkit-ffmpeg",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.sine-cues-1",
+      "inputUnits": 0,
+      "outputUnits": 30,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "visual",
+      "provider": "local.appkit-ffmpeg",
+      "model": "none",
+      "mode": "local",
+      "requestId": "local-local.appkit-ffmpeg-1",
+      "inputUnits": 0,
+      "outputUnits": 30,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-a7ee86b2",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-14T16:01:31.423Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-01ad7a13",
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-14T16:01:33.160Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.sine-cues-1"
+    },
+    {
+      "attemptId": "att-65313c21",
+      "domain": "visual",
+      "provider": "local.appkit-ffmpeg",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-14T16:01:33.169Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "local-local.appkit-ffmpeg-1"
+    }
+  ],
+  "inputHash": "1141359adb4f31bbd95761d1291577295b5ab9d1a95e50085d300504e712b820",
+  "input": "fixtures/sample-superstar-illustration.json",
+  "durationSeconds": 30,
+  "subtitles": "burn",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "1d1d1c6d2a2cc8eda82ea2ffb476f81ddce6bccada2c7de0f018c1c4859e61b6",
+    "rendererKind": "local.appkit-ffmpeg",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready",
+    "video-checked"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 0
+  },
+  "thumbnails": [
+    {
+      "file": "thumbnail-a.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-b.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-c.png",
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "readability": {
+    "ok": true,
+    "scale": 1,
+    "minFont720": 17,
+    "minContrast": 6.32,
+    "issues": []
+  },
+  "layout": {
+    "ok": true,
+    "checked": 304,
+    "issues": []
+  },
+  "outputHash": "d1eda31c30348bfd5d0c16fb6ea25bef1eb804f501c0b8f37259290cd974d112"
+}

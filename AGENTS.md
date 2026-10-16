@@ -2,6 +2,7 @@
 - 開始時はREADME.md、docs/SPEC.md、docs/STATUS.md、対象チケットと依存、docs/AGENT-WORKFLOW.mdを読む。
 - `./scripts/run src/cli.ts check` と `next` を実行する。check失敗は無視せず未終了記録や変更を調べる。
 - 最初に `./scripts/run src/worklog-cli.ts start Txxx --agent 名前 --model モデル名 --model-source runtime|user-specified|unknown --request 依頼` を実行する。モデル不明はunknown。エージェント名に優先順位なし。
+- 他者が開始した未終了の作業回を、利用者の確認なしに finish（completed・paused とも）で閉じない。start が他者の未終了作業で失敗したら止めて利用者に確認し、閉じてよいと明示された場合だけ paused で閉じ、代理で閉じたことを本文に書く（2026-10-11 の事例、GEMINI.md）。
 - 担当はhuman / agent。実際の実施者・記録者・モデル名はログに分離。原則1チケット・1作業回単位で実装・検証・記録する。
 - 受け入れ条件と必要検証を満たしてからdone。人の確認待ちはreview。未実施試験や模擬だけの外部連携を成功扱いしない。
 - 人待ちは手順を残し独立作業を続ける。範囲外改善は別チケット。
@@ -12,6 +13,8 @@
 - ログのTODOは時点履歴、現在状態はticketsが正本。過去ログの訂正は新しい記録に理由を書く。回顧記録・要約・未確認を明示する。
 - 可逆的な実装・ローカル検証で毎回確認を求めない。契約、有料API、課金デプロイ、push、投稿は別途明示的承認が必要。
 - 秘密情報、キー、トークン、本番DB、動画本体をGitやログへ保存しない。秘密値の貼付を要求しない。
+- 利用者の包括許可（2026-10-12）: 保護対象（Hook実装・Hook設定・models.json・routing-policy.json）の変更は、一時コピーで検証したパッチを `scripts/agentctl maintenance apply <patch>` でエージェントが適用し、利用者への確認は求めない（手順は `.agents/skills/model-router/SKILL.md` の「保守」）。`.codex/hooks.json` を変えた場合だけ、利用者にCodexの `/hooks` での再信頼を依頼する。購読枠を使う実機試験も確認不要（必要最小のプロンプトで、結果を記録する）。API課金・契約・課金デプロイ・push・投稿は従来どおり明示的承認が必要。
+- 別のAIモデル・別製品への実行（`claude -p`、`codex exec`、`agy -p`、`gemini`、AI APIの直接呼出し）は `scripts/agentctl run` だけで行い、モデルはModel Router（`.agents/skills/model-router/SKILL.md`）が決める。管理対象の実行を終える前に `.agents/skills/token-monitor/SKILL.md` に従い計測の完了を確認し、未計測を完了扱いにしない。方針の変更は `.agents/skills/routing-optimizer/SKILL.md` に従いPM確認後だけ。別モデルや計測が必要な子作業は、製品内サブエージェントではなく `scripts/agentctl run` で起動する（サブエージェントのモデル指定・子の使用量の取得ができない製品があるため）。Hook・承認鍵・計測DB・ルーティング設定を迂回・改変しない（T121、docs/agent-routing/）。
 - 開発チケットはtickets/*.md、制作ジョブはoutputs/<job>/job.json。混同しない。
 - 終了記録を閉じる前に、今回の定型作業を `.agents/skills/routine-to-skill/SKILL.md` に従って評価する。反復の根拠があり有効なものは既存Skill更新または新規Skill化して試用し、候補なしなら理由をログへ残す。同一作業回の再帰評価や無条件なSkill量産はしない。
 - チケット・ログの終了には `.agents/skills/repository-task-closeout/SKILL.md` を参照する。Skill原本はリポジトリ内で共有し、特定AIの自動発見に依存しない。

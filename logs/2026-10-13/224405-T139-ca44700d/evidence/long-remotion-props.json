@@ -1,0 +1,662 @@
+{
+  "id": "t139-long-mock",
+  "title": "ニュースの「物価」と自分の買い物",
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "totalFrames": 14496,
+  "durationSeconds": 604,
+  "scenes": [
+    {
+      "index": 1,
+      "title": "「物価が上がった」って何？",
+      "seconds": 30,
+      "startFrame": 0,
+      "durationFrames": 720,
+      "narration": "ニュースで「物価が上がった」と聞いても、何の値段が上がったのか分かりにくくありませんか？一緒に、物価の測り方と生活での活かし方を見ていきましょう。",
+      "cues": [
+        {
+          "text": "「物価が上がった」と聞いて、何の値段か分かりますか？",
+          "startFrame": 0,
+          "durationFrames": 360
+        },
+        {
+          "text": "物価の測り方と、生活での活かし方を見ていきます。",
+          "startFrame": 360,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "ニュース",
+          "素朴な疑問",
+          "測り方を知る"
+        ]
+      },
+      "role": "hook",
+      "chapter": "媒体検証区間1"
+    },
+    {
+      "index": 2,
+      "title": "気になる値札、変わらない値札",
+      "seconds": 30,
+      "startFrame": 720,
+      "durationFrames": 720,
+      "narration": "ここからは架空の例です。よく買うパンの値札は上がった気がするのに、別の品はあまり変わらない。あなたなら、どちらを見て物価を判断しますか？",
+      "cues": [
+        {
+          "text": "架空の例：よく買うパンの値札は上がった気がする。",
+          "startFrame": 720,
+          "durationFrames": 360
+        },
+        {
+          "text": "でも、あまり変わらない品もある。どちらが物価？",
+          "startFrame": 1080,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "気になった1品",
+        "right": "家計全体",
+        "leftItems": [
+          "値札が上がった気がする"
+        ],
+        "rightItems": [
+          "上がった品",
+          "変わらない品"
+        ]
+      },
+      "role": "example",
+      "chapter": "媒体検証区間1"
+    },
+    {
+      "index": 3,
+      "title": "1品の値段と、家計全体の値段",
+      "seconds": 30,
+      "startFrame": 1440,
+      "durationFrames": 720,
+      "narration": "1つの品の値段だけを見ると、全体の動きを見誤ることがあります。家計全体では、何を見ればよいのでしょうか？",
+      "cues": [
+        {
+          "text": "1つの品だけ見ると、全体の動きを見誤ることも。",
+          "startFrame": 1440,
+          "durationFrames": 360
+        },
+        {
+          "text": "家計全体では、何を見ればよい？",
+          "startFrame": 1800,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "1つの値札で判断する？",
+        "yes": "全体を見誤るおそれ",
+        "no": "多くの品をまとめて見る"
+      },
+      "role": "question",
+      "chapter": "媒体検証区間1"
+    },
+    {
+      "index": 4,
+      "title": "消費者物価指数とは",
+      "seconds": 30,
+      "startFrame": 2160,
+      "durationFrames": 720,
+      "narration": "消費者物価指数とは、全国の世帯が買うモノやサービスの値段の動きを、まとめて測る指数です。総務省統計局が毎月作成しています。",
+      "cues": [
+        {
+          "text": "世帯が買うモノやサービスの値段の動きを、まとめて測る指数。",
+          "startFrame": 2160,
+          "durationFrames": 360
+        },
+        {
+          "text": "総務省統計局が毎月作成しています。",
+          "startFrame": 2520,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "多くの品目",
+          "値段を調べる",
+          "指数にまとめる"
+        ]
+      },
+      "role": "glossary",
+      "chapter": "媒体検証区間1"
+    },
+    {
+      "index": 5,
+      "title": "買い物の中身を固定して比べる",
+      "seconds": 30,
+      "startFrame": 2880,
+      "durationFrames": 720,
+      "narration": "ポイントは、家計の買い物の中身を一定に固定して、その費用が物価でどう変わるかを見ることです。1つの値札ではなく、全体の変化を見ています。",
+      "cues": [
+        {
+          "text": "家計の買い物の中身を固定して、費用の変化を見ます。",
+          "startFrame": 2880,
+          "durationFrames": 360
+        },
+        {
+          "text": "1つの値札ではなく、全体の変化を見る指標です。",
+          "startFrame": 3240,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "1つの値札",
+        "right": "物価の指数",
+        "leftItems": [
+          "その品だけの変化"
+        ],
+        "rightItems": [
+          "多くの品目の変化",
+          "買い物の中身を固定"
+        ]
+      },
+      "role": "recap",
+      "chapter": "媒体検証区間1"
+    },
+    {
+      "index": 6,
+      "title": "気になる値札、変わらない値札",
+      "seconds": 30,
+      "startFrame": 3600,
+      "durationFrames": 720,
+      "narration": "ここからは架空の例です。よく買うパンの値札は上がった気がするのに、別の品はあまり変わらない。あなたなら、どちらを見て物価を判断しますか？",
+      "cues": [
+        {
+          "text": "架空の例：よく買うパンの値札は上がった気がする。",
+          "startFrame": 3600,
+          "durationFrames": 360
+        },
+        {
+          "text": "でも、あまり変わらない品もある。どちらが物価？",
+          "startFrame": 3960,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "気になった1品",
+        "right": "家計全体",
+        "leftItems": [
+          "値札が上がった気がする"
+        ],
+        "rightItems": [
+          "上がった品",
+          "変わらない品"
+        ]
+      },
+      "role": "example",
+      "chapter": "媒体検証区間2"
+    },
+    {
+      "index": 7,
+      "title": "1品の値段と、家計全体の値段",
+      "seconds": 30,
+      "startFrame": 4320,
+      "durationFrames": 720,
+      "narration": "1つの品の値段だけを見ると、全体の動きを見誤ることがあります。家計全体では、何を見ればよいのでしょうか？",
+      "cues": [
+        {
+          "text": "1つの品だけ見ると、全体の動きを見誤ることも。",
+          "startFrame": 4320,
+          "durationFrames": 360
+        },
+        {
+          "text": "家計全体では、何を見ればよい？",
+          "startFrame": 4680,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "1つの値札で判断する？",
+        "yes": "全体を見誤るおそれ",
+        "no": "多くの品をまとめて見る"
+      },
+      "role": "question",
+      "chapter": "媒体検証区間2"
+    },
+    {
+      "index": 8,
+      "title": "消費者物価指数とは",
+      "seconds": 30,
+      "startFrame": 5040,
+      "durationFrames": 720,
+      "narration": "消費者物価指数とは、全国の世帯が買うモノやサービスの値段の動きを、まとめて測る指数です。総務省統計局が毎月作成しています。",
+      "cues": [
+        {
+          "text": "世帯が買うモノやサービスの値段の動きを、まとめて測る指数。",
+          "startFrame": 5040,
+          "durationFrames": 360
+        },
+        {
+          "text": "総務省統計局が毎月作成しています。",
+          "startFrame": 5400,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "多くの品目",
+          "値段を調べる",
+          "指数にまとめる"
+        ]
+      },
+      "role": "glossary",
+      "chapter": "媒体検証区間2"
+    },
+    {
+      "index": 9,
+      "title": "買い物の中身を固定して比べる",
+      "seconds": 30,
+      "startFrame": 5760,
+      "durationFrames": 720,
+      "narration": "ポイントは、家計の買い物の中身を一定に固定して、その費用が物価でどう変わるかを見ることです。1つの値札ではなく、全体の変化を見ています。",
+      "cues": [
+        {
+          "text": "家計の買い物の中身を固定して、費用の変化を見ます。",
+          "startFrame": 5760,
+          "durationFrames": 360
+        },
+        {
+          "text": "1つの値札ではなく、全体の変化を見る指標です。",
+          "startFrame": 6120,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "1つの値札",
+        "right": "物価の指数",
+        "leftItems": [
+          "その品だけの変化"
+        ],
+        "rightItems": [
+          "多くの品目の変化",
+          "買い物の中身を固定"
+        ]
+      },
+      "role": "recap",
+      "chapter": "媒体検証区間2"
+    },
+    {
+      "index": 10,
+      "title": "気になる値札、変わらない値札",
+      "seconds": 30,
+      "startFrame": 6480,
+      "durationFrames": 720,
+      "narration": "ここからは架空の例です。よく買うパンの値札は上がった気がするのに、別の品はあまり変わらない。あなたなら、どちらを見て物価を判断しますか？",
+      "cues": [
+        {
+          "text": "架空の例：よく買うパンの値札は上がった気がする。",
+          "startFrame": 6480,
+          "durationFrames": 360
+        },
+        {
+          "text": "でも、あまり変わらない品もある。どちらが物価？",
+          "startFrame": 6840,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "気になった1品",
+        "right": "家計全体",
+        "leftItems": [
+          "値札が上がった気がする"
+        ],
+        "rightItems": [
+          "上がった品",
+          "変わらない品"
+        ]
+      },
+      "role": "example",
+      "chapter": "媒体検証区間2"
+    },
+    {
+      "index": 11,
+      "title": "1品の値段と、家計全体の値段",
+      "seconds": 30,
+      "startFrame": 7200,
+      "durationFrames": 720,
+      "narration": "1つの品の値段だけを見ると、全体の動きを見誤ることがあります。家計全体では、何を見ればよいのでしょうか？",
+      "cues": [
+        {
+          "text": "1つの品だけ見ると、全体の動きを見誤ることも。",
+          "startFrame": 7200,
+          "durationFrames": 360
+        },
+        {
+          "text": "家計全体では、何を見ればよい？",
+          "startFrame": 7560,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "1つの値札で判断する？",
+        "yes": "全体を見誤るおそれ",
+        "no": "多くの品をまとめて見る"
+      },
+      "role": "question",
+      "chapter": "媒体検証区間3"
+    },
+    {
+      "index": 12,
+      "title": "消費者物価指数とは",
+      "seconds": 30,
+      "startFrame": 7920,
+      "durationFrames": 720,
+      "narration": "消費者物価指数とは、全国の世帯が買うモノやサービスの値段の動きを、まとめて測る指数です。総務省統計局が毎月作成しています。",
+      "cues": [
+        {
+          "text": "世帯が買うモノやサービスの値段の動きを、まとめて測る指数。",
+          "startFrame": 7920,
+          "durationFrames": 360
+        },
+        {
+          "text": "総務省統計局が毎月作成しています。",
+          "startFrame": 8280,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "多くの品目",
+          "値段を調べる",
+          "指数にまとめる"
+        ]
+      },
+      "role": "glossary",
+      "chapter": "媒体検証区間3"
+    },
+    {
+      "index": 13,
+      "title": "買い物の中身を固定して比べる",
+      "seconds": 30,
+      "startFrame": 8640,
+      "durationFrames": 720,
+      "narration": "ポイントは、家計の買い物の中身を一定に固定して、その費用が物価でどう変わるかを見ることです。1つの値札ではなく、全体の変化を見ています。",
+      "cues": [
+        {
+          "text": "家計の買い物の中身を固定して、費用の変化を見ます。",
+          "startFrame": 8640,
+          "durationFrames": 360
+        },
+        {
+          "text": "1つの値札ではなく、全体の変化を見る指標です。",
+          "startFrame": 9000,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "1つの値札",
+        "right": "物価の指数",
+        "leftItems": [
+          "その品だけの変化"
+        ],
+        "rightItems": [
+          "多くの品目の変化",
+          "買い物の中身を固定"
+        ]
+      },
+      "role": "recap",
+      "chapter": "媒体検証区間3"
+    },
+    {
+      "index": 14,
+      "title": "気になる値札、変わらない値札",
+      "seconds": 30,
+      "startFrame": 9360,
+      "durationFrames": 720,
+      "narration": "ここからは架空の例です。よく買うパンの値札は上がった気がするのに、別の品はあまり変わらない。あなたなら、どちらを見て物価を判断しますか？",
+      "cues": [
+        {
+          "text": "架空の例：よく買うパンの値札は上がった気がする。",
+          "startFrame": 9360,
+          "durationFrames": 360
+        },
+        {
+          "text": "でも、あまり変わらない品もある。どちらが物価？",
+          "startFrame": 9720,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "気になった1品",
+        "right": "家計全体",
+        "leftItems": [
+          "値札が上がった気がする"
+        ],
+        "rightItems": [
+          "上がった品",
+          "変わらない品"
+        ]
+      },
+      "role": "example",
+      "chapter": "媒体検証区間3"
+    },
+    {
+      "index": 15,
+      "title": "1品の値段と、家計全体の値段",
+      "seconds": 30,
+      "startFrame": 10080,
+      "durationFrames": 720,
+      "narration": "1つの品の値段だけを見ると、全体の動きを見誤ることがあります。家計全体では、何を見ればよいのでしょうか？",
+      "cues": [
+        {
+          "text": "1つの品だけ見ると、全体の動きを見誤ることも。",
+          "startFrame": 10080,
+          "durationFrames": 360
+        },
+        {
+          "text": "家計全体では、何を見ればよい？",
+          "startFrame": 10440,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "1つの値札で判断する？",
+        "yes": "全体を見誤るおそれ",
+        "no": "多くの品をまとめて見る"
+      },
+      "role": "question",
+      "chapter": "媒体検証区間3"
+    },
+    {
+      "index": 16,
+      "title": "消費者物価指数とは",
+      "seconds": 30,
+      "startFrame": 10800,
+      "durationFrames": 720,
+      "narration": "消費者物価指数とは、全国の世帯が買うモノやサービスの値段の動きを、まとめて測る指数です。総務省統計局が毎月作成しています。",
+      "cues": [
+        {
+          "text": "世帯が買うモノやサービスの値段の動きを、まとめて測る指数。",
+          "startFrame": 10800,
+          "durationFrames": 360
+        },
+        {
+          "text": "総務省統計局が毎月作成しています。",
+          "startFrame": 11160,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "多くの品目",
+          "値段を調べる",
+          "指数にまとめる"
+        ]
+      },
+      "role": "glossary",
+      "chapter": "媒体検証区間4"
+    },
+    {
+      "index": 17,
+      "title": "買い物の中身を固定して比べる",
+      "seconds": 30,
+      "startFrame": 11520,
+      "durationFrames": 720,
+      "narration": "ポイントは、家計の買い物の中身を一定に固定して、その費用が物価でどう変わるかを見ることです。1つの値札ではなく、全体の変化を見ています。",
+      "cues": [
+        {
+          "text": "家計の買い物の中身を固定して、費用の変化を見ます。",
+          "startFrame": 11520,
+          "durationFrames": 360
+        },
+        {
+          "text": "1つの値札ではなく、全体の変化を見る指標です。",
+          "startFrame": 11880,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "1つの値札",
+        "right": "物価の指数",
+        "leftItems": [
+          "その品だけの変化"
+        ],
+        "rightItems": [
+          "多くの品目の変化",
+          "買い物の中身を固定"
+        ]
+      },
+      "role": "recap",
+      "chapter": "媒体検証区間4"
+    },
+    {
+      "index": 18,
+      "title": "気になる値札、変わらない値札",
+      "seconds": 30,
+      "startFrame": 12240,
+      "durationFrames": 720,
+      "narration": "ここからは架空の例です。よく買うパンの値札は上がった気がするのに、別の品はあまり変わらない。あなたなら、どちらを見て物価を判断しますか？",
+      "cues": [
+        {
+          "text": "架空の例：よく買うパンの値札は上がった気がする。",
+          "startFrame": 12240,
+          "durationFrames": 360
+        },
+        {
+          "text": "でも、あまり変わらない品もある。どちらが物価？",
+          "startFrame": 12600,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "気になった1品",
+        "right": "家計全体",
+        "leftItems": [
+          "値札が上がった気がする"
+        ],
+        "rightItems": [
+          "上がった品",
+          "変わらない品"
+        ]
+      },
+      "role": "example",
+      "chapter": "媒体検証区間4"
+    },
+    {
+      "index": 19,
+      "title": "1品の値段と、家計全体の値段",
+      "seconds": 30,
+      "startFrame": 12960,
+      "durationFrames": 720,
+      "narration": "1つの品の値段だけを見ると、全体の動きを見誤ることがあります。家計全体では、何を見ればよいのでしょうか？",
+      "cues": [
+        {
+          "text": "1つの品だけ見ると、全体の動きを見誤ることも。",
+          "startFrame": 12960,
+          "durationFrames": 360
+        },
+        {
+          "text": "家計全体では、何を見ればよい？",
+          "startFrame": 13320,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "branch",
+        "question": "1つの値札で判断する？",
+        "yes": "全体を見誤るおそれ",
+        "no": "多くの品をまとめて見る"
+      },
+      "role": "question",
+      "chapter": "媒体検証区間4"
+    },
+    {
+      "index": 20,
+      "title": "考察：調べて気づいたこと",
+      "seconds": 4,
+      "startFrame": 13680,
+      "durationFrames": 96,
+      "narration": "デモ用の仮の考察です。本人の考察ではありません。",
+      "cues": [
+        {
+          "text": "デモ用の仮の考察です。本人の考察ではありません。",
+          "startFrame": 13680,
+          "durationFrames": 96
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "気になったこと",
+          "調べて分かったこと",
+          "自分の考え"
+        ]
+      },
+      "role": "reflection",
+      "chapter": "媒体検証区間4"
+    },
+    {
+      "index": 21,
+      "title": "まとめ",
+      "seconds": 30,
+      "startFrame": 13776,
+      "durationFrames": 720,
+      "narration": "物価は、多くの品の値段の動きをまとめたものでした。これは学習用の解説で、実践の結果を保証するものではありません。",
+      "cues": [
+        {
+          "text": "物価は、多くの品の値段の動きをまとめたもの。",
+          "startFrame": 13776,
+          "durationFrames": 360
+        },
+        {
+          "text": "学習用の解説です。実践の結果を保証するものではありません。",
+          "startFrame": 14136,
+          "durationFrames": 360
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "ニュース",
+          "物価の測り方",
+          "自分の家計"
+        ]
+      },
+      "role": "recap",
+      "chapter": "媒体検証区間5"
+    }
+  ]
+}

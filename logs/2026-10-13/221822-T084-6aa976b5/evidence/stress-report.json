@@ -1,0 +1,866 @@
+[
+  {
+    "maxSize" : 30,
+    "file" : "checklist-1.png",
+    "contrast" : 9.892569247502967,
+    "zone" : "header",
+    "align" : "center",
+    "box" : [
+      60,
+      640,
+      1160,
+      40
+    ],
+    "drawn" : [
+      60,
+      642.5,
+      346,
+      35
+    ],
+    "fitted" : true,
+    "role" : "チェックリスト",
+    "text" : "判断前チェックリスト  1 \/ 4",
+    "size" : 30,
+    "pixelSize" : 30
+  },
+  {
+    "align" : "center",
+    "fitted" : true,
+    "contrast" : 18.128697318697988,
+    "role" : "題名",
+    "pixelSize" : 32,
+    "maxSize" : 32,
+    "file" : "checklist-1.png",
+    "text" : "物価を見る前の確認メモ",
+    "drawn" : [
+      60,
+      573,
+      326,
+      38
+    ],
+    "size" : 32,
+    "box" : [
+      60,
+      556,
+      1160,
+      72
+    ],
+    "zone" : "title"
+  },
+  {
+    "align" : "center",
+    "fitted" : true,
+    "contrast" : 13.829893295744359,
+    "role" : "実践項目",
+    "pixelSize" : 29,
+    "maxSize" : 30,
+    "file" : "checklist-1.png",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "drawn" : [
+      84,
+      463,
+      1105,
+      68
+    ],
+    "size" : 29,
+    "box" : [
+      84,
+      452,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "align" : "center",
+    "fitted" : true,
+    "contrast" : 6.315530326229731,
+    "role" : "出典対応",
+    "pixelSize" : 20,
+    "maxSize" : 20,
+    "file" : "checklist-1.png",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "drawn" : [
+      84,
+      420,
+      233,
+      24
+    ],
+    "size" : 20,
+    "box" : [
+      84,
+      418,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "align" : "center",
+    "fitted" : true,
+    "contrast" : 13.829893295744359,
+    "role" : "実践項目",
+    "pixelSize" : 29,
+    "maxSize" : 30,
+    "file" : "checklist-1.png",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "drawn" : [
+      84,
+      313,
+      1105,
+      68
+    ],
+    "size" : 29,
+    "box" : [
+      84,
+      302,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-1.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      270,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      268,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-1.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      163,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      152,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-1.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      120,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      118,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 8.278613236047711,
+    "file" : "checklist-1.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      48,
+      657,
+      24
+    ],
+    "align" : "center",
+    "role" : "注意",
+    "text" : "台本の実践箇所の原文です。出典の記載は助言の正しさや結果を保証しません。",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      60,
+      30,
+      1160,
+      60
+    ],
+    "zone" : "note"
+  },
+  {
+    "contrast" : 9.892569247502967,
+    "file" : "checklist-2.png",
+    "size" : 30,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      642.5,
+      349,
+      35
+    ],
+    "align" : "center",
+    "role" : "チェックリスト",
+    "text" : "判断前チェックリスト  2 \/ 4",
+    "maxSize" : 30,
+    "pixelSize" : 30,
+    "box" : [
+      60,
+      640,
+      1160,
+      40
+    ],
+    "zone" : "header"
+  },
+  {
+    "contrast" : 18.128697318697988,
+    "file" : "checklist-2.png",
+    "size" : 32,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      573,
+      326,
+      38
+    ],
+    "align" : "center",
+    "role" : "題名",
+    "text" : "物価を見る前の確認メモ",
+    "maxSize" : 32,
+    "pixelSize" : 32,
+    "box" : [
+      60,
+      556,
+      1160,
+      72
+    ],
+    "zone" : "title"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-2.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      463,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      452,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-2.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      420,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      418,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-2.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      313,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      302,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-2.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      270,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      268,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-2.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      163,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      152,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-2.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      120,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      118,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 8.278613236047711,
+    "file" : "checklist-2.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      48,
+      657,
+      24
+    ],
+    "align" : "center",
+    "role" : "注意",
+    "text" : "台本の実践箇所の原文です。出典の記載は助言の正しさや結果を保証しません。",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      60,
+      30,
+      1160,
+      60
+    ],
+    "zone" : "note"
+  },
+  {
+    "contrast" : 9.892569247502967,
+    "file" : "checklist-3.png",
+    "size" : 30,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      642.5,
+      350,
+      35
+    ],
+    "align" : "center",
+    "role" : "チェックリスト",
+    "text" : "判断前チェックリスト  3 \/ 4",
+    "maxSize" : 30,
+    "pixelSize" : 30,
+    "box" : [
+      60,
+      640,
+      1160,
+      40
+    ],
+    "zone" : "header"
+  },
+  {
+    "contrast" : 18.128697318697988,
+    "file" : "checklist-3.png",
+    "size" : 32,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      573,
+      326,
+      38
+    ],
+    "align" : "center",
+    "role" : "題名",
+    "text" : "物価を見る前の確認メモ",
+    "maxSize" : 32,
+    "pixelSize" : 32,
+    "box" : [
+      60,
+      556,
+      1160,
+      72
+    ],
+    "zone" : "title"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-3.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      463,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      452,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-3.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      420,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      418,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-3.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      313,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      302,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-3.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      270,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      268,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-3.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      163,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      152,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-3.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      120,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      118,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 8.278613236047711,
+    "file" : "checklist-3.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      48,
+      657,
+      24
+    ],
+    "align" : "center",
+    "role" : "注意",
+    "text" : "台本の実践箇所の原文です。出典の記載は助言の正しさや結果を保証しません。",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      60,
+      30,
+      1160,
+      60
+    ],
+    "zone" : "note"
+  },
+  {
+    "contrast" : 9.892569247502967,
+    "file" : "checklist-4.png",
+    "size" : 30,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      642.5,
+      350,
+      35
+    ],
+    "align" : "center",
+    "role" : "チェックリスト",
+    "text" : "判断前チェックリスト  4 \/ 4",
+    "maxSize" : 30,
+    "pixelSize" : 30,
+    "box" : [
+      60,
+      640,
+      1160,
+      40
+    ],
+    "zone" : "header"
+  },
+  {
+    "contrast" : 18.128697318697988,
+    "file" : "checklist-4.png",
+    "size" : 32,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      573,
+      326,
+      38
+    ],
+    "align" : "center",
+    "role" : "題名",
+    "text" : "物価を見る前の確認メモ",
+    "maxSize" : 32,
+    "pixelSize" : 32,
+    "box" : [
+      60,
+      556,
+      1160,
+      72
+    ],
+    "zone" : "title"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-4.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      463,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      452,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-4.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      420,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      418,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-4.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      313,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      302,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-4.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      270,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      268,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 13.829893295744359,
+    "file" : "checklist-4.png",
+    "size" : 29,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      163,
+      1105,
+      68
+    ],
+    "align" : "center",
+    "role" : "実践項目",
+    "text" : "□ 確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認確認",
+    "maxSize" : 30,
+    "pixelSize" : 29,
+    "box" : [
+      84,
+      152,
+      1112,
+      90
+    ],
+    "zone" : "item"
+  },
+  {
+    "contrast" : 6.315530326229731,
+    "file" : "checklist-4.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      84,
+      120,
+      233,
+      24
+    ],
+    "align" : "center",
+    "role" : "出典対応",
+    "text" : "場面1・架空の例 \/ 出典なし",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      84,
+      118,
+      1112,
+      28
+    ],
+    "zone" : "reference"
+  },
+  {
+    "contrast" : 8.278613236047711,
+    "file" : "checklist-4.png",
+    "size" : 20,
+    "fitted" : true,
+    "drawn" : [
+      60,
+      48,
+      657,
+      24
+    ],
+    "align" : "center",
+    "role" : "注意",
+    "text" : "台本の実践箇所の原文です。出典の記載は助言の正しさや結果を保証しません。",
+    "maxSize" : 20,
+    "pixelSize" : 20,
+    "box" : [
+      60,
+      30,
+      1160,
+      60
+    ],
+    "zone" : "note"
+  }
+]

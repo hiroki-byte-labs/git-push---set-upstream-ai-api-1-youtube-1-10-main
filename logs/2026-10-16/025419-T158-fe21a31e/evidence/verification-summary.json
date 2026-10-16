@@ -1,0 +1,33 @@
+{
+  "jobId": "surname-illustration-demo-0d3007b0",
+  "plan": "fixtures/sample-surname-illustration.json",
+  "renderer": "remotion",
+  "subtitles": "both",
+  "resolution": 720,
+  "readability": {
+    "ok": true,
+    "scale": 1,
+    "minFont720": 16,
+    "minContrast": 5.38,
+    "issues": []
+  },
+  "layout": {
+    "ok": true,
+    "checked": 78,
+    "issues": []
+  },
+  "thumbnailQuality": {
+    "ok": true,
+    "canProceed": true,
+    "allPassed": true,
+    "selectedVariant": "a",
+    "reasons": []
+  },
+  "mediaCheckStatus": "passed",
+  "avplayer": {
+    "durationSeconds": 30,
+    "ended": true,
+    "playbackRate": 8,
+    "observedProgressSamples": 76
+  }
+}

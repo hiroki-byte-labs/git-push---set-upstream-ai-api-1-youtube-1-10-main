@@ -1,0 +1,27 @@
+{
+  "durationSeconds" : 24,
+  "elapsedSeconds" : 3.255698084831238,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 24,
+  "muted" : true,
+  "observedProgressSamples" : 60,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}
+{
+  "durationSeconds" : 24,
+  "elapsedSeconds" : 3.2043349742889404,
+  "ended" : true,
+  "file" : "sample.mp4",
+  "firstProgressSeconds" : 0,
+  "lastProgressSeconds" : 24,
+  "muted" : true,
+  "observedProgressSamples" : 60,
+  "playbackRate" : 8,
+  "status" : "readyToPlay"
+}
+
+EXIT=0
+

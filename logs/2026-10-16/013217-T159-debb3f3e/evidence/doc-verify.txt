@@ -1,0 +1,8 @@
+12 unique observations, video/image URL correspondence, SHA-256 fields: PASS
+T160-T167: all 8 ticket IDs, required headings, document mapping: PASS
+Relative markdown links exist: PASS
+No TODO_WRITE in new tickets: PASS
+Scoped git diff --check excluding pre-existing STATUS whitespace: EXIT=0
+New STATUS entry trailing whitespace: absent
+Initial broader scoped diff check: EXIT=2, pre-existing trailing whitespace in the T151 entry of docs/STATUS.md; left unchanged.
+Production implementation unchanged; runtime tests/typecheck/render not executed for this documentation-only change.

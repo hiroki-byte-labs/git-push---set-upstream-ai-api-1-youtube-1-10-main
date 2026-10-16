@@ -1,0 +1,152 @@
+{
+  "id": "surname-illustration-demo",
+  "title": "なぜ名字は絶滅する運命にあるのか？",
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "totalFrames": 720,
+  "durationSeconds": 30,
+  "scenes": [
+    {
+      "index": 1,
+      "title": "名字が失われていく確率",
+      "seconds": 6,
+      "startFrame": 0,
+      "durationFrames": 144,
+      "narration": "何万種類もある名字が、なぜ世代交代だけで減っていくのでしょう？",
+      "cues": [
+        {
+          "text": "何万種類もある名字が、なぜ世代交代だけで減っていくのでしょう？",
+          "startFrame": 0,
+          "durationFrames": 144
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "祖先",
+          "世代交代",
+          "消失と残存"
+        ],
+        "illustration": "branching-tree",
+        "archetype": "causal-relation",
+        "focus": "ancestor-tree",
+        "motionPurpose": "generational-branching",
+        "reveal": [
+          0,
+          2,
+          4
+        ]
+      },
+      "role": "hook",
+      "chapter": "分枝の数理"
+    },
+    {
+      "index": 2,
+      "title": "家系の分岐とランダムな消失",
+      "seconds": 6,
+      "startFrame": 144,
+      "durationFrames": 144,
+      "narration": "均等な確率でも、子が途絶えた枝は二度と復活できないためです。",
+      "cues": [
+        {
+          "text": "均等な確率でも、子が途絶えた枝は二度と復活できません。",
+          "startFrame": 144,
+          "durationFrames": 144
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "分岐",
+          "途絶",
+          "残存の集中"
+        ],
+        "illustration": "branching-tree",
+        "archetype": "data-quantity",
+        "focus": "extinction-loss",
+        "motionPurpose": "branch-loss-reveal",
+        "reveal": [
+          0,
+          2,
+          4
+        ]
+      },
+      "role": "body",
+      "chapter": "分枝の数理"
+    },
+    {
+      "index": 3,
+      "title": "極少数の姓への収斂",
+      "seconds": 6,
+      "startFrame": 288,
+      "durationFrames": 144,
+      "narration": "長い世代交代の果てに、無数の名字はごく少数の巨大な姓へ集約されます。",
+      "cues": [
+        {
+          "text": "世代交代の果てに、無数の名字はごく少数へ集約されます。",
+          "startFrame": 288,
+          "durationFrames": 144
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "多様な姓",
+          "世代交代",
+          "少数へ集約"
+        ],
+        "illustration": "lineage-convergence",
+        "archetype": "resonance",
+        "focus": "lineage-convergence",
+        "motionPurpose": "converge-to-dominant",
+        "reveal": [
+          0,
+          2,
+          4
+        ]
+      },
+      "role": "example",
+      "chapter": "集約の帰結"
+    },
+    {
+      "index": 4,
+      "title": "確率が導く名字の未来",
+      "seconds": 12,
+      "startFrame": 432,
+      "durationFrames": 288,
+      "narration": "名字の減少は制度だけでなく確率論の帰結です。なお、本動画は結果を保証するものではありません。",
+      "cues": [
+        {
+          "text": "名字の減少は制度だけでなく確率論の必然的帰結です。",
+          "startFrame": 432,
+          "durationFrames": 144
+        },
+        {
+          "text": "なお、本動画は結果を保証するものではありません。",
+          "startFrame": 576,
+          "durationFrames": 144
+        }
+      ],
+      "diagram": {
+        "type": "flow",
+        "items": [
+          "確率論",
+          "世代交代",
+          "集約の必然"
+        ],
+        "illustration": "lineage-convergence",
+        "archetype": "resonance",
+        "focus": "final-inevitability",
+        "motionPurpose": "resonant-conclusion",
+        "reveal": [
+          0,
+          4,
+          8
+        ]
+      },
+      "role": "recap",
+      "chapter": "集約の帰結"
+    }
+  ]
+}

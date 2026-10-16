@@ -1,0 +1,6 @@
+Error: 制作を開始できない（production-demo-110ed262）。不足:
+- 題材が未選択（produce select）
+- 本人の考察が未入力（produce reflection）
+- 台本が未作成（produce script）
+
+EXIT=1

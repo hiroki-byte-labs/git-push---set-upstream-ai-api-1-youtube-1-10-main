@@ -1,0 +1,29 @@
+diff -ru a/orchestration/model-registry/models.json b/orchestration/model-registry/models.json
+--- a/orchestration/model-registry/models.json	2026-10-11 19:15:02
++++ b/orchestration/model-registry/models.json	2026-10-11 19:22:44
+@@ -46,9 +46,9 @@
+     "mock": {"cli": null, "version_seen": null, "default_auth": "none", "auth_modes": {"none": {"verified": true, "basis": "テスト専用。AGENTCTL_ALLOW_MOCK=1のときだけ選択可能"}}, "native_subagents": {"supported": false, "model_override": "unsupported", "model_param": null, "child_usage": "unavailable", "verified_version": null, "verified_at": null, "basis": "サブエージェントなし"}}
+   },
+   "models": [
+-    {"provider": "codex", "model_id": "gpt-6-luna", "tier": "light", "selectable": true, "reasoning_default": "low", "reasoning_levels": ["low", "medium", "high", "xhigh", "max"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Fast and affordable model for easier tasks.", "pricing": null},
+-    {"provider": "codex", "model_id": "gpt-6.1-sol", "tier": "standard", "selectable": true, "reasoning_default": "medium", "reasoning_levels": ["low", "medium", "high", "xhigh", "max", "ultra"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Latest workhorse model for coding and everyday work.", "pricing": null},
+-    {"provider": "codex", "model_id": "gpt-6-astra", "tier": "high", "selectable": true, "reasoning_default": "high", "reasoning_levels": ["low", "medium", "high", "xhigh", "max", "ultra"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Frontier intelligence for the most demanding work.（~/.codex/config.toml の既定モデル）", "pricing": null},
++    {"provider": "codex", "model_id": "gpt-6-luna", "tier": "light", "selectable": true, "reasoning_default": "low", "reasoning_levels": ["low", "medium", "high", "xhigh", "max"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Fast and affordable model for easier tasks.", "pricing": {"currency": "USD", "input_per_mtok": 0.10, "output_per_mtok": 0.50, "cache_read_per_mtok": 0.01, "cache_write_per_mtok": 0.125, "confirmed_at": "2026-10-12", "basis": "公式のモデルページ developers.openai.com/api/docs/models/gpt-6-luna（Standard、272Kトークン以下）。APIの単価で、ChatGPT購読枠の請求額ではない"}},
++    {"provider": "codex", "model_id": "gpt-6.1-sol", "tier": "standard", "selectable": true, "reasoning_default": "medium", "reasoning_levels": ["low", "medium", "high", "xhigh", "max", "ultra"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Latest workhorse model for coding and everyday work.", "pricing": {"currency": "USD", "input_per_mtok": 2.00, "output_per_mtok": 10.00, "cache_read_per_mtok": 0.1, "cache_write_per_mtok": 2.5, "confirmed_at": "2026-10-12", "basis": "公式のモデルページ developers.openai.com/api/docs/models/gpt-6.1-sol（Standard、272Kトークン以下）。APIの単価で、ChatGPT購読枠の請求額ではない"}},
++    {"provider": "codex", "model_id": "gpt-6-astra", "tier": "high", "selectable": true, "reasoning_default": "high", "reasoning_levels": ["low", "medium", "high", "xhigh", "max", "ultra"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Frontier intelligence for the most demanding work.（~/.codex/config.toml の既定モデル）", "pricing": {"currency": "USD", "input_per_mtok": 10.00, "output_per_mtok": 50.00, "cache_read_per_mtok": 1.0, "cache_write_per_mtok": 12.5, "confirmed_at": "2026-10-12", "basis": "公式のモデルページ developers.openai.com/api/docs/models/gpt-6-astra（Standard、272Kトークン以下）。APIの単価で、ChatGPT購読枠の請求額ではない"}},
+     {"provider": "codex", "model_id": "gpt-6-sol", "tier": "standard", "selectable": false, "reasoning_default": "medium", "reasoning_levels": ["low", "medium", "high", "xhigh", "max", "ultra"], "capabilities": ["code", "analysis", "image", "tools"], "aliases": {}, "source": "codex debug models 2026-10-11: Previous generation workhorse model.", "pricing": null},
+ 
+     {"provider": "claude", "model_id": "claude-haiku-5-5", "tier": "light", "selectable": true, "reasoning_default": "low", "reasoning_levels": ["low", "medium", "high", "xhigh", "max"], "capabilities": ["code", "analysis", "image", "tools", "long_context"], "aliases": {"claude_code_agent_tool": "haiku"}, "source": "claude-apiスキル（モデル表 2026-10-06時点）、Claude Code Agentツールのmodel列挙", "pricing": {"currency": "USD", "input_per_mtok": 0.10, "output_per_mtok": 0.50, "cache_read_per_mtok": null, "cache_write_per_mtok": 0.125, "confirmed_at": "2026-10-06", "basis": "公式モデル表（10万トークン以下の入力）。cache_writeは入力の約1.25倍（5分）の概算、cache_readは未確認"}},
+diff -ru a/orchestration/tests/monitor.test.ts b/orchestration/tests/monitor.test.ts
+--- a/orchestration/tests/monitor.test.ts	2026-10-11 19:22:22
++++ b/orchestration/tests/monitor.test.ts	2026-10-11 19:22:44
+@@ -34,7 +34,8 @@
+  const m=loadRegistry().models;
+  const t=fromAnthropic({input_tokens:1_000_000,output_tokens:1_000_000,cache_read_input_tokens:0,cache_creation_input_tokens:0}).tokens;
+  assert.equal(estimateApiUsd(t,m.find(x=>x.model_id==='claude-sonnet-5-5')),12);
+- assert.equal(estimateApiUsd(t,m.find(x=>x.model_id==='gpt-6-luna')),null);
++ assert.equal(estimateApiUsd(t,m.find(x=>x.model_id==='gemini-3.1-pro-high')),null);
++ assert.equal(estimateApiUsd(t,m.find(x=>x.model_id==='gpt-6-luna')),0.6,'公式単価（入力0.10・出力0.50）');
+ });
+ test('TEST-009: 同じ実行結果を2回送っても二重計上しない', ()=>{
+  exe('exe_0000000000m1');

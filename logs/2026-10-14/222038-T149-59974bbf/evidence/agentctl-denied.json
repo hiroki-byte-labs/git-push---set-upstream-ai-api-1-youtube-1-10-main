@@ -1,0 +1,67 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mv8oclz6cee732fc7954",
+    "parent_task_id": null,
+    "execution_id": "exe_0mv8ocm3mf0df0acfbb6b",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mv8ocm3ndd38bc7b0e93",
+    "initiator": "codex",
+    "agent_name": null,
+    "provider": "antigravity",
+    "model_id": "gemini-3.8-flash-medium",
+    "reasoning_level": "medium",
+    "task_type": "analysis",
+    "difficulty": "L2",
+    "routing_reason": "L2/analysis/品質high → standard枠の antigravity:gemini-3.8-flash-medium（antigravityの順で最初に条件を満たしたモデル）",
+    "status": "failed",
+    "managed": true,
+    "route": "cli",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-14T22:21:31.237Z",
+    "end_time": "2026-10-14T22:21:48.130Z",
+    "duration_ms": 16893,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [
+      {
+        "path": "work/T149-antigravity-findings.md",
+        "exists": false,
+        "sha256": null
+      }
+    ],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "antigravity",
+      "session_id": "62ca981e-9b9e-4924-8cac-1783838074e3",
+      "agent_id": null
+    },
+    "error": {
+      "cause": "quality",
+      "message": "成果物がない: work/T149-antigravity-findings.md / 上位への切替え上限 0 に達した"
+    },
+    "tree": {
+      "executions": 1,
+      "total": 17094,
+      "api_usd": 0.01442
+    },
+    "usage": [
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "source_kind": "cli_result",
+        "input_total": 16561,
+        "cache_read": 0,
+        "cache_write": null,
+        "output_total": 533,
+        "reasoning": 431,
+        "total": 17094,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"estimated\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.01442
+      }
+    ]
+  }
+]
+EXIT=0

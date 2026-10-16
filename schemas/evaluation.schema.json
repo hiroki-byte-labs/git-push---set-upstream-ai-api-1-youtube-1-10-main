@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentctl.local/schemas/evaluation.schema.json",
+  "title": "evaluation v1 (agent execution)",
+  "description": "1回の実行の品質評価。orchestration/schemas/evaluation.schema.json（動画の再現評価）とは別物。passedがnullなら未評価で、合格扱いにしない。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "evaluation_id", "execution_id", "task_id", "evaluator", "passed", "score", "criteria", "failure_cause", "independent", "notes", "created_at"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "evaluation_id": {"$ref": "common.schema.json#/definitions/evaluation_id"},
+    "execution_id": {"$ref": "common.schema.json#/definitions/execution_id"},
+    "task_id": {"$ref": "common.schema.json#/definitions/task_id"},
+    "evaluator": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "name", "provider", "model_id"],
+      "properties": {
+        "kind": {"enum": ["test", "program", "human", "agent"]},
+        "name": {"type": "string", "minLength": 1},
+        "provider": {"oneOf": [{"$ref": "common.schema.json#/definitions/provider"}, {"type": "null"}]},
+        "model_id": {"type": ["string", "null"]}
+      }
+    },
+    "passed": {"type": ["boolean", "null"]},
+    "score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "criteria": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["name", "passed", "detail"], "properties": {"name": {"type": "string"}, "passed": {"type": ["boolean", "null"]}, "detail": {"type": ["string", "null"]}}}},
+    "failure_cause": {"$ref": "common.schema.json#/definitions/failure_cause"},
+    "independent": {"type": "boolean", "description": "評価者が実行したモデル・製品と独立しているか（L4の独立レビュー）。"},
+    "notes": {"type": ["string", "null"], "maxLength": 2000},
+    "created_at": {"$ref": "common.schema.json#/definitions/datetime"}
+  }
+}

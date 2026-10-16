@@ -10,12 +10,14 @@ export const MIN_CONTRAST_TEXT = 4.5;
 export const MIN_FONT_720 = 16;
 export type Readability = {ok: boolean; scale: number; minFont720: number; minContrast: number; issues: string[]};
 
-type Rec = {file: string; role: string; text: string; size: number; pixelSize: number; contrast: number};
+type Rec = {file: string; role: string; text: string; size: number; pixelSize: number; contrast: number; readabilitySample?: boolean};
 
 export function checkReadability(dir: string, scale: number): Readability {
   const path = join(dir, 'render-report.json');
   if (!existsSync(path)) throw Error('render-report.jsonがない');
-  const recs: Rec[] = JSON.parse(readFileSync(path, 'utf8'));
+  // Extra Remotion exit-fade snapshots retain their real contrast in the report.
+  // Typography acceptance uses every cue's full-hold sample; layout checks still use all snapshots.
+  const recs: Rec[] = JSON.parse(readFileSync(path, 'utf8')).filter((r: Rec) => r.readabilitySample !== false);
   const issues: string[] = [];
   const small = recs.filter(r => r.pixelSize / scale < MIN_FONT_720);
   const low = recs.filter(r => r.contrast < MIN_CONTRAST_TEXT);

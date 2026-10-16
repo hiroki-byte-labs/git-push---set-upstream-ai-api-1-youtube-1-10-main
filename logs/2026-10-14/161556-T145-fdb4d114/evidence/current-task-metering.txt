@@ -1,0 +1,45 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mv8b9o3n87fee6047a19",
+    "parent_task_id": null,
+    "execution_id": "exe_0mv8b9o3o93ab93e20f48",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mv8b9o3o52eb6dd15906",
+    "initiator": "codex",
+    "agent_name": "main",
+    "provider": "codex",
+    "model_id": "gpt-6-astra",
+    "reasoning_level": "medium",
+    "task_type": "video_analysis",
+    "difficulty": "L2",
+    "routing_reason": "L2/video_analysis/品質normal → standard枠の antigravity:gemini-3.8-flash-medium（antigravity>gemini-apiの順で最初に条件を満たしたモデル）",
+    "status": "running",
+    "managed": false,
+    "route": "interactive",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-14T16:15:18.853Z",
+    "end_time": null,
+    "duration_ms": null,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "missing",
+    "session_ref": {
+      "product": "codex",
+      "session_id": "01a12dc1-27de-7da2-80f2-5b1d088feb3b",
+      "agent_id": null
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 0,
+      "api_usd": null
+    },
+    "usage": []
+  }
+]
+未計測: exe_0mv8b9o3o93ab93e20f48
+
+EXIT=4

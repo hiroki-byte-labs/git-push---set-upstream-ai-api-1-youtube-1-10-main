@@ -1,0 +1,27 @@
+# 実機（このClaude Codeデスクトップセッション、2.1.293）でのHook動作 2026-10-11T12:07:00Z
+## events（種類別件数）
+kind|n
+audit|1
+deny_ai_invocation|4
+deny_hook_tamper|1
+deny_protected_access|2
+deny_protected_file|1
+managed_call|2
+subagent_model_denied|1
+## 拒否イベント（コマンド本文はハッシュのみ保存）
+at|kind|product|reason
+2026-10-11T12:00:47.332Z|deny_ai_invocation|claude|codex の直接起動（agentctl run を通していない）
+2026-10-11T12:00:50.364Z|deny_ai_invocation|claude|claude の直接起動（agentctl run を通していない）
+2026-10-11T12:00:50.860Z|deny_ai_invocation|claude|agy の直接起動（agentctl run を通していない）
+2026-10-11T12:00:51.481Z|deny_protected_access|claude|承認鍵へのアクセスは禁止（Gatewayだけが使う）
+2026-10-11T12:00:52.057Z|deny_protected_access|claude|計測DBの直接変更は禁止（参照は agentctl usage / report、またはSELECTだけのsqlite3）
+2026-10-11T12:00:52.724Z|deny_hook_tamper|claude|Hook・計測を迂回する起動指定: --bare
+2026-10-11T12:01:08.891Z|deny_protected_file|claude|
+2026-10-11T12:01:10.355Z|subagent_model_denied|claude|
+2026-10-11T12:01:48.109Z|deny_ai_invocation|claude|agy の直接起動（agentctl run を通していない）
+## ネイティブサブエージェントの実行（Explore、モデル未指定で起動→Hookがhaikuを注入）
+execution_id|agent_name|model_id|status|metering_status|bound|managed|route|tokens|usage_model|hook_approvals
+exe_0mv3rve5j59282a2741f9|Explore|claude-haiku-5-5|completed|measured|1|1|native_subagent|65998|claude-haiku-5-5|1
+## sessions
+product|session_id|model_id|managed_execution_id
+claude|fd2a2fa4-4cfc-4e1c-be1e-9fad6e0af02a||

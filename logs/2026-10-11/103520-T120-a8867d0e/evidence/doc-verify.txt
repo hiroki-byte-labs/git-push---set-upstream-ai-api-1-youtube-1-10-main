@@ -1,0 +1,33 @@
+P0/P1の未完了（T120除く）: 14 ['T021', 'T022', 'T025', 'T026', 'T027', 'T028', 'T029', 'T031', 'T032', 'T071', 'T077', 'T106', 'T114', 'T118']
+1章の表の行: 15 ['T106', 'T118', 'T071', 'T114', 'T025', 'T027', 'T029', 'T021', 'T026', 'T028', 'T077', 'T060', 'T022', 'T031', 'T032']
+表に無いP0/P1: []
+表にあるP0/P1以外: ['T060'] （T060はP1を止めるP2として意図的に掲載）
+一覧照合: OK
+missing（本文で欠落として記載）: .agents/skills/multi-product-motion/SKILL.md
+exists: .agents/skills/repository-task-closeout/SKILL.md
+exists: analysis/animation_spec.json
+exists: analysis/reference_analysis.json
+exists: docs/DECISIONS.md
+exists: docs/HUMAN-BLOCKERS.md
+exists: docs/RESEARCH-GROWTH.md
+exists: docs/RESEARCH-YOUTUBE.md
+exists: docs/T108-SERVICE-COMPARISON.md
+exists: logs/2026-10-11/103520-T120-a8867d0e
+missing（本文で欠落として記載）: orchestration/README.md
+exists: orchestration/check-definitions.py
+exists: outputs/T106-review-2026-10-10/README.md
+exists: src/cli.ts
+exists: src/connections.ts
+exists: src/metadata.ts
+exists: src/plan.ts
+参照パス照合: OK
+link PRIORITY-TASKS-2026-10-11.md True
+link T108-SERVICE-COMPARISON.md True
+link DECISIONS.md True
+ADR-015 True
+ADR-016 True
+ADR-018 True
+EXIT=0
+## 表の列数の一貫性と単位の必須欄
+単位の行数: 61 問題: 0
+表の検査: OK

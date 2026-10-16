@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "planId": "superstar-economics-demo",
+  "claims": [
+    {
+      "claim": "わずかな才能の差が天文学的な報酬格差を生み出す現象",
+      "value": "1位と2位の格差",
+      "sourceId": "rosen-1981",
+      "citation": "Sherwin Rosen (1981) 'The Economics of Superstars', American Economic Review, 71(5), pp. 845-858",
+      "url": "https://www.jstor.org/stable/1803469",
+      "status": "verified",
+      "checkedAt": "2026-10-12"
+    },
+    {
+      "claim": "消費者の探索コスト最小化により、才能差がなくとも人気が集中する現象",
+      "value": "探索コスト最小化",
+      "sourceId": "adler-1985",
+      "citation": "Adler, Moshe (1985) 'Stardom and Talent', American Economic Review, 75(1), pp. 208-212",
+      "url": "https://www.jstor.org/stable/1805626",
+      "status": "verified",
+      "checkedAt": "2026-10-12"
+    },
+    {
+      "claim": "ストリーミング配信等による限界費用のゼロ化が、現代のクリエイター経済にも同様の格差を生んでいる",
+      "sourceId": "rosen-1981",
+      "citation": "Sherwin Rosen (1981) Section II: Scale Economies",
+      "url": "https://www.jstor.org/stable/1803469",
+      "status": "inference",
+      "checkedAt": "2026-10-12",
+      "note": "原論文の理論モデルを現代デジタル配信プラットフォームへ拡張した解釈"
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "silhouette-group-svg",
+      "type": "svg",
+      "origin": "original",
+      "license": "Project In-house",
+      "attributionRequired": false,
+      "commercialUseAllowed": true,
+      "checkedAt": "2026-10-12",
+      "notes": "motion-lab/src/primitives/ 内の自作SVGコンポーネント"
+    },
+    {
+      "assetId": "progressive-bar-svg",
+      "type": "svg",
+      "origin": "original",
+      "license": "Project In-house",
+      "attributionRequired": false,
+      "commercialUseAllowed": true,
+      "checkedAt": "2026-10-12",
+      "notes": "Remotionでレンダリングする自作インジケーター"
+    },
+    {
+      "assetId": "system-ui-font",
+      "type": "font",
+      "origin": "licensed",
+      "license": "macOS System Font License / Web Safe",
+      "attributionRequired": false,
+      "commercialUseAllowed": true,
+      "checkedAt": "2026-10-12",
+      "notes": "レンダリング用システムフォント"
+    },
+    {
+      "assetId": "ambient-drone-audio",
+      "type": "audio",
+      "origin": "original",
+      "license": "Project In-house",
+      "attributionRequired": false,
+      "commercialUseAllowed": true,
+      "checkedAt": "2026-10-12",
+      "notes": "Web Audio API / 正弦波による自作アンビエント音"
+    }
+  ],
+  "escalations": [],
+  "ok": true
+}

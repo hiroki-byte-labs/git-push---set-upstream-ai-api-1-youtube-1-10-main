@@ -1,0 +1,2 @@
+PASS: temporary candidate has required name/description, no scaffold, existing referenced repository paths present. quick_validate failed: PyYAML unavailable.
+Runtime trial: cwd mismatch exits 1 before outputs; isolated mux/inspection job scenarios pass 5/5. Shared Skill source remains unchanged: .agents write denied by sandbox.

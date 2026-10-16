@@ -1,0 +1,23 @@
+Rendered 0 images
+
+Error: Remotionレンダリング失敗 (1): /private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269
+            reject(new Error([
+                   ^
+
+Error: Failed to launch the browser process!
+Error: Closed with null signal: SIGABRT
+    at ChildProcess.<anonymous> (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:32)
+    at ChildProcess.emit (node:events:514:20)
+    at ChildProcess._handle.onexit (node:internal/child_process:323:12)
+Troubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch
+    at onClose (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)
+    at ChildProcess.<anonymous> (/private/tmp/T139-render-nti1mann/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:24)
+    at ChildProcess.emit (node:events:514:20)
+    at ChildProcess._handle.onexit (node:internal/child_process:323:12)
+
+Node.js v26.11.1
+
+        7.80 real         8.41 user         0.91 sys
+time: sysctl kern.clockrate: Operation not permitted
+
+EXIT=1

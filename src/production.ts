@@ -7,6 +7,7 @@ import {createHash, randomUUID} from 'node:crypto';
 import {loadPlan, LIMITS, REFLECTION_PLACEHOLDER} from './plan.ts';
 import type {Plan} from './plan.ts';
 import {lintPlan, formatLint} from './lint.ts';
+import {splitSmartCues} from './subtitle-optimizer.ts';
 
 export type Mode = 'production' | 'demo';
 export type Via = 'cli' | 'http';
@@ -132,28 +133,9 @@ export function addReflection(root: string, id: string, text: string, by: string
   return r;
 }
 
-// 字幕cueへの分割: 文（。！？）単位で、1cueは字幕の上限（55字）以内。長い文は読点、それでも長ければ上限で切る。
+// 字幕cueへの分割: 文（。！？）単位および文節・助詞境界を尊重し、1cueは字幕の上限（55字）以内。
 export function splitCues(text: string, max: number = LIMITS.cueText) {
-  const sentences = text.replace(/\s*\n\s*/g, '').match(/[^。！？!?]+[。！？!?]*/g) ?? [text];
-  const pieces: string[] = [];
-  for (const s of sentences.map(x => x.trim()).filter(Boolean)) {
-    if (chars(s) <= max) { pieces.push(s); continue; }
-    let cur = '';
-    for (const part of s.match(/[^、，,]+[、，,]*/g) ?? [s]) {
-      if (chars(cur + part) <= max) { cur += part; continue; }
-      if (cur) pieces.push(cur);
-      cur = part;
-      while (chars(cur) > max) { pieces.push([...cur].slice(0, max).join('')); cur = [...cur].slice(max).join(''); }
-    }
-    if (cur) pieces.push(cur);
-  }
-  // 短い文は上限内で隣とまとめる（cueの数を減らす）。
-  const cues: string[] = [];
-  for (const piece of pieces) {
-    if (cues.length && chars(cues.at(-1)! + piece) <= max) cues[cues.length - 1] += piece;
-    else cues.push(piece);
-  }
-  return cues;
+  return splitSmartCues(text, max);
 }
 
 // 下書きの考察の場面（role: reflection）へ本人の考察を差し込む。本文は変えない。尺は読み上げ速度で決める。

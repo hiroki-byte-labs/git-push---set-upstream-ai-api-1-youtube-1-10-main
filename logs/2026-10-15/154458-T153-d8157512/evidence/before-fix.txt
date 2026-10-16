@@ -1,0 +1,58 @@
+✖ source catalogと各場面はmetadata/sources.txtと同じID・初出番号で対応する (5.529542ms)
+✖ 出典だけ・複数/長い題名・出典なしを混同せず番号を描く (0.061792ms)
+✖ fictionalとreflectionとmodeは独立、欠落contextも本人と呼ばない (0.052416ms)
+✔ ジョブcontextはPlanのproductionを上書きでき、sampleを本人と誤認させない (0.107417ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 217.569083
+
+✖ failing tests:
+
+test at motion-lab/tests/scene-information.test.ts:29:1
+✖ source catalogと各場面はmetadata/sources.txtと同じID・初出番号で対応する (5.529542ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(sourcesText(plan).includes(`[${s.number}] ${s.title}`))
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/scene-information.test.ts:34:41)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at motion-lab/tests/scene-information.test.ts:40:1
+✖ 出典だけ・複数/長い題名・出典なしを混同せず番号を描く (0.061792ms)
+  TypeError: SceneInformation is not a function
+      at markup (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/scene-information.test.ts:27:87)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/scene-information.test.ts:41:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at motion-lab/tests/scene-information.test.ts:48:1
+✖ fictionalとreflectionとmodeは独立、欠落contextも本人と呼ばない (0.052416ms)
+  TypeError: SceneInformation is not a function
+      at markup (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/scene-information.test.ts:27:87)
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/tests/scene-information.test.ts:49:13)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+EXIT=1

@@ -1,0 +1,42 @@
+✔ 解析器のイージング候補はRemotionのEasingと同じ値を返す (9.117125ms)
+✔ 再現用チャンネルの値は解析器側とRemotion側（interpolate）で一致する (6.071667ms)
+✔ formatTime: 正確なタイムスタンプ文字列フォーマット (0.31625ms)
+✔ extractFrames: 30fps動画から指定FPSでフレーム抽出とframes.json検証 (1844.795708ms)
+✔ イージングと開始・終了時刻（小数フレーム）を復元する (1075.074958ms)
+✔ 雑音に対して候補の差が小さいときはambiguousとして断定しない (194.634209ms)
+✔ 候補にない動きはunknownとし、最良候補を断定しない (172.188ms)
+✔ 動作中から観測が始まる場合は開始値を観測済みとしない (237.58125ms)
+✔ 大きさの下限（0以上）を使って開始時刻のモデル値を決める (205.074875ms)
+✔ 半分以上のフレームで動く系列でも雑音を過大に見積もらない (0.131042ms)
+✔ animation_spec.json aligns with PrologueQuestion component implementation (0.474667ms)
+✔ Rendered MP4 file exists and has correct size (0.067ms)
+✔ toRemotionPlanProps: 台本JSONからRemotion Propsへの正常変換 (1.020208ms)
+✔ source catalogと各場面はmetadata/sources.txtと同じID・初出番号で対応する (0.724292ms)
+✔ 出典だけ・複数/長い題名・出典なしを混同せず番号を描く (3.251542ms)
+✔ fictionalとreflectionとmodeは独立、欠落contextも本人と呼ばない (0.721167ms)
+✔ ジョブcontextはPlanのproductionを上書きでき、sampleを本人と誤認させない (0.089333ms)
+✔ 本番SceneTemplateは720p/1080pとも札・出典・字幕・図解を描画し座標を縮尺する (3.900625ms)
+✔ compare: 左右の所属・ラベル・全項目を保持する (10.249542ms)
+✔ number: value/label/noteを描画し、任意noteの省略も扱う (0.379709ms)
+✔ meter: 負は基準左・0は幅0・正は右、totalは算術平均で描く (1.45075ms)
+✔ meter: 登場前は全棒幅0、進行中も負方向を保つ (0.832292ms)
+✔ supported diagramは人型fallbackに置換しない (0.368042ms)
+✔ 24fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (0.558125ms)
+✔ 24fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (40.146084ms)
+✔ 24fps: all ordinary diagrams honor delayed reveals and transitions=false (7.173542ms)
+✔ 30fps: fractional cue boundaries match cumulative VTT without gaps/overlaps (0.110333ms)
+✔ 30fps: modes reach PlanVideo, cue before/on/after, shortest cue has full hold (34.462375ms)
+✔ 30fps: all ordinary diagrams honor delayed reveals and transitions=false (3.609125ms)
+✔ 単色背景と、重ならない図形の位置・大きさをサブピクセルで測る (256.42725ms)
+✔ 画面端で見切れた成分には見切れの印が付く (113.479125ms)
+✔ 細長い図形の主軸角（時計回りが正）を測る (245.430042ms)
+✔ 縁のサブピクセル位置: 被覆率の和だけ外側へ伸ばす (2.95375ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1969.63325
+EXIT=0

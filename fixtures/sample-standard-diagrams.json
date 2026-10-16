@@ -1,0 +1,168 @@
+{
+  "schema": 2,
+  "id": "standard-diagrams-demo",
+  "title": "通常図解の描画検証",
+  "version": 1,
+  "theme": "general",
+  "sources": [],
+  "scenes": [
+    {
+      "title": "左右の全項目",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "架空の描画試験です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "観測した事実",
+        "right": "自分の解釈",
+        "leftItems": [
+          "気温が下がった",
+          "雨が降った",
+          "風が吹いた"
+        ],
+        "rightItems": [
+          "寒く感じた",
+          "外出を迷った",
+          "服を選んだ"
+        ]
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "数値と説明と補足",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "架空の描画試験です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "number",
+        "value": "3つ",
+        "label": "確認する観点",
+        "note": "出来事・気持ち・判断の理由"
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "補足を省略した数値",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "架空の描画試験です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "number",
+        "value": "0件",
+        "label": "記録のない項目"
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "負の平均",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "架空の描画試験です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "meter",
+        "bars": [
+          {
+            "label": "減った品目",
+            "value": -1
+          },
+          {
+            "label": "変化なし",
+            "value": 0
+          },
+          {
+            "label": "増えた品目",
+            "value": 0.4
+          }
+        ],
+        "total": "まとめると"
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "ゼロの平均",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "架空の描画試験です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "meter",
+        "bars": [
+          {
+            "label": "減った品目",
+            "value": -0.6
+          },
+          {
+            "label": "変化なし",
+            "value": 0
+          },
+          {
+            "label": "増えた品目",
+            "value": 0.6
+          }
+        ],
+        "total": "まとめると"
+      },
+      "sources": [],
+      "fictional": true
+    },
+    {
+      "title": "正の平均",
+      "seconds": 4,
+      "narration": "架空の描画試験です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "架空の描画試験です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "meter",
+        "bars": [
+          {
+            "label": "減った品目",
+            "value": -0.2
+          },
+          {
+            "label": "変化なし",
+            "value": 0
+          },
+          {
+            "label": "増えた品目",
+            "value": 1
+          }
+        ],
+        "total": "まとめると"
+      },
+      "sources": [],
+      "fictional": true
+    }
+  ]
+}

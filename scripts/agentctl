@@ -1,0 +1,5 @@
+#!/bin/sh
+# agentctl（3製品共通のExecution Gateway）。Node.js 24以上（PATHのnode、またはNODE_BIN）。
+set -eu
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+exec "$ROOT/scripts/run" "$ROOT/orchestration/gateway/agentctl.ts" "$@"

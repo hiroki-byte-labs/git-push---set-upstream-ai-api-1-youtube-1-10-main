@@ -1,0 +1,7 @@
+# agy -p "/hooks"（2026-10-11、ターン開始なし・クォータ消費なしのprint mode応答）
+agentctl	enabled	PreInvocation	-	command	../scripts/agentctl-hook antigravity PreInvocation
+agentctl	enabled	PostInvocation	-	command	../scripts/agentctl-hook antigravity PostInvocation
+agentctl	enabled	PreToolUse	run_command|invoke_subagent|define_subagent	command	../scripts/agentctl-hook antigravity PreToolUse
+agentctl	enabled	PostToolUse	invoke_subagent|define_subagent	command	../scripts/agentctl-hook antigravity PostToolUse
+agentctl	enabled	Stop	-	command	../scripts/agentctl-hook antigravity Stop
+exit=0

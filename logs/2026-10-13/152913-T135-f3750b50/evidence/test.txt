@@ -1,0 +1,20 @@
+✔ trends-schema: 合成の履歴と境界例がスキーマに適合する (1.160208ms)
+✔ trends-schema: 不正なbatchを拒否する (0.468459ms)
+✔ trends-schema: ポリシーは承認の参照なしに派生指標を許さない (0.116625ms)
+✔ trends-schema: 保持期限はT131の条件どおり (0.550166ms)
+✔ trends-store: 取込・再取込で重複せず、過去の観測を上書きしない (5.939916ms)
+✔ trends-store: 保存は原子的で、壊れた本体はバックアップから復旧する (14.269791ms)
+✔ trends-store: スキーマ版の変更を検知して読み書きしない (0.287042ms)
+✔ trends-store: standardではAPIデータを取得から30日で削除し、合成データは残す (0.525291ms)
+✔ trends-store: 承認後は統計を残し、タイトル等だけ30日で消す (0.157292ms)
+✔ trends-store: 指定した動画・チャンネル・出所を削除できる (0.200708ms)
+✔ trends-store: 排他・書き出し・クォータ台帳 (7.873708ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 100.860291
+EXIT=0

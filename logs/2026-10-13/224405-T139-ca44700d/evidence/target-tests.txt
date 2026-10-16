@@ -1,0 +1,31 @@
+✔ 台本のスライス分割: シーンとcue単位に正しく分解される (0.850625ms)
+✔ 長尺ナレーションの合成と予算管理: 正常系完走と使用量・試行記録 (1.609583ms)
+✔ 予算上限超過時の安全な停止: 上限を超える試行は拒否される (0.286458ms)
+✔ 字幕同期検査: 許容誤差内の同期とドリフト超過の検出 (0.23325ms)
+✔ BGMダッキング計算: ナレーション発話区間と音量設定 (0.613833ms)
+✔ 音量検査: YouTube規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）の判定 (0.173875ms)
+✔ 人の試聴評価メタデータ（T125）の整合性確認 (0.138458ms)
+✔ E2E正常系: 題材候補選定から考察・台本作成・事実確認・音声・承認・動画承認まで一気通貫で完走する (10.227ms)
+✔ 安全停止: 本人の必須承認（台本承認・動画承認）をスキップした進行を厳格に拒否する (2.077166ms)
+✔ 安全停止: 事実確認での未確認項目または権利不明素材の混入時にブロックする (1.775541ms)
+✔ 安全停止: 音声合成時の予算超過・失敗が安全に停止し既存成果物を保護する (1.872125ms)
+✔ 承認失効: 台本承認後に考察や題材が変更された場合、台本承認および旧動画承認が失効する (3.274292ms)
+✔ real WAV slices concatenate, decode, synchronize and duck BGM in both stem and final mix (262.779625ms)
+✔ minimum 0.5 second cues still have measured tone and pause windows (134.485292ms)
+✔ FFmpeg mix failure removes partial results and preserves existing files byte for byte (819.973291ms)
+✔ repository outputs and malformed cue timing are rejected before media writes (0.647834ms)
+✔ 段階連携: 新規案件作成時のマニフェスト初期化と題材選択待ちの安全停止 (5.832584ms)
+✔ 段階連携: 題材選択後の考察入力待ち安全停止 (0.851541ms)
+✔ 段階連携: 考察入力後の台本作成可能判定と作成実行 (5.619958ms)
+✔ 段階連携: 事実・権利確認レポートの登録とエスカレーション時の停止 (3.653042ms)
+✔ 段階連携: 音声メタデータ登録と台本ハッシュ整合性検証 (2.482292ms)
+✔ 段階連携: 台本承認から制作可能判定への遷移 (2.169041ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1295.570584
+EXIT=0

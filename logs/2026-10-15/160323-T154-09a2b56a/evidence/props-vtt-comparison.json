@@ -1,0 +1,2549 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "fps": 24,
+      "mode": "burn",
+      "transitions": true,
+      "cues": 30,
+      "totalFrames": 480,
+      "maxErrorSeconds": 0.020000000000000018,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 12,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 24,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 36,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 49,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 61,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 96,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 96,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 108,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 120,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 132,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 145,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 157,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 192,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 192,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 204,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 216,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 228,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 241,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 253,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 288,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 288,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 300,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 312,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 324,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 337,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 349,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 384,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 384,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 396,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 408,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 420,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 433,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 445,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "mode": "burn",
+      "transitions": false,
+      "cues": 30,
+      "totalFrames": 480,
+      "maxErrorSeconds": 0.020000000000000018,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 12,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 24,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 36,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 49,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 61,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 96,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 96,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 108,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 120,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 132,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 145,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 157,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 192,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 192,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 204,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 216,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 228,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 241,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 253,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 288,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 288,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 300,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 312,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 324,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 337,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 349,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 384,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 384,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 396,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 408,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 420,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 433,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 445,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "mode": "soft",
+      "transitions": true,
+      "cues": 30,
+      "totalFrames": 480,
+      "maxErrorSeconds": 0.020000000000000018,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 12,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 24,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 36,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 49,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 61,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 96,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 96,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 108,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 120,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 132,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 145,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 157,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 192,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 192,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 204,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 216,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 228,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 241,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 253,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 288,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 288,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 300,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 312,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 324,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 337,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 349,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 384,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 384,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 396,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 408,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 420,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 433,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 445,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "mode": "soft",
+      "transitions": false,
+      "cues": 30,
+      "totalFrames": 480,
+      "maxErrorSeconds": 0.020000000000000018,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 12,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 24,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 36,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 49,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 61,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 96,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 96,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 108,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 120,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 132,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 145,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 157,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 192,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 192,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 204,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 216,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 228,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 241,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 253,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 288,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 288,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 300,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 312,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 324,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 337,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 349,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 384,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 384,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 396,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 408,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 420,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 433,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 445,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "mode": "both",
+      "transitions": true,
+      "cues": 30,
+      "totalFrames": 480,
+      "maxErrorSeconds": 0.020000000000000018,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 12,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 24,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 36,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 49,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 61,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 96,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 96,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 108,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 120,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 132,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 145,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 157,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 192,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 192,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 204,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 216,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 228,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 241,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 253,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 288,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 288,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 300,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 312,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 324,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 337,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 349,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 384,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 384,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 396,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 408,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 420,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 433,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 445,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "mode": "both",
+      "transitions": false,
+      "cues": 30,
+      "totalFrames": 480,
+      "maxErrorSeconds": 0.020000000000000018,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 12,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 24,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 36,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 49,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 61,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 96,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 96,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 108,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 120,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 132,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 145,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 157,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 192,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 192,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 204,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 216,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 228,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 241,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 253,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 288,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 288,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 300,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 312,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 324,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 337,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 349,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 384,
+          "durationFrames": 96,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 384,
+              "durationFrames": 12
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 396,
+              "durationFrames": 12
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 408,
+              "durationFrames": 12
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 420,
+              "durationFrames": 13
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 433,
+              "durationFrames": 12
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 445,
+              "durationFrames": 35
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "mode": "burn",
+      "transitions": true,
+      "cues": 30,
+      "totalFrames": 600,
+      "maxErrorSeconds": 0.013333333333335418,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 15,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 30,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 46,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 61,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 76,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 120,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 120,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 135,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 150,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 166,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 181,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 196,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 240,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 240,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 255,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 270,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 286,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 301,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 316,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 360,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 360,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 375,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 390,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 406,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 421,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 436,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 480,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 480,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 495,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 510,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 526,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 541,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 556,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "mode": "burn",
+      "transitions": false,
+      "cues": 30,
+      "totalFrames": 600,
+      "maxErrorSeconds": 0.013333333333335418,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 15,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 30,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 46,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 61,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 76,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 120,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 120,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 135,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 150,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 166,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 181,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 196,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 240,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 240,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 255,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 270,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 286,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 301,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 316,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 360,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 360,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 375,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 390,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 406,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 421,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 436,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 480,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 480,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 495,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 510,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 526,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 541,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 556,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "mode": "soft",
+      "transitions": true,
+      "cues": 30,
+      "totalFrames": 600,
+      "maxErrorSeconds": 0.013333333333335418,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 15,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 30,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 46,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 61,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 76,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 120,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 120,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 135,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 150,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 166,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 181,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 196,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 240,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 240,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 255,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 270,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 286,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 301,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 316,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 360,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 360,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 375,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 390,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 406,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 421,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 436,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 480,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 480,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 495,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 510,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 526,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 541,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 556,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "mode": "soft",
+      "transitions": false,
+      "cues": 30,
+      "totalFrames": 600,
+      "maxErrorSeconds": 0.013333333333335418,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 15,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 30,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 46,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 61,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 76,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 120,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 120,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 135,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 150,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 166,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 181,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 196,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 240,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 240,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 255,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 270,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 286,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 301,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 316,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 360,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 360,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 375,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 390,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 406,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 421,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 436,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 480,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 480,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 495,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 510,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 526,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 541,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 556,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "mode": "both",
+      "transitions": true,
+      "cues": 30,
+      "totalFrames": 600,
+      "maxErrorSeconds": 0.013333333333335418,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 15,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 30,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 46,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 61,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 76,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 120,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 120,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 135,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 150,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 166,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 181,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 196,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 240,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 240,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 255,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 270,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 286,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 301,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 316,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 360,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 360,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 375,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 390,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 406,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 421,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 436,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 480,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 480,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 495,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 510,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 526,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 541,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 556,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "mode": "both",
+      "transitions": false,
+      "cues": 30,
+      "totalFrames": 600,
+      "maxErrorSeconds": 0.013333333333335418,
+      "contiguous": true,
+      "scenes": [
+        {
+          "startFrame": 0,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 0,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 15,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 30,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 46,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 61,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 76,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 120,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 120,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 135,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 150,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 166,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 181,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 196,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 240,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 240,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 255,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 270,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 286,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 301,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 316,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            2.13
+          ]
+        },
+        {
+          "startFrame": 360,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 360,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 375,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 390,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 406,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 421,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 436,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0,
+            1.13,
+            2.63
+          ]
+        },
+        {
+          "startFrame": 480,
+          "durationFrames": 120,
+          "cues": [
+            {
+              "text": "最短字幕",
+              "startFrame": 480,
+              "durationFrames": 15
+            },
+            {
+              "text": "端数の境界",
+              "startFrame": 495,
+              "durationFrames": 15
+            },
+            {
+              "text": "時刻を合わせる",
+              "startFrame": 510,
+              "durationFrames": 16
+            },
+            {
+              "text": "表示を確認する",
+              "startFrame": 526,
+              "durationFrames": 15
+            },
+            {
+              "text": "切り替える",
+              "startFrame": 541,
+              "durationFrames": 15
+            },
+            {
+              "text": "結果を保証しません。",
+              "startFrame": 556,
+              "durationFrames": 44
+            }
+          ],
+          "reveal": [
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

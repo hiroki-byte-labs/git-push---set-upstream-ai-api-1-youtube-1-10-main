@@ -1,0 +1,4 @@
+COMMAND=NODE_BIN=/opt/homebrew/bin/node ./scripts/run src/cli.ts sample --plan fixtures/remotion-layout-overflow.json --renderer remotion --resolution 720
+Rendered 0 images
+Error: 文字背景測定範囲なし
+EXIT=1

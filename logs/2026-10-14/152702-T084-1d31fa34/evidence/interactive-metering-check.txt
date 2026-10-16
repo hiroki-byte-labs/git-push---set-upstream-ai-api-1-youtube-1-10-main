@@ -1,0 +1,4 @@
+COMMAND=['./scripts/agentctl', 'status', 'T084', '--require-metered']
+EXIT=2
+STDOUT=
+STDERR=実行がない: T084

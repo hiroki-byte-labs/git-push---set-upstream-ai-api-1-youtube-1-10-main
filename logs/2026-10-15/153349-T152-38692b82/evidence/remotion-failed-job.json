@@ -1,0 +1,125 @@
+{
+  "id": "standard-diagrams-demo-cd56203a",
+  "kind": "production-job",
+  "status": "failed",
+  "createdAt": "2026-10-15T15:35:54.910Z",
+  "pid": 60034,
+  "mode": "demo",
+  "providers": [
+    "mock.fixture",
+    "mock.sine-cues",
+    "local.remotion",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.sine-cues-1",
+      "inputUnits": 0,
+      "outputUnits": 24,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-2c19c046",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-15T15:35:54.909Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-5ebf3430",
+      "domain": "audio",
+      "provider": "mock.sine-cues",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-15T15:36:17.701Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.sine-cues-1"
+    },
+    {
+      "attemptId": "att-71ce489b",
+      "domain": "visual",
+      "provider": "local.remotion",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-15T15:36:17.710Z",
+      "estimateUsd": 0,
+      "outcome": "failed",
+      "charge": "none",
+      "error": "Remotionレンダリング失敗 (1): /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269\n            reject(new Error([\n                   ^\n\nError: Failed to launch the browser process!\nError: Closed with null signal: SIGABRT\n    at ChildProcess.<anonymous> (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:32)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at onClose (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at ChildProcess.<anonymous> (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:24)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\n\nNode.js v26.11.1\n",
+      "costUsd": 0
+    }
+  ],
+  "inputHash": "aac8691cb856063faaac49ae1b209b84457028bacef61d169c5e270c3cc25899",
+  "input": "fixtures/sample-standard-diagrams.json",
+  "durationSeconds": 24,
+  "subtitles": "burn",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "9725dcc752ee0fc0489b8c6a643039f439e125ce50b1b1639c86c0bb88cd74cf",
+    "rendererKind": "local.remotion",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v26.11.1"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 6
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 0
+  },
+  "error": "Error: Remotionレンダリング失敗 (1): /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269\n            reject(new Error([\n                   ^\n\nError: Failed to launch the browser process!\nError: Closed with null signal: SIGABRT\n    at ChildProcess.<anonymous> (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:32)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\nTroubleshooting: https://remotion.dev/docs/troubleshooting/browser-launch\n    at onClose (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:269:20)\n    at ChildProcess.<anonymous> (/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+renderer@4.0.534_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:260:24)\n    at ChildProcess.emit (node:events:514:20)\n    at ChildProcess._handle.onexit (node:internal/child_process:323:12)\n\nNode.js v26.11.1\n"
+}

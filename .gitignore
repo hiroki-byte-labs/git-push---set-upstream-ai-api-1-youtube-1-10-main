@@ -14,3 +14,6 @@ outputs/*
 .DS_Store
 # 利用者の端末設定（NODE_BINのパス等）。公開リポジトリに含めない（2026-10-11、利用者の選択）
 /.zshrc
+# agentctlの実行時データ（計測DB・実行出力・改善提案・方針の旧版・Hookのエラー記録）。Gitと作業ログ検査の対象外（T121）
+/data/*
+!/data/README.md

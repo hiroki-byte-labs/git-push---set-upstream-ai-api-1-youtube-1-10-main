@@ -1,0 +1,4301 @@
+[
+  {
+    "text": "01",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-72.png",
+    "scene": 1,
+    "frame": 72,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "名字が失われていく確率",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      263.04168701171875,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        263.04168701171875,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      263.04168701171875,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-72.png",
+    "scene": 1,
+    "frame": 72,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      263.04168701171875,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.43655316259072,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "分枝の数理",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-72.png",
+    "scene": 1,
+    "frame": 72,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "祖先",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        624,
+        426.5,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-72.png",
+    "scene": 1,
+    "frame": 72,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      624,
+      275.5,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "何万種類もある名字が、なぜ世代交代だけで減っていくのでしょう？",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      275.85418701171875,
+      52.6875,
+      728.28125,
+      22.625
+    ],
+    "lines": [
+      [
+        275.85418701171875,
+        52.6875,
+        728.28125,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      275.85418701171875,
+      46.6875,
+      728.28125,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-72.png",
+    "scene": 1,
+    "frame": 72,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      275.85418701171875,
+      644.6875,
+      728.28125,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 18.31753357597197,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-72.png",
+    "scene": 1,
+    "frame": 72,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-72.png",
+    "scene": 1,
+    "frame": 72,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "01",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "名字が失われていく確率",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      263.04168701171875,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        263.04168701171875,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      263.04168701171875,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      263.04168701171875,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.43655316259072,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "分枝の数理",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "祖先",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        624,
+        426.5,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      624,
+      275.5,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0078585220713183,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "途絶",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      477.3333435058594,
+      305.1875,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        477.3333435058594,
+        305.1875,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      477.3333435058594,
+      305.1875,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      477.3333435058594,
+      396.8125,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.008744826757591,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "途絶",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      770.6666870117188,
+      305.1875,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        770.6666870117188,
+        305.1875,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      770.6666870117188,
+      305.1875,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      770.6666870117188,
+      396.8125,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0087293744814365,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "残存と集中",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      600,
+      283.875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        600,
+        283.875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      600,
+      283.875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      600,
+      418.125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.007223379881195,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "何万種類もある名字が、なぜ世代交代だけで減っていくのでしょう？",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      275.85418701171875,
+      52.6875,
+      728.28125,
+      22.625
+    ],
+    "lines": [
+      [
+        275.85418701171875,
+        52.6875,
+        728.28125,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 0.333333,
+    "parentBox": [
+      275.85418701171875,
+      46.6875,
+      728.28125,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      275.85418701171875,
+      644.6875,
+      728.28125,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 2.8683013236664783,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": false,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-143.png",
+    "scene": 1,
+    "frame": 143,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "02",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-216.png",
+    "scene": 2,
+    "frame": 216,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "家系の分岐とランダムな消失",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      309.3645935058594,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        309.3645935058594,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      309.3645935058594,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-216.png",
+    "scene": 2,
+    "frame": 216,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      309.3645935058594,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.19871967682241,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "分枝の数理",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-216.png",
+    "scene": 2,
+    "frame": 216,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "祖先",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        624,
+        426.5,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-216.png",
+    "scene": 2,
+    "frame": 216,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      624,
+      275.5,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "均等な確率でも、子が途絶えた枝は二度と復活できません。",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      321.75,
+      52.6875,
+      636.4896240234375,
+      22.625
+    ],
+    "lines": [
+      [
+        321.75,
+        52.6875,
+        636.4896240234375,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      321.75,
+      46.6875,
+      636.4896240234375,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-216.png",
+    "scene": 2,
+    "frame": 216,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      321.75,
+      644.6875,
+      636.4896240234375,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 18.31753357597197,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-216.png",
+    "scene": 2,
+    "frame": 216,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-216.png",
+    "scene": 2,
+    "frame": 216,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "02",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "家系の分岐とランダムな消失",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      309.3645935058594,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        309.3645935058594,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      309.3645935058594,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      309.3645935058594,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.19871967682241,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "分枝の数理",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "祖先",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        624,
+        426.5,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      624,
+      426.5,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      624,
+      275.5,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0078585220713183,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "途絶",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      477.3333435058594,
+      305.1875,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        477.3333435058594,
+        305.1875,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      477.3333435058594,
+      305.1875,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      477.3333435058594,
+      396.8125,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.008744826757591,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "途絶",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      770.6666870117188,
+      305.1875,
+      32,
+      18
+    ],
+    "lines": [
+      [
+        770.6666870117188,
+        305.1875,
+        32,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      770.6666870117188,
+      305.1875,
+      32,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      770.6666870117188,
+      396.8125,
+      32,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0087293744814365,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "残存と集中",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      600,
+      283.875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        600,
+        283.875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      600,
+      283.875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      600,
+      418.125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.007223379881195,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "均等な確率でも、子が途絶えた枝は二度と復活できません。",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      321.75,
+      52.6875,
+      636.4896240234375,
+      22.625
+    ],
+    "lines": [
+      [
+        321.75,
+        52.6875,
+        636.4896240234375,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 0.333333,
+    "parentBox": [
+      321.75,
+      46.6875,
+      636.4896240234375,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      321.75,
+      644.6875,
+      636.4896240234375,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 2.869148860299381,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": false,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-287.png",
+    "scene": 2,
+    "frame": 287,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "03",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "極少数の姓への収斂",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      216,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        216,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      216,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      216,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.562155948967956,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約の帰結",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "無数の名字",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        413.3333435058594,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 1,
+    "parentBox": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      413.3333435058594,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 6.859065963353278,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "収斂の過程",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        600,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      600,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 4.395466998038127,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "世代交代の果てに、無数の名字はごく少数へ集約されます。",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      322.7708435058594,
+      52.6875,
+      634.4478759765625,
+      22.625
+    ],
+    "lines": [
+      [
+        322.7708435058594,
+        52.6875,
+        634.4478759765625,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      322.7708435058594,
+      46.6875,
+      634.4478759765625,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      322.7708435058594,
+      644.6875,
+      634.4478759765625,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 18.31753357597197,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[2]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      197.0416717529297,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        197.0416717529297,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      197.0416717529297,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-360.png",
+    "scene": 3,
+    "frame": 360,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      197.0416717529297,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "03",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "極少数の姓への収斂",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      216,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        216,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      216,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      216,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.562155948967956,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約の帰結",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "無数の名字",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        413.3333435058594,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      413.3333435058594,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0083269490362894,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "収斂の過程",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        600,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      600,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.007783573237169,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約された姓",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      758.6666870117188,
+      421.1875,
+      96,
+      18
+    ],
+    "lines": [
+      [
+        758.6666870117188,
+        421.1875,
+        96,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      758.6666870117188,
+      421.1875,
+      96,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      758.6666870117188,
+      280.8125,
+      96,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0064293756599145,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "世代交代の果てに、無数の名字はごく少数へ集約されます。",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      322.7708435058594,
+      52.6875,
+      634.4478759765625,
+      22.625
+    ],
+    "lines": [
+      [
+        322.7708435058594,
+        52.6875,
+        634.4478759765625,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 0.333333,
+    "parentBox": [
+      322.7708435058594,
+      46.6875,
+      634.4478759765625,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      322.7708435058594,
+      644.6875,
+      634.4478759765625,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 2.869148860299381,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": false,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[2]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      197.0416717529297,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        197.0416717529297,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      197.0416717529297,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-431.png",
+    "scene": 3,
+    "frame": 431,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      197.0416717529297,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "04",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-504.png",
+    "scene": 4,
+    "frame": 504,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "確率が導く名字の未来",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      240,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        240,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      240,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-504.png",
+    "scene": 4,
+    "frame": 504,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      240,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.447403551239958,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約の帰結",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-504.png",
+    "scene": 4,
+    "frame": 504,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "無数の名字",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        413.3333435058594,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 1,
+    "parentBox": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-504.png",
+    "scene": 4,
+    "frame": 504,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      413.3333435058594,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 6.859065963353278,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "名字の減少は制度だけでなく確率論の必然的帰結です。",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      346.34375,
+      52.6875,
+      587.3021240234375,
+      22.625
+    ],
+    "lines": [
+      [
+        346.34375,
+        52.6875,
+        587.3021240234375,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      346.34375,
+      46.6875,
+      587.3021240234375,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-504.png",
+    "scene": 4,
+    "frame": 504,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      346.34375,
+      644.6875,
+      587.3021240234375,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 18.31753357597197,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-504.png",
+    "scene": 4,
+    "frame": 504,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-504.png",
+    "scene": 4,
+    "frame": 504,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "04",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "確率が導く名字の未来",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      240,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        240,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      240,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      240,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.447403551239958,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約の帰結",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "無数の名字",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        413.3333435058594,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 1,
+    "parentBox": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      413.3333435058594,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 6.859065963353278,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "収斂の過程",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        600,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      600,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 4.395466998038127,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約された姓",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      758.6666870117188,
+      421.1875,
+      96,
+      18
+    ],
+    "lines": [
+      [
+        758.6666870117188,
+        421.1875,
+        96,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      758.6666870117188,
+      421.1875,
+      96,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      758.6666870117188,
+      280.8125,
+      96,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 4.688231167703242,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "なお、本動画は結果を保証するものではありません。",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      357.1145935058594,
+      52.6875,
+      565.7603759765625,
+      22.625
+    ],
+    "lines": [
+      [
+        357.1145935058594,
+        52.6875,
+        565.7603759765625,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      357.1145935058594,
+      46.6875,
+      565.7603759765625,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      357.1145935058594,
+      644.6875,
+      565.7603759765625,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 18.31753357597197,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-648.png",
+    "scene": 4,
+    "frame": 648,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "04",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "lines": [
+      [
+        80,
+        639.3125,
+        19.270835876464844,
+        18.6875
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      639.3125,
+      19.270835876464844,
+      18.6875
+    ],
+    "fontFamily": "monospace",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      80,
+      62,
+      19.270835876464844,
+      18.6875
+    ],
+    "size": 16,
+    "contrast": 5.378306019799865,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "確率が導く名字の未来",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      109.9375,
+      636.6875,
+      240,
+      24
+    ],
+    "lines": [
+      [
+        109.9375,
+        636.6875,
+        240,
+        24
+      ]
+    ],
+    "pixelSize": 24,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 1,
+    "parentBox": [
+      109.9375,
+      630.6875,
+      240,
+      36
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      109.9375,
+      59.3125,
+      240,
+      24
+    ],
+    "size": 24,
+    "contrast": 18.447403551239958,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約の帰結",
+    "zone": "title",
+    "box": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "drawn": [
+      1120,
+      649.3125,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        1120,
+        649.3125,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      1120,
+      632,
+      80,
+      34.6875
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "title",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      618.6875,
+      1120,
+      48
+    ],
+    "pixelBounds": [
+      1120,
+      52.6875,
+      80,
+      18
+    ],
+    "size": 16,
+    "contrast": 13.244796247292747,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "無数の名字",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        413.3333435058594,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(148, 163, 184)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      413.3333435058594,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      413.3333435058594,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0083269490362894,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "収斂の過程",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "lines": [
+      [
+        600,
+        421.1875,
+        80,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      600,
+      421.1875,
+      80,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      600,
+      280.8125,
+      80,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.007783573237169,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "集約された姓",
+    "zone": "diagram",
+    "box": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "drawn": [
+      758.6666870117188,
+      421.1875,
+      96,
+      18
+    ],
+    "lines": [
+      [
+        758.6666870117188,
+        421.1875,
+        96,
+        18
+      ]
+    ],
+    "pixelSize": 16.000000476837158,
+    "foreground": "rgb(59, 130, 246)",
+    "opacity": 0.00687661,
+    "parentBox": [
+      758.6666870117188,
+      421.1875,
+      96,
+      18
+    ],
+    "fontFamily": "sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "diagram",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      153.3125,
+      1120,
+      433.375
+    ],
+    "pixelBounds": [
+      758.6666870117188,
+      280.8125,
+      96,
+      18
+    ],
+    "size": 16.000000476837158,
+    "contrast": 1.0064293756599145,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "なお、本動画は結果を保証するものではありません。",
+    "zone": "subtitle",
+    "box": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "drawn": [
+      357.1145935058594,
+      52.6875,
+      565.7603759765625,
+      22.625
+    ],
+    "lines": [
+      [
+        357.1145935058594,
+        52.6875,
+        565.7603759765625,
+        22.625
+      ]
+    ],
+    "pixelSize": 22.666666666666664,
+    "foreground": "rgb(248, 250, 252)",
+    "opacity": 0.333333,
+    "parentBox": [
+      357.1145935058594,
+      46.6875,
+      565.7603759765625,
+      34
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "subtitle",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      0,
+      46.6875,
+      1280,
+      34
+    ],
+    "pixelBounds": [
+      357.1145935058594,
+      644.6875,
+      565.7603759765625,
+      22.625
+    ],
+    "size": 22.666666666666664,
+    "contrast": 2.8783563657003532,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": false,
+    "maxLines": 2
+  },
+  {
+    "text": "出典: 概要欄 ",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      80,
+      13.3125,
+      94.65625,
+      16
+    ],
+    "lines": [
+      [
+        80,
+        13.3125,
+        94.65625,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      80,
+      690.6875,
+      94.65625,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  },
+  {
+    "text": "[1]",
+    "zone": "source",
+    "box": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "drawn": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "lines": [
+      [
+        174.65625,
+        13.3125,
+        22.385421752929688,
+        16
+      ]
+    ],
+    "pixelSize": 16,
+    "foreground": "rgb(203, 213, 225)",
+    "opacity": 1,
+    "parentBox": [
+      174.65625,
+      13.3125,
+      22.385421752929688,
+      16
+    ],
+    "fontFamily": "\"Hiragino Sans\", \"Noto Sans JP\", sans-serif",
+    "file": "frame-719.png",
+    "scene": 4,
+    "frame": 719,
+    "role": "source",
+    "coordinateSystem": "remotion-720-bottom-left",
+    "zoneBounds": [
+      80,
+      10.6875,
+      1120,
+      21.3125
+    ],
+    "pixelBounds": [
+      174.65625,
+      690.6875,
+      22.385421752929688,
+      16
+    ],
+    "size": 16,
+    "contrast": 13.323128188018218,
+    "measurement": "DOM Range + text-hidden PNG minimum background contrast",
+    "readabilitySample": true
+  }
+]

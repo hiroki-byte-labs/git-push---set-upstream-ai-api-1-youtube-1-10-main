@@ -1,0 +1,183 @@
+{
+  "expectedDuration": 32,
+  "expectedFrames": 768,
+  "videoFrames": 768,
+  "decodedAudioDuration": 32,
+  "fullDecode": "passed",
+  "subtitles": "burn",
+  "subtitleStreams": 0,
+  "audioPeak": 5242,
+  "audioRms": 581.4797930352639,
+  "nonzeroSamples": 49948,
+  "cuePeaks": [
+    5242,
+    5239,
+    5239
+  ],
+  "framesExtracted": 3,
+  "psnr": {
+    "minDb": 39.985093,
+    "threshold": 30,
+    "checked": 30,
+    "segments": 30,
+    "samples": [
+      {
+        "file": "s1-st1-c1-f0-h.png",
+        "time": 0.041666666666666664,
+        "db": 40.951123
+      },
+      {
+        "file": "s1-st1-c1-f1-h.png",
+        "time": 0.125,
+        "db": 40.806758
+      },
+      {
+        "file": "s1-st1-c1-f2-h.png",
+        "time": 0.5833333333333334,
+        "db": 40.917768
+      },
+      {
+        "file": "s1-st2-c1-f0-h.png",
+        "time": 1.0416666666666667,
+        "db": 40.765746
+      },
+      {
+        "file": "s1-st2-c1-f1-h.png",
+        "time": 1.125,
+        "db": 40.648516
+      },
+      {
+        "file": "s1-st2-c1-f2-h.png",
+        "time": 1.5833333333333333,
+        "db": 40.803146
+      },
+      {
+        "file": "s1-st3-c1-f0-h.png",
+        "time": 2.0416666666666665,
+        "db": 40.578344
+      },
+      {
+        "file": "s1-st3-c1-f1-h.png",
+        "time": 2.125,
+        "db": 40.133146
+      },
+      {
+        "file": "s1-st3-c1-f2-h.png",
+        "time": 2.5833333333333335,
+        "db": 40.553136
+      },
+      {
+        "file": "s1-st3-c1.png",
+        "time": 4.5,
+        "db": 41.240193
+      },
+      {
+        "file": "s1-st3-c2.png",
+        "time": 9,
+        "db": 41.245896
+      },
+      {
+        "file": "s2-st1-c1-f0-h.png",
+        "time": 12.041666666666666,
+        "db": 40.666544
+      },
+      {
+        "file": "s2-st1-c1-f1-h.png",
+        "time": 12.125,
+        "db": 40.39095
+      },
+      {
+        "file": "s2-st1-c1-f2-h.png",
+        "time": 12.583333333333334,
+        "db": 40.587072
+      },
+      {
+        "file": "s2-st2-c1-f0-h.png",
+        "time": 13.041666666666666,
+        "db": 40.267531
+      },
+      {
+        "file": "s2-st2-c1-f1-h.png",
+        "time": 13.125,
+        "db": 39.985093
+      },
+      {
+        "file": "s2-st2-c1-f2-h.png",
+        "time": 13.583333333333334,
+        "db": 39.99839
+      },
+      {
+        "file": "s2-st2-c1.png",
+        "time": 15.5,
+        "db": 40.647878
+      },
+      {
+        "file": "s2-st2-c2.png",
+        "time": 19.5,
+        "db": 40.693008
+      },
+      {
+        "file": "s3-st1-c1-f0-h.png",
+        "time": 22.041666666666668,
+        "db": 40.669076
+      },
+      {
+        "file": "s3-st1-c1-f1-h.png",
+        "time": 22.125,
+        "db": 40.695028
+      },
+      {
+        "file": "s3-st1-c1-f2-h.png",
+        "time": 22.583333333333332,
+        "db": 40.698064
+      },
+      {
+        "file": "s3-st2-c1-f0-h.png",
+        "time": 23.041666666666668,
+        "db": 40.522583
+      },
+      {
+        "file": "s3-st2-c1-f1-h.png",
+        "time": 23.125,
+        "db": 40.512366
+      },
+      {
+        "file": "s3-st2-c1-f2-h.png",
+        "time": 23.583333333333332,
+        "db": 40.492346
+      },
+      {
+        "file": "s3-st3-c1-f0-h.png",
+        "time": 24.041666666666668,
+        "db": 40.352794
+      },
+      {
+        "file": "s3-st3-c1-f1-h.png",
+        "time": 24.125,
+        "db": 40.03169
+      },
+      {
+        "file": "s3-st3-c1-f2-h.png",
+        "time": 24.583333333333332,
+        "db": 40.306279
+      },
+      {
+        "file": "s3-st3-c1.png",
+        "time": 26,
+        "db": 40.92357
+      },
+      {
+        "file": "s3-st3-c2.png",
+        "time": 29.5,
+        "db": 40.982894
+      }
+    ]
+  },
+  "loudness": {
+    "integratedLufs": -24.2,
+    "truePeakDbfs": -15.9,
+    "target": "未設定（ナレーション接続時に決める）"
+  },
+  "renderer": "AppKit + FFmpeg H264/AAC",
+  "narration": false
+}

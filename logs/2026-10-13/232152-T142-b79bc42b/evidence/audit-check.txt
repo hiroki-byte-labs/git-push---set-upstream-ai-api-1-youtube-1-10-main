@@ -1,0 +1,6 @@
+existing no missing references, cycles or duplicates; T060/T028 safety edges retained
+proposal-A no missing references, cycles or duplicates; T060/T028 safety edges retained
+line references: 52 other tickets unchanged: 111 T142 depends unchanged
+PASS: references, dependency proposals, unchanged tickets, source snapshots and exact document diffs
+
+EXIT=0

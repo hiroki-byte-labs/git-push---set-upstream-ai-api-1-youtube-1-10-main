@@ -23,10 +23,12 @@ export type ReviewBundle = {
   schema: 1;
   video: string | null;
   subtitles: string | null;
-  metadata: {selectedTitle: string; description: string; tags: string[]; chapters: {time: string; title: string}[]} | null;
+  metadata: {selectedTitle: string; description: string; tags: string[]; chapters: {time: string; title: string}[]; selectedThumbnail?: string} | null;
   thumbnails: {file: string; sha256: string | null}[];
   // 制作案件から作った動画だけ持つ（T104）。既存ジョブの版は変えない。
   script?: string | null;
+  checklist?: {file: string; sha256: string | null}[];
+  brief?: string | null;
 };
 
 const fileHash = (dir: string, name: string) => (existsSync(join(dir, name)) ? sha256(readFileSync(join(dir, name))) : null);
@@ -41,17 +43,21 @@ export function reviewBundle(dir: string, job = readJob(dir)): ReviewBundle {
     schema: 1,
     video: fileHash(dir, 'sample.mp4'),
     subtitles: fileHash(dir, 'subtitles.vtt'),
-    metadata: m ? {selectedTitle: m.selectedTitle ?? '', description: m.description ?? '', tags: m.tags ?? [], chapters: m.chapters ?? []} : null,
+    metadata: m ? {selectedTitle: m.selectedTitle ?? '', description: m.description ?? '', tags: m.tags ?? [], chapters: m.chapters ?? [], selectedThumbnail: m.selectedThumbnail ?? 'thumbnail-a.png'} : null,
     thumbnails: files.map(file => ({file, sha256: fileHash(dir, file)})),
     ...(job.project ? {script: typeof job.scriptHash === 'string' ? job.scriptHash : null} : {}),
+    ...(existsSync(join(dir, 'thumbnail-brief.json')) ? {brief: fileHash(dir, 'thumbnail-brief.json')} : {}),
+    ...(job.checklist || readdirSync(dir).some(f => /^checklist(?:\.json|\.txt|-\d+\.png)$/.test(f)) ? {
+      checklist: [...new Set(['checklist.json', 'checklist.txt', ...(job.checklist?.files ?? []).filter((f: unknown) => typeof f === 'string' && /^checklist-\d+\.png$/.test(f)), ...readdirSync(dir).filter(f => /^checklist-\d+\.png$/.test(f))])].sort().map(file => ({file, sha256: fileHash(dir, file)})),
+    } : {}),
   };
 }
 
 // 一式の版。キーの順序を固定したJSONのSHA-256。承認時と判定時で同じ計算を使う。
 export function bundleHash(bundle: ReviewBundle) {
-  const {schema, video, subtitles, metadata, thumbnails, script} = bundle;
-  const meta = metadata && {selectedTitle: metadata.selectedTitle, description: metadata.description, tags: metadata.tags, chapters: metadata.chapters.map(c => ({time: c.time, title: c.title}))};
-  return sha256(JSON.stringify({schema, video, subtitles, metadata: meta, thumbnails: thumbnails.map(t => ({file: t.file, sha256: t.sha256})), ...(script !== undefined ? {script} : {})}));
+  const {schema, video, subtitles, metadata, thumbnails, script, checklist, brief} = bundle;
+  const meta = metadata && {selectedTitle: metadata.selectedTitle, description: metadata.description, tags: metadata.tags, chapters: metadata.chapters.map(c => ({time: c.time, title: c.title})), selectedThumbnail: metadata.selectedThumbnail ?? 'thumbnail-a.png'};
+  return sha256(JSON.stringify({schema, video, subtitles, metadata: meta, thumbnails: thumbnails.map(t => ({file: t.file, sha256: t.sha256})), ...(script !== undefined ? {script} : {}), ...(checklist !== undefined ? {checklist} : {}), ...(brief !== undefined ? {brief} : {})}));
 }
 
 export function readJob(dir: string) {
@@ -116,6 +122,17 @@ export function publishReadiness(dir: string): {ok: boolean; reasons: string[]} 
       reasons.push(`制作案件を読めない（${(e as Error).message}）`);
     }
   }
+  const metaPath = join(dir, 'metadata.json');
+  const m = existsSync(metaPath) ? JSON.parse(readFileSync(metaPath, 'utf8')) : null;
+  const selectedThumb = m?.selectedThumbnail ?? 'thumbnail-a.png';
+  const thumbItem = (job.thumbnails ?? []).find((t: any) => t.file === selectedThumb);
+  if (!job.thumbnailQuality && !job.thumbnails) {
+    reasons.push('サムネイルが未検査（品質検査記録なし）');
+  } else if (job.thumbnailQuality && !job.thumbnailQuality.canProceed) {
+    reasons.push('採用サムネイルが品質検査に不合格（安全停止）');
+  } else if (!thumbItem || !thumbItem.ok) {
+    reasons.push(`採用サムネイル（${selectedThumb}）が品質検査に不合格`);
+  }
   const a = approvalOf(dir);
   if (a.state !== 'approved') reasons.push(`完成動画が承認済みでない（${a.reason}）`);
   return {ok: reasons.length === 0, reasons: [...new Set(reasons)]};
@@ -144,6 +161,26 @@ export function recordReview(dir: string, decision: Decision, note: string, expe
   if (modeOf(job) === 'production' && isAgentName(reviewer)) throw Error(`本番の動画の確認をエージェント名（${reviewer}）で記録できない`);
   const bundle = reviewBundle(dir, job);
   if (!bundle.video || bundle.video !== job.outputHash) throw Error('完成ファイルがjob.jsonの記録と一致しない');
+  if (decision === 'approve') {
+    if (bundle.checklist?.some(f => !f.sha256)) throw Error('チェックリストの成果物が欠落しています。再生成して確認してください');
+    if (bundle.metadata) {
+      const selectedThumb = bundle.metadata.selectedThumbnail ?? 'thumbnail-a.png';
+      const thumbFile = bundle.thumbnails.find(t => t.file === selectedThumb);
+      if (!thumbFile?.sha256) throw Error(`採用サムネイル（${selectedThumb}）の画像ファイルが欠落しています`);
+      if (!job.thumbnailQuality && !job.thumbnails) {
+        throw Error('サムネイルが未検査です。再生成・検査してから承認してください');
+      }
+      if (job.thumbnailQuality && !job.thumbnailQuality.canProceed) {
+        throw Error('採用サムネイルが品質検査に不合格（安全停止）のため承認できません');
+      }
+      if (job.thumbnails) {
+        const checkedItem = job.thumbnails.find((t: any) => t.file === selectedThumb);
+        if (!checkedItem || !checkedItem.ok) {
+          throw Error(`採用サムネイル（${selectedThumb}）が品質検査に合格していません（${checkedItem?.issues?.join(' / ') || '未検査'}）`);
+        }
+      }
+    }
+  }
   const currentHash = bundleHash(bundle);
   if (expectedHash !== currentHash) throw Error('表示していた版と現在の版が異なる。画面を開き直して確認してください');
   if (decision === 'reject' && !note.trim()) throw Error('差戻しには理由のメモが必要');

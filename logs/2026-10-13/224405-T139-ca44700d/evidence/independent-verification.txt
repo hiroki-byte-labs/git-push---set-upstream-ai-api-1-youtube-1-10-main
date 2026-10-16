@@ -1,0 +1,75 @@
+[
+  {
+    "mode": "short",
+    "directory": "/private/tmp/T139-render-nti1mann/outputs/t139-short-mock-26a542d8",
+    "audioSeconds": 72,
+    "decodedAudioSamples": 1728000,
+    "wavSha256": "f9074d59a5c62a84a74001659f398a657a3ebcc9fea0faba3a98df7ffc774966",
+    "audioProbeExit": 0,
+    "audioDecodeExit": 0,
+    "cueCount": 15,
+    "expectedVideoFrames": 1728,
+    "measuredVideoFrames": null,
+    "mp4Exists": false,
+    "mp4ProbeExit": 1,
+    "mp4DecodeExit": 254,
+    "layout": "unverified: renderer produced zero frames; source report uses fixed boxes",
+    "browserPlayback": "unverified",
+    "representativeFramePngs": [],
+    "loudness": {
+      "integratedLufs": -14.3,
+      "truePeakDbfs": -9.9,
+      "passed": true,
+      "targetRange": {
+        "minLufs": -15,
+        "maxLufs": -13,
+        "maxPeakDbfs": -1
+      }
+    },
+    "audioSync": {
+      "ok": true,
+      "totalExpectedDuration": 72,
+      "totalActualDuration": 72,
+      "driftSec": 0,
+      "maxDriftSec": 0,
+      "errors": []
+    }
+  },
+  {
+    "mode": "long",
+    "directory": "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-145e66b1",
+    "audioSeconds": 604,
+    "decodedAudioSamples": 14496000,
+    "wavSha256": "bf173f4cf0f8c106cc39a149b00b6b17128f6bc99bc94ec83ac457feaaa537a0",
+    "audioProbeExit": 0,
+    "audioDecodeExit": 0,
+    "cueCount": 41,
+    "expectedVideoFrames": 14496,
+    "measuredVideoFrames": null,
+    "mp4Exists": false,
+    "mp4ProbeExit": 1,
+    "mp4DecodeExit": 254,
+    "layout": "unverified: renderer produced zero frames; source report uses fixed boxes",
+    "browserPlayback": "unverified",
+    "representativeFramePngs": [],
+    "loudness": {
+      "integratedLufs": -14,
+      "truePeakDbfs": -9.9,
+      "passed": true,
+      "targetRange": {
+        "minLufs": -15,
+        "maxLufs": -13,
+        "maxPeakDbfs": -1
+      }
+    },
+    "audioSync": {
+      "ok": true,
+      "totalExpectedDuration": 604,
+      "totalActualDuration": 604,
+      "driftSec": 0,
+      "maxDriftSec": 0,
+      "errors": []
+    }
+  }
+]
+EXIT=0

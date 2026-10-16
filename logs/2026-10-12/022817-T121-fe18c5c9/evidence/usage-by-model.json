@@ -1,0 +1,34 @@
+{
+  "command": "./scripts/agentctl usage --by model --since 2026-10-12T02:28:17Z",
+  "generated_during_open_session": true,
+  "groups": [
+    {
+      "group": "codex/gpt-6.1-sol",
+      "executions": 25,
+      "usage_rows": 50,
+      "total": 995820,
+      "api_equivalent_usd": 0.858604,
+      "unmetered": 0,
+      "scope_note": "25 paired benchmark runs started by this work session"
+    },
+    {
+      "group": "codex/gpt-6-luna",
+      "executions": 26,
+      "usage_rows": 49,
+      "total": 962114,
+      "api_equivalent_usd": 0.038571,
+      "unmetered": 0,
+      "scope_note": "25 paired benchmark runs plus one Codex Desktop native subagent started by this work session"
+    },
+    {
+      "group": "antigravity/gemini-3.8-flash-high",
+      "executions": 1,
+      "usage_rows": 123,
+      "total": 593205,
+      "api_equivalent_usd": 8.421158,
+      "unmetered": 0,
+      "scope_note": "concurrent repository activity; not started by this work session"
+    }
+  ],
+  "billing_note": "All shown AI executions used subscription quota. API-equivalent USD is an estimate; actual billed amount is unavailable."
+}

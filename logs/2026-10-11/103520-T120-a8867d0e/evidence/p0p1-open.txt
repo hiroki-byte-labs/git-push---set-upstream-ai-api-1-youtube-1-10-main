@@ -1,0 +1,16 @@
+## P0/P1で未完了（done以外）
+T021 human backlog     P1 M2 deps=T020,T025,T027,T029 採用サービスの契約・ローカルキー設定
+T022 agent backlog     P1 M2 deps=T020,T021,T026,T028,T060 AI接続・再生成・予算制御の実装と試験
+T025 human backlog     P1 M2 deps=T020 Gemini契約・上限・ローカルキー設定
+T026 agent backlog     P1 M2 deps=T024,T025 Gemini台本接続の実装と少量実試験
+T027 human backlog     P1 M2 deps=T020 音声サービス選定と契約・キー設定
+T028 agent backlog     P1 M2 deps=T024,T027 音声接続の実装と長尺試験
+T029 human backlog     P1 M2 deps=T020 Runway契約・クレジット上限設定
+T031 human backlog     P1 M3 deps=T030 チャンネルとYouTube認証の設定
+T032 agent backlog     P1 M3 deps=T022,T031 版に結び付く承認と非公開・予約投稿
+T071 agent backlog     P1 M3 deps=T074 AI利用と人の監修を概要欄・開示設定に表示する
+T077 agent backlog     P1 M4 deps=T028 声の要件（話速・間・声質）と制御
+T106 agent review      P1 M4 deps=T007 視聴所感に基づき構成・動き・字幕・サムネイルを改善する
+T114 agent backlog     P1 M2 deps=T112 解析仕様（animation_spec.json）に基づくRemotionコンポーネントを実装する
+T118 agent backlog     P1 M4 deps=T106 T106視聴所感の本人確認結果を反映し制作機能へ正式統合する
+T120 agent in_progress P1 M0 deps=T108,T113 優先タスク（P0/P1）を最小作業単位へ分解した作業文書を作成する（T113の補完）

@@ -1,0 +1,52 @@
+=== cli.ts produce および媒体検査・レイアウト自動検査検証証跡 ===
+
+## 1. 案件作成から台本承認・制作実行（CLIフロー）
+- 題材候補: fixtures/topic-candidates-demo.json (price-index)
+- 考察入力: 「物価指数のニュースを見るたびに、日常の買い物感覚とのズレを感じていました...」 (105字)
+- 台本作成: produce script (確定構成 fixtures/draft-price-index.json を既定として使用)
+  - 台本の版: 798657f8d933ba46559dd00c1b164337b73c81b8fd6576cc54401d6985c3a24b
+  - 構成章立て: 導入(00:00) → 身近な例(00:10) → 仕組み(00:28) → 本人の考察(00:52) → 活かし方(01:10)
+- 台本承認: produce script-review approve (test-user)
+- 制作実行: produce render --resolution 720
+  - ジョブID: price-index-v2-90eef811
+  - 描画エンジン: Swift/AppKit (scripts/render.swift)
+  - 書出しフレーム数: 203画像 (合計2,112フレーム)
+
+## 2. 媒体検査（FFmpeg / ffprobe）
+コマンド: ffmpeg -hide_banner -i outputs/price-index-v2-90eef811/sample.mp4
+結果:
+  Duration: 00:01:28.00 (88.0秒), start: 0.000000, bitrate: 58 kb/s
+  Stream #0:0: Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, unknown/bt709/iec61966-2-1, progressive), 1280x720, 48 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+  Stream #0:1: Audio: aac (LC) (mp4a / 0x6134706D), 24000 Hz, mono, fltp, 5 kb/s (default)
+  ファイルサイズ: 644,967 bytes
+  媒体検査判定: 合格（1280x720 24fps プログレッシブH.264、モノラルAAC音声多重化）
+
+## 3. レイアウト自動検査・見やすさ・サムネイル検査（job.json）
+- layout (文字配置検査):
+  - ok: true
+  - checked: 2312 (全フレーム検査済み)
+  - issues: [] (枠はみ出し・中央ずれ・区画重なり一切なし)
+- readability (見やすさ検査):
+  - ok: true
+  - minFont720: 17pt (基準16pt以上を満たす)
+  - minContrast: 6.32 (基準4.5以上を満たす)
+  - issues: []
+- thumbnails (サムネイル検査):
+  - thumbnail-a.png (問い型): ok=true, issues=[]
+  - thumbnail-b.png (図解型): ok=true, issues=[]
+  - thumbnail-c.png (対比型): ok=true, issues=[]
+- subtitles (字幕形式):
+  - "burn" (既定の焼き込み字幕)
+
+## 4. メタデータおよび採用サムネイルの既定化・見直し検証（metadata.json）
+- 初期生成時:
+  - selectedTitle: "ニュースの「物価」と自分の買い物"
+  - selectedThumbnail: "thumbnail-a.png" (既定値として案aを設定)
+  - chapters: 5章構成 (導入、身近な例、仕組み、本人の考察、活かし方)
+  - aiDisclosureText: AI利用と人の監修明記 (containsSyntheticMedia: false)
+- 見直し機能の実行:
+  - コマンド: cli.ts metadata price-index-v2-90eef811 revise --thumbnail thumbnail-b.png --reason "CTR向上のため図解型に変更"
+  - 結果: 記録: サムネイル thumbnail-a.png → thumbnail-b.png（CTR向上のため図解型に変更） (EXIT=0)
+  - 確認: metadata.json の selectedThumbnail が thumbnail-b.png に正しく更新され、metadata-revisions.json に変更理由と履歴が永続化された。
+
+VERIFY_EXIT=0

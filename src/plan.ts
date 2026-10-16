@@ -14,12 +14,32 @@ export function validateV1(p:PlanV1):PlanV1{
 // meter（T106）: 品目ごとの変化の棒が順に伸び、最後に平均の棒が伸びる集計の図。valueは−1〜1の相対値で、数値は画面に出さない。
 export type Bar = {label: string; value: number};
 type Reveal = {reveal?: number[]};
+// 場面の型（T150: 情景、対比、数量/データ、関係/因果、章の余韻）。説明の役割に応じて選択する。
+export const SCENE_ARCHETYPES = ['scenery', 'contrast', 'data-quantity', 'causal-relation', 'resonance'] as const;
+export type SceneArchetype = typeof SCENE_ARCHETYPES[number];
+
+export const DIAGRAM_ILLUSTRATIONS = [
+  'attention-concentration',
+  'ranked-rewards',
+  'digital-reach',
+  'branching-tree',
+  'lineage-convergence',
+  'tolerance-boundary',
+  'social-division',
+] as const;
+export type DiagramIllustration = typeof DIAGRAM_ILLUSTRATIONS[number];
+type Illustration = {
+  illustration?: DiagramIllustration;
+  archetype?: SceneArchetype;
+  focus?: string;
+  motionPurpose?: string;
+};
 export type Diagram =
-  | ({type: 'flow'; items: string[]; motion?: 'travel'} & Reveal)
-  | ({type: 'compare'; left: string; right: string; leftItems: string[]; rightItems: string[]} & Reveal)
-  | ({type: 'number'; value: string; label: string; note?: string} & Reveal)
-  | ({type: 'branch'; question: string; yes: string; no: string} & Reveal)
-  | ({type: 'meter'; bars: Bar[]; total: string} & Reveal);
+  | ({type: 'flow'; items: string[]; motion?: 'travel'} & Reveal & Illustration)
+  | ({type: 'compare'; left: string; right: string; leftItems: string[]; rightItems: string[]} & Reveal & Illustration)
+  | ({type: 'number'; value: string; label: string; note?: string} & Reveal & Illustration)
+  | ({type: 'branch'; question: string; yes: string; no: string} & Reveal & Illustration)
+  | ({type: 'meter'; bars: Bar[]; total: string} & Reveal & Illustration);
 // 図解を段階表示するときの段数。flowは要素ごと、compareは左右、branchは問い→答え、numberは一度に、meterは棒ごと＋まとめ。
 export function diagramSteps(d: Diagram) {
   return d.type === 'flow' ? d.items.length : d.type === 'compare' ? 2 : d.type === 'branch' ? 2 : d.type === 'meter' ? d.bars.length + 1 : 1;
@@ -27,13 +47,13 @@ export function diagramSteps(d: Diagram) {
 export type Cue = {text: string; seconds: number};
 // 場面の役割（T075〜）。構成の検査（src/lint.ts）に使う。省略時は本編（body）扱い。
 // reflection（T104）: 本人の考察の場面。下書きでは本文をREFLECTION_PLACEHOLDERにし、本人の考察を差し込む（src/production.ts）。
-export const ROLES = ['hook', 'body', 'recap', 'question', 'example', 'glossary', 'reflection'] as const;
+export const ROLES = ['hook', 'body', 'recap', 'question', 'example', 'glossary', 'reflection', 'action'] as const;
 export const REFLECTION_PLACEHOLDER = '【本人の考察：未入力】';
 // 物語の流れ（T081）。状況→葛藤→気づき→学びの順に置く。
 export const BEATS = ['situation', 'conflict', 'insight', 'lesson'] as const;
 export type Beat = typeof BEATS[number];
 export type Role = typeof ROLES[number];
-export type Scene = {title: string; narration: string; cues: Cue[]; diagram: Diagram; sources: string[]; seconds: number; role?: Role; chapter?: string; beat?: Beat; fictional?: boolean; emphasis?: string[]};
+export type Scene = {title: string; narration: string; cues: Cue[]; diagram: Diagram; sources: string[]; seconds: number; role?: Role; chapter?: string; beat?: Beat; fictional?: boolean; emphasis?: string[]; practice?: string[]};
 export type Source = {id: string; title: string; url: string; accessedAt: string};
 // promise: この動画で視聴者が得られること（タイトル・冒頭で約束する内容。T075）。glossary: 先に説明する用語（T083）。
 export type Term = {term: string; definition: string};
@@ -63,7 +83,23 @@ export const themeOf = (plan: Pick<Plan, 'theme'>): Theme => plan.theme ?? 'inve
 export type Intro = {text: string; sources: string[]; fictional?: boolean};
 // production（T104）: 制作案件から作った台本の印。mode=demoなら考察は試験用で、画面にデモと表示する。
 export type ProductionInfo = {mode: 'production' | 'demo'; project: string};
-export type Plan = {schema: 2; id: string; title: string; version: number; scenes: Scene[]; sources: Source[]; promise?: string; glossary?: Term[]; thumbnail?: Thumbnail; style?: Style; theme?: Theme; intro?: Intro; note?: string; production?: ProductionInfo};
+
+// AI利用と人の監修（T071、G20〜G22）。「AI生成」とだけ表示すると信頼が低下するため、AI利用範囲と人の監修を明示する。
+export type AiDisclosure = {
+  scopes: string[];       // AIを利用した範囲（例: ['台本構成案・図解配置の生成補助']）
+  supervisor: string;     // 監修者名または役割（例: '制作監修者'）
+  verified: string[];     // 人が確認・検証した項目（例: ['主張と出典の照合', '事実関係の確認', '台本・動画の最終確認']）
+  realisticSyntheticMedia?: boolean; // 現実と誤認しうる合成（YouTube開示義務対象）を含むか（未指定時はfalse）
+};
+
+export const DEFAULT_AI_DISCLOSURE: AiDisclosure = {
+  scopes: ['台本構成案・図解配置の生成補助'],
+  supervisor: '制作監修者',
+  verified: ['主張と出典の照合', '事実関係の確認', '台本・動画の最終確認'],
+  realisticSyntheticMedia: false,
+};
+
+export type Plan = {schema: 2; id: string; title: string; version: number; scenes: Scene[]; sources: Source[]; promise?: string; glossary?: Term[]; thumbnail?: Thumbnail; style?: Style; theme?: Theme; intro?: Intro; note?: string; production?: ProductionInfo; aiDisclosure?: AiDisclosure};
 
 // 上限値。描画（scripts/render.swift）の枠と、10〜20分の長尺（余裕を見て25分）に合わせる。
 export const LIMITS = {
@@ -98,6 +134,13 @@ export const LIMITS = {
   meterTotal: 14,
   thumbKeyword: 6,
   thumbContrast: 10,
+  aiScopes: 5,
+  aiScope: 40,
+  aiSupervisor: 40,
+  aiVerified: 5,
+  aiVerifiedItem: 40,
+  practiceItem: 80,
+  practiceItems: 12,
 } as const;
 
 const isText = (v: unknown, max: number): v is string => typeof v === 'string' && v.trim().length > 0 && [...v].length <= max;
@@ -115,6 +158,10 @@ function checkDiagram(d: any, where: string) {
       d.bars.every((b: any) => isText(b?.label, LIMITS.meterLabel) && typeof b.value === 'number' && Number.isFinite(b.value) && b.value >= -1 && b.value <= 1) && isText(d.total, LIMITS.meterTotal) :
     false;
   if (!ok) throw Error(`${where}: 図解が不正（type=${d?.type}）`);
+  if (d.illustration !== undefined && !(DIAGRAM_ILLUSTRATIONS as readonly string[]).includes(d.illustration)) throw Error(`${where}: 未対応の図解イラスト（illustration=${d.illustration}）`);
+  if (d.archetype !== undefined && !(SCENE_ARCHETYPES as readonly string[]).includes(d.archetype)) throw Error(`${where}: 未対応の場面型（archetype=${d.archetype}）`);
+  if (d.focus !== undefined && !isText(d.focus, 30)) throw Error(`${where}: focusは30字以内の文字列`);
+  if (d.motionPurpose !== undefined && !isText(d.motionPurpose, 40)) throw Error(`${where}: motionPurposeは40字以内の文字列`);
   if (d.motion !== undefined && !(d.type === 'flow' && d.motion === 'travel')) throw Error(`${where}: motionはflowの'travel'だけ`);
 }
 
@@ -160,6 +207,13 @@ export function validatePlanV2(p: any): Plan {
     if (!Array.isArray(t.sources) || t.sources.some((id: unknown) => typeof id !== 'string' || !ids.has(id))) throw Error('introのsourcesは定義済みの出典id');
     if (t.fictional !== undefined && typeof t.fictional !== 'boolean') throw Error('intro.fictionalは真偽値');
   }
+  if (p.aiDisclosure !== undefined) {
+    const d = p.aiDisclosure;
+    if (!isTextList(d?.scopes, [1, LIMITS.aiScopes], LIMITS.aiScope)) throw Error(`aiDisclosure.scopesは1〜${LIMITS.aiScopes}項目、各${LIMITS.aiScope}字以内`);
+    if (!isText(d?.supervisor, LIMITS.aiSupervisor)) throw Error(`aiDisclosure.supervisorは${LIMITS.aiSupervisor}字以内`);
+    if (!isTextList(d?.verified, [1, LIMITS.aiVerified], LIMITS.aiVerifiedItem)) throw Error(`aiDisclosure.verifiedは1〜${LIMITS.aiVerified}項目、各${LIMITS.aiVerifiedItem}字以内`);
+    if (d?.realisticSyntheticMedia !== undefined && typeof d.realisticSyntheticMedia !== 'boolean') throw Error('aiDisclosure.realisticSyntheticMediaは真偽値');
+  }
   if (!Array.isArray(p.scenes) || !p.scenes.length || p.scenes.length > LIMITS.scenes) throw Error(`場面数は1〜${LIMITS.scenes}`);
   let total = 0;
   p.scenes.forEach((s: any, i: number) => {
@@ -182,9 +236,22 @@ export function validatePlanV2(p: any): Plan {
     if (s.fictional !== undefined && typeof s.fictional !== 'boolean') throw Error(`${where}: fictionalは真偽値`);
     if (s.emphasis !== undefined && !isTextList(s.emphasis, LIMITS.emphasisItems, LIMITS.emphasisItem)) throw Error(`${where}: emphasisは1〜3語、各${LIMITS.emphasisItem}字以内`);
     if (!Array.isArray(s.sources) || s.sources.some((id: unknown) => typeof id !== 'string' || !ids.has(id))) throw Error(`${where}: 存在しない出典を参照`);
+    if (s.practice !== undefined) {
+      if (!isTextList(s.practice, [1, LIMITS.practiceItems], LIMITS.practiceItem)) throw Error(`${where}: practiceは1〜12項目、各80字以内`);
+      const sentences = s.narration.match(/[^。！？!?\n]+[。！？!?]?/g)?.map((t: string) => t.trim()) ?? [];
+      if (s.practice.some((t: string) => /[<>\x00-\x1f\x7f]/.test(t) || t !== t.trim() || !sentences.includes(t))) throw Error(`${where}: practiceはナレーションの原文の一文（制御文字・<>不可）`);
+      if (!s.sources.length && s.fictional !== true) throw Error(`${where}: practiceには出典かfictional: trueが必要`);
+    }
     total += s.seconds;
   });
   if (total > LIMITS.totalSeconds) throw Error(`総尺${total}秒が上限${LIMITS.totalSeconds}秒を超える`);
+  if (p.scenes.reduce((n: number, s: Scene) => n + (s.practice?.length ?? 0), 0) > LIMITS.practiceItems) throw Error('practiceは台本全体で12項目まで');
+  const actions = p.scenes.filter((s: Scene) => s.role === 'action');
+  if (actions.length > 1) throw Error('actionは末尾に1場面まで');
+  if (actions.length) {
+    const index = p.scenes.indexOf(actions[0]);
+    if (index < p.scenes.length - 2 || !p.scenes.some((s: Scene) => s.practice?.length) || !actions[0].narration.includes('チェックリスト') || !actions[0].cues.some((c: Cue) => c.text.includes('チェックリスト'))) throw Error('actionは末尾2場面以内で、practiceとナレーション・字幕のチェックリスト案内が必要');
+  }
   // 章（T080）: 使うなら全場面に付け、同じ章は連続させる。
   const named = p.scenes.filter((s: any) => s.chapter !== undefined).length;
   if (named && named !== p.scenes.length) throw Error('chapterは全場面に付ける（一部だけは不可）');
@@ -235,3 +302,6 @@ export function chaptersOf(plan: Plan): Chapter[] {
   });
   return out;
 }
+
+// 字幕最適化（T174）
+export {tokenizeJapanesePhrases, optimizeSubtitleLines, splitSmartCues} from './subtitle-optimizer.ts';

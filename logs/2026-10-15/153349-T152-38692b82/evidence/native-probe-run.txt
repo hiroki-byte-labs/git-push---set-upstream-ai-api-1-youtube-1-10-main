@@ -1,0 +1,4 @@
+DYLD_LIBRARY_PATH=/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64
+
+EXIT=0
+Initial run without DYLD_LIBRARY_PATH exited -6; re-run uses the shipped compositor library directory, same as existing inspector.

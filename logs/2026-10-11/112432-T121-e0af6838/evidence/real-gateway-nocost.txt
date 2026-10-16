@@ -1,0 +1,9 @@
+## plan codex（実行しない）
+{"selected":{"provider":"codex","model_id":"gpt-6-luna","reasoning_level":"low","tier":"light","route":"cli","auth_mode":"subscription"},"reason":"L1/summarization/品質normal → light枠の codex:gpt-6-luna（codexの順で最初に条件を満たしたモデル）","validation":"ok","used_llm":false}
+## plan video_analysis（実行しない）
+{"selected":{"provider":"antigravity","model_id":"gemini-3.8-flash-medium","reasoning_level":"medium","tier":"standard","route":"cli","auth_mode":"subscription"},"reason":"L2/video_analysis/品質normal → standard枠の antigravity:gemini-3.8-flash-medium（antigravity>gemini-apiの順で最初に条件を満たしたモデル）","validation":"ok"}
+## run claude（CLI未ログインのため選ばれない）
+{"status":"rejected","exe":[[null,null,"rejected","実行可能なモデルがない: 条件を満たすモデルがありません（claude、light以上）"]]}
+exit=2
+## run L0（LLMなし、実プログラム）
+{"status":"completed","exe":[["local",null,"completed","not_applicable"]]}

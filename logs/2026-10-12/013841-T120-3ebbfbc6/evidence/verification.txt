@@ -1,0 +1,5 @@
+PASS: 未完了25件の掲載一致・重複なし
+COUNTS: {'done': 65, 'backlog': 22, 'review': 2, 'ready': 1}
+依存完了agent backlog: T084,T116,T117,T119
+未終了作業回は今回のT120のみ
+T112 orchestration/README.md存在: False

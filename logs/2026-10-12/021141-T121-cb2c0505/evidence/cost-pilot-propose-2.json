@@ -1,0 +1,45 @@
+{
+  "proposal_id": "prp_0mv4mnpx33c146d17e6d1",
+  "status": "no_change",
+  "changes": [],
+  "insufficient": [
+    {
+      "task_type": "extraction",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "general",
+      "difficulty": "L2",
+      "model": "antigravity:gemini-3.8-flash-medium",
+      "evaluated": 0
+    },
+    {
+      "task_type": "implementation",
+      "difficulty": "L2",
+      "model": "codex:gpt-6.1-sol",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "codex:gpt-6-luna",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "claude:claude-haiku-5-5",
+      "evaluated": 0
+    }
+  ],
+  "notes": [],
+  "report": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/optimizer/prp_0mv4mnpx33c146d17e6d1.md"
+}

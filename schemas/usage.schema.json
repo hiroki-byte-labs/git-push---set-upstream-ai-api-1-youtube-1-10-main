@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentctl.local/schemas/usage.schema.json",
+  "title": "usage v1",
+  "description": "正規化した使用量。input_totalはキャッシュ読み書きを含む全入力、cache_read/cache_writeはその内数。output_totalは推論トークンを含む全出力、reasoningはその内数。total=input_total+output_total。各値の取得方法をmethodsに記録し、取得できない値はnullとunavailable。dedupe_keyが同じ記録は1回だけ計上する。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "usage_id", "execution_id", "provider", "model_id", "source", "tokens", "methods", "cost", "recorded_at"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "usage_id": {"$ref": "common.schema.json#/definitions/usage_id"},
+    "execution_id": {"$ref": "common.schema.json#/definitions/execution_id"},
+    "provider": {"$ref": "common.schema.json#/definitions/provider"},
+    "model_id": {"type": ["string", "null"]},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "dedupe_key", "session_id", "cumulative"],
+      "properties": {
+        "kind": {"enum": ["cli_result", "cli_event", "transcript", "rollout", "api_response", "hook_payload", "test_fixture"]},
+        "dedupe_key": {"type": "string", "minLength": 8},
+        "session_id": {"type": ["string", "null"]},
+        "cumulative": {"type": "boolean", "description": "trueなら元データがセッション累積値で、前回値との差分を計上した。"}
+      }
+    },
+    "tokens": {
+      "type": "object", "additionalProperties": false,
+      "required": ["input_total", "input_uncached", "cache_read", "cache_write", "output_total", "reasoning", "total"],
+      "properties": {
+        "input_total": {"$ref": "common.schema.json#/definitions/nullable_int"},
+        "input_uncached": {"$ref": "common.schema.json#/definitions/nullable_int"},
+        "cache_read": {"$ref": "common.schema.json#/definitions/nullable_int"},
+        "cache_write": {"$ref": "common.schema.json#/definitions/nullable_int"},
+        "output_total": {"$ref": "common.schema.json#/definitions/nullable_int"},
+        "reasoning": {"$ref": "common.schema.json#/definitions/nullable_int"},
+        "total": {"$ref": "common.schema.json#/definitions/nullable_int"}
+      }
+    },
+    "methods": {
+      "type": "object", "additionalProperties": false,
+      "required": ["input_total", "input_uncached", "cache_read", "cache_write", "output_total", "reasoning", "total"],
+      "properties": {
+        "input_total": {"$ref": "common.schema.json#/definitions/method"},
+        "input_uncached": {"$ref": "common.schema.json#/definitions/method"},
+        "cache_read": {"$ref": "common.schema.json#/definitions/method"},
+        "cache_write": {"$ref": "common.schema.json#/definitions/method"},
+        "output_total": {"$ref": "common.schema.json#/definitions/method"},
+        "reasoning": {"$ref": "common.schema.json#/definitions/method"},
+        "total": {"$ref": "common.schema.json#/definitions/method"}
+      }
+    },
+    "cost": {
+      "type": "object", "additionalProperties": false,
+      "required": ["billing_mode", "api_equivalent_usd", "api_equivalent_method", "provider_reported_usd", "actual_billed_usd", "actual_billed_method"],
+      "properties": {
+        "billing_mode": {"enum": ["subscription", "api_key", "none", "unknown"]},
+        "api_equivalent_usd": {"$ref": "common.schema.json#/definitions/nullable_number"},
+        "api_equivalent_method": {"enum": ["estimated", "unavailable"]},
+        "provider_reported_usd": {"$ref": "common.schema.json#/definitions/nullable_number"},
+        "actual_billed_usd": {"$ref": "common.schema.json#/definitions/nullable_number"},
+        "actual_billed_method": {"enum": ["measured", "unavailable"]}
+      }
+    },
+    "recorded_at": {"$ref": "common.schema.json#/definitions/datetime"}
+  }
+}

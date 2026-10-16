@@ -1,0 +1,9 @@
+# 作業回の競合の経緯（2026-10-11、session.jsonから抽出）
+141326-T121-a8040365 Claude Code claude-opus-5-5 paused 2026-10-11T14:13:26.047Z → 2026-10-11T14:17:27.065Z
+141740-T114-a88c2ecd Antigravity Gemini 3.8 Flash (High) completed 2026-10-11T14:17:40.109Z → 2026-10-11T16:38:43.842Z
+164027-T071-9e071060 Antigravity Gemini 3.8 Flash (High) completed 2026-10-11T16:40:27.904Z → 2026-10-11T16:44:57.659Z
+164542-T115-fc0b18af Antigravity Gemini 3.8 Flash (High) completed 2026-10-11T16:45:42.380Z → 2026-10-11T16:48:26.372Z
+141326のWORKLOG（実施内容）: 作業着手前に利用者から別タスク（T114, T071, T115）の指示があったため、ファイル変更を行わず一時中断（paused）とする。
+141326の終了時の証跡: WORKLOG.mdのみ。16:13〜16:40 UTCにClaude Codeが誤って書いた証跡10件は退避し、本作業回のevidence/へ移した
+AntigravityのT114（16:38:43終了）・T071（16:44:57終了）・T115（16:48:26終了）の終了記録に、言及なく含まれたClaude Codeの変更（16:1x〜16:4x UTC。どの作業回の時間帯に入ったかはファイルごとに分けられない）: AGENTS.md、.agents/skills/model-router・token-monitor、orchestration/gateway/{doctor,gateway}.ts、orchestration/telemetry/db.ts、orchestration/tests/{doctor,db,hooks}.test.ts、docs/agent-routing/*（パッチ3・4を含む）。利用者がパッチ3・4で適用（16:2x〜16:3x UTC）: orchestration/hooks/hook.ts、orchestration/model-registry/models.json、orchestration/gateway/config.ts
+本作業回（165046）でこれらを T121 の変更として記録し直す（回顧記録）。

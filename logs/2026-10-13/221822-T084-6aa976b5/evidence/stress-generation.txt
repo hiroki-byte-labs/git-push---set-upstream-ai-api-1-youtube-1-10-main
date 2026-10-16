@@ -1,0 +1,4 @@
+Rendered 0 images
+sysctlbyname for kern.hv_vmm_present failed with status -1kIOSurfaceMethodSetCoreVideoBridgedKeys failed: 10000003
+
+EXIT=0

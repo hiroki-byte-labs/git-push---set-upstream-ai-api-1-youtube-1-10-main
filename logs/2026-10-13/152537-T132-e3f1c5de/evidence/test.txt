@@ -1,0 +1,13 @@
+✔ trends-schema: 合成の履歴と境界例がスキーマに適合する (1.1105ms)
+✔ trends-schema: 不正なbatchを拒否する (0.463333ms)
+✔ trends-schema: ポリシーは承認の参照なしに派生指標を許さない (0.118334ms)
+✔ trends-schema: 保持期限はT131の条件どおり (0.594125ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 66.881
+EXIT=0

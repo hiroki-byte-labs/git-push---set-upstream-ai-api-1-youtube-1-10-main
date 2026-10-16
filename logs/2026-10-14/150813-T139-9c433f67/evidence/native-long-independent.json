@@ -1,0 +1,111 @@
+{
+  "video": "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-91612294/sample.mp4",
+  "sha256": "3cb349f067848a457cb115c8841dcd8d1e755e5dac49e64aa7336e2b264436db",
+  "durationSec": 604,
+  "expectedFrames": 14496,
+  "ffprobeFrames": 14496,
+  "fullDecode": true,
+  "audioSamples": 14496000,
+  "audioDuration": 604,
+  "audioCueCount": 41,
+  "subtitlesVttBytes": 4079,
+  "subtitlesStreamExpected": true,
+  "commands": [
+    {
+      "name": "probe",
+      "argv": [
+        "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+        "-v",
+        "error",
+        "-count_frames",
+        "-show_entries",
+        "format=duration,size:stream=codec_type,codec_name,width,height,avg_frame_rate,nb_frames,nb_read_frames,sample_rate,channels,duration",
+        "-of",
+        "json",
+        "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-91612294/sample.mp4"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n    \"programs\": [\n\n    ],\n    \"stream_groups\": [\n\n    ],\n    \"streams\": [\n        {\n            \"codec_name\": \"h264\",\n            \"codec_type\": \"video\",\n            \"width\": 1280,\n            \"height\": 720,\n            \"avg_frame_rate\": \"24/1\",\n            \"duration\": \"604.000000\",\n            \"nb_frames\": \"14496\",\n            \"nb_read_frames\": \"14496\"\n        },\n        {\n            \"codec_name\": \"aac\",\n            \"codec_type\": \"audio\",\n            \"sample_rate\": \"24000\",\n            \"channels\": 1,\n            \"avg_frame_rate\": \"0/0\",\n            \"duration\": \"604.000000\",\n            \"nb_frames\": \"14158\",\n            \"nb_read_frames\": \"14157\"\n        },\n        {\n            \"codec_name\": \"mov_text\",\n            \"codec_type\": \"subtitle\",\n            \"avg_frame_rate\": \"0/0\",\n            \"duration\": \"604.000000\",\n            \"nb_frames\": \"42\"\n        }\n    ],\n    \"format\": {\n        \"duration\": \"604.000000\",\n        \"size\": \"9182496\"\n    }\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "decode",
+      "argv": [
+        "/private/tmp/T139-render-nti1mann/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "-hide_banner",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-91612294/sample.mp4",
+        "-map",
+        "0:v:0",
+        "-map",
+        "0:a:0",
+        "-f",
+        "null",
+        "-"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "frame-5",
+      "argv": [
+        "/private/tmp/T139-render-nti1mann/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-ss",
+        "5",
+        "-i",
+        "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-91612294/sample.mp4",
+        "-frames:v",
+        "1",
+        "-y",
+        "/private/tmp/T139-render-nti1mann/t139-long-final-frames/frame-5.png"
+      ],
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "name": "frame-302",
+      "argv": [
+        "/private/tmp/T139-render-nti1mann/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-ss",
+        "302",
+        "-i",
+        "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-91612294/sample.mp4",
+        "-frames:v",
+        "1",
+        "-y",
+        "/private/tmp/T139-render-nti1mann/t139-long-final-frames/frame-302.png"
+      ],
+      "exitCode": 0,
+      "stderr": ""
+    },
+    {
+      "name": "frame-598",
+      "argv": [
+        "/private/tmp/T139-render-nti1mann/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-ss",
+        "598",
+        "-i",
+        "/private/tmp/T139-render-nti1mann/outputs/t139-long-mock-91612294/sample.mp4",
+        "-frames:v",
+        "1",
+        "-y",
+        "/private/tmp/T139-render-nti1mann/t139-long-final-frames/frame-598.png"
+      ],
+      "exitCode": 0,
+      "stderr": ""
+    }
+  ]
+}

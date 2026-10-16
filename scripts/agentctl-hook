@@ -1,0 +1,10 @@
+#!/bin/sh
+# 3製品のHookの入口: agentctl-hook <claude|codex|antigravity> <Event>
+# Nodeが見つからない場合は通常処理を妨げない（Hookは失敗扱い）。agentctl doctor で検出する。
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+NODE=${NODE_BIN:-node}
+if ! command -v "$NODE" >/dev/null 2>&1; then
+  echo "agentctl-hook: Node.js が見つからない（NODE_BIN を設定）" >&2
+  exit 1
+fi
+exec "$NODE" "$ROOT/orchestration/hooks/hook.ts" "$@"

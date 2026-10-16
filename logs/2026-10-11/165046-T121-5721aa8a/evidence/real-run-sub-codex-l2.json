@@ -1,0 +1,22 @@
+{
+  "task_id": "tsk_0mv41cp36e189362eeda7",
+  "status": "completed",
+  "executions": [
+    {
+      "execution_id": "exe_0mv41cp6ue34f90cf0854",
+      "decision_id": "rdc_0mv41cp6ua6a54930b424",
+      "provider": "codex",
+      "model_id": "gpt-6.1-sol",
+      "tier": "standard",
+      "status": "completed",
+      "metering_status": "measured",
+      "failure_cause": null,
+      "message": null,
+      "retry_count": 0,
+      "escalation_count": 0
+    }
+  ],
+  "message": "完了",
+  "review": null
+}
+EXIT=0

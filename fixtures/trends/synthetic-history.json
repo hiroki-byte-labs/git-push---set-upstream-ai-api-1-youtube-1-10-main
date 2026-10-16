@@ -1,0 +1,424 @@
+{
+ "note": "合成データ（T132）。YouTube APIの取得値ではない。期待値は docs/TRENDS-METRICS.md の手計算例。",
+ "batches": [
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20261001",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-10-01T00:00:00Z",
+   "completedAt": "2026-10-01T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [
+    {
+     "chartCategoryId": "0",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "complete": true
+    }
+   ],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidA0000001",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 1
+     },
+     "channelId": "chX",
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidA0000001",
+     "viewCount": 1000,
+     "likeCount": 10,
+     "commentCount": 1
+    },
+    {
+     "videoId": "vidB0000001",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 2
+     },
+     "channelId": "chY",
+     "categoryId": "20",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidB0000001",
+     "viewCount": 5000,
+     "likeCount": 50,
+     "commentCount": 5
+    },
+    {
+     "videoId": "vidC0000001",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 3
+     },
+     "channelId": "chX",
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidC0000001",
+     "viewCount": 0,
+     "likeCount": 0,
+     "commentCount": 0
+    },
+    {
+     "videoId": "vidD0000001",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 4
+     },
+     "channelId": "chZ",
+     "categoryId": "27",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidD0000001",
+     "viewCount": 2000,
+     "likeCount": 20,
+     "commentCount": 2
+    }
+   ],
+   "channels": [
+    {
+     "channelId": "chX",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chX",
+     "viewCount": 100000,
+     "subscriberCount": 12300,
+     "subscriberCountHidden": false,
+     "videoCount": 10
+    },
+    {
+     "channelId": "chY",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chY",
+     "viewCount": 50000,
+     "subscriberCount": null,
+     "subscriberCountHidden": true,
+     "videoCount": 4
+    },
+    {
+     "channelId": "chZ",
+     "fetchedAt": "2026-10-01T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chZ",
+     "viewCount": 3000,
+     "subscriberCount": 990,
+     "subscriberCountHidden": false,
+     "videoCount": 2
+    }
+   ]
+  },
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20261004",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-10-04T00:00:00Z",
+   "completedAt": "2026-10-04T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidA0000001",
+     "fetchedAt": "2026-10-04T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": "chX",
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidA0000001",
+     "viewCount": 4000,
+     "likeCount": 40,
+     "commentCount": 4
+    },
+    {
+     "videoId": "vidB0000001",
+     "fetchedAt": "2026-10-04T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": "chY",
+     "categoryId": "20",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidB0000001",
+     "viewCount": 5600,
+     "likeCount": 56,
+     "commentCount": 5
+    },
+    {
+     "videoId": "vidC0000001",
+     "fetchedAt": "2026-10-04T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": "chX",
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidC0000001",
+     "viewCount": 300,
+     "likeCount": 3,
+     "commentCount": 0
+    },
+    {
+     "videoId": "vidD0000001",
+     "fetchedAt": "2026-10-04T00:00:00Z",
+     "status": "ok",
+     "chart": null,
+     "channelId": "chZ",
+     "categoryId": "27",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidD0000001",
+     "viewCount": 2100,
+     "likeCount": 21,
+     "commentCount": 2
+    }
+   ],
+   "channels": [
+    {
+     "channelId": "chX",
+     "fetchedAt": "2026-10-04T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chX",
+     "viewCount": 104000,
+     "subscriberCount": 12400,
+     "subscriberCountHidden": false,
+     "videoCount": 10
+    },
+    {
+     "channelId": "chY",
+     "fetchedAt": "2026-10-04T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chY",
+     "viewCount": 51000,
+     "subscriberCount": null,
+     "subscriberCountHidden": true,
+     "videoCount": 4
+    },
+    {
+     "channelId": "chZ",
+     "fetchedAt": "2026-10-04T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chZ",
+     "viewCount": 3050,
+     "subscriberCount": 995,
+     "subscriberCountHidden": false,
+     "videoCount": 2
+    }
+   ]
+  },
+  {
+   "schema": "yt-trends-batch/v1",
+   "batchId": "syn-20261008",
+   "source": "synthetic",
+   "regionCode": "JP",
+   "startedAt": "2026-10-08T00:00:00Z",
+   "completedAt": "2026-10-08T00:00:00Z",
+   "quotaUnits": 0,
+   "charts": [
+    {
+     "chartCategoryId": "0",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "complete": true
+    }
+   ],
+   "categories": [
+    {
+     "categoryId": "10",
+     "title": "Music",
+     "assignable": true
+    },
+    {
+     "categoryId": "20",
+     "title": "Gaming",
+     "assignable": true
+    },
+    {
+     "categoryId": "25",
+     "title": "News & Politics",
+     "assignable": true
+    },
+    {
+     "categoryId": "27",
+     "title": "Education",
+     "assignable": true
+    }
+   ],
+   "videos": [
+    {
+     "videoId": "vidA0000001",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 1
+     },
+     "channelId": "chX",
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidA0000001",
+     "viewCount": 8000,
+     "likeCount": 80,
+     "commentCount": 8
+    },
+    {
+     "videoId": "vidE0000001",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 2
+     },
+     "channelId": "chY",
+     "categoryId": "20",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidE0000001",
+     "viewCount": 900,
+     "likeCount": 9,
+     "commentCount": 0
+    },
+    {
+     "videoId": "vidB0000001",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 3
+     },
+     "channelId": "chY",
+     "categoryId": "20",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidB0000001",
+     "viewCount": 6400,
+     "likeCount": 64,
+     "commentCount": 6
+    },
+    {
+     "videoId": "vidC0000001",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 4
+     },
+     "channelId": "chX",
+     "categoryId": "10",
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidC0000001",
+     "viewCount": 700,
+     "likeCount": 7,
+     "commentCount": 1
+    },
+    {
+     "videoId": "vidF0000001",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "chart": {
+      "chartCategoryId": "0",
+      "rank": 5
+     },
+     "channelId": "chZ",
+     "categoryId": null,
+     "publishedAt": "2026-09-20T00:00:00Z",
+     "title": "合成動画 vidF0000001",
+     "viewCount": 300,
+     "likeCount": null,
+     "commentCount": null
+    },
+    {
+     "videoId": "vidD0000001",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "missing",
+     "chart": null,
+     "channelId": null,
+     "categoryId": null,
+     "publishedAt": null,
+     "title": null,
+     "viewCount": null,
+     "likeCount": null,
+     "commentCount": null
+    }
+   ],
+   "channels": [
+    {
+     "channelId": "chX",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chX",
+     "viewCount": 108000,
+     "subscriberCount": 12500,
+     "subscriberCountHidden": false,
+     "videoCount": 11
+    },
+    {
+     "channelId": "chY",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chY",
+     "viewCount": 53000,
+     "subscriberCount": null,
+     "subscriberCountHidden": true,
+     "videoCount": 5
+    },
+    {
+     "channelId": "chZ",
+     "fetchedAt": "2026-10-08T00:00:00Z",
+     "status": "ok",
+     "title": "合成チャンネル chZ",
+     "viewCount": 3100,
+     "subscriberCount": 1000,
+     "subscriberCountHidden": false,
+     "videoCount": 2
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,302 @@
+{
+  "command": "./scripts/agentctl events --limit 500",
+  "started_at": "2026-10-13T23:42:20.194113+00:00",
+  "ended_at": "2026-10-13T23:42:20.292591+00:00",
+  "exit_code": 0,
+  "stderr": "",
+  "filter": "product/provider=antigravity only; events.at < 2026-10-13T23:41:42.657Z; this Codex and all other products excluded before saving",
+  "result": {
+    "returned_count": 318,
+    "selected_count": 35,
+    "excluded_count": 283,
+    "rows": [
+      {
+        "id": 264,
+        "at": "2026-10-12T06:55:09.679Z",
+        "kind": "agy_child_usage_linked",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": "exe_0mv4w4tuebf27fdf5b311"
+      },
+      {
+        "id": 263,
+        "at": "2026-10-12T06:55:09.651Z",
+        "kind": "agy_child_session_bound",
+        "product": "antigravity",
+        "session_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+        "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+        "detail": {
+          "parent": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+          "via": "parent_transcript"
+        }
+      },
+      {
+        "id": 251,
+        "at": "2026-10-12T06:48:38.240Z",
+        "kind": "managed_call",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 250,
+        "at": "2026-10-12T06:48:20.376Z",
+        "kind": "agy_payload_keys",
+        "product": "antigravity",
+        "session_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+        "execution_id": null
+      },
+      {
+        "id": 248,
+        "at": "2026-10-12T06:48:20.275Z",
+        "kind": "subagent_parent_model_allowed",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": "exe_0mv4w4tuebf27fdf5b311"
+      },
+      {
+        "id": 247,
+        "at": "2026-10-12T06:48:20.245Z",
+        "kind": "spawn_args",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 243,
+        "at": "2026-10-12T06:38:22.172Z",
+        "kind": "managed_call",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 242,
+        "at": "2026-10-12T06:37:28.136Z",
+        "kind": "agy_payload_keys",
+        "product": "antigravity",
+        "session_id": "8659d778-2861-4b61-8ca1-b46286f64653",
+        "execution_id": null
+      },
+      {
+        "id": 241,
+        "at": "2026-10-12T06:37:28.135Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "8659d778-2861-4b61-8ca1-b46286f64653",
+        "execution_id": "exe_0mv4vqr4uf1479519e78a"
+      },
+      {
+        "id": 240,
+        "at": "2026-10-12T06:37:23.296Z",
+        "kind": "managed_call",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 239,
+        "at": "2026-10-12T06:37:12.288Z",
+        "kind": "managed_call",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 238,
+        "at": "2026-10-12T06:36:30.973Z",
+        "kind": "managed_call",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 237,
+        "at": "2026-10-12T06:36:19.912Z",
+        "kind": "managed_call",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 236,
+        "at": "2026-10-12T06:35:39.673Z",
+        "kind": "subagent_denied_unenforceable",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 235,
+        "at": "2026-10-12T06:35:39.672Z",
+        "kind": "spawn_args",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 234,
+        "at": "2026-10-12T06:33:58.005Z",
+        "kind": "agy_payload_keys",
+        "product": "antigravity",
+        "session_id": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+        "execution_id": null
+      },
+      {
+        "id": 233,
+        "at": "2026-10-12T06:31:26.376Z",
+        "kind": "subagent_denied_unenforceable",
+        "product": "antigravity",
+        "session_id": "fd89b04f-1758-4e9c-b317-696921ba665c",
+        "execution_id": null
+      },
+      {
+        "id": 232,
+        "at": "2026-10-12T06:31:26.376Z",
+        "kind": "spawn_args",
+        "product": "antigravity",
+        "session_id": "fd89b04f-1758-4e9c-b317-696921ba665c",
+        "execution_id": null
+      },
+      {
+        "id": 231,
+        "at": "2026-10-12T06:31:05.414Z",
+        "kind": "agy_payload_keys",
+        "product": "antigravity",
+        "session_id": "fd89b04f-1758-4e9c-b317-696921ba665c",
+        "execution_id": null
+      },
+      {
+        "id": 111,
+        "at": "2026-10-12T02:15:34.567Z",
+        "kind": "agy_payload_keys",
+        "product": "antigravity",
+        "session_id": "0f337166-c551-4822-9956-85adb89b7250",
+        "execution_id": null
+      },
+      {
+        "id": 110,
+        "at": "2026-10-12T02:15:34.566Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "0f337166-c551-4822-9956-85adb89b7250",
+        "execution_id": "exe_0mv4mdrir8bbd8b599014"
+      },
+      {
+        "id": 108,
+        "at": "2026-10-12T02:15:34.426Z",
+        "kind": "subagent_parent_model_allowed",
+        "product": "antigravity",
+        "session_id": "2c4a0b30-5c85-4a29-bd7a-a9dbb88e0c92",
+        "execution_id": "exe_0mv4me1vl47d8aa375b87"
+      },
+      {
+        "id": 107,
+        "at": "2026-10-12T02:15:34.400Z",
+        "kind": "spawn_args",
+        "product": "antigravity",
+        "session_id": "2c4a0b30-5c85-4a29-bd7a-a9dbb88e0c92",
+        "execution_id": null
+      },
+      {
+        "id": 106,
+        "at": "2026-10-12T02:15:26.401Z",
+        "kind": "agy_payload_keys",
+        "product": "antigravity",
+        "session_id": "2c4a0b30-5c85-4a29-bd7a-a9dbb88e0c92",
+        "execution_id": null
+      },
+      {
+        "id": 105,
+        "at": "2026-10-12T02:15:26.400Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "2c4a0b30-5c85-4a29-bd7a-a9dbb88e0c92",
+        "execution_id": "exe_0mv4mdrir8bbd8b599014"
+      },
+      {
+        "id": 88,
+        "at": "2026-10-12T01:58:48.962Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "6973fe15-be2e-4952-a0c5-895266d3bdde",
+        "execution_id": "exe_0mv4lse9hd20ab30e4ac3"
+      },
+      {
+        "id": 79,
+        "at": "2026-10-11T16:28:57.830Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "12374bd3-8e95-4242-adbf-d4f53ae8693c",
+        "execution_id": "exe_0mv41f43k48f4a4124ed8"
+      },
+      {
+        "id": 77,
+        "at": "2026-10-11T16:28:57.689Z",
+        "kind": "subagent_parent_model_allowed",
+        "product": "antigravity",
+        "session_id": "c4779f61-0d0b-4ffc-852b-65e4845b851e",
+        "execution_id": "exe_0mv41fnwge865019c81ee"
+      },
+      {
+        "id": 76,
+        "at": "2026-10-11T16:28:57.664Z",
+        "kind": "spawn_args",
+        "product": "antigravity",
+        "session_id": "c4779f61-0d0b-4ffc-852b-65e4845b851e",
+        "execution_id": null
+      },
+      {
+        "id": 75,
+        "at": "2026-10-11T16:28:36.708Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "c4779f61-0d0b-4ffc-852b-65e4845b851e",
+        "execution_id": "exe_0mv41f43k48f4a4124ed8"
+      },
+      {
+        "id": 35,
+        "at": "2026-10-11T13:27:59.922Z",
+        "kind": "stop_with_unmetered",
+        "product": "antigravity",
+        "session_id": "0aec887e-21e5-4698-8c67-0f7cf0103f8c",
+        "execution_id": null
+      },
+      {
+        "id": 34,
+        "at": "2026-10-11T13:27:49.689Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "14d3893a-7d63-4c27-8bf9-be0fcc3a4f81",
+        "execution_id": "exe_0mv3uyie273746374eff9"
+      },
+      {
+        "id": 33,
+        "at": "2026-10-11T13:27:49.553Z",
+        "kind": "subagent_model_unenforced",
+        "product": "antigravity",
+        "session_id": "0aec887e-21e5-4698-8c67-0f7cf0103f8c",
+        "execution_id": "exe_0mv3uypzs35de5e3f1b0a"
+      },
+      {
+        "id": 32,
+        "at": "2026-10-11T13:27:46.130Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "0aec887e-21e5-4698-8c67-0f7cf0103f8c",
+        "execution_id": "exe_0mv3uyie273746374eff9"
+      },
+      {
+        "id": 21,
+        "at": "2026-10-11T12:33:58.341Z",
+        "kind": "child_session_verified",
+        "product": "antigravity",
+        "session_id": "9fafcaee-6958-4aee-8fe8-82b186f34c7e",
+        "execution_id": "exe_0mv3t1c221f7aaeeb0601"
+      }
+    ],
+    "at_min": "2026-10-11T12:33:58.341Z",
+    "at_max": "2026-10-12T06:55:09.679Z",
+    "new_since_previous_count": 0
+  }
+}

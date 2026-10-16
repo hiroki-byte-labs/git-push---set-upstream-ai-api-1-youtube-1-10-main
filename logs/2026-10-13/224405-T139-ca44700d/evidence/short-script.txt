@@ -1,0 +1,5 @@
+作成: 台本 v1（outputs/production-demo-ebf84adc/script-v1.json）
+台本の版: ede47213e6ef72c7738246a3915e61a02e122a5e486c55baf731aa856e4a6d36
+本人が内容を確認し、produce script-review production-demo-ebf84adc approve --hash ede47213e6ef72c7738246a3915e61a02e122a5e486c55baf731aa856e4a6d36 --by 本人の名前 で承認する
+
+EXIT=0

@@ -16,3 +16,4 @@ export class CueAudio implements AudioProvider{kind='mock.sine-cues';async creat
  let start=0;plan.scenes.forEach((s,k)=>{for(let j=0;j<rate*s.seconds;j++){const t=j/rate;const a=t<0.7?0.16*Math.sin(Math.PI*t/0.7)**2:0;buf.writeInt16LE(Math.round(32767*a*Math.sin(2*Math.PI*(330+k*55)*t)),44+2*(start+j))}start+=s.seconds*rate});writeFileSync(path,buf);
 }}
 export class DisabledPublisher implements Publisher{kind='disabled';async publish():Promise<never>{throw Error('投稿は未実装・未承認です')}}
+export {RemotionVisual} from './remotion-visual.ts';

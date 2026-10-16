@@ -1,0 +1,4 @@
+COMMAND=["/private/tmp/T153-root-verify-2ROdQJAC/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1", "-hide_banner", "-nostdin", "-v", "error", "-i", "/private/tmp/T153-root-verify-2ROdQJAC/outputs/source-labels-demo-8a493444/sample.mp4", "-vf", "select='eq(n,84)+eq(n,180)+eq(n,276)+eq(n,372)+eq(n,468)+eq(n,564)',scale=640:-1,tile=2x3", "-frames:v", "1", "-fps_mode", "passthrough", "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/logs/2026-10-15/155204-T153-261a1824/evidence/remotion-1080-scenes.png"]
+STDOUT=
+STDERR=
+EXIT=0

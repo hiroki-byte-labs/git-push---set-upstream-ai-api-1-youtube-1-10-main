@@ -1,0 +1,16 @@
+✔ trends-collect: 模擬レスポンスからページング・追跡・欠測・チャンネルを収集する (2.115ms)
+✔ trends-collect: ページ上限で止めたチャートはcompleteにしない (0.147833ms)
+✔ trends-collect: 見積りが上限を越える計画は送信前に拒否する (0.250792ms)
+✔ trends-collect: 応答の分類（上限・認証・一時障害・不正） (0.0695ms)
+✔ trends-collect: 一時障害は制限付きで再試行し、上限を越えたら停止する (0.218208ms)
+✔ trends-collect: 日次上限・認証エラーは再試行せず停止し、キーを出さない (0.112875ms)
+✔ trends-collect: 実接続はキーをURLにだけ入れ、通信障害の文言からも伏せる (7.899791ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.892334
+EXIT=0

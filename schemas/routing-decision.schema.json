@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentctl.local/schemas/routing-decision.schema.json",
+  "title": "routing-decision v1",
+  "description": "Model Routerの選択結果。ルールベースで作り、LLMを使った場合はused_llm=true。selectedがnullなら実行できない。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "task_id", "parent_task_id", "execution_id", "policy_version", "policy_sha256", "task_type", "difficulty", "difficulty_source", "quality_requirement", "selected", "review", "candidates", "checks", "estimate", "escalation", "routing_reason", "rule_ids", "used_llm", "requires_human_approval", "human_approval_reason", "created_at"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "decision_id": {"$ref": "common.schema.json#/definitions/decision_id"},
+    "task_id": {"$ref": "common.schema.json#/definitions/task_id"},
+    "parent_task_id": {"$ref": "common.schema.json#/definitions/nullable_task_id"},
+    "execution_id": {"$ref": "common.schema.json#/definitions/execution_id"},
+    "policy_version": {"type": "string", "minLength": 1},
+    "policy_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "task_type": {"$ref": "common.schema.json#/definitions/task_type"},
+    "difficulty": {"$ref": "common.schema.json#/definitions/difficulty"},
+    "difficulty_source": {"enum": ["explicit", "rule", "llm", "default"]},
+    "quality_requirement": {"$ref": "common.schema.json#/definitions/quality_requirement"},
+    "selected": {
+      "oneOf": [{"type": "null"}, {
+        "type": "object", "additionalProperties": false,
+        "required": ["provider", "model_id", "reasoning_level", "tier", "route", "auth_mode"],
+        "properties": {
+          "provider": {"$ref": "common.schema.json#/definitions/provider"},
+          "model_id": {"type": ["string", "null"]},
+          "reasoning_level": {"$ref": "common.schema.json#/definitions/reasoning_level"},
+          "tier": {"$ref": "common.schema.json#/definitions/tier"},
+          "route": {"$ref": "common.schema.json#/definitions/route"},
+          "auth_mode": {"$ref": "common.schema.json#/definitions/auth_mode"}
+        }
+      }]
+    },
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required", "provider", "model_id"],
+      "properties": {"required": {"type": "boolean"}, "provider": {"oneOf": [{"$ref": "common.schema.json#/definitions/provider"}, {"type": "null"}]}, "model_id": {"type": ["string", "null"]}}
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["provider", "model_id", "tier", "eligible", "reasons"],
+        "properties": {
+          "provider": {"$ref": "common.schema.json#/definitions/provider"},
+          "model_id": {"type": "string"},
+          "tier": {"$ref": "common.schema.json#/definitions/tier"},
+          "eligible": {"type": "boolean"},
+          "reasons": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["available", "capable", "within_budget", "quality_expected", "permitted"],
+      "properties": {"available": {"type": "boolean"}, "capable": {"type": "boolean"}, "within_budget": {"type": ["boolean", "null"]}, "quality_expected": {"type": "boolean"}, "permitted": {"type": "boolean"}}
+    },
+    "estimate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["total_tokens", "api_equivalent_usd", "billing"],
+      "properties": {
+        "total_tokens": {"$ref": "common.schema.json#/definitions/nullable_int"},
+        "api_equivalent_usd": {"$ref": "common.schema.json#/definitions/nullable_number"},
+        "billing": {"enum": ["subscription_quota", "api_billing", "none"]}
+      }
+    },
+    "escalation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["from_decision_id", "attempt", "cause"],
+      "properties": {
+        "from_decision_id": {"oneOf": [{"$ref": "common.schema.json#/definitions/decision_id"}, {"type": "null"}]},
+        "attempt": {"type": "integer", "minimum": 0},
+        "cause": {"$ref": "common.schema.json#/definitions/failure_cause"}
+      }
+    },
+    "routing_reason": {"type": "string", "minLength": 1},
+    "rule_ids": {"type": "array", "items": {"type": "string"}},
+    "used_llm": {"type": "boolean"},
+    "requires_human_approval": {"type": "boolean"},
+    "human_approval_reason": {"type": ["string", "null"]},
+    "created_at": {"$ref": "common.schema.json#/definitions/datetime"}
+  }
+}

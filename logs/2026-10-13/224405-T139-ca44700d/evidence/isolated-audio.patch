@@ -1,0 +1,33 @@
+--- src/commands/sample.ts
++++ src/commands/sample.ts
+@@ -1,6 +1,8 @@
++import {tmpdir} from 'node:os';
++import {renderMockAudioMedia} from '../mock-audio-media.ts';
+ // sampleコマンド: 台本→音声→描画→MP4と検査情報を1ジョブとして出力する。
+-import {mkdirSync, writeFileSync, readFileSync, existsSync} from 'node:fs';
+-import {resolve, join} from 'node:path';
++import {mkdirSync, writeFileSync, readFileSync, existsSync, mkdtempSync, copyFileSync} from 'node:fs';
++import {resolve, join, dirname} from 'node:path';
+ import {spawnSync} from 'node:child_process';
+ import {createHash, randomUUID} from 'node:crypto';
+ import {encode, ffmpegVersion} from '../media.ts';
+@@ -103,6 +105,7 @@
+   const isRemotion = opts.renderer === 'remotion';
+   if (!isRemotion && process.platform !== 'darwin') throw Error('M1 rendererはmacOS専用です');
+   const script = new FixtureScript(opts.plan), audio = new CueAudio();
++  audio.kind = 'mock.synthetic-tone-t138';
+   const visual: VisualProvider & {scale?: number} = isRemotion
+     ? new (await import('../remotion-visual.ts')).RemotionVisual(opts.subtitles, opts.resolution)
+     : new NativeVisual(opts.subtitles, opts.resolution);
+@@ -114,7 +117,10 @@
+   const scriptConn = new LocalConnection('script', script.kind, 'mock', async (_: void) => ({output: await script.create()}));
+   const plan = await callWithBudget(scriptConn, undefined, budget, 0, usage, 3, attempts);
+   const audioConn = new LocalConnection('audio', audio.kind, 'mock', async (path: string) => {
+-    await audio.create(plan, path);
++    const mockRoot = mkdtempSync(join(tmpdir(), 'T139-audio-'));
++    const media = renderMockAudioMedia(plan, mockRoot);
++    copyFileSync(join(media.directory, 'mixed.wav'), path);
++    copyFileSync(join(media.directory, 'media-check.json'), join(dirname(path), 'mock-audio-check.json'));
+     return {output: path, outputUnits: totalSeconds(plan)};
+   });
+   const visualConn = new LocalConnection('visual', visual.kind, 'local', async (d: string) => {

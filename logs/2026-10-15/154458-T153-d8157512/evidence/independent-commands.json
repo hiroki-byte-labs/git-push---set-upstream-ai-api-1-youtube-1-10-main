@@ -1,0 +1,61 @@
+[
+  {
+    "file": "native-probe.json",
+    "exe": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+    "args": [
+      "-v",
+      "error",
+      "-count_frames",
+      "-show_streams",
+      "-show_format",
+      "-of",
+      "json",
+      "/private/tmp/T153-verify-fxj8u64o/outputs/source-labels-demo-0a030cec/sample.mp4"
+    ],
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "file": "native-decode.txt",
+    "exe": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+    "args": [
+      "-v",
+      "error",
+      "-xerror",
+      "-i",
+      "/private/tmp/T153-verify-fxj8u64o/outputs/source-labels-demo-0a030cec/sample.mp4",
+      "-map",
+      "0:v:0",
+      "-map",
+      "0:a:0",
+      "-fps_mode",
+      "passthrough",
+      "-progress",
+      "pipe:1",
+      "-f",
+      "null",
+      "-"
+    ],
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "file": "native-frames.txt",
+    "exe": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+    "args": [
+      "-v",
+      "error",
+      "-i",
+      "/private/tmp/T153-verify-fxj8u64o/outputs/source-labels-demo-0a030cec/sample.mp4",
+      "-vf",
+      "select='eq(n,84)+eq(n,180)+eq(n,276)+eq(n,372)+eq(n,468)+eq(n,564)',scale=640:-1,tile=2x3",
+      "-frames:v",
+      "1",
+      "-fps_mode",
+      "passthrough",
+      "logs/2026-10-15/154458-T153-d8157512/evidence/native-scenes.png"
+    ],
+    "exit": 0,
+    "stderr": ""
+  }
+]

@@ -1,0 +1,207 @@
+{
+  "schema": 2,
+  "id": "source-labels-demo",
+  "title": "表示情報の検証",
+  "version": 1,
+  "theme": "general",
+  "production": {
+    "mode": "demo",
+    "project": "label-fixture"
+  },
+  "intro": {
+    "text": "表示検証用の架空例です。",
+    "sources": [],
+    "fictional": true
+  },
+  "sources": [
+    {
+      "id": "unused",
+      "title": "未使用の出典",
+      "url": "https://example.com/unused",
+      "accessedAt": "2026-10-16"
+    },
+    {
+      "id": "long",
+      "title": "長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料（実在研究の主張ではありません）長いタイトルの検証用架空文献・独立した出典を誤って結合しないための表示情報と参照番号についての詳細な資料",
+      "url": "https://example.com/long",
+      "accessedAt": "2026-10-16"
+    },
+    {
+      "id": "short",
+      "title": "表示用の架空文献",
+      "url": "https://example.com/short",
+      "accessedAt": "2026-10-16"
+    }
+  ],
+  "scenes": [
+    {
+      "title": "出典ひとつ",
+      "seconds": 4,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "sources": [
+        "short"
+      ],
+      "fictional": false,
+      "role": "body"
+    },
+    {
+      "title": "複数と長い出典",
+      "seconds": 4,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "sources": [
+        "long",
+        "short"
+      ],
+      "fictional": false,
+      "role": "body"
+    },
+    {
+      "title": "出典も札もなし",
+      "seconds": 4,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "sources": [],
+      "fictional": false,
+      "role": "body"
+    },
+    {
+      "title": "架空の例",
+      "seconds": 4,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "sources": [],
+      "fictional": true,
+      "role": "example"
+    },
+    {
+      "title": "考察の区別",
+      "seconds": 4,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "sources": [],
+      "fictional": false,
+      "role": "reflection"
+    },
+    {
+      "title": "札と出典の併用",
+      "seconds": 4,
+      "narration": "表示検証です。結果を保証しません。",
+      "cues": [
+        {
+          "text": "表示検証です。結果を保証しません。",
+          "seconds": 4
+        }
+      ],
+      "diagram": {
+        "type": "compare",
+        "left": "記録",
+        "right": "解釈",
+        "leftItems": [
+          "出来事",
+          "参照先"
+        ],
+        "rightItems": [
+          "意味",
+          "疑問"
+        ]
+      },
+      "sources": [
+        "long"
+      ],
+      "fictional": true,
+      "role": "reflection"
+    }
+  ]
+}

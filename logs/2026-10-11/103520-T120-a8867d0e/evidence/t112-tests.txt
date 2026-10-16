@@ -1,0 +1,7 @@
+ℹ tests 24
+ℹ pass 24
+ℹ fail 0
+## ファイル別
+contracts.test.ts: ℹ tests 11
+workflow.test.ts: ℹ tests 13
+typecheck EXIT=0

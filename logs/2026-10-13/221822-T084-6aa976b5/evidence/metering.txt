@@ -1,0 +1,43 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mv78scn2b29d4bf25ac5",
+    "parent_task_id": "tsk_0mv78p55ld5223004540",
+    "execution_id": "exe_0mv78scre0a22ae61d377",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mv78scre1b9c6e479691",
+    "initiator": "codex",
+    "agent_name": "worker",
+    "provider": "codex",
+    "model_id": "gpt-6.1-sol",
+    "reasoning_level": "medium",
+    "task_type": "implementation",
+    "difficulty": "L2",
+    "routing_reason": "L2/implementation/品質normal → standard枠の codex:gpt-6.1-sol（codex>claude>antigravityの順で最初に条件を満たしたモデル）",
+    "status": "running",
+    "managed": true,
+    "route": "cli",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-13T22:18:05.597Z",
+    "end_time": null,
+    "duration_ms": null,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "missing",
+    "session_ref": {
+      "product": "codex",
+      "session_id": "01a13758-23f5-7ef0-8601-13308e0bc5af",
+      "agent_id": null
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 0,
+      "api_usd": null
+    },
+    "usage": []
+  }
+]
+未計測: exe_0mv78scre0a22ae61d377

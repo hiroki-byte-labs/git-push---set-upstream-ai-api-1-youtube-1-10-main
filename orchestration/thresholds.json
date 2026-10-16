@@ -1,0 +1,13 @@
+{
+  "id": "synthetic-flat-shapes-v1-provisional",
+  "provisional": true,
+  "scope": "10秒・単色背景・非重複の平面図形。一般動画の合格基準ではない。全指標は差の大きさで、小さい方が良い。",
+  "position": 1.5,
+  "size": 1.5,
+  "color": 5,
+  "start_time": 0.034,
+  "end_time": 0.034,
+  "displacement": 3,
+  "speed_change": 350,
+  "frame_change": 1
+}

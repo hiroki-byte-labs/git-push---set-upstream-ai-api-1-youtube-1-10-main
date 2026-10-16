@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "max_improvements": 2,
+  "quality_minimum": 3,
+  "comparison_epsilon": 0.000001,
+  "stages": {
+    "awaiting_analysis": {"role": "video-analysis-director", "kind": "analysis"},
+    "awaiting_implementation": {"role": "remotion-developer", "kind": "implementation"},
+    "awaiting_render": {"role": "render-engineer", "kind": "render"},
+    "awaiting_evaluation": {"role": "quality-evaluator", "kind": "evaluation"},
+    "needs_tasks": {"role": "improvement-planner", "kind": "tasks"},
+    "awaiting_refinement": {"role": "animation-refiner", "kind": "implementation"},
+    "awaiting_quality": {"role": "quality-evaluator", "kind": "evaluation"}
+  },
+  "review_states": ["awaiting_quality"],
+  "terminal_states": ["complete", "stop_inconclusive", "stop_limit", "stop_no_improvement"]
+}

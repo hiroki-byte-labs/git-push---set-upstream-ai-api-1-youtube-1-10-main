@@ -1,0 +1,6 @@
+Rendered 0 images
+
+生成完了: /private/tmp/T145-smooth-6z3lvi_c/outputs/superstar-illustration-demo-3ef1b1e4/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+
+EXIT=0

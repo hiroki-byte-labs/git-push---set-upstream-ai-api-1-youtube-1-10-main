@@ -1,0 +1,10 @@
+=== git status summary before commit ===
+Modified files: 41
+Untracked files/dirs: ~60
+Total tracked files after staging: ~621
+
+=== verification checks ===
+npm test: 392 passed, 0 failed
+npm run typecheck: passed (0 errors)
+./scripts/run src/cli.ts check: passed (145 tickets)
+pre-commit hook: ./scripts/run src/worklog-cli.ts check --staged requirement verified

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "planId": "superstar-economics-demo",
+  "scriptHash": "8f9b2d3c4e5a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c",
+  "audioPath": "outputs/bias-check-demo-ee27087b/audio.wav",
+  "durationSec": 48.0,
+  "profile": {
+    "engine": "mock.fixture",
+    "voiceId": "calm-baritone-v1",
+    "speedCharsPerSec": 5.4,
+    "pitch": "low",
+    "pauseSec": {
+      "comma": 0.3,
+      "period": 0.5,
+      "paragraph": 1.0
+    }
+  },
+  "evaluations": [
+    {
+      "voiceId": "calm-baritone-v1",
+      "naturalness": 5,
+      "pronunciation": 4,
+      "documentaryFit": 5,
+      "clarity": 5,
+      "reviewer": "test-reviewer",
+      "reviewedAt": "2026-10-12",
+      "notes": "低音で落ち着きがあり、ドキュメンタリーの暗黒空間に最適。スーパースターの頭高アクセントも自然。"
+    },
+    {
+      "voiceId": "fast-bright-v2",
+      "naturalness": 3,
+      "pronunciation": 4,
+      "documentaryFit": 2,
+      "clarity": 4,
+      "reviewer": "test-reviewer",
+      "reviewedAt": "2026-10-12",
+      "notes": "テンポが速くハイテンション気味であり、知的好奇心ドキュメンタリーの演出意図には不適合。"
+    }
+  ],
+  "adopted": true
+}

@@ -1,0 +1,11 @@
+{
+  "expectedDuration": 30,
+  "expectedFrames": 720,
+  "videoFrames": 720,
+  "fullDecode": "passed",
+  "subtitles": "burn",
+  "subtitleStreams": 0,
+  "framesExtracted": 4,
+  "renderer": "Remotion 4.0 (React/Web) + FFmpeg H264/AAC",
+  "narration": false
+}

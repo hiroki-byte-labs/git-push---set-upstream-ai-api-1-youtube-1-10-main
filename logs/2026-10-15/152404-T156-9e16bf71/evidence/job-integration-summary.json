@@ -1,0 +1,1011 @@
+[
+  {
+    "scenario": "valid",
+    "id": "surname-illustration-demo-4fca8ad5",
+    "jobStatus": "completed",
+    "events": [
+      "lint-checked",
+      "audio-ready",
+      "video-checked"
+    ],
+    "error": null,
+    "media": {
+      "status": "passed",
+      "fullDecode": "passed",
+      "expectedDuration": 30,
+      "expectedFrames": 720,
+      "expected": {
+        "duration": 30,
+        "fps": 24,
+        "width": 1280,
+        "height": 720,
+        "subtitles": "both"
+      },
+      "subtitles": "both",
+      "narration": false,
+      "renderer": "Remotion + FFmpeg H264/AAC",
+      "tolerances": {
+        "durationSeconds": 0.1
+      },
+      "commands": [
+        {
+          "executable": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-4fca8ad5/sample.mp4"
+          ],
+          "env": {
+            "DYLD_LIBRARY_PATH": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "stdout": "{\n    \"streams\": [\n        {\n            \"index\": 0,\n            \"codec_name\": \"h264\",\n            \"codec_long_name\": \"unknown\",\n            \"profile\": \"100\",\n            \"codec_type\": \"video\",\n            \"codec_tag_string\": \"avc1\",\n            \"codec_tag\": \"0x31637661\",\n            \"width\": 1280,\n            \"height\": 720,\n            \"coded_width\": 1280,\n            \"coded_height\": 720,\n            \"closed_captions\": 0,\n            \"film_grain\": 0,\n            \"has_b_frames\": 2,\n            \"sample_aspect_ratio\": \"1:1\",\n            \"display_aspect_ratio\": \"16:9\",\n            \"pix_fmt\": \"yuv420p\",\n            \"level\": 31,\n            \"chroma_location\": \"left\",\n            \"field_order\": \"progressive\",\n            \"refs\": 1,\n            \"is_avc\": \"true\",\n            \"nal_length_size\": \"4\",\n            \"id\": \"0x1\",\n            \"r_frame_rate\": \"24/1\",\n            \"avg_frame_rate\": \"24/1\",\n            \"time_base\": \"1/12288\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 368640,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"7958\",\n            \"bits_per_raw_sample\": \"8\",\n            \"nb_frames\": \"720\",\n            \"extradata_size\": 47,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"und\",\n                \"handler_name\": \"VideoHandler\",\n                \"vendor_id\": \"[0][0][0][0]\",\n                \"encoder\": \"Lavc61.19.100 libx264\"\n            }\n        },\n        {\n            \"index\": 1,\n            \"codec_name\": \"aac\",\n            \"codec_long_name\": \"unknown\",\n            \"profile\": \"1\",\n            \"codec_type\": \"audio\",\n            \"codec_tag_string\": \"mp4a\",\n            \"codec_tag\": \"0x6134706d\",\n            \"sample_fmt\": \"fltp\",\n            \"sample_rate\": \"24000\",\n            \"channels\": 1,\n            \"channel_layout\": \"mono\",\n            \"bits_per_sample\": 0,\n            \"initial_padding\": 0,\n            \"id\": \"0x2\",\n            \"r_frame_rate\": \"0/0\",\n            \"avg_frame_rate\": \"0/0\",\n            \"time_base\": \"1/24000\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 720000,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"7861\",\n            \"nb_frames\": \"705\",\n            \"extradata_size\": 5,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"und\",\n                \"handler_name\": \"SoundHandler\",\n                \"vendor_id\": \"[0][0][0][0]\"\n            }\n        },\n        {\n            \"index\": 2,\n            \"codec_name\": \"mov_text\",\n            \"codec_long_name\": \"unknown\",\n            \"codec_type\": \"subtitle\",\n            \"codec_tag_string\": \"tx3g\",\n            \"codec_tag\": \"0x67337874\",\n            \"id\": \"0x3\",\n            \"r_frame_rate\": \"0/0\",\n            \"avg_frame_rate\": \"0/0\",\n            \"time_base\": \"1/1000000\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 30000000,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"110\",\n            \"nb_frames\": \"6\",\n            \"extradata_size\": 68,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"jpn\",\n                \"handler_name\": \"SubtitleHandler\"\n            }\n        }\n    ],\n    \"format\": {\n        \"filename\": \"/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-4fca8ad5/sample.mp4\",\n        \"nb_streams\": 3,\n        \"nb_programs\": 0,\n        \"nb_stream_groups\": 0,\n        \"format_name\": \"mov,mp4,m4a,3gp,3g2,mj2\",\n        \"start_time\": \"0.000000\",\n        \"duration\": \"30.000000\",\n        \"size\": \"79237\",\n        \"bit_rate\": \"21129\",\n        \"probe_score\": 100,\n        \"tags\": {\n            \"major_brand\": \"isom\",\n            \"minor_version\": \"512\",\n            \"compatible_brands\": \"isomiso2avc1mp41\",\n            \"encoder\": \"Lavf61.7.100\"\n        }\n    }\n}\n",
+          "stderr": ""
+        },
+        {
+          "executable": "/private/tmp/T156-render-eoykiwq4/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-err_detect",
+            "explode",
+            "-i",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-4fca8ad5/sample.mp4",
+            "-map",
+            "0:v:0",
+            "-map",
+            "0:a:0",
+            "-fps_mode",
+            "passthrough",
+            "-progress",
+            "pipe:1",
+            "-nostats",
+            "-f",
+            "null",
+            "-"
+          ],
+          "env": {},
+          "exitCode": 0,
+          "signal": null,
+          "stdout": "frame=720\nfps=0.00\nstream_0_0_q=-0.0\nbitrate=N/A\ntotal_size=N/A\nout_time_us=30000000\nout_time_ms=30000000\nout_time=00:00:30.000000\ndup_frames=0\ndrop_frames=0\nspeed= 553x\nprogress=end\n",
+          "stderr": ""
+        },
+        {
+          "executable": "/private/tmp/T156-render-eoykiwq4/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-i",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-4fca8ad5/sample.mp4",
+            "-map",
+            "0:a:0",
+            "-ac",
+            "1",
+            "-ar",
+            "24000",
+            "-c:a",
+            "pcm_s16le",
+            "-f",
+            "s16le",
+            "/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/remotion-inspect-dkI4RE/audio.pcm"
+          ],
+          "env": {},
+          "exitCode": 0,
+          "signal": null,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "unmeasured": [
+        "LUFS / true peak",
+        "場面ごとの確認音・自然音声品質",
+        "PSNR（native固有）",
+        "字幕表示内容・時刻"
+      ],
+      "artifact": {
+        "sha256": "76891ae6467cf5859e5e044d57634104f6c23499c4c45c4d80c818de1ec9f126"
+      },
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_long_name": "unknown",
+          "profile": "100",
+          "codec_type": "video",
+          "codec_tag_string": "avc1",
+          "codec_tag": "0x31637661",
+          "width": 1280,
+          "height": 720,
+          "coded_width": 1280,
+          "coded_height": 720,
+          "closed_captions": 0,
+          "film_grain": 0,
+          "has_b_frames": 2,
+          "sample_aspect_ratio": "1:1",
+          "display_aspect_ratio": "16:9",
+          "pix_fmt": "yuv420p",
+          "level": 31,
+          "chroma_location": "left",
+          "field_order": "progressive",
+          "refs": 1,
+          "is_avc": "true",
+          "nal_length_size": "4",
+          "id": "0x1",
+          "r_frame_rate": "24/1",
+          "avg_frame_rate": "24/1",
+          "time_base": "1/12288",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 368640,
+          "duration": "30.000000",
+          "bit_rate": "7958",
+          "bits_per_raw_sample": "8",
+          "nb_frames": "720",
+          "extradata_size": 47,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "vendor_id": "[0][0][0][0]",
+            "encoder": "Lavc61.19.100 libx264"
+          }
+        },
+        {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "unknown",
+          "profile": "1",
+          "codec_type": "audio",
+          "codec_tag_string": "mp4a",
+          "codec_tag": "0x6134706d",
+          "sample_fmt": "fltp",
+          "sample_rate": "24000",
+          "channels": 1,
+          "channel_layout": "mono",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "id": "0x2",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/24000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 720000,
+          "duration": "30.000000",
+          "bit_rate": "7861",
+          "nb_frames": "705",
+          "extradata_size": 5,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler",
+            "vendor_id": "[0][0][0][0]"
+          }
+        },
+        {
+          "index": 2,
+          "codec_name": "mov_text",
+          "codec_long_name": "unknown",
+          "codec_type": "subtitle",
+          "codec_tag_string": "tx3g",
+          "codec_tag": "0x67337874",
+          "id": "0x3",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/1000000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 30000000,
+          "duration": "30.000000",
+          "bit_rate": "110",
+          "nb_frames": "6",
+          "extradata_size": 68,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "jpn",
+            "handler_name": "SubtitleHandler"
+          }
+        }
+      ],
+      "subtitleStreams": 1,
+      "videoDuration": 30,
+      "audioDuration": 30,
+      "containerDuration": 30,
+      "videoFrames": 720,
+      "decodedAudioDuration": 30.037333333333333,
+      "audio": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "samples": 720896,
+        "peak": 5246,
+        "rms": 692.8981991863211,
+        "nonzeroSamples": 66675
+      }
+    }
+  },
+  {
+    "scenario": "truncated",
+    "id": "surname-illustration-demo-b3879b34",
+    "jobStatus": "failed",
+    "events": [
+      "lint-checked",
+      "audio-ready"
+    ],
+    "error": "Error: Remotion媒体検査に失敗: Error: inspector failed: [h264 @ 0x13ae2e4f0] Invalid NAL unit size (33 > 18).\n[h264 @ 0x13ae2e4f0] missing picture in access unit with size 22\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] corrupt input packet in stream 0\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] Task finished with error code: -1094995529 (Invalid data found when processing input)\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] Terminating thread with return code -1094995529 (Invalid data found when processing input)\n",
+    "media": {
+      "status": "failed",
+      "fullDecode": "failed",
+      "expectedDuration": 30,
+      "expectedFrames": 720,
+      "expected": {
+        "duration": 30,
+        "fps": 24,
+        "width": 1280,
+        "height": 720,
+        "subtitles": "both"
+      },
+      "subtitles": "both",
+      "narration": false,
+      "renderer": "Remotion + FFmpeg H264/AAC",
+      "tolerances": {
+        "durationSeconds": 0.1
+      },
+      "commands": [
+        {
+          "executable": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-b3879b34/sample.mp4"
+          ],
+          "env": {
+            "DYLD_LIBRARY_PATH": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "stdout": "{\n    \"streams\": [\n        {\n            \"index\": 0,\n            \"codec_name\": \"h264\",\n            \"codec_long_name\": \"unknown\",\n            \"profile\": \"100\",\n            \"codec_type\": \"video\",\n            \"codec_tag_string\": \"avc1\",\n            \"codec_tag\": \"0x31637661\",\n            \"width\": 1280,\n            \"height\": 720,\n            \"coded_width\": 1280,\n            \"coded_height\": 720,\n            \"closed_captions\": 0,\n            \"film_grain\": 0,\n            \"has_b_frames\": 2,\n            \"sample_aspect_ratio\": \"1:1\",\n            \"display_aspect_ratio\": \"16:9\",\n            \"pix_fmt\": \"yuv420p\",\n            \"level\": 31,\n            \"chroma_location\": \"left\",\n            \"field_order\": \"progressive\",\n            \"refs\": 1,\n            \"is_avc\": \"true\",\n            \"nal_length_size\": \"4\",\n            \"id\": \"0x1\",\n            \"r_frame_rate\": \"24/1\",\n            \"avg_frame_rate\": \"24/1\",\n            \"time_base\": \"1/12288\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 368640,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"7958\",\n            \"bits_per_raw_sample\": \"8\",\n            \"nb_frames\": \"720\",\n            \"extradata_size\": 47,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"und\",\n                \"handler_name\": \"VideoHandler\",\n                \"vendor_id\": \"[0][0][0][0]\",\n                \"encoder\": \"Lavc61.19.100 libx264\"\n            }\n        },\n        {\n            \"index\": 1,\n            \"codec_name\": \"aac\",\n            \"codec_long_name\": \"unknown\",\n            \"profile\": \"1\",\n            \"codec_type\": \"audio\",\n            \"codec_tag_string\": \"mp4a\",\n            \"codec_tag\": \"0x6134706d\",\n            \"sample_fmt\": \"fltp\",\n            \"sample_rate\": \"24000\",\n            \"channels\": 1,\n            \"channel_layout\": \"mono\",\n            \"bits_per_sample\": 0,\n            \"initial_padding\": 0,\n            \"id\": \"0x2\",\n            \"r_frame_rate\": \"0/0\",\n            \"avg_frame_rate\": \"0/0\",\n            \"time_base\": \"1/24000\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 720000,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"7861\",\n            \"nb_frames\": \"705\",\n            \"extradata_size\": 5,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"und\",\n                \"handler_name\": \"SoundHandler\",\n                \"vendor_id\": \"[0][0][0][0]\"\n            }\n        },\n        {\n            \"index\": 2,\n            \"codec_name\": \"mov_text\",\n            \"codec_long_name\": \"unknown\",\n            \"codec_type\": \"subtitle\",\n            \"codec_tag_string\": \"tx3g\",\n            \"codec_tag\": \"0x67337874\",\n            \"id\": \"0x3\",\n            \"r_frame_rate\": \"0/0\",\n            \"avg_frame_rate\": \"0/0\",\n            \"time_base\": \"1/1000000\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 30000000,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"110\",\n            \"nb_frames\": \"6\",\n            \"extradata_size\": 68,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"jpn\",\n                \"handler_name\": \"SubtitleHandler\"\n            }\n        }\n    ],\n    \"format\": {\n        \"filename\": \"/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-b3879b34/sample.mp4\",\n        \"nb_streams\": 3,\n        \"nb_programs\": 0,\n        \"nb_stream_groups\": 0,\n        \"format_name\": \"mov,mp4,m4a,3gp,3g2,mj2\",\n        \"start_time\": \"0.000000\",\n        \"duration\": \"30.000000\",\n        \"size\": \"55465\",\n        \"bit_rate\": \"14790\",\n        \"probe_score\": 100,\n        \"tags\": {\n            \"major_brand\": \"isom\",\n            \"minor_version\": \"512\",\n            \"compatible_brands\": \"isomiso2avc1mp41\",\n            \"encoder\": \"Lavf61.7.100\"\n        }\n    }\n}\n",
+          "stderr": ""
+        },
+        {
+          "executable": "/private/tmp/T156-render-eoykiwq4/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-err_detect",
+            "explode",
+            "-i",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-b3879b34/sample.mp4",
+            "-map",
+            "0:v:0",
+            "-map",
+            "0:a:0",
+            "-fps_mode",
+            "passthrough",
+            "-progress",
+            "pipe:1",
+            "-nostats",
+            "-f",
+            "null",
+            "-"
+          ],
+          "env": {},
+          "exitCode": 183,
+          "signal": null,
+          "stdout": "frame=334\nfps=0.00\nstream_0_0_q=-0.0\nbitrate=N/A\ntotal_size=N/A\nout_time_us=13866667\nout_time_ms=13866667\nout_time=00:00:13.866667\ndup_frames=0\ndrop_frames=0\nspeed= 545x\nprogress=end\n",
+          "stderr": "[h264 @ 0x13ae2e4f0] Invalid NAL unit size (33 > 18).\n[h264 @ 0x13ae2e4f0] missing picture in access unit with size 22\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] corrupt input packet in stream 0\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] Task finished with error code: -1094995529 (Invalid data found when processing input)\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] Terminating thread with return code -1094995529 (Invalid data found when processing input)\n"
+        }
+      ],
+      "unmeasured": [
+        "LUFS / true peak",
+        "場面ごとの確認音・自然音声品質",
+        "PSNR（native固有）",
+        "字幕表示内容・時刻"
+      ],
+      "artifact": {
+        "sha256": "84f8ea13b21c74a4ea9d483a76fc56d1470997128458328ca162430c5c1103ea"
+      },
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_long_name": "unknown",
+          "profile": "100",
+          "codec_type": "video",
+          "codec_tag_string": "avc1",
+          "codec_tag": "0x31637661",
+          "width": 1280,
+          "height": 720,
+          "coded_width": 1280,
+          "coded_height": 720,
+          "closed_captions": 0,
+          "film_grain": 0,
+          "has_b_frames": 2,
+          "sample_aspect_ratio": "1:1",
+          "display_aspect_ratio": "16:9",
+          "pix_fmt": "yuv420p",
+          "level": 31,
+          "chroma_location": "left",
+          "field_order": "progressive",
+          "refs": 1,
+          "is_avc": "true",
+          "nal_length_size": "4",
+          "id": "0x1",
+          "r_frame_rate": "24/1",
+          "avg_frame_rate": "24/1",
+          "time_base": "1/12288",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 368640,
+          "duration": "30.000000",
+          "bit_rate": "7958",
+          "bits_per_raw_sample": "8",
+          "nb_frames": "720",
+          "extradata_size": 47,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "vendor_id": "[0][0][0][0]",
+            "encoder": "Lavc61.19.100 libx264"
+          }
+        },
+        {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "unknown",
+          "profile": "1",
+          "codec_type": "audio",
+          "codec_tag_string": "mp4a",
+          "codec_tag": "0x6134706d",
+          "sample_fmt": "fltp",
+          "sample_rate": "24000",
+          "channels": 1,
+          "channel_layout": "mono",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "id": "0x2",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/24000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 720000,
+          "duration": "30.000000",
+          "bit_rate": "7861",
+          "nb_frames": "705",
+          "extradata_size": 5,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler",
+            "vendor_id": "[0][0][0][0]"
+          }
+        },
+        {
+          "index": 2,
+          "codec_name": "mov_text",
+          "codec_long_name": "unknown",
+          "codec_type": "subtitle",
+          "codec_tag_string": "tx3g",
+          "codec_tag": "0x67337874",
+          "id": "0x3",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/1000000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 30000000,
+          "duration": "30.000000",
+          "bit_rate": "110",
+          "nb_frames": "6",
+          "extradata_size": 68,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "jpn",
+            "handler_name": "SubtitleHandler"
+          }
+        }
+      ],
+      "subtitleStreams": 1,
+      "videoDuration": 30,
+      "audioDuration": 30,
+      "containerDuration": 30,
+      "error": "Error: inspector failed: [h264 @ 0x13ae2e4f0] Invalid NAL unit size (33 > 18).\n[h264 @ 0x13ae2e4f0] missing picture in access unit with size 22\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] corrupt input packet in stream 0\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] Task finished with error code: -1094995529 (Invalid data found when processing input)\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x13ae1a5f0] Terminating thread with return code -1094995529 (Invalid data found when processing input)\n"
+    }
+  },
+  {
+    "scenario": "duration",
+    "id": "surname-illustration-demo-5e322c85",
+    "jobStatus": "failed",
+    "events": [
+      "lint-checked",
+      "audio-ready"
+    ],
+    "error": "Error: Remotion媒体検査に失敗: Error: video duration不一致: 29.083333 / 30",
+    "media": {
+      "status": "failed",
+      "fullDecode": "not_run",
+      "expectedDuration": 30,
+      "expectedFrames": 720,
+      "expected": {
+        "duration": 30,
+        "fps": 24,
+        "width": 1280,
+        "height": 720,
+        "subtitles": "both"
+      },
+      "subtitles": "both",
+      "narration": false,
+      "renderer": "Remotion + FFmpeg H264/AAC",
+      "tolerances": {
+        "durationSeconds": 0.1
+      },
+      "commands": [
+        {
+          "executable": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-5e322c85/sample.mp4"
+          ],
+          "env": {
+            "DYLD_LIBRARY_PATH": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "stdout": "{\n    \"streams\": [\n        {\n            \"index\": 0,\n            \"codec_name\": \"h264\",\n            \"codec_long_name\": \"unknown\",\n            \"profile\": \"100\",\n            \"codec_type\": \"video\",\n            \"codec_tag_string\": \"avc1\",\n            \"codec_tag\": \"0x31637661\",\n            \"width\": 1280,\n            \"height\": 720,\n            \"coded_width\": 1280,\n            \"coded_height\": 720,\n            \"closed_captions\": 0,\n            \"film_grain\": 0,\n            \"has_b_frames\": 2,\n            \"sample_aspect_ratio\": \"1:1\",\n            \"display_aspect_ratio\": \"16:9\",\n            \"pix_fmt\": \"yuv420p\",\n            \"level\": 31,\n            \"chroma_location\": \"left\",\n            \"field_order\": \"progressive\",\n            \"refs\": 1,\n            \"is_avc\": \"true\",\n            \"nal_length_size\": \"4\",\n            \"id\": \"0x1\",\n            \"r_frame_rate\": \"24/1\",\n            \"avg_frame_rate\": \"24/1\",\n            \"time_base\": \"1/12288\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 357376,\n            \"duration\": \"29.083333\",\n            \"bit_rate\": \"7970\",\n            \"bits_per_raw_sample\": \"8\",\n            \"nb_frames\": \"698\",\n            \"extradata_size\": 47,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"und\",\n                \"handler_name\": \"VideoHandler\",\n                \"vendor_id\": \"[0][0][0][0]\",\n                \"encoder\": \"Lavc61.19.100 libx264\"\n            }\n        },\n        {\n            \"index\": 1,\n            \"codec_name\": \"aac\",\n            \"codec_long_name\": \"unknown\",\n            \"profile\": \"1\",\n            \"codec_type\": \"audio\",\n            \"codec_tag_string\": \"mp4a\",\n            \"codec_tag\": \"0x6134706d\",\n            \"sample_fmt\": \"fltp\",\n            \"sample_rate\": \"24000\",\n            \"channels\": 1,\n            \"channel_layout\": \"mono\",\n            \"bits_per_sample\": 0,\n            \"initial_padding\": 0,\n            \"id\": \"0x2\",\n            \"r_frame_rate\": \"0/0\",\n            \"avg_frame_rate\": \"0/0\",\n            \"time_base\": \"1/24000\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 696000,\n            \"duration\": \"29.000000\",\n            \"bit_rate\": \"8105\",\n            \"nb_frames\": \"681\",\n            \"extradata_size\": 5,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"und\",\n                \"handler_name\": \"SoundHandler\",\n                \"vendor_id\": \"[0][0][0][0]\"\n            }\n        },\n        {\n            \"index\": 2,\n            \"codec_name\": \"mov_text\",\n            \"codec_long_name\": \"unknown\",\n            \"codec_type\": \"subtitle\",\n            \"codec_tag_string\": \"tx3g\",\n            \"codec_tag\": \"0x67337874\",\n            \"id\": \"0x3\",\n            \"r_frame_rate\": \"0/0\",\n            \"avg_frame_rate\": \"0/0\",\n            \"time_base\": \"1/1000000\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 30000000,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"110\",\n            \"nb_frames\": \"6\",\n            \"extradata_size\": 68,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"jpn\",\n                \"handler_name\": \"SubtitleHandler\"\n            }\n        }\n    ],\n    \"format\": {\n        \"filename\": \"/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-5e322c85/sample.mp4\",\n        \"nb_streams\": 3,\n        \"nb_programs\": 0,\n        \"nb_stream_groups\": 0,\n        \"format_name\": \"mov,mp4,m4a,3gp,3g2,mj2\",\n        \"start_time\": \"0.000000\",\n        \"duration\": \"30.000000\",\n        \"size\": \"77731\",\n        \"bit_rate\": \"20728\",\n        \"probe_score\": 100,\n        \"tags\": {\n            \"major_brand\": \"isom\",\n            \"minor_version\": \"512\",\n            \"compatible_brands\": \"isomiso2avc1mp41\",\n            \"encoder\": \"Lavf61.7.100\"\n        }\n    }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "unmeasured": [
+        "LUFS / true peak",
+        "場面ごとの確認音・自然音声品質",
+        "PSNR（native固有）",
+        "字幕表示内容・時刻"
+      ],
+      "artifact": {
+        "sha256": "d4dcccdf977e21692330207cd2c11f147344b81c16f66cc11fbe9644dd295664"
+      },
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_long_name": "unknown",
+          "profile": "100",
+          "codec_type": "video",
+          "codec_tag_string": "avc1",
+          "codec_tag": "0x31637661",
+          "width": 1280,
+          "height": 720,
+          "coded_width": 1280,
+          "coded_height": 720,
+          "closed_captions": 0,
+          "film_grain": 0,
+          "has_b_frames": 2,
+          "sample_aspect_ratio": "1:1",
+          "display_aspect_ratio": "16:9",
+          "pix_fmt": "yuv420p",
+          "level": 31,
+          "chroma_location": "left",
+          "field_order": "progressive",
+          "refs": 1,
+          "is_avc": "true",
+          "nal_length_size": "4",
+          "id": "0x1",
+          "r_frame_rate": "24/1",
+          "avg_frame_rate": "24/1",
+          "time_base": "1/12288",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 357376,
+          "duration": "29.083333",
+          "bit_rate": "7970",
+          "bits_per_raw_sample": "8",
+          "nb_frames": "698",
+          "extradata_size": 47,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "vendor_id": "[0][0][0][0]",
+            "encoder": "Lavc61.19.100 libx264"
+          }
+        },
+        {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "unknown",
+          "profile": "1",
+          "codec_type": "audio",
+          "codec_tag_string": "mp4a",
+          "codec_tag": "0x6134706d",
+          "sample_fmt": "fltp",
+          "sample_rate": "24000",
+          "channels": 1,
+          "channel_layout": "mono",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "id": "0x2",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/24000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 696000,
+          "duration": "29.000000",
+          "bit_rate": "8105",
+          "nb_frames": "681",
+          "extradata_size": 5,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler",
+            "vendor_id": "[0][0][0][0]"
+          }
+        },
+        {
+          "index": 2,
+          "codec_name": "mov_text",
+          "codec_long_name": "unknown",
+          "codec_type": "subtitle",
+          "codec_tag_string": "tx3g",
+          "codec_tag": "0x67337874",
+          "id": "0x3",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/1000000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 30000000,
+          "duration": "30.000000",
+          "bit_rate": "110",
+          "nb_frames": "6",
+          "extradata_size": 68,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "jpn",
+            "handler_name": "SubtitleHandler"
+          }
+        }
+      ],
+      "subtitleStreams": 1,
+      "videoDuration": 29.083333,
+      "audioDuration": 29,
+      "containerDuration": 30,
+      "error": "Error: video duration不一致: 29.083333 / 30"
+    }
+  },
+  {
+    "scenario": "no-audio",
+    "id": "surname-illustration-demo-c32bd4ca",
+    "jobStatus": "failed",
+    "events": [
+      "lint-checked",
+      "audio-ready"
+    ],
+    "error": "Error: Remotion媒体検査に失敗: Error: 必要な映像/音声streamがない、または複数",
+    "media": {
+      "status": "failed",
+      "fullDecode": "not_run",
+      "expectedDuration": 30,
+      "expectedFrames": 720,
+      "expected": {
+        "duration": 30,
+        "fps": 24,
+        "width": 1280,
+        "height": 720,
+        "subtitles": "both"
+      },
+      "subtitles": "both",
+      "narration": false,
+      "renderer": "Remotion + FFmpeg H264/AAC",
+      "tolerances": {
+        "durationSeconds": 0.1
+      },
+      "commands": [
+        {
+          "executable": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-c32bd4ca/sample.mp4"
+          ],
+          "env": {
+            "DYLD_LIBRARY_PATH": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "stdout": "{\n    \"streams\": [\n        {\n            \"index\": 0,\n            \"codec_name\": \"h264\",\n            \"codec_long_name\": \"unknown\",\n            \"profile\": \"100\",\n            \"codec_type\": \"video\",\n            \"codec_tag_string\": \"avc1\",\n            \"codec_tag\": \"0x31637661\",\n            \"width\": 1280,\n            \"height\": 720,\n            \"coded_width\": 1280,\n            \"coded_height\": 720,\n            \"closed_captions\": 0,\n            \"film_grain\": 0,\n            \"has_b_frames\": 2,\n            \"sample_aspect_ratio\": \"1:1\",\n            \"display_aspect_ratio\": \"16:9\",\n            \"pix_fmt\": \"yuv420p\",\n            \"level\": 31,\n            \"chroma_location\": \"left\",\n            \"field_order\": \"progressive\",\n            \"refs\": 1,\n            \"is_avc\": \"true\",\n            \"nal_length_size\": \"4\",\n            \"id\": \"0x1\",\n            \"r_frame_rate\": \"24/1\",\n            \"avg_frame_rate\": \"24/1\",\n            \"time_base\": \"1/12288\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 368640,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"7958\",\n            \"bits_per_raw_sample\": \"8\",\n            \"nb_frames\": \"720\",\n            \"extradata_size\": 47,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"und\",\n                \"handler_name\": \"VideoHandler\",\n                \"vendor_id\": \"[0][0][0][0]\",\n                \"encoder\": \"Lavc61.19.100 libx264\"\n            }\n        },\n        {\n            \"index\": 1,\n            \"codec_name\": \"mov_text\",\n            \"codec_long_name\": \"unknown\",\n            \"codec_type\": \"subtitle\",\n            \"codec_tag_string\": \"tx3g\",\n            \"codec_tag\": \"0x67337874\",\n            \"id\": \"0x2\",\n            \"r_frame_rate\": \"0/0\",\n            \"avg_frame_rate\": \"0/0\",\n            \"time_base\": \"1/1000000\",\n            \"start_pts\": 0,\n            \"start_time\": \"0.000000\",\n            \"duration_ts\": 30000000,\n            \"duration\": \"30.000000\",\n            \"bit_rate\": \"110\",\n            \"nb_frames\": \"6\",\n            \"extradata_size\": 68,\n            \"disposition\": {\n                \"default\": 1,\n                \"dub\": 0,\n                \"original\": 0,\n                \"comment\": 0,\n                \"lyrics\": 0,\n                \"karaoke\": 0,\n                \"forced\": 0,\n                \"hearing_impaired\": 0,\n                \"visual_impaired\": 0,\n                \"clean_effects\": 0,\n                \"attached_pic\": 0,\n                \"timed_thumbnails\": 0,\n                \"non_diegetic\": 0,\n                \"captions\": 0,\n                \"descriptions\": 0,\n                \"metadata\": 0,\n                \"dependent\": 0,\n                \"still_image\": 0,\n                \"multilayer\": 0\n            },\n            \"tags\": {\n                \"language\": \"jpn\",\n                \"handler_name\": \"SubtitleHandler\"\n            }\n        }\n    ],\n    \"format\": {\n        \"filename\": \"/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-c32bd4ca/sample.mp4\",\n        \"nb_streams\": 2,\n        \"nb_programs\": 0,\n        \"nb_stream_groups\": 0,\n        \"format_name\": \"mov,mp4,m4a,3gp,3g2,mj2\",\n        \"start_time\": \"0.000000\",\n        \"duration\": \"30.000000\",\n        \"size\": \"40334\",\n        \"bit_rate\": \"10755\",\n        \"probe_score\": 100,\n        \"tags\": {\n            \"major_brand\": \"isom\",\n            \"minor_version\": \"512\",\n            \"compatible_brands\": \"isomiso2avc1mp41\",\n            \"encoder\": \"Lavf61.7.100\"\n        }\n    }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "unmeasured": [
+        "LUFS / true peak",
+        "場面ごとの確認音・自然音声品質",
+        "PSNR（native固有）",
+        "字幕表示内容・時刻"
+      ],
+      "artifact": {
+        "sha256": "a166a386400ef08e989de302df418386d02898a8e7299ca0cb20b7b52d8ad336"
+      },
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_long_name": "unknown",
+          "profile": "100",
+          "codec_type": "video",
+          "codec_tag_string": "avc1",
+          "codec_tag": "0x31637661",
+          "width": 1280,
+          "height": 720,
+          "coded_width": 1280,
+          "coded_height": 720,
+          "closed_captions": 0,
+          "film_grain": 0,
+          "has_b_frames": 2,
+          "sample_aspect_ratio": "1:1",
+          "display_aspect_ratio": "16:9",
+          "pix_fmt": "yuv420p",
+          "level": 31,
+          "chroma_location": "left",
+          "field_order": "progressive",
+          "refs": 1,
+          "is_avc": "true",
+          "nal_length_size": "4",
+          "id": "0x1",
+          "r_frame_rate": "24/1",
+          "avg_frame_rate": "24/1",
+          "time_base": "1/12288",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 368640,
+          "duration": "30.000000",
+          "bit_rate": "7958",
+          "bits_per_raw_sample": "8",
+          "nb_frames": "720",
+          "extradata_size": 47,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "vendor_id": "[0][0][0][0]",
+            "encoder": "Lavc61.19.100 libx264"
+          }
+        },
+        {
+          "index": 1,
+          "codec_name": "mov_text",
+          "codec_long_name": "unknown",
+          "codec_type": "subtitle",
+          "codec_tag_string": "tx3g",
+          "codec_tag": "0x67337874",
+          "id": "0x2",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/1000000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 30000000,
+          "duration": "30.000000",
+          "bit_rate": "110",
+          "nb_frames": "6",
+          "extradata_size": 68,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "jpn",
+            "handler_name": "SubtitleHandler"
+          }
+        }
+      ],
+      "subtitleStreams": 1,
+      "error": "Error: 必要な映像/音声streamがない、または複数"
+    }
+  },
+  {
+    "scenario": "inspector-failure",
+    "id": "surname-illustration-demo-d652bd61",
+    "jobStatus": "failed",
+    "events": [
+      "lint-checked",
+      "audio-ready"
+    ],
+    "error": "Error: Remotion媒体検査に失敗: Error: inspector failed: Injected inspector failure",
+    "media": {
+      "status": "failed",
+      "fullDecode": "not_run",
+      "expectedDuration": 30,
+      "expectedFrames": 720,
+      "expected": {
+        "duration": 30,
+        "fps": 24,
+        "width": 1280,
+        "height": 720,
+        "subtitles": "both"
+      },
+      "subtitles": "both",
+      "narration": false,
+      "renderer": "Remotion + FFmpeg H264/AAC",
+      "tolerances": {
+        "durationSeconds": 0.1
+      },
+      "commands": [
+        {
+          "executable": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "/private/tmp/T156-render-eoykiwq4/outputs/surname-illustration-demo-d652bd61/sample.mp4"
+          ],
+          "env": {
+            "DYLD_LIBRARY_PATH": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/motion-lab/node_modules/.pnpm/@remotion+compositor-darwin-arm64@4.0.534/node_modules/@remotion/compositor-darwin-arm64"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "stdout": "",
+          "stderr": "Injected inspector failure"
+        }
+      ],
+      "unmeasured": [
+        "LUFS / true peak",
+        "場面ごとの確認音・自然音声品質",
+        "PSNR（native固有）",
+        "字幕表示内容・時刻"
+      ],
+      "artifact": {
+        "sha256": "76891ae6467cf5859e5e044d57634104f6c23499c4c45c4d80c818de1ec9f126"
+      },
+      "error": "Error: inspector failed: Injected inspector failure"
+    }
+  }
+]

@@ -1,0 +1,5 @@
+✔ script-drafting: SKILL.md exists and has valid front matter
+✔ script-drafting: draft-documentary-superstar.json has valid structure
+✔ script-drafting: injectReflection replaces placeholder and passes lint with 0 errors
+✔ script-drafting: works end-to-end with produce workflow
+ℹ tests 339 pass 339 fail 0

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 263,
+    "at": "2026-10-12T06:55:09.651Z",
+    "kind": "agy_child_session_bound",
+    "product": "antigravity",
+    "session_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+    "execution_id": "exe_0mv4w4tuebf27fdf5b311",
+    "detail": {
+      "parent": "e91bbbfa-2cbe-4b1d-aa85-bf720d12591d",
+      "via": "parent_transcript"
+    }
+  },
+  {
+    "id": 250,
+    "at": "2026-10-12T06:48:20.376Z",
+    "kind": "agy_payload_keys",
+    "product": "antigravity",
+    "session_id": "07a89336-a027-44d6-8e2e-6757f7ef2bb1",
+    "execution_id": null,
+    "detail": {
+      "event": "PreInvocation",
+      "keys": [
+        "artifactDirectoryPath",
+        "conversationId",
+        "initialNumSteps",
+        "invocationNum",
+        "modelName",
+        "transcriptPath",
+        "workspacePaths"
+      ],
+      "env_markers": [
+        "ANTIGRAVITY_CONVERSATION_ID"
+      ],
+      "env_conversation_is_self": true
+    }
+  }
+]

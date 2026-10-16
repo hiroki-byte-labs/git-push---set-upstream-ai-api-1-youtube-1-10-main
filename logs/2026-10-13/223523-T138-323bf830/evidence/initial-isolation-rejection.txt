@@ -1,0 +1,2 @@
+An isolated temporary directory outside the repository is required
+EXIT=1

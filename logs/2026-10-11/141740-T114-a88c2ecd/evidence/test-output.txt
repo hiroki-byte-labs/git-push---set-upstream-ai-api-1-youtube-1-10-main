@@ -1,0 +1,9 @@
+✔ animation_spec.json aligns with PrologueQuestion component implementation (0.448666ms)
+✔ Rendered MP4 file exists and has correct size (0.364459ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0

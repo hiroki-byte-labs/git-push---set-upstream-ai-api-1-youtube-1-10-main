@@ -1,0 +1,80 @@
+diff -ru a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-11 19:15:02
++++ b/orchestration/hooks/hook.ts	2026-10-11 19:16:57
+@@ -49,7 +49,8 @@
+  if(env.AGENTCTL_PARENT_SESSION&&env.AGENTCTL_PARENT_SESSION!==own)return env.AGENTCTL_PARENT_SESSION;
+  // 各製品がシェル実行に付ける環境変数（Codex: CODEX_THREAD_ID、Antigravity: ANTIGRAVITY_CONVERSATION_ID、Claude Code: CLAUDE_CODE_SESSION_ID）。
+  // 付与されるかは製品の版に依存し、実機で未確認のものがある（docs/agent-routing/verification-report.md）。
+- if(env.ANTIGRAVITY_CONVERSATION_ID&&!(n.product==='antigravity'&&env.ANTIGRAVITY_CONVERSATION_ID===n.session_id))return `antigravity:${env.ANTIGRAVITY_CONVERSATION_ID}`;
++ // Antigravity自身の会話（サブエージェントを含む）はこの値で判定しない。Antigravity内からのCLI直接起動はrun_commandの判定で拒否する（2026-10-12）。
++ if(n.product!=='antigravity'&&env.ANTIGRAVITY_CONVERSATION_ID)return `antigravity:${env.ANTIGRAVITY_CONVERSATION_ID}`;
+  if(n.product!=='codex'&&env.CODEX_THREAD_ID)return `codex:${env.CODEX_THREAD_ID}`;
+  if(env.CLAUDE_CODE_SESSION_ID&&!(n.product==='claude'&&env.CLAUDE_CODE_SESSION_ID===n.session_id)&&n.product!=='claude')return `claude:${env.CLAUDE_CODE_SESSION_ID}`;
+  return null;
+@@ -71,9 +72,16 @@
+   const parent=nestedMarker(n,env);
+   if(parent){managed=`REJECTED:未承認の入れ子実行（親 ${parent}）。agentctl run を使う`;logEvent(db,'nested_unmanaged_session',{parent},{product:n.product,session_id:n.session_id})}
+  }
+- if(n.product==='antigravity')logEvent(db,'agy_payload_keys',{event:n.event,keys:Object.keys(n.raw).sort(),env_markers:Object.keys(env).filter(k=>/^(ANTIGRAVITY_|AGENTCTL_)/.test(k)).sort()},{product:n.product,session_id:n.session_id});
+- db.prepare('INSERT INTO sessions(product,session_id,model_id,managed_execution_id,current_task_id,current_execution_id,transcript_path,transcript_offset,started_at,last_seen_at) VALUES(?,?,?,?,NULL,NULL,?,0,?,?) ON CONFLICT(product,session_id) DO NOTHING')
+-  .run(n.product,n.session_id,normalizeModel(n.product,n.model),managed,n.transcript_path,now(),now());
++ const envConv=env.ANTIGRAVITY_CONVERSATION_ID??null;
++ if(n.product==='antigravity')logEvent(db,'agy_payload_keys',{event:n.event,keys:Object.keys(n.raw).sort(),env_markers:Object.keys(env).filter(k=>/^(ANTIGRAVITY_|AGENTCTL_)/.test(k)).sort(),env_conversation_is_self:envConv===null?null:envConv===n.session_id},{product:n.product,session_id:n.session_id});
++ // 対話中のAntigravityのサブエージェント: 環境変数の会話IDが親の会話で、親に未着手の子があれば、その子として結び付ける。
++ let childExe:string|null=null;
++ if(n.product==='antigravity'&&!managed&&envConv&&envConv!==n.session_id){
++  const c=db.prepare("SELECT execution_id,task_id FROM executions WHERE session_product='antigravity' AND session_id=? AND route='native_subagent' AND status='approved' AND agent_id IS NULL ORDER BY updated_at LIMIT 1").get(envConv) as {execution_id:string;task_id:string}|undefined;
++  if(c){childExe=c.execution_id;db.prepare("UPDATE executions SET agent_id=?,status='running',start_time=?,updated_at=? WHERE execution_id=?").run(n.session_id,now(),now(),c.execution_id);logEvent(db,'agy_child_session_bound',{parent:envConv},{product:n.product,session_id:n.session_id,execution_id:c.execution_id})}
++ }
++ db.prepare('INSERT INTO sessions(product,session_id,model_id,managed_execution_id,current_task_id,current_execution_id,transcript_path,transcript_offset,started_at,last_seen_at) VALUES(?,?,?,?,?,?,?,0,?,?) ON CONFLICT(product,session_id) DO NOTHING')
++  .run(n.product,n.session_id,normalizeModel(n.product,n.model),managed,null,childExe,n.transcript_path,now(),now());
+  return session(db,n);
+ }
+ const rejected=(s:Session|null)=>!!s?.managed_execution_id?.startsWith('REJECTED:');
+@@ -225,7 +233,8 @@
+  if(n.product==='codex')return pass(n);
+  // 子単独の使用量を出さない製品は、取得不能を明示する（推測で補完しない）。
+  const cap=loadRegistry().providers[n.product]?.native_subagents;
+- if(cap?.child_usage==='unavailable')recordUnavailable(db,row.execution_id,n.product as Provider,null,`${n.product}のサブエージェントは子単独の使用量を出さない（models.json native_subagents.child_usage）`,'subscription');
++ const already=(db.prepare('SELECT COUNT(*) AS c FROM usage WHERE execution_id=?').get(row.execution_id) as {c:number}).c;
++ if(cap?.child_usage==='unavailable'&&!already)recordUnavailable(db,row.execution_id,n.product as Provider,null,`${n.product}のサブエージェントは子単独の使用量を出さない（models.json native_subagents.child_usage）`,'subscription');
+  else if(cap?.child_usage==='included_in_parent')db.prepare("UPDATE executions SET metering_status='included_in_parent' WHERE execution_id=?").run(row.execution_id);
+  const s=session(db,n);
+  const counted=(db.prepare('SELECT COUNT(*) AS c FROM usage WHERE execution_id=?').get(row.execution_id) as {c:number}).c;
+@@ -294,6 +303,8 @@
+    if(!ingestTranscript(db,n,path,target,'main')&&!(db.prepare('SELECT COUNT(*) AS c FROM usage WHERE execution_id=?').get(target) as {c:number}).c)recordUnavailable(db,target,'antigravity',s.model_id,'Antigravityの会話記録に使用量が見つからない','subscription')}}
+   else if(!(n.product==='claude'&&managedExe(s)))ingestTranscript(db,n,n.transcript_path,target,'main');
+   if(!managedExe(s))finishExecution(db,target,'completed');
++  if(n.product==='antigravity')db.prepare('DELETE FROM usage WHERE execution_id=? AND dedupe_key=? AND EXISTS (SELECT 1 FROM usage WHERE execution_id=? AND dedupe_key<>?)').run(target,`unavailable:${target}`,target,`unavailable:${target}`);
++  if(n.product==='antigravity')refreshMetering(db,target);
+   // Antigravityは発言ごとのHookがないため、実行ループの終了（Stop）で区切り、次のPreInvocationで新しいタスクにする。
+   if(n.product==='antigravity'&&!managedExe(s))db.prepare('UPDATE sessions SET current_execution_id=NULL,current_task_id=NULL WHERE product=? AND session_id=?').run(n.product,n.session_id);
+  }
+diff -ru a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-11 19:15:02
++++ b/orchestration/tests/hooks.test.ts	2026-10-11 19:17:17
+@@ -164,6 +164,24 @@
+  const done=one('SELECT status,metering_status FROM executions WHERE execution_id=?',c.execution_id);
+  assert.deepEqual([done.status,done.metering_status],['completed','unavailable'],'子単独の使用量は取れないことを明示');
+ });
++test('Antigravityの対話中のサブエージェント: 子の会話を親の未着手の子に結び付け、入れ子として止めず、子の会話記録から実測する', ()=>{
++ H('antigravity','PreInvocation',{conversationId:'agp',modelName:'gemini-3.8-flash-medium',invocationNum:1});
++ const ok=H('antigravity','PreToolUse',{conversationId:'agp',modelName:'gemini-3.8-flash-medium',toolCall:{name:'invoke_subagent',args:{Subagents:[{}],toolAction:'a',toolSummary:'s'}},stepIdx:4});
++ assert.equal(ok.decision,'allow');
++ const child=one("SELECT execution_id FROM executions WHERE session_id='agp' AND route='native_subagent'").execution_id;
++ const tr=join(dir,'agy-child.jsonl');writeJsonl(tr,[{step_index:0,type:'SYSTEM_MESSAGE'},{step_index:1,type:'PLANNER_RESPONSE',input_tokens:1000,cache_read_tokens:0,output_tokens:10}]);
++ const cenv={...env,ANTIGRAVITY_CONVERSATION_ID:'agp'};
++ const pre=H('antigravity','PreInvocation',{conversationId:'agc',modelName:'gemini-3.8-flash-medium',transcriptPath:tr,invocationNum:1},cenv);
++ assert.deepEqual(pre,{},'入れ子として止めない（停止や拒否の指示を返さない）');
++ assert.equal(one("SELECT agent_id FROM executions WHERE execution_id=?",child).agent_id,'agc');
++ assert.equal(one("SELECT COUNT(*) AS n FROM executions WHERE session_id='agc'").n,0,'子の会話で別の対話タスクを作らない');
++ H('antigravity','Stop',{conversationId:'agc',transcriptPath:tr,executionNum:1,fullyIdle:true},cenv);
++ H('antigravity','PostToolUse',{conversationId:'agp',toolCall:{name:'invoke_subagent',args:{}},stepIdx:4});
++ const c=one('SELECT status,metering_status FROM executions WHERE execution_id=?',child);
++ assert.deepEqual([c.status,c.metering_status],['completed','measured']);
++ assert.equal(one('SELECT SUM(total) AS t,COUNT(*) AS n FROM usage WHERE execution_id=?',child).t,1010);
++ assert.equal(JSON.parse(one("SELECT detail_json FROM events WHERE kind='agy_payload_keys' AND session_id='agc'").detail_json).env_conversation_is_self,false);
++});
+ test('Antigravity: 拒否しないコマンドは常に許可し、AI CLIの直接起動は拒否する', ()=>{
+  const run=(c:string)=>H('antigravity','PreToolUse',{conversationId:'allow-1',modelName:'gemini-3.8-flash-low',toolCall:{name:'run_command',args:{CommandLine:c}},stepIdx:1});
+  assert.deepEqual(run('ls -la'),{decision:'allow'});

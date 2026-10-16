@@ -1,0 +1,46 @@
+{
+  "schema": 2,
+  "id": "superstar-illustration-demo",
+  "title": "なぜ1位に注目が集まるのか？",
+  "version": 1,
+  "theme": "general",
+  "note": "T145の描画確認だけに使う短尺デモ。本人の考察・台本承認・自然なナレーションを含まず、本番用ではない。",
+  "promise": "人気と報酬が集中する仕組みを知る",
+  "intro": {"text": "実力差がわずかなのに人気と報酬が大きく離れるのはなぜか。ローゼンとアドラーの理論を手掛かりに、注目が集まる仕組みを見ていきます。", "sources": ["rosen-1981", "adler-1985"]},
+  "thumbnail": {"headline": "なぜ一人に？", "keyword": "注目", "scene": 1},
+  "sources": [
+    {"id": "rosen-1981", "title": "Sherwin Rosen (1981), The Economics of Superstars", "url": "https://www.jstor.org/stable/1803469", "accessedAt": "2026-10-12"},
+    {"id": "adler-1985", "title": "Moshe Adler (1985), Stardom and Talent", "url": "https://www.jstor.org/stable/1805626", "accessedAt": "2026-10-12"}
+  ],
+  "scenes": [
+    {
+      "title": "小さな差が注目を集める",
+      "narration": "実力の差が小さいのに、なぜ報酬は大きく違うのでしょう？",
+      "cues": [{"text": "実力の差が小さいのに、なぜ報酬は大きく違うのでしょう？", "seconds": 6}],
+      "diagram": {"type": "flow", "items": ["演じる人", "聴き手の注目", "広がる市場"], "illustration": "attention-concentration", "reveal": [0, 2, 4]},
+      "sources": ["rosen-1981"], "seconds": 6, "role": "hook", "chapter": "注目の集中"
+    },
+    {
+      "title": "人気はなぜ集まるのか",
+      "narration": "私たちは人気のある人を選びやすくなります。探す手間を減らせるためです。",
+      "cues": [{"text": "探す手間を減らすため、人気の人が選ばれやすくなります。", "seconds": 6}],
+      "diagram": {"type": "compare", "left": "2位", "right": "1位", "leftItems": ["実力は近い"], "rightItems": ["注目が集まる"], "illustration": "ranked-rewards", "reveal": [0, 3]},
+      "sources": ["adler-1985"], "seconds": 6, "role": "body", "chapter": "注目の集中"
+    },
+    {
+      "title": "一度の表現が広く届く",
+      "narration": "配信技術は、一度の表現を離れた場所の聴き手にも届けやすくします。",
+      "cues": [{"text": "一度の表現を、離れた聴き手にも届けやすくします。", "seconds": 6}],
+      "diagram": {"type": "flow", "items": ["一度の演奏", "配信で複製", "離れた聴き手"], "illustration": "digital-reach", "reveal": [0, 2, 4]},
+      "sources": ["rosen-1981"], "seconds": 6, "role": "example", "chapter": "広がる市場"
+    },
+    {
+      "title": "市場の広がりを見る",
+      "narration": "注目が集まる背景には、才能だけでなく市場規模もあります。なお、本動画は結果を保証するものではありません。",
+      "cues": [{"text": "注目の背景には、才能だけでなく市場規模もあります。", "seconds": 6}, {"text": "なお、本動画は結果を保証するものではありません。", "seconds": 6}],
+      "diagram": {"type": "flow", "items": ["才能", "注目", "市場規模"], "illustration": "attention-concentration", "reveal": [0, 4, 8]},
+      "sources": ["rosen-1981"], "seconds": 12, "role": "recap", "chapter": "広がる市場"
+    }
+  ],
+  "aiDisclosure": {"scopes": ["説明用の図形イラスト作成"], "supervisor": "制作監修者", "verified": ["使用した図形はコードから生成", "確認用デモであること"], "realisticSyntheticMedia": false}
+}

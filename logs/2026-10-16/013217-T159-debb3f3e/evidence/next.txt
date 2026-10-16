@@ -1,0 +1,12 @@
+COMMAND: ./scripts/run src/cli.ts next
+
+私が次に行う作業
+T133 公開データ収集用のGoogle Cloud/API認証を人が準備する
+T147 動画制作・公開で人が担う工程と自動化の境界を決める
+review: 
+
+AIエージェントが着手可能な作業
+T160 サムネイル観察台帳と生成briefの契約を定義する
+review: T134, T145, T150
+
+EXIT=0

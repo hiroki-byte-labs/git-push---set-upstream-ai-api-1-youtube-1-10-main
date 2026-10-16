@@ -1,0 +1,24 @@
+{
+  "observations": [
+    {
+      "tool": "mcp__cua_repl.js",
+      "code": "await cua.getState();",
+      "result": "Native app inventory includes Safari; browsers=[]",
+      "exitCode": null
+    },
+    {
+      "tool": "mcp__cua_repl.js",
+      "code": "let safari = await cua.getApp('com.apple.Safari');",
+      "result": "Computer Use was not approved to use Safari",
+      "exitCode": null
+    }
+  ],
+  "cliServe": {
+    "command": "NODE_BIN=/opt/homebrew/bin/node /private/tmp/T139-render-nti1mann/scripts/run src/cli.ts serve",
+    "exitCode": 1,
+    "reason": "listen EPERM 127.0.0.1:4173"
+  },
+  "actualVideoPlayback": false,
+  "speakerListening": false,
+  "reason": "Browser control denied and local serve unavailable; Remotion produced no MP4"
+}

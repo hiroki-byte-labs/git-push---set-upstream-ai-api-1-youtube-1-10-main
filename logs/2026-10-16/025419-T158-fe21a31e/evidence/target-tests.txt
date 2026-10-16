@@ -1,0 +1,12 @@
+✔ T158: 遷移途中のレコードはreadabilitySample=falseとなりコントラスト判定から除外され、除外理由が残る (0.788167ms)
+✔ T158: 完全表示中にコントラスト比4.5未満の文字があればreadability.ok=falseとなる (0.309959ms)
+✔ T158: SuperstarIllustrationのラベル描画は高コントラストな白文字とダーク縁取りを持つ (0.070125ms)
+✔ T158: 可読性検査または文字配置検査が不合格の場合、ジョブ完了・latest更新を阻止して安全停止する (0.4055ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 66.734708

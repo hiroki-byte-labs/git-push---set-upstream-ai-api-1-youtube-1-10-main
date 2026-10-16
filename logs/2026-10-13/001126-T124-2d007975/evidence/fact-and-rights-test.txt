@@ -1,0 +1,6 @@
+✔ fact-and-rights-check: SKILL.md exists and has valid front matter
+✔ fact-and-rights-check: validates valid superstar fixture
+✔ fact-and-rights-check: unverified claim escalates and marks ok as false
+✔ fact-and-rights-check: unknown or non-commercial asset escalates and marks ok as false
+✔ fact-and-rights-check: markdown report covers claims and assets
+ℹ tests 330 pass 330 fail 0

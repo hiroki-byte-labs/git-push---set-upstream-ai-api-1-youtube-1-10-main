@@ -70,3 +70,14 @@ ADR-020 / 2026-10-10 / T110: 参考動画の動きの解析・再現の検証環
 - 観測できない項目は断定しない: 確からしさ（measured/estimated/ambiguous/upper_bound/lower_bound/unknown）を全項目に付ける。再現では観測されたフレームだけ描き、観測できない区間をモデルの外挿で描かない。不確かさが1フレームを超えるモデル時刻は比較の判定にも使わない。いずれも1回目の比較で実際に起きた差異から決めた（T110の作業ログ）。
 - Chrome Headless Shell（Chromium 157）がこの端末（macOS 26）で描画開始前に停止したため、公式の代替であるChrome for Testingモードを使う（remotion.config.ts）。
 - Remotionは評価目的で導入した（無料ライセンスの対象）。従業員4人以上の営利組織が商用に使う場合はCompany Licenseが必要で、判断は本人（T111）。動画の取得機能は持たず、解析には利用許可の根拠（--rights）の記録を必須にする。
+
+ADR-021 / 2026-10-12 / T117: motion-lab描画エンジン（Remotion）と本体制作パイプラインの統合方式。
+- 現行Swift/AppKit描画（scripts/render.swift）とRemotion（React/Web標準）の比較評価:
+  - Swift/AppKit: macOS標準で外部DL不要だが、高度なベジェイージング、動的ライティング（スポットライト）、SVGアニメーション、Web標準エコシステムの活用が困難。
+  - Remotion: CSS/SVG/Spring/Bezier Easingが完全利用可能。T114で1920x1080 30fpsの媒体整合性（ffprobe）、T115で高FPSフレーム抽出、暗黒空間プリミティブの再利用性を実証済み。
+- 統合アーキテクチャ:
+  - 描画プロバイダー（VisualProvider）としてRemotionレンダラーを追加可能にし、既存パイプラインの破壊的変更を避けるため段階的に並行サポートする。
+  - 台本データ（src/plan.ts）からRemotion Composition Propsへの変換仕様（RemotionPlanProps）を定義し、シーン単位で宣言的に描画する。
+  - 共通プリミティブ（VoidBackground, Spotlight, ProgressiveBar, SilhouetteGroup, BurnInSubtitle, SVGピクトグラム集）を motion-lab/src/primitives/ に配置し、再利用性を担保。
+  - 既存の安全検査（lint.ts）、文字配置検査（layout.ts）、媒体検査（media.ts / ffprobe）は描画エンジン非依存の共通ゲートキーパーとして維持する。
+

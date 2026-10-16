@@ -1,0 +1,12 @@
+{
+  "name": "video-agent-orchestration",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test *.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": { "ajv": "8.20.0" }
+}

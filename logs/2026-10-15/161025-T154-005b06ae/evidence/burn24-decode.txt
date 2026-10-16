@@ -1,0 +1,4 @@
+COMMAND=["/private/tmp/T154-root-verify-k5s1XSxd/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1", "-hide_banner", "-nostdin", "-v", "error", "-xerror", "-err_detect", "explode", "-i", "/private/tmp/T154-root-verify-k5s1XSxd/outputs/subtitle-timing-demo-4192b71d/sample.mp4", "-map", "0:v:0", "-map", "0:a:0", "-f", "null", "-"]
+STDOUT=
+STDERR=
+EXIT=0

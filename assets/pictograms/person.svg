@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <!-- 頭部 -->
+  <circle cx="12" cy="5" r="3" />
+  <!-- 胴体と手足（ミニマルな角丸ピクトグラム） -->
+  <path d="M12 9c-3.5 0-6 1.8-6 4v7a1.5 1.5 0 0 0 3 0v-5h1v5a1.5 1.5 0 0 0 3 0v-5h1v5a1.5 1.5 0 0 0 3 0v-7c0-2.2-2.5-4-6-4z" />
+</svg>
