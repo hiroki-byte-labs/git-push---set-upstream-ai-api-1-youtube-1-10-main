@@ -1,0 +1,45 @@
+✔ サムネイル仕様（T073）: 3案、既定は題名とpromise、図解はhook以外の最初の場面 (1.574625ms)
+✔ サムネイルの文言検証と禁止表現（T073） (1.63625ms)
+✔ サムネイル検査（T073）: サイズ・はみ出し・コントラスト (1.049459ms)
+✔ サムネイル省略時: 題名「必ず儲かる」は構造検証を通るがlintでerror、描画仕様と同じ文言 (0.542709ms)
+✔ サムネイル: 補足の省略でpromiseが代替される場合も検査 (0.189875ms)
+✔ サムネイル: 明示した文言は代替より優先し、代替値は検査しない (0.149584ms)
+✔ サムネイル: 明示・部分指定・すべて省略の正常例はerrorなし、lintと描画の文言が一致 (0.570917ms)
+✔ PNGヘッダーの寸法読み取り（T165）: 正しい寸法と破損データを判定 (0.096208ms)
+✔ 厳格なサムネイル品質検査（T165）: 正常系・寸法違い・欠測/NaN・破損PNG・判定契約 (44.9915ms)
+✔ 縮小画像の文字領域コントラスト・エッジ維持率測定（T173）: 正常・低コントラスト・文字線消失 (8.270541ms)
+✔ 縮小表示品質検査ゲートとレポート追記（T173）: checkThumbnailQuality での検出と自動更新 (46.31075ms)
+✔ 厳格なサムネイル品質検査（T165追加修正）: swiftのok/issues、briefとの文言、原寸の復号、欠測 (48.545625ms)
+✖ 縮小表示品質検査（T173追加修正）: 縮小PNGの欠落と寸法違いを不合格にする (102.927291ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 334.354375
+
+✖ failing tests:
+
+test at tests/thumbnails.test.ts:262:1
+✖ 縮小表示品質検査（T173追加修正）: 縮小PNGの欠落と寸法違いを不合格にする (102.927291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'pass' !== 'fail'
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/thumbnails.test.ts:277:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'pass',
+    expected: 'fail',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+exit=1

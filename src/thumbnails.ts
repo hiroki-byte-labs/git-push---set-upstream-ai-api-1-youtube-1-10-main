@@ -361,7 +361,13 @@ export function checkThumbnails(dir: string): ThumbResult[] {
     const small320 = join(dir, file.replace(/\.png$/, '-320.png'));
     const candidateSmall = existsSync(small160) ? small160 : (existsSync(small320) ? small320 : null);
 
-    if (candidateSmall) {
+    // 縮小画像の寸法がファイル名の想定と違えば測定しない（原寸の取違えを縮小として合格させない。T173追加修正）。
+    for (const [path, w, h] of [[small160, 160, 90], [small320, 320, 180]] as const) {
+      if (!existsSync(path)) continue;
+      const dims = readPngDimensions(readFileSync(path));
+      if (!dims || dims.width !== w || dims.height !== h) issues.push(`縮小画像の寸法(${dims ? `${dims.width}x${dims.height}` : '不明'})が期待値(${w}x${h})と不一致: ${path.split('/').at(-1)}`);
+    }
+    if (candidateSmall && !issues.some(i => i.startsWith('縮小画像の寸法'))) {
       try {
         const sBuf = readFileSync(candidateSmall);
         scaledLegibility = measureScaledLegibility(sBuf, r.drawnBox, contrastNum);
@@ -443,6 +449,9 @@ export function checkThumbnailQuality(
 
     // 厳格な契約では描画側の合否と問題一覧の欠測を合格にしない（T165追加修正）。
     if (typeof raw.ok !== 'boolean' || !Array.isArray(raw.issues)) issues.push('描画レポートの合否（ok/issues）が欠落');
+    // 縮小画像（描画側のsips出力）の欠測で縮小視認性の測定を省略しない（T173追加修正）。
+    const missingSmall = ['-160.png', '-320.png'].filter(sfx => !existsSync(join(dir, r.file.replace(/\.png$/, sfx))));
+    if (missingSmall.length) issues.push(`縮小画像（${missingSmall.map(x => r.file.replace(/\.png$/, x)).join('、')}）がないため縮小視認性を測定できない`);
 
     if (existsSync(fullPath)) {
       const buf = readFileSync(fullPath);

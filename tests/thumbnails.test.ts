@@ -52,13 +52,17 @@ test('厳格なサムネイル品質検査（T165）: 正常系・寸法違い�
     const corruptPng = Buffer.from('corrupted');
 
     writeFileSync(join(d, 'thumbnail-a.png'), validPng);
+    // T173追加修正: 縮小画像（160x90/320x180）の欠測は不合格になるため、候補aには両方を置く
+    const text = (w: number, h: number) => createFullPng(w, h, (x, y) => (x >= 20 && x <= 80 && y >= 20 && y <= 40 && x % 6 < 3 ? [255, 255, 255, 255] : [10, 10, 12, 255]));
+    writeFileSync(join(d, 'thumbnail-a-160.png'), text(160, 90));
+    writeFileSync(join(d, 'thumbnail-a-320.png'), text(320, 180));
     writeFileSync(join(d, 'thumbnail-b.png'), wrongSizePng);
     writeFileSync(join(d, 'thumbnail-c.png'), corruptPng);
 
     // 1. 欠測・NaN・空レコードを含む異常レポート
     const brief = convertPlanThumbnailToBrief(v2());
     writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify([
-      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 9.5, headline: brief.candidates[0].headline, ok: true, issues: []},
+      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 9.5, drawnBox: {x: 80, y: 398, width: 504, height: 84}, headline: brief.candidates[0].headline, ok: true, issues: []},
       {file: 'thumbnail-b.png', variant: 'b', headlineSize: NaN, fitted: true, contrast: 7.0},
       {file: 'thumbnail-c.png', variant: 'c', headlineSize: 60, fitted: false, contrast: 3.2},
     ]));
@@ -185,9 +189,12 @@ test('縮小表示品質検査ゲートとレポート追記（T173）: checkThu
 
     writeFileSync(join(d, 'thumbnail-a.png'), validPng);
     writeFileSync(join(d, 'thumbnail-a-160.png'), good160);
+    // T173追加修正: 厳格な契約では320x180も必要（描画側は160/320の両方を出力する）
+    writeFileSync(join(d, 'thumbnail-a-320.png'), createFullPng(320, 180, () => [14, 20, 30, 255]));
 
     writeFileSync(join(d, 'thumbnail-b.png'), validPng);
     writeFileSync(join(d, 'thumbnail-b-160.png'), low160);
+    writeFileSync(join(d, 'thumbnail-b-320.png'), createFullPng(320, 180, () => [14, 20, 30, 255]));
 
     const reportData = [
       {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 18.0, drawnBox: {x: 80, y: 398, width: 504, height: 84}, headline: brief.candidates[0].headline, ok: true, issues: []},
@@ -253,6 +260,33 @@ test('厳格なサムネイル品質検査（T165追加修正）: swiftのok/iss
     const missing = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
     assert.equal(missing.canProceed, false);
     assert.ok(missing.candidates[0].issues.some(i => i.includes('欠落')), missing.candidates[0].issues.join());
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});
+
+// T173追加修正（T120再監査）: 縮小画像の欠測・寸法違いを合格にしない
+test('縮小表示品質検査（T173追加修正）: 縮小PNGの欠落と寸法違いを不合格にする', () => {
+  const d = mkdtempSync(join(tmpdir(), 'th-scaled-missing-'));
+  try {
+    const brief = convertPlanThumbnailToBrief(v2());
+    const full = createFullPng(1280, 720, () => [14, 20, 30, 255]);
+    const small = (w: number, h: number) => createFullPng(w, h, (x, y) => (x >= 20 && x <= 80 && y >= 20 && y <= 40 && x % 6 < 3 ? [255, 255, 255, 255] : [14, 20, 30, 255]));
+    for (const v of ['a', 'b', 'c']) writeFileSync(join(d, `thumbnail-${v}.png`), full);
+    // a: 縮小なし / b: 160の位置に原寸 / c: 正しい160と320
+    writeFileSync(join(d, 'thumbnail-b-160.png'), full);
+    writeFileSync(join(d, 'thumbnail-b-320.png'), small(320, 180));
+    writeFileSync(join(d, 'thumbnail-c-160.png'), small(160, 90));
+    writeFileSync(join(d, 'thumbnail-c-320.png'), small(320, 180));
+    const box = {x: 80, y: 398, width: 504, height: 84};
+    writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify(['a', 'b', 'c'].map((v, i) => ({file: `thumbnail-${v}.png`, variant: v, headlineSize: 80, fitted: true, contrast: 18, drawnBox: box, headline: brief.candidates[i].headline, ok: true, issues: []}))));
+    const res = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
+    assert.equal(res.candidates[0].status, 'fail');
+    assert.ok(res.candidates[0].issues.some(i => i.includes('縮小画像') && i.includes('ない')), res.candidates[0].issues.join());
+    assert.equal(res.canProceed, false);
+    assert.equal(res.candidates[1].status, 'fail');
+    assert.ok(res.candidates[1].issues.some(i => i.includes('寸法')), res.candidates[1].issues.join());
+    assert.equal(res.candidates[2].status, 'pass', res.candidates[2].issues.join());
   } finally {
     rmSync(d, {recursive: true, force: true});
   }
