@@ -5,3 +5,12 @@ cd "$(dirname "$0")/.."
 ./scripts/run src/cli.ts check
 ./scripts/run --test tests/*.test.ts
 if [ -f node_modules/typescript/bin/tsc ]; then ./scripts/run node_modules/typescript/bin/tsc --noEmit; else echo 'typecheck未実行: pnpm install --frozen-lockfile が必要' >&2; exit 1; fi
+# motion-lab（Remotion部品・Plan変換・焼き込み字幕）の試験と型検査（T013追加、2026-10-17）。
+# 依存が未導入なら黙って省略せず失敗する。意図して省く場合だけ VERIFY_SKIP_MOTION_LAB=1 を指定する。
+if [ "${VERIFY_SKIP_MOTION_LAB:-}" = 1 ]; then
+  echo 'motion-labの試験・型検査は VERIFY_SKIP_MOTION_LAB=1 により未実行' >&2
+elif [ -f motion-lab/node_modules/typescript/bin/tsc ]; then
+  (cd motion-lab && "${NODE_BIN:-node}" --test tests/*.test.ts && "${NODE_BIN:-node}" node_modules/typescript/bin/tsc -p tsconfig.json && "${NODE_BIN:-node}" node_modules/typescript/bin/tsc -p tsconfig.tools.json)
+else
+  echo 'motion-labの試験・型検査が未実行: cd motion-lab && pnpm install --frozen-lockfile が必要（意図して省く場合は VERIFY_SKIP_MOTION_LAB=1）' >&2; exit 1
+fi

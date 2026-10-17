@@ -1,0 +1,6 @@
+# motion-lab依存なしの分岐
+motion-labの試験・型検査が未実行: cd motion-lab && pnpm install --frozen-lockfile が必要（意図して省く場合は VERIFY_SKIP_MOTION_LAB=1）
+exit=1
+# VERIFY_SKIP_MOTION_LAB=1
+motion-labの試験・型検査は VERIFY_SKIP_MOTION_LAB=1 により未実行
+exit=0

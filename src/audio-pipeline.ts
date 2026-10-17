@@ -6,7 +6,7 @@
 import type {Plan} from './plan.ts';
 import {totalSeconds} from './plan.ts';
 import type {Connection, Usage, Attempt} from './connections.ts';
-import {callWithBudget, ConnError} from './connections.ts';
+import {callWithBudget} from './connections.ts';
 import {Budget} from './budget.ts';
 import type {NarrationMetadata} from './narration.ts';
 

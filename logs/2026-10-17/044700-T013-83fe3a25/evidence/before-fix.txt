@@ -1,0 +1,24 @@
+tsc-app exit=0
+../src/audio-pipeline.ts(9,25): error TS6133: 'ConnError' is declared but its value is never read.
+../src/orchestration-pipeline.ts(5,50): error TS6133: 'mkdirSync' is declared but its value is never read.
+../src/orchestration-pipeline.ts(8,14): error TS6196: 'Candidate' is declared but never used.
+../src/orchestration-pipeline.ts(8,25): error TS6196: 'Project' is declared but never used.
+../src/orchestration-pipeline.ts(8,41): error TS6196: 'ProjectState' is declared but never used.
+../src/orchestration-pipeline.ts(8,55): error TS6196: 'Selection' is declared but never used.
+../src/orchestration-pipeline.ts(8,66): error TS6196: 'Reflection' is declared but never used.
+../src/orchestration-pipeline.ts(8,78): error TS6196: 'ScriptVersion' is declared but never used.
+../src/orchestration-pipeline.ts(8,93): error TS6196: 'ScriptReview' is declared but never used.
+../src/orchestration-pipeline.ts(10,30): error TS6133: 'selectTopic' is declared but its value is never read.
+../src/orchestration-pipeline.ts(10,43): error TS6133: 'addReflection' is declared but its value is never read.
+../src/orchestration-pipeline.ts(10,58): error TS6133: 'attachScript' is declared but its value is never read.
+../src/orchestration-pipeline.ts(11,3): error TS6133: 'reviewScript' is declared but its value is never read.
+../src/orchestration-pipeline.ts(11,17): error TS6133: 'assertRenderable' is declared but its value is never read.
+../src/orchestration-pipeline.ts(11,35): error TS6133: 'linkRender' is declared but its value is never read.
+../src/orchestration-pipeline.ts(11,59): error TS6133: 'authorshipLabel' is declared but its value is never read.
+../src/orchestration-pipeline.ts(17,30): error TS6133: 'checkSubtitleSync' is declared but its value is never read.
+../src/orchestration-pipeline.ts(17,49): error TS6133: 'sliceScriptForNarration' is declared but its value is never read.
+../src/orchestration-pipeline.ts(18,25): error TS6133: 'approvalOf' is declared but its value is never read.
+../src/orchestration-pipeline.ts(18,37): error TS6133: 'recordReview' is declared but its value is never read.
+../src/orchestration-pipeline.ts(18,51): error TS6133: 'publishReadiness' is declared but its value is never read.
+../src/queue-adapter.ts(3,15): error TS6133: 'resolve' is declared but its value is never read.
+tsc-tools exit=2

@@ -1,4 +1,5 @@
 # 現在の再開地点（2026-10-10 UTC、T099で整理）
+2026-10-17 JST T013追加作業（Claude Code / claude-opus-5-5 runtime、logs/2026-10-17/044700-T013-83fe3a25）: verifyがmotion-labの試験33件・型検査を実行せず、motion-labの型検査は本体の未使用import 22件で失敗していた。未使用importを除き、verifyへmotion-labの試験と両tsconfigの型検査を追加（依存未導入は失敗、省略はVERIFY_SKIP_MOTION_LAB=1）。本体441・motion-lab33試験と型検査が成功。
 2026-10-17 JST T127追加修正（Claude Code / claude-opus-5-5 runtime、logs/2026-10-17/044509-T127-f99f8f9d）: 字幕同期検査がNaN・未測定の音声長を合格にし、長尺合成が非有限の音声長を合算していた問題を修正。回帰2件は修正前失敗→後合格、全441試験・型検査成功。同期・音量・無音検査をsay/voicevoxの制作経路へ接続する作業はT188（ready）へ切出し。次はverifyへのmotion-lab試験追加。
 2026-10-17 JST T158追加修正（Claude Code / claude-opus-5-5 runtime、logs/2026-10-17/044255-T158-755a3502）: checkReadabilityが空・判定用サンプルなし・測定値欠測の記録を合格にしていた問題を修正。回帰は修正前失敗→後合格、全439試験・型検査成功、隔離コピーのnative実生成も合格。T158はreviewのまま。次はT127（同期検査の非有限値）。
 2026-10-17 JST T104追加修正（Claude Code / claude-opus-5-5 runtime、logs/2026-10-17/044041-T104-54c4343a）: 本番の完成動画承認で確認者名の省略（既定名cli-user/local-user）を拒否し、AGENT_NAMEのagent/botを語頭・単語一致にしてMagenta等の人名の誤拒否を解消。回帰1件は修正前失敗→後合格、全438試験・型検査成功。次はT158（可読性の欠測）。

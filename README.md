@@ -18,7 +18,7 @@ PYTHON_BIN=/path/to/python3 ./scripts/setup-media
 ./scripts/run --test tests/*.test.ts
 ./scripts/run src/cli.ts tickets
 ./scripts/run src/cli.ts next
-./scripts/verify   # check・テスト・型検査を一括実行（コミット前）
+./scripts/verify   # check・テスト・型検査（motion-labの試験・型検査を含む）を一括実行（コミット前）
 ```
 
 10・15・20分のダミー台本による資源計測は [長尺ベンチマーク手順](docs/LONGFORM-BENCHMARK.md) を参照。実生成はリポジトリ外の隔離コピーで行い、子プロセスを含むRSSと完成MP4を検査します。`--dry-run` は推計だけで、実生成の合格を意味しません。

@@ -1,6 +1,6 @@
 // T172: sample/produce コマンドと LocalQueue のオプトイン接続アダプター
 import {existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync} from 'node:fs';
-import {join, resolve} from 'node:path';
+import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {LocalQueue} from './local-queue.ts';
 import type {QueueExecutor, StageContext, QueueJob, QueueState} from './local-queue.ts';

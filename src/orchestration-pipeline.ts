@@ -2,20 +2,17 @@
 // 題材候補 → 本人選択 → 本人考察 → エージェント台本案 → 事実・権利確認 → 本人承認 → 音声/映像制作 → 完成動画の本人承認
 // 段階状態、成果物契約、前段成果物検証、承認待ち安全停止、失敗/再実行追跡を管理する。
 
-import {existsSync, readFileSync, writeFileSync, mkdirSync} from 'node:fs';
+import {existsSync, readFileSync, writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
-import type {Candidate, Project, Stage, ProjectState, Selection, Reflection, ScriptVersion, ScriptReview} from './production.ts';
-import {
-  readProject, projectState, selectTopic, addReflection, attachScript,
-  reviewScript, assertRenderable, linkRender, readScript, authorshipLabel
-} from './production.ts';
+import type {Stage} from './production.ts';
+import {readProject, projectState, readScript} from './production.ts';
 import type {FactCheckReport} from './fact-check.ts';
 import {validateScriptFactCheck} from './script-fact-check.ts';
 import type {NarrationMetadata} from './narration.ts';
 import {validateNarrationMetadata} from './narration.ts';
-import {verifyNarrationLink, checkSubtitleSync, sliceScriptForNarration} from './audio-pipeline.ts';
-import {workflowStatus, approvalOf, recordReview, publishReadiness} from './review.ts';
+import {verifyNarrationLink} from './audio-pipeline.ts';
+import {workflowStatus} from './review.ts';
 import type {Usage, Attempt} from './connections.ts';
 
 const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
