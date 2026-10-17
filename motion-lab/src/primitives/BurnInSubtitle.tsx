@@ -51,9 +51,10 @@ export const BurnInSubtitle: React.FC<BurnInSubtitleProps> = ({
           fontFamily: '"Hiragino Sans", "Noto Sans JP", sans-serif',
           textAlign: 'center',
           lineHeight: 1.5,
-          whiteSpace: 'pre-line',
+          // T187: 改行は渡された文字列の改行（subtitleDisplayText）だけ。ブラウザーで折り返さず、
+          // 幅を超える行は親要素からはみ出して文字配置検査で失敗させる（黙って別の位置で折り返さない）。
+          whiteSpace: 'pre',
           maxWidth: '80%',
-          overflowWrap: 'anywhere',
           textShadow: '0 2px 6px rgba(0, 0, 0, 0.65)',
           letterSpacing: '0.04em',
         }}

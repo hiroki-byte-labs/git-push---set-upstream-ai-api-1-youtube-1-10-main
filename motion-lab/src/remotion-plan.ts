@@ -1,12 +1,15 @@
 // 台本データ（Plan）からRemotion用Propsへの変換と型定義（T117/ADR-021）
 import type {Plan, Scene, Cue, Diagram, Source, ProductionInfo} from '../../src/plan.ts';
 import type {SubtitleMode} from '../../src/media.ts';
+import {subtitleDisplayText} from '../../src/subtitle-optimizer.ts';
 
 export type RemotionSource = Source & {number: number};
 export type RemotionContext = Pick<ProductionInfo, 'mode'> & Partial<Pick<ProductionInfo, 'project'>>;
 
 export interface RemotionCueProps {
   text: string;
+  // T187: 焼き込み字幕の表示文字列（textに文節境界の改行を入れたもの）。native描画と同じsubtitleDisplayTextの結果。
+  display: string;
   startFrame: number;
   durationFrames: number;
 }
@@ -65,6 +68,7 @@ export function toRemotionPlanProps(plan: Plan, fps = 30, width = 1920, height =
       const endFrame = i === s.cues.length - 1 ? sceneEndFrame : Math.round(cueSeconds * fps);
       const cue: RemotionCueProps = {
         text: c.text,
+        display: subtitleDisplayText(c.text),
         startFrame,
         durationFrames: endFrame - startFrame,
       };

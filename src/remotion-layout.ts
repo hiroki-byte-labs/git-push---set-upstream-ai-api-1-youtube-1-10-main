@@ -2,6 +2,7 @@ import {readFileSync, writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {ffmpegPath, ff} from './media.ts';
+import {SUBTITLE_MAX_LINES} from './subtitle-optimizer.ts';
 import type {RemotionPlanProps} from '../motion-lab/src/remotion-plan.ts';
 
 type Rect = number[];
@@ -36,7 +37,7 @@ export function validateCoverage(props: RemotionPlanProps, samples: Sample[]) {
     if (!sample.records.some(r => r.zone === 'title' && r.text === s.title)) throw Error(`見出し測定欠落 scene=${s.index}`);
     const cue = s.cues.find(c => frame >= c.startFrame && frame < c.startFrame+c.durationFrames);
     const cueMidpoint = cue && frame === cue.startFrame + Math.floor(cue.durationFrames / 2);
-    if (props.subtitles !== 'soft' && cueMidpoint && cue && !sample.records.some(r => r.zone === 'subtitle' && r.text === cue.text)) throw Error(`cue測定欠落 frame=${frame}`);
+    if (props.subtitles !== 'soft' && cueMidpoint && cue && !sample.records.some(r => r.zone === 'subtitle' && r.text === cue.display)) throw Error(`cue測定欠落 frame=${frame}`);
     const sourceText = sample.records.filter(r=>r.zone === 'source').map(r=>r.text).join('');
     if (s.sourceReferences.some(r=>!sourceText.includes(`[${r.number}]`))) throw Error(`出典測定欠落 scene=${s.index}`);
     if (frame === s.startFrame+s.durationFrames-1) {
@@ -93,7 +94,8 @@ export function generateMeasuredReport(props: RemotionPlanProps, dir: string) {
       records.push({...rec, file, scene: sample.scene, frame: sample.frame, role: rec.zone, coordinateSystem: 'remotion-720-bottom-left',
         box: logical(rec.box), drawn: logical(rec.drawn), zoneBounds: logical(rec.box), parentBox: logical(rec.parentBox),
         pixelBounds: rec.drawn, size: rec.pixelSize/scale, contrast, measurement: 'DOM Range + text-hidden PNG minimum background contrast',
-        readabilitySample, exclusionReason, lines: rec.lines.map(logical), maxLines: rec.zone === 'subtitle' ? 2 : undefined});
+        readabilitySample, exclusionReason, lines: rec.lines.map(logical), maxLines: rec.zone === 'subtitle' ? SUBTITLE_MAX_LINES : undefined,
+        expectedLines: rec.zone === 'subtitle' ? rec.text.split('\n') : undefined});
     }
   }
   writeFileSync(join(dir,'render-report.json'),JSON.stringify(records,null,2));

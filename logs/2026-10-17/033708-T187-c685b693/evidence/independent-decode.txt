@@ -1,0 +1,24 @@
+== native-v2 bias-check-demo-06f43f6b sha256=1b90ce75b0adc153
+stream|codec_name=h264|codec_type=video|nb_read_frames=1152
+stream|codec_name=aac|codec_type=audio|nb_read_frames=1125
+stream|codec_name=mov_text|codec_type=subtitle|nb_read_frames=N/A
+format|duration=48.000000
+ffmpeg-full-decode(video+audio)-exit=0
+== remotion-v2 bias-check-demo-fff16695 sha256=8342341ea78aa900
+stream|codec_name=h264|codec_type=video|nb_read_frames=1152
+stream|codec_name=aac|codec_type=audio|nb_read_frames=1125
+stream|codec_name=mov_text|codec_type=subtitle|nb_read_frames=N/A
+format|duration=48.000000
+ffmpeg-full-decode(video+audio)-exit=0
+== native-stress layout-stress-8abae52c sha256=9d7dba904f87de26
+stream|codec_name=h264|codec_type=video|nb_read_frames=912
+stream|codec_name=aac|codec_type=audio|nb_read_frames=891
+stream|codec_name=mov_text|codec_type=subtitle|nb_read_frames=N/A
+format|duration=38.000000
+ffmpeg-full-decode(video+audio)-exit=0
+== remotion-stress layout-stress-ae77bfe7 sha256=f56cb0133e8f42c1
+stream|codec_name=h264|codec_type=video|nb_read_frames=912
+stream|codec_name=aac|codec_type=audio|nb_read_frames=891
+stream|codec_name=mov_text|codec_type=subtitle|nb_read_frames=N/A
+format|duration=38.000000
+ffmpeg-full-decode(video+audio)-exit=0

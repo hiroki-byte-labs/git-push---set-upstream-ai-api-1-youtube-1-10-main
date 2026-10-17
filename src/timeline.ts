@@ -2,6 +2,7 @@
 // 変わる時点で区間を切り、区間ごとに1枚の画像（scripts/render.swiftが描く）を割り当てる。
 import type {Plan, Diagram} from './plan.ts';
 import {thumbnailText, diagramSteps} from './plan.ts';
+import {subtitleDisplayText} from './subtitle-optimizer.ts';
 import {illustrationFrame, illustrationReveals, PERSON_CONTOURS} from './illustration.ts';
 import type {IllustrationFrame} from './illustration.ts';
 export {diagramSteps} from './plan.ts';
@@ -10,7 +11,8 @@ export const FPS = 24;
 // fade: 最新の段の不透明度（1=完全表示）。highlight: 最新の段を縁取りで強調中か（T079）。
 // motion（T106）: 動きのある段の進み具合（0〜1、1未満の区間だけ持つ）。1フレームずつの区間になる。
 export type Segment = {file: string; scene: number; step: number; cue: number; startFrame: number; frames: number; fade: number; highlight: boolean; motion?: number; illustration?:IllustrationFrame};
-export type RenderFrame = {file: string; scene: number; step: number; cue: number | null; fade?: number; highlight?: boolean; motion?: number; illustration?:IllustrationFrame};
+// subtitle（T187）: 焼き込み字幕の表示文字列。cueの本文に文節境界の改行を入れたもの。render.swiftはこの改行だけで行を分ける。
+export type RenderFrame = {file: string; scene: number; step: number; cue: number | null; subtitle?: string; fade?: number; highlight?: boolean; motion?: number; illustration?:IllustrationFrame};
 // フェードは2フレームずつ3段階（不透明度1/3、2/3→1）。強調は段の出現から1秒。
 export const FADE_STEPS = [1 / 3, 2 / 3];
 export const FADE_FRAMES_EACH = 2;
@@ -94,12 +96,13 @@ export function buildSegments(plan: Plan): Segment[] {
 export function buildRenderSpec(plan: Plan, segments: Segment[], subtitles: RenderSpec['subtitles'] = 'burn'): RenderSpec {
   const seen = new Set<string>();
   const frames: RenderFrame[] = [];
+  const burned = (scene: number, cue: number) => subtitles === 'burn' ? {subtitle: subtitleDisplayText(plan.scenes[scene].cues[cue].text)} : {};
   for (const g of segments) {
     if (seen.has(g.file)) continue;
     seen.add(g.file);
-    frames.push({file: g.file, scene: g.scene, step: g.step, cue: subtitles === 'burn' ? g.cue : null, fade: g.fade, highlight: g.highlight, ...(g.motion !== undefined ? {motion: g.motion} : {}), ...(g.illustration ? {illustration:g.illustration}: {})});
+    frames.push({file: g.file, scene: g.scene, step: g.step, cue: subtitles === 'burn' ? g.cue : null, ...burned(g.scene, g.cue), fade: g.fade, highlight: g.highlight, ...(g.motion !== undefined ? {motion: g.motion} : {}), ...(g.illustration ? {illustration:g.illustration}: {})});
   }
-  plan.scenes.forEach((s, i) => frames.push({file: `scene-${i + 1}.png`, scene: i, step: diagramSteps(s.diagram), cue: subtitles === 'burn' ? 0 : null, ...(s.diagram.illustration ? {illustration:illustrationFrame(s.diagram.illustration,s.seconds,illustrationReveals(s.diagram,s.seconds),s.seconds,false)}:{})}));
+  plan.scenes.forEach((s, i) => frames.push({file: `scene-${i + 1}.png`, scene: i, step: diagramSteps(s.diagram), cue: subtitles === 'burn' ? 0 : null, ...burned(i, 0), ...(s.diagram.illustration ? {illustration:illustrationFrame(s.diagram.illustration,s.seconds,illustrationReveals(s.diagram,s.seconds),s.seconds,false)}:{})}));
   return {fps: FPS, subtitles, frames, ...(plan.scenes.some(s=>s.diagram.illustration) ? {illustrationGlyph:PERSON_CONTOURS}:{})};
 }
 

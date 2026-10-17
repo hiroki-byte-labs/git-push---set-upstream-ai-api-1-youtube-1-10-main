@@ -19,12 +19,14 @@ struct IllustrationLine: Codable {let x1:CGFloat; let y1:CGFloat; let x2:CGFloat
 struct IllustrationHalo: Codable {let x:CGFloat; let y:CGFloat; let rx:CGFloat; let ry:CGFloat; let opacity:CGFloat}
 struct IllustrationLabel: Codable {let x:CGFloat; let y:CGFloat; let text:String; let opacity:CGFloat; let accent:Bool}
 struct IllustrationFrame: Codable {let opacity:CGFloat; let figures:[IllustrationFigure]; let lines:[IllustrationLine]; let halos:[IllustrationHalo]; let labels:[IllustrationLabel]}
-struct RenderFrame: Codable { let file:String; let scene:Int; let step:Int; let cue:Int?; let fade:Double?; let highlight:Bool?; let motion:Double?; let illustration:IllustrationFrame? }
+struct RenderFrame: Codable { let file:String; let scene:Int; let step:Int; let cue:Int?; let subtitle:String?; let fade:Double?; let highlight:Bool?; let motion:Double?; let illustration:IllustrationFrame? }
 struct ThumbSpec: Codable { let file:String; let variant:String; let headline:String; let sub:String; let scene:Int; let keyword:String?; let contrast:[String]? }
 struct ThumbRecord: Codable { let file:String; let variant:String; let headlineSize:Double; let fitted:Bool; let contrast:Double }
 struct RenderSpec: Codable { let fps:Int; let subtitles:String; let frames:[RenderFrame]; let thumbnails:[ThumbSpec]?; let scale:Double?; var illustrationGlyph:[[[CGFloat]]]? = nil }
 // box: 入れ物の枠、drawn: 実際に描いた文字の外接矩形（どちらも1280×720の論理座標、左下原点）。zone: 画面上の区画（重なりの検査に使う。src/layout.ts）。
-struct FitRecord: Codable { let file:String; let role:String; let text:String; let size:Double; let maxSize:Double; let fitted:Bool; let pixelSize:Double; let contrast:Double; let zone:String; let box:[Double]; let drawn:[Double]; let align:String }
+struct FitRecord: Codable { let file:String; let role:String; let text:String; let size:Double; let maxSize:Double; let fitted:Bool; let pixelSize:Double; let contrast:Double; let zone:String; let box:[Double]; let drawn:[Double]; let align:String
+ // T187: 字幕だけ。lines: 実際の行の外接矩形、lineTexts: 各行の文字、expectedLines: 渡した改行で分けた行（src/layout.tsが一致を検査）。
+ var lines:[[Double]]?=nil; var lineTexts:[String]?=nil; var expectedLines:[String]?=nil; var maxLines:Int?=nil }
 
 func fail(_ message:String)->Never { fputs(message+"\n",stderr);exit(1) }
 guard CommandLine.arguments.count==2 || (CommandLine.arguments.count==3 && CommandLine.arguments[2]=="--checklist") else { fail("usage: render <job-dir> [--checklist]") }
@@ -60,6 +62,19 @@ func measure(_ value:String,_ size:CGFloat,_ width:CGFloat,_ weight:NSFont.Weigh
  let r=(value as NSString).boundingRect(with:NSSize(width:width,height:10000),options:[.usesLineFragmentOrigin],attributes:attributes(size,.white,.left,weight))
  return NSSize(width:ceil(r.width),height:ceil(r.height))
 }
+// 描画と同じ属性・幅で組んだときの各行（外接矩形は上端原点、文字は改行を除く）。T187の字幕の行分割検査に使う。
+func lineFragments(_ value:String,_ size:CGFloat,_ width:CGFloat,_ attrs:[NSAttributedString.Key:Any])->[(NSRect,String)] {
+ let storage=NSTextStorage(string:value,attributes:attrs)
+ let container=NSTextContainer(size:NSSize(width:width,height:10000));container.lineFragmentPadding=0
+ let manager=NSLayoutManager();manager.addTextContainer(container);storage.addLayoutManager(manager)
+ manager.ensureLayout(for:container)
+ var out:[(NSRect,String)]=[]
+ manager.enumerateLineFragments(forGlyphRange:manager.glyphRange(for:container)){_,used,_,glyphs,_ in
+  let chars=manager.characterRange(forGlyphRange:glyphs,actualGlyphRange:nil)
+  out.append((used,(value as NSString).substring(with:chars).trimmingCharacters(in:.newlines)))
+ }
+ return out
+}
 enum VAlign { case center, top }
 // 入れ物の枠（box）に文字を収めて描く。収まらなければminScaleまで1ptずつ縮め、それでも超えれば不合格として記録する（T043の規則を維持）。
 // 上下は中央（既定）か上寄せ、左右は左・中央・右揃え。描いた外接矩形を記録し、枠からのはみ出しと中央からのずれを検査できるようにする。
@@ -79,8 +94,14 @@ func boxText(_ zone:String,_ role:String,_ value:String,_ box:NSRect,_ maxSize:C
   textAttributes[.shadow]=shadow
  }
  (value as NSString).draw(in:NSRect(x:box.minX,y:y-1,width:box.width,height:m.height+1),withAttributes:textAttributes)
- records.append(FitRecord(file:currentFile,role:role,text:value,size:Double(size),maxSize:Double(maxSize),fitted:fitted,pixelSize:Double(size*scale),contrast:contrast(c,bg),zone:zone,
-  box:[box.minX,box.minY,box.width,box.height].map{Double($0)},drawn:[x,y,tw,m.height].map{Double($0)},align: v == .top ? "top" : "center"))
+ var record=FitRecord(file:currentFile,role:role,text:value,size:Double(size),maxSize:Double(maxSize),fitted:fitted,pixelSize:Double(size*scale),contrast:contrast(c,bg),zone:zone,
+  box:[box.minX,box.minY,box.width,box.height].map{Double($0)},drawn:[x,y,tw,m.height].map{Double($0)},align: v == .top ? "top" : "center")
+ if zone=="subtitle" {
+  let frags=lineFragments(value,size,box.width,textAttributes)
+  record.lines=frags.map{[Double(box.minX+$0.0.minX),Double(y+m.height-$0.0.maxY),Double($0.0.width),Double($0.0.height)]}
+  record.lineTexts=frags.map{$0.1};record.expectedLines=value.components(separatedBy:"\n");record.maxLines=2
+ }
+ records.append(record)
  return size
 }
 // 札（架空の例・本人の考察など）。文字の幅に合わせた角丸の枠の中央に置く。右端から左へ並べ、次の右端を返す。
@@ -364,7 +385,9 @@ func frame(_ f:RenderFrame)->CGImage {
  if let illustration=f.illustration {drawIllustration(illustration)} else {drawDiagram(scene.diagram,f.step)}
  // 焼き込み字幕（T044、T106で既定、T144で本人希望の枠なしに統一）。図解・フッターと分離した区画に白文字と控えめな影で置く。
  if let cue=f.cue {
-  boxText("subtitle","字幕",scene.cues[cue].text,ZONE_SUB.insetBy(dx:25,dy:10),30,.white,align:.center,bg:dark0)
+  // T187: 表示文字列（subtitleDisplayTextで文節境界の改行を入れたもの）が必須。cue本文での自前折り返しには戻さない。
+  guard let text=f.subtitle, !text.isEmpty else { fail("render-spec.json: \(f.file) の字幕表示文字列（subtitle）がない（scene \(f.scene+1) cue \(cue+1)）") }
+  boxText("subtitle","字幕",text,ZONE_SUB.insetBy(dx:25,dy:10),30,.white,align:.center,bg:dark0)
  }
  muted.withAlphaComponent(0.6).setFill();NSRect(x:60,y:72,width:1160,height:2).fill()
  boxText("footer","フッター","音声：自作の確認音 / ナレーション未接続",NSRect(x:60,y:ZONE_FOOTER.minY,width:400,height:ZONE_FOOTER.height),17,muted,minScale:1)

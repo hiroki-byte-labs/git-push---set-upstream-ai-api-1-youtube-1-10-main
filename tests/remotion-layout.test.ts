@@ -49,7 +49,7 @@ test('coverage rejects a missing later cue, title and source sample in either re
       const s = props.scenes.find(s=>frame>=s.startFrame && frame<s.startFrame+s.durationFrames)!;
       const cue = s.cues.find(c=>frame>=c.startFrame && frame<c.startFrame+c.durationFrames)!;
       const r = {box:[0,0,1,1],drawn:[0,0,1,1],parentBox:[0,0,1,1],lines:[[0,0,1,1]],pixelSize:24,foreground:'rgb(255,255,255)',opacity:1,fontFamily:'sans-serif'};
-      return {frame,scene:s.index,width:props.width,height:h,records:[{...r,zone:'title',text:s.title},{...r,zone:'subtitle',text:cue.text},{...r,zone:'source',text:s.sourceReferences.map(r=>`[${r.number}]`).join('')},...diagramTexts(s).map(text=>({...r,zone:'diagram',text}))]};
+      return {frame,scene:s.index,width:props.width,height:h,records:[{...r,zone:'title',text:s.title},{...r,zone:'subtitle',text:cue.display},{...r,zone:'source',text:s.sourceReferences.map(r=>`[${r.number}]`).join('')},...diagramTexts(s).map(text=>({...r,zone:'diagram',text}))]};
     });
     assert.doesNotThrow(()=>validateCoverage(props,samples));
     for (const zone of ['subtitle','title','source','diagram']) {

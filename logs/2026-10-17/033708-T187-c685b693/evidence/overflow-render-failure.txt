@@ -1,0 +1,9 @@
+== native t187-overflow
+exit=1
+Error: 文字配置検査に不合格（安全停止）:
+ア」: 行数上限を超える
+== remotion t187-overflow
+exit=1
+Error: 文字配置検査に不合格（安全停止）:
+ア」: 行数上限を超える
+ア」: 行数上限を超える

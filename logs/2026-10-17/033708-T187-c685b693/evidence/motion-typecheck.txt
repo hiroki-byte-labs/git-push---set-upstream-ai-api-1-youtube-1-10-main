@@ -1,0 +1,10 @@
+# working tree
+tsconfig.json exit=0
+tsconfig.tools.json errors=22
+# HEAD d606eb0 (git archive)
+../src/subtitle-optimizer.ts(38,9): error TS6133: 'isKanji' is declared but its value is never read.
+../src/subtitle-optimizer.ts(39,9): error TS6133: 'isKatakana' is declared but its value is never read.
+../src/subtitle-optimizer.ts(40,9): error TS6133: 'isAlnum' is declared but its value is never read.
+../src/subtitle-optimizer.ts(41,9): error TS6133: 'isPunct' is declared but its value is never read.
+tsconfig.json exit=2
+tsconfig.tools.json errors=26

@@ -120,7 +120,7 @@ export const SceneTemplate: React.FC<SceneTemplateProps> = ({scene, fps, product
       {/* 5. 焼き込み字幕 */}
       {subtitles !== 'soft' && activeCue && (
         <BurnInSubtitle
-          text={activeCue.text}
+          text={activeCue.display}
           startFrame={activeCue.startFrame - scene.startFrame}
           durationInFrames={activeCue.durationFrames}
           transitions={scene.transitions}

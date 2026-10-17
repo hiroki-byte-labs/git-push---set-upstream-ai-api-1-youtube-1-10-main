@@ -1,0 +1,24 @@
+== native sample-v2
+Rendered 63 images
+
+生成完了: /private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/83cc0703-3651-4f6b-a2df-0f6da5c65736/scratchpad/iso/outputs/bias-check-demo-06f43f6b/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+exit=0
+== native layout-stress
+Rendered 50 images
+
+生成完了: /private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/83cc0703-3651-4f6b-a2df-0f6da5c65736/scratchpad/iso/outputs/layout-stress-8abae52c/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+exit=0
+== remotion sample-v2
+Rendered 0 images
+
+生成完了: /private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/83cc0703-3651-4f6b-a2df-0f6da5c65736/scratchpad/iso/outputs/bias-check-demo-fff16695/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+exit=0
+== remotion layout-stress
+Rendered 0 images
+
+生成完了: /private/tmp/claude-501/-Users-hongj-Documents-Codex-2026-10-08-ai-api-1-youtube-1-10/83cc0703-3651-4f6b-a2df-0f6da5c65736/scratchpad/iso/outputs/layout-stress-ae77bfe7/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+exit=0

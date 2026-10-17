@@ -35,10 +35,6 @@ export function tokenizeJapanesePhrases(text: string): TextChunk[] {
   if (!text) return [];
 
   const rawChars = [...text];
-  const isKanji = (c: string) => /[\u4e00-\u9fff\u3400-\u4dbf]/.test(c);
-  const isKatakana = (c: string) => /[\u30a0-\u30ffー]/.test(c);
-  const isAlnum = (c: string) => /[a-zA-Z0-9]/.test(c);
-  const isPunct = (c: string) => /[、，,。．.！？!?」』）)】\]…;；:：\s]/.test(c);
 
   const chunks: TextChunk[] = [];
   let startIndex = 0;
@@ -233,6 +229,9 @@ export function splitSmartCues(
 /**
  * 1行あたり maxLineLength（既定20字、15〜22字程度）に収まるよう、文節・助詞境界で自然に改行（\n）を入れる。
  * 単語の途中で泣き別れ（助詞の直前や熟語の途中での分断）を防ぐ。
+ * T187: 貪欲に詰めると「ふり返りや／すく」のように、tokenizeの助詞判定が語中のひらがなで切った境界で改行していた。
+ * 行数を最小にしたうえで、境界の質（句読点の後 < 次が漢字・カタカナ・英数字で始まる < 次がひらがなで始まる）と行の長さのそろい具合で選ぶ。
+ * cue分割（splitSmartCues）が使うtokenizeJapanesePhrasesは変えない。
  */
 export function optimizeSubtitleLines(text: string, maxLineLength = 20): string {
   if (!text || chars(text) <= maxLineLength) return text;
@@ -242,33 +241,67 @@ export function optimizeSubtitleLines(text: string, maxLineLength = 20): string 
     return text.split('\n').map(l => optimizeSubtitleLines(l, maxLineLength)).join('\n');
   }
 
-  const chunks = tokenizeJapanesePhrases(text);
+  const chunks = tokenizeJapanesePhrases(text).map(c => c.text);
   if (chunks.length <= 1) return text;
 
-  const lines: string[] = [];
-  let currentLine = '';
+  // 境界 i（chunks[i-1] と chunks[i] の間）の改行の悪さ。
+  const breakCost = (i: number) => {
+    const prev = [...chunks[i - 1]].at(-1)!, next = [...chunks[i]][0];
+    if (SENTENCE_END_PUNCTS.has(prev) || COMMA_PUNCTS.has(prev) || CLOSING_BRACKETS.has(prev)) return 0;
+    return /[\u3041-\u309f]/.test(next) ? 4 : 1;
+  };
+  const lengths = chunks.map(chars);
+  const span = (a: number, b: number) => lengths.slice(a, b).reduce((n, x) => n + x, 0);
+  // 1つの塊が上限を超える場合だけ、その塊単独の行は上限超えを許す（語の途中では切らない）。
+  const fits = (a: number, b: number) => b - a === 1 || span(a, b) <= maxLineLength;
 
-  for (let idx = 0; idx < chunks.length; idx++) {
-    const chunk = chunks[idx];
-    const candidate = currentLine + chunk.text;
-    const candLen = chars(candidate);
+  // 行数の最小値（上限内で詰めた場合の行数）。
+  let lines = 0;
+  for (let a = 0; a < chunks.length; lines++) {
+    let b = a + 1;
+    while (b < chunks.length && fits(a, b + 1)) b++;
+    a = b;
+  }
 
-    if (candLen <= maxLineLength) {
-      currentLine = candidate;
+  // 行数をその最小値に固定し、境界の悪さ＋行の長さの偏りが最小の分け方を選ぶ。
+  const total = chars(text), mean = total / lines;
+  const memo = new Map<string, {cost: number; cuts: number[]} | null>();
+  const best = (a: number, left: number): {cost: number; cuts: number[]} | null => {
+    const key = `${a},${left}`;
+    if (memo.has(key)) return memo.get(key)!;
+    let result: {cost: number; cuts: number[]} | null = null;
+    if (left === 1) {
+      if (fits(a, chunks.length)) result = {cost: (span(a, chunks.length) - mean) ** 2 / total / 2, cuts: []};
     } else {
-      if (currentLine) {
-        lines.push(currentLine);
-        currentLine = chunk.text;
-      } else {
-        lines.push(chunk.text);
-        currentLine = '';
+      for (let b = a + 1; b < chunks.length && fits(a, b); b++) {
+        const rest = best(b, left - 1);
+        if (!rest) continue;
+        const cost = breakCost(b) + (span(a, b) - mean) ** 2 / total / 2 + rest.cost;
+        if (!result || cost < result.cost) result = {cost, cuts: [b, ...rest.cuts]};
       }
     }
-  }
+    memo.set(key, result);
+    return result;
+  };
+  const cuts = best(0, lines)!.cuts;
+  return [0, ...cuts].map((a, i) => chunks.slice(a, i < cuts.length ? cuts[i] : chunks.length).join('')).join('\n');
+}
 
-  if (currentLine) {
-    lines.push(currentLine);
+// T187: 焼き込み字幕の表示用改行。native（scripts/render.swift）とRemotion（BurnInSubtitle）の両方がこの結果の改行だけで行を分ける。
+// 1行20字を優先し、2行に収まらないcueだけ1字ずつ広げる。上限36字は描画側の1行の容量（native 30pt×36=1080pt < 幅1140pt、
+// Remotion 34px×1.04×36≈1273px < 最大幅1536px）で、cue上限55字が文節境界で2行に入る余地を残す（T187以前は描画側が約38字で折り返していた）。
+// それでも3行以上なら、そのまま渡して文字配置検査（行数上限2）で失敗させる。1行が描画幅を超えた場合も行分割の不一致・はみ出しとして失敗する。
+// 台本・cue・VTTの本文には改行を入れない（VTTはプレーヤー側の折り返しに任せる）。cueに元からある改行はVTTと同じく行ごとにtrimして残す。
+export const SUBTITLE_LINE_CHARS = 20;
+export const SUBTITLE_MAX_LINE_CHARS = 36;
+export const SUBTITLE_MAX_LINES = 2;
+export function subtitleDisplayText(text: string): string {
+  const normalized = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).join('\n');
+  let first = '';
+  for (let n = SUBTITLE_LINE_CHARS; n <= SUBTITLE_MAX_LINE_CHARS; n++) {
+    const out = optimizeSubtitleLines(normalized, n);
+    if (out.split('\n').length <= SUBTITLE_MAX_LINES) return out;
+    first ||= out;
   }
-
-  return lines.join('\n');
+  return first;
 }

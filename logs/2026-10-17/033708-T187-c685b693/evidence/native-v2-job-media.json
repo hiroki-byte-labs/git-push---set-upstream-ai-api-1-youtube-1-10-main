@@ -1,0 +1,340 @@
+{
+ "job": {
+  "id": "bias-check-demo-06f43f6b",
+  "status": "completed",
+  "renderer": null,
+  "layout": {
+   "ok": true,
+   "checked": 708,
+   "issues": []
+  },
+  "readability": {
+   "ok": true,
+   "scale": 1,
+   "minFont720": 17,
+   "minContrast": 6.32,
+   "issues": []
+  }
+ },
+ "media": {
+  "expectedDuration": 48,
+  "expectedFrames": 1152,
+  "videoFrames": 1152,
+  "decodedAudioDuration": 48,
+  "fullDecode": "passed",
+  "subtitles": "both",
+  "subtitleStreams": 1,
+  "audioPeak": 5246,
+  "audioRms": 671.3658431451616,
+  "nonzeroSamples": 100150,
+  "cuePeaks": [
+   5242,
+   5243,
+   5243,
+   5245,
+   5246,
+   5241
+  ],
+  "framesExtracted": 6,
+  "psnr": {
+   "minDb": 39.553514,
+   "threshold": 30,
+   "checked": 57,
+   "segments": 57,
+   "samples": [
+    {
+     "file": "s1-st1-c1-f0-h.png",
+     "time": 0.041666666666666664,
+     "db": 41.162071
+    },
+    {
+     "file": "s1-st1-c1-f1-h.png",
+     "time": 0.125,
+     "db": 41.240255
+    },
+    {
+     "file": "s1-st1-c1-f2-h.png",
+     "time": 0.5833333333333334,
+     "db": 41.278562
+    },
+    {
+     "file": "s1-st2-c1-f0-h.png",
+     "time": 1.0416666666666667,
+     "db": 41.182904
+    },
+    {
+     "file": "s1-st2-c1-f1-h.png",
+     "time": 1.125,
+     "db": 40.988881
+    },
+    {
+     "file": "s1-st2-c1-f2-h.png",
+     "time": 1.5833333333333333,
+     "db": 41.133819
+    },
+    {
+     "file": "s1-st3-c1-f0-h.png",
+     "time": 2.0416666666666665,
+     "db": 40.98486
+    },
+    {
+     "file": "s1-st3-c1-f1-h.png",
+     "time": 2.125,
+     "db": 40.671388
+    },
+    {
+     "file": "s1-st3-c1-f2-h.png",
+     "time": 2.5833333333333335,
+     "db": 40.932264
+    },
+    {
+     "file": "s1-st3-c1.png",
+     "time": 3.5,
+     "db": 41.720509
+    },
+    {
+     "file": "s1-st3-c2.png",
+     "time": 6,
+     "db": 41.819102
+    },
+    {
+     "file": "s2-st1-c1-f0-h.png",
+     "time": 8.041666666666666,
+     "db": 40.675265
+    },
+    {
+     "file": "s2-st1-c1-f1-h.png",
+     "time": 8.125,
+     "db": 40.295778
+    },
+    {
+     "file": "s2-st1-c1-f2-h.png",
+     "time": 8.583333333333334,
+     "db": 40.383357
+    },
+    {
+     "file": "s2-st2-c1-f0-h.png",
+     "time": 9.041666666666666,
+     "db": 40.098983
+    },
+    {
+     "file": "s2-st2-c1-f1-h.png",
+     "time": 9.125,
+     "db": 39.553514
+    },
+    {
+     "file": "s2-st2-c1-f2-h.png",
+     "time": 9.583333333333334,
+     "db": 39.993168
+    },
+    {
+     "file": "s2-st2-c1.png",
+     "time": 11.25,
+     "db": 41.03407
+    },
+    {
+     "file": "s2-st2-c2.png",
+     "time": 14.25,
+     "db": 41.053539
+    },
+    {
+     "file": "s3-st1-c1-f0-h.png",
+     "time": 16.041666666666668,
+     "db": 41.040214
+    },
+    {
+     "file": "s3-st1-c1-f1-h.png",
+     "time": 16.125,
+     "db": 40.695685
+    },
+    {
+     "file": "s3-st1-c1-f2-h.png",
+     "time": 16.583333333333332,
+     "db": 40.832173
+    },
+    {
+     "file": "s3-st2-c1-f0-h.png",
+     "time": 17.041666666666668,
+     "db": 40.568023
+    },
+    {
+     "file": "s3-st2-c1-f1-h.png",
+     "time": 17.125,
+     "db": 40.327975
+    },
+    {
+     "file": "s3-st2-c1-f2-h.png",
+     "time": 17.583333333333332,
+     "db": 40.425059
+    },
+    {
+     "file": "s3-st2-c1.png",
+     "time": 19,
+     "db": 41.159059
+    },
+    {
+     "file": "s3-st2-c2.png",
+     "time": 22,
+     "db": 41.050319
+    },
+    {
+     "file": "s4-st1-c1-f0-h.png",
+     "time": 24.041666666666668,
+     "db": 40.804869
+    },
+    {
+     "file": "s4-st1-c1-f1-h.png",
+     "time": 24.125,
+     "db": 40.22301
+    },
+    {
+     "file": "s4-st1-c1-f2-h.png",
+     "time": 24.583333333333332,
+     "db": 40.668848
+    },
+    {
+     "file": "s4-st1-c1.png",
+     "time": 26.25,
+     "db": 41.975342
+    },
+    {
+     "file": "s4-st1-c2.png",
+     "time": 29.75,
+     "db": 41.869913
+    },
+    {
+     "file": "s5-st1-c1-f0-h.png",
+     "time": 32.041666666666664,
+     "db": 41.600949
+    },
+    {
+     "file": "s5-st1-c1-f1-h.png",
+     "time": 32.125,
+     "db": 41.461262
+    },
+    {
+     "file": "s5-st1-c1-f2-h.png",
+     "time": 32.458333333333336,
+     "db": 41.471357
+    },
+    {
+     "file": "s5-st2-c1-f0-h.png",
+     "time": 32.833333333333336,
+     "db": 41.337432
+    },
+    {
+     "file": "s5-st2-c1-f1-h.png",
+     "time": 32.916666666666664,
+     "db": 41.334116
+    },
+    {
+     "file": "s5-st2-c1-f2-h.png",
+     "time": 33.25,
+     "db": 41.285895
+    },
+    {
+     "file": "s5-st3-c1-f0-h.png",
+     "time": 33.625,
+     "db": 41.139852
+    },
+    {
+     "file": "s5-st3-c1-f1-h.png",
+     "time": 33.708333333333336,
+     "db": 41.030089
+    },
+    {
+     "file": "s5-st3-c1-f2-h.png",
+     "time": 34.083333333333336,
+     "db": 41.066977
+    },
+    {
+     "file": "s5-st4-c1-f0-h.png",
+     "time": 34.458333333333336,
+     "db": 40.951573
+    },
+    {
+     "file": "s5-st4-c1-f1-h.png",
+     "time": 34.541666666666664,
+     "db": 40.616578
+    },
+    {
+     "file": "s5-st4-c1-f2-h.png",
+     "time": 35,
+     "db": 40.906329
+    },
+    {
+     "file": "s5-st4-c1.png",
+     "time": 35.708333333333336,
+     "db": 41.463292
+    },
+    {
+     "file": "s5-st4-c2.png",
+     "time": 38,
+     "db": 41.438416
+    },
+    {
+     "file": "s6-st1-c1-f0-h.png",
+     "time": 40.041666666666664,
+     "db": 41.56306
+    },
+    {
+     "file": "s6-st1-c1-f1-h.png",
+     "time": 40.125,
+     "db": 41.537913
+    },
+    {
+     "file": "s6-st1-c1-f2-h.png",
+     "time": 40.583333333333336,
+     "db": 41.536954
+    },
+    {
+     "file": "s6-st2-c1-f0-h.png",
+     "time": 41.041666666666664,
+     "db": 41.39501
+    },
+    {
+     "file": "s6-st2-c1-f1-h.png",
+     "time": 41.125,
+     "db": 41.197899
+    },
+    {
+     "file": "s6-st2-c1-f2-h.png",
+     "time": 41.583333333333336,
+     "db": 41.380543
+    },
+    {
+     "file": "s6-st3-c1-f0-h.png",
+     "time": 42.041666666666664,
+     "db": 41.184515
+    },
+    {
+     "file": "s6-st3-c1-f1-h.png",
+     "time": 42.125,
+     "db": 40.655989
+    },
+    {
+     "file": "s6-st3-c1-f2-h.png",
+     "time": 42.583333333333336,
+     "db": 41.095499
+    },
+    {
+     "file": "s6-st3-c1.png",
+     "time": 43.25,
+     "db": 41.923134
+    },
+    {
+     "file": "s6-st3-c2.png",
+     "time": 45.75,
+     "db": 41.669695
+    }
+   ]
+  },
+  "loudness": {
+   "integratedLufs": -24.3,
+   "truePeakDbfs": -15.9,
+   "target": "未設定（ナレーション接続時に決める）"
+  },
+  "renderer": "AppKit + FFmpeg H264/AAC",
+  "narration": false
+ }
+}
