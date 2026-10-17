@@ -347,6 +347,10 @@ export function checkThumbnails(dir: string): ThumbResult[] {
       issues.push(`コントラスト比${r.contrast.toFixed(2)}が${MIN_CONTRAST}未満`);
     }
 
+    // 描画側（render-thumbnail.swift）が検出した衝突・補足のはみ出し・素材hash不一致などを落とさない（T165追加修正）。
+    if (Array.isArray(r?.issues)) for (const i of r.issues) if (typeof i === 'string' && i.trim()) issues.push(`描画: ${i}`);
+    if (r?.ok === false && !(Array.isArray(r?.issues) && r.issues.length)) issues.push('描画側の検査が不合格（理由の記録なし）');
+
     const contrastNum = (typeof r?.contrast === 'number' && Number.isFinite(r.contrast))
       ? Number(r.contrast.toFixed(2))
       : 0;
@@ -428,11 +432,17 @@ export function checkThumbnailQuality(
   }
 
   const candidateAssessments: CandidateAssessment[] = [];
+  let rawItems: any[] = [];
+  try {rawItems = JSON.parse(readFileSync(join(dir, 'thumbnails-report.json'), 'utf8'));} catch {/* checkThumbnailsで検出済み */}
 
   for (const r of results) {
     const issues = [...r.issues];
     const fullPath = join(dir, r.file);
     let dims: {width: number; height: number} | null = null;
+    const raw = rawItems.find(x => x?.file === r.file) ?? {};
+
+    // 厳格な契約では描画側の合否と問題一覧の欠測を合格にしない（T165追加修正）。
+    if (typeof raw.ok !== 'boolean' || !Array.isArray(raw.issues)) issues.push('描画レポートの合否（ok/issues）が欠落');
 
     if (existsSync(fullPath)) {
       const buf = readFileSync(fullPath);
@@ -441,6 +451,9 @@ export function checkThumbnailQuality(
         issues.push('破損したPNG画像または不正な画像形式');
       } else if (dims.width !== EXPECTED_WIDTH || dims.height !== EXPECTED_HEIGHT) {
         issues.push(`画像寸法(${dims.width}x${dims.height})が期待値(${EXPECTED_WIDTH}x${EXPECTED_HEIGHT})と不一致`);
+      } else if (!decodePngRgba(buf)) {
+        // ヘッダーだけ正しく画素データが壊れたPNGも拒否する（T165追加修正）。
+        issues.push('原寸PNGの画素データを復号できない（破損）');
       }
     }
 
@@ -449,8 +462,10 @@ export function checkThumbnailQuality(
       const candBrief = brief.candidates.find(c => c.id === r.variant);
       if (!candBrief) {
         issues.push(`briefに候補id「${r.variant}」が存在しません`);
-      } else if (candBrief.status === 'needs-review') {
-        issues.push(`briefの候補「${r.variant}」がneeds-reviewです（未確認事項あり）`);
+      } else {
+        if (candBrief.status === 'needs-review') issues.push(`briefの候補「${r.variant}」がneeds-reviewです（未確認事項あり）`);
+        // 描画した主見出しがbriefと一致すること（補足・ラベルは描画レポートに文字列がなく、描画側のissuesでだけ検査される）。
+        if (raw.headline !== candBrief.headline) issues.push(`描画した主見出しがbriefと不一致（描画: ${typeof raw.headline === 'string' ? raw.headline : '欠落'} / brief: ${candBrief.headline}）`);
       }
     }
 

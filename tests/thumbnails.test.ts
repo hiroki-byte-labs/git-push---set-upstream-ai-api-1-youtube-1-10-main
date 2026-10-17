@@ -46,7 +46,8 @@ test('PNGヘッダーの寸法読み取り（T165）: 正しい寸法と破損�
 test('厳格なサムネイル品質検査（T165）: 正常系・寸法違い・欠測/NaN・破損PNG・判定契約', () => {
   const d = mkdtempSync(join(tmpdir(), 'th-quality-'));
   try {
-    const validPng = createMockPng(1280, 720);
+    // T165追加修正: 原寸は画素まで復号できる実PNG、レポートは描画側のok/issuesと主見出しを持つことが合格の前提
+    const validPng = createFullPng(1280, 720, () => [10, 10, 12, 255]);
     const wrongSizePng = createMockPng(800, 600);
     const corruptPng = Buffer.from('corrupted');
 
@@ -55,13 +56,13 @@ test('厳格なサムネイル品質検査（T165）: 正常系・寸法違い�
     writeFileSync(join(d, 'thumbnail-c.png'), corruptPng);
 
     // 1. 欠測・NaN・空レコードを含む異常レポート
+    const brief = convertPlanThumbnailToBrief(v2());
     writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify([
-      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 9.5},
+      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 9.5, headline: brief.candidates[0].headline, ok: true, issues: []},
       {file: 'thumbnail-b.png', variant: 'b', headlineSize: NaN, fitted: true, contrast: 7.0},
       {file: 'thumbnail-c.png', variant: 'c', headlineSize: 60, fitted: false, contrast: 3.2},
     ]));
 
-    const brief = convertPlanThumbnailToBrief(v2());
     const res = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
 
     // 候補aは寸法1280x720、contrast9.5で合格
@@ -165,7 +166,8 @@ test('縮小画像の文字領域コントラスト・エッジ維持率測定�
 test('縮小表示品質検査ゲートとレポート追記（T173）: checkThumbnailQuality での検出と自動更新', () => {
   const d = mkdtempSync(join(tmpdir(), 'th-scaled-'));
   try {
-    const validPng = createMockPng(1280, 720);
+    const validPng = createFullPng(1280, 720, () => [14, 20, 30, 255]);
+    const brief = convertPlanThumbnailToBrief(v2());
     // 正常な160x90縮小画像
     const good160 = createFullPng(160, 90, (x, y) => {
       if (x >= 20 && x <= 80 && y >= 20 && y <= 40 && (x % 6 < 3)) {
@@ -188,12 +190,11 @@ test('縮小表示品質検査ゲートとレポート追記（T173）: checkThu
     writeFileSync(join(d, 'thumbnail-b-160.png'), low160);
 
     const reportData = [
-      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 18.0, drawnBox: {x: 80, y: 398, width: 504, height: 84}},
-      {file: 'thumbnail-b.png', variant: 'b', headlineSize: 80, fitted: true, contrast: 18.0, drawnBox: {x: 80, y: 398, width: 504, height: 84}},
+      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 18.0, drawnBox: {x: 80, y: 398, width: 504, height: 84}, headline: brief.candidates[0].headline, ok: true, issues: []},
+      {file: 'thumbnail-b.png', variant: 'b', headlineSize: 80, fitted: true, contrast: 18.0, drawnBox: {x: 80, y: 398, width: 504, height: 84}, headline: brief.candidates[1].headline, ok: true, issues: []},
     ];
     writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify(reportData, null, 2));
 
-    const brief = convertPlanThumbnailToBrief(v2());
     const res = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
 
     // 候補aは縮小視認性合格
@@ -218,3 +219,41 @@ test('縮小表示品質検査ゲートとレポート追記（T173）: checkThu
   }
 });
 
+
+// T165追加修正（T120再監査）: 描画側の不合格・文言の不一致・原寸PNGの破損・レポート欠測を合格にしない
+test('厳格なサムネイル品質検査（T165追加修正）: swiftのok/issues、briefとの文言、原寸の復号、欠測', () => {
+  const d = mkdtempSync(join(tmpdir(), 'th-strict-'));
+  try {
+    const brief = convertPlanThumbnailToBrief(v2());
+    const [ca, cb, cc] = brief.candidates;
+    const good = createFullPng(1280, 720, (x, y) => (y > 300 && y < 420 && x % 7 < 3 ? [255, 255, 255, 255] : [10, 10, 12, 255]));
+    const headerOnly = Buffer.concat([createMockPng(1280, 720), Buffer.alloc(4000)]);
+    writeFileSync(join(d, 'thumbnail-a.png'), good);
+    writeFileSync(join(d, 'thumbnail-b.png'), good);
+    writeFileSync(join(d, 'thumbnail-c.png'), headerOnly);
+    const base = {headlineSize: 80, fitted: true, contrast: 9.5, ok: true, issues: [] as string[]};
+    writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify([
+      {...base, file: 'thumbnail-a.png', variant: 'a', headline: ca.headline, ok: false, issues: ['主見出しと補足見出しの描画領域が衝突']},
+      {...base, file: 'thumbnail-b.png', variant: 'b', headline: '全然別の文言'},
+      {...base, file: 'thumbnail-c.png', variant: 'c', headline: cc.headline},
+    ]));
+    const res = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
+    assert.equal(res.candidates[0].status, 'fail');
+    assert.ok(res.candidates[0].issues.some(i => i.includes('衝突')), res.candidates[0].issues.join());
+    assert.equal(res.canProceed, false);
+    assert.equal(res.candidates[1].status, 'fail');
+    assert.ok(res.candidates[1].issues.some(i => i.includes('brief')), res.candidates[1].issues.join());
+    assert.equal(res.candidates[2].status, 'fail');
+    assert.ok(res.candidates[2].issues.some(i => i.includes('復号')), res.candidates[2].issues.join());
+    void cb;
+
+    writeFileSync(join(d, 'thumbnails-report.json'), JSON.stringify([
+      {file: 'thumbnail-a.png', variant: 'a', headlineSize: 80, fitted: true, contrast: 9.5, headline: ca.headline},
+    ]));
+    const missing = checkThumbnailQuality(d, brief, {selectedThumbnail: 'thumbnail-a.png'});
+    assert.equal(missing.canProceed, false);
+    assert.ok(missing.candidates[0].issues.some(i => i.includes('欠落')), missing.candidates[0].issues.join());
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});
