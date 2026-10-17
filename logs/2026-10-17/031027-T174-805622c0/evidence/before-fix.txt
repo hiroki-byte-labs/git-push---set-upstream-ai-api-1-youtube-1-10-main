@@ -1,0 +1,95 @@
+✔ v1は自動でv2へ変換される (1.024ms)
+✔ v2サンプルは4種の図解を含み検証を通る (0.141958ms)
+✔ cue合計と場面秒数の不一致を拒否 (0.191583ms)
+✔ ナレーションが秒数に対して長すぎると拒否 (0.070958ms)
+✔ 存在しない出典の参照を拒否、正しい出典は受理 (0.164458ms)
+✔ 不正な図解を拒否 (0.072584ms)
+✔ 長尺: 20分は受理、25分超は拒否 (0.117375ms)
+✔ 不正なidを拒否（出力先の逸脱防止） (0.046292ms)
+✔ 台本で選べるオリジナルイラストを検証する (0.357042ms)
+✔ VTTはcueごと・ミリ秒 (0.240416ms)
+✔ sampleの引数 (0.120875ms)
+✔ --budget-usdの引数 (0.167542ms)
+✔ roleとpromiseの検証（T075） (0.280167ms)
+✔ 章（T080）: 一覧、全場面必須、連続必須 (0.606459ms)
+✔ beatとfictionalの検証（T081） (0.205584ms)
+✔ glossaryの検証（T083） (0.143834ms)
+✔ emphasisの検証と既定の字幕（T078、T106でburn） (0.346042ms)
+✔ styleの検証（T079） (0.120042ms)
+✔ aiDisclosureの検証（T071） (0.176167ms)
+✔ T150: 名字絶滅と寛容パラドックスの図解サンプルが検証を通る (0.236167ms)
+✖ VTT: cue本文の空行・前後の空白はcue終端にしない（T174追加修正） (0.298292ms)
+✔ 題材候補の検証と案件の作成（デモ/本番のID・最初の工程） (4.551375ms)
+✔ 選択: 候補外のIDを拒否、未選択のまま考察へ進めない (0.717875ms)
+✔ 考察: 空白・未入力の目印・長すぎる文を拒否。整形版は本人執筆の版が元で、同一扱いしない (1.71325ms)
+✔ 本番の案件では本人の工程をエージェント名で記録できない（デモはtest-agentで可） (4.819208ms)
+✔ 台本: 考察が未入力なら作れない、考察の場面はちょうど1つ、本人の考察がそのまま入る (1.860916ms)
+✔ 考察の分割と尺: 長い文は55字以内のcueへ、本文は変えない (0.788667ms)
+✔ 下書きのまま（考察が未入力）はlintのerrorで制作しない (0.187125ms)
+✔ 考察に禁止表現・出典のない数値があれば、台本を確認に回さない (1.45575ms)
+✔ 台本の確認: 版の不一致・理由なしの差戻しを拒否。差戻し中は制作できず、承認後に制作できる (2.351167ms)
+✔ 承認後の変更で台本承認が失効: 考察の更新・題材の変更・台本ファイルの変更/欠落 (7.556875ms)
+✔ 運用記録（events・メモ・更新時刻）の追記だけでは台本承認は失効しない (1.907042ms)
+✔ 制作の開始条件: 未選択・考察未入力・台本未作成を不足として並べて拒否する (0.601292ms)
+✔ 完成動画: 台本の版に結び付き、台本が変わると失効し承認も拒否する (6.56525ms)
+✔ デモの承認は本番に転用できない。旧ジョブ（modeなし）もデモ扱い (11.054125ms)
+✔ 本番形式（一時ディレクトリ・架空の人名）: 全工程と動画承認で公開前判定が可。動画承認もエージェント名は拒否 (4.159084ms)
+✔ 確認画面（HTTP）: 案件ページ、選択・考察・台本承認の送信、古い版と本番のエージェント名は409 (26.727375ms)
+✔ CLI: produce の入口で、未入力なら制作を拒否し不足を表示する (1228.850125ms)
+✔ T118: produce script は --plan 省略時に確定構成（fixtures/draft-price-index.json）を既定として使う (528.532625ms)
+✖ 改行入りの考察: cueとnarrationから改行を除き、VTTに空行のcueを作らない（T174追加修正） (0.517833ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 38
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1940.076708
+
+✖ failing tests:
+
+test at tests/plan.test.ts:43:1
+✖ VTT: cue本文の空行・前後の空白はcue終端にしない（T174追加修正） (0.298292ms)
+  AssertionError [ERR_ASSERTION]: WEBVTT
+  
+  00:00:00.000 --> 00:00:04.000
+  一行目
+  
+  二行目
+  
+  
+  00:00:04.000 --> 00:00:08.000
+  登場する場面はすべて架空の例です。
+  
+  00:00:08.000 --> 00:00
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/plan.test.ts:46:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/production.test.ts:229:1
+✖ 改行入りの考察: cueとnarrationから改行を除き、VTTに空行のcueを作らない（T174追加修正） (0.517833ms)
+  AssertionError [ERR_ASSERTION]: [{"text":"最初はそう思いました。\n\n次に調べると違いました。\n  私はこう考えます。","seconds":7}]
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/production.test.ts:233:9)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+exit=1

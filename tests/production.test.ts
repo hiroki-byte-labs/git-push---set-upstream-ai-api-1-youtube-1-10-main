@@ -225,3 +225,13 @@ test('T118: produce script は --plan 省略時に確定構成（fixtures/draft-
  assert.equal(projectState(join(root,'outputs'),id).stage,'render');
 }));
 
+
+test('改行入りの考察: cueとnarrationから改行を除き、VTTに空行のcueを作らない（T174追加修正）',async()=>{
+ const {buildVtt}=await import('../src/commands/sample.ts');
+ const text='最初はそう思いました。\n\n次に調べると違いました。\n  私はこう考えます。';
+ const plan=injectReflection(draft(),text);const s=plan.scenes.find((x:any)=>x.role==='reflection');
+ assert.ok(s.cues.every((c:any)=>!/\s*\n/.test(c.text)&&c.text===c.text.trim()),JSON.stringify(s.cues));
+ assert.equal(s.cues.map((c:any)=>c.text).join(''),s.narration);
+ const vtt=buildVtt(validatePlanV2(plan));
+ for(const block of vtt.split('\n\n').slice(1))assert.match(block,/^\d\d:\d\d:\d\d\.\d{3} --> \d\d:\d\d:\d\d\.\d{3}\n\S/,block);
+});

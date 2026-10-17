@@ -39,3 +39,11 @@ test('T150: 名字絶滅と寛容パラドックスの図解サンプルが検�
   bad.scenes[0].diagram.archetype='unknown-archetype';
   assert.throws(()=>validatePlanV2(bad),/未対応の場面型/);
 });
+
+test('VTT: cue本文の空行・前後の空白はcue終端にしない（T174追加修正）',()=>{
+ const plan=loadPlan(v2);plan.scenes[0].cues[0].text='一行目\n\n二行目\n';
+ const vtt=buildVtt(plan);
+ assert.ok(vtt.includes('一行目\n二行目\n'),vtt.slice(0,120));
+ assert.equal(vtt.match(/-->/g)!.length,12);
+ for(const block of vtt.split('\n\n').slice(1))assert.match(block,/^\d\d:\d\d:\d\d\.\d{3} --> /,block);
+});

@@ -117,7 +117,9 @@ export function buildVtt(plan: Plan) {
   for (const s of plan.scenes) for (const c of s.cues) {
     const start = time;
     time += c.seconds;
-    blocks.push(`${vttStamp(start)} --> ${vttStamp(time)}\n${c.text}\n`);
+    // 本文の空行はVTTではcueの終端になるため、行は保ったまま空行と前後の空白を除く。
+    const text = c.text.split('\n').map(l => l.trim()).filter(Boolean).join('\n');
+    blocks.push(`${vttStamp(start)} --> ${vttStamp(time)}\n${text}\n`);
   }
   return 'WEBVTT\n\n' + blocks.join('\n');
 }

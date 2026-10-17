@@ -135,8 +135,9 @@ export function addReflection(root: string, id: string, text: string, by: string
 }
 
 // 字幕cueへの分割: 文（。！？）単位および文節・助詞境界を尊重し、1cueは字幕の上限（55字）以内。
+// 改行と前後の空白はnarrationと同じく除く（cueに残るとVTTの空行=cue終端になり字幕が壊れる。T174追加修正）。
 export function splitCues(text: string, max: number = LIMITS.cueText) {
-  return splitSmartCues(text, max);
+  return splitSmartCues(text.replace(/\s*\n\s*/g, '').trim(), max);
 }
 
 // 下書きの考察の場面（role: reflection）へ本人の考察を差し込む。本文は変えない。尺は読み上げ速度で決める。
