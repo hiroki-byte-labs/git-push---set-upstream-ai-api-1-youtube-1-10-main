@@ -1,0 +1,55 @@
+✔ 台本のスライス分割: シーンとcue単位に正しく分解される (0.748542ms)
+✔ 長尺ナレーションの合成と予算管理: 正常系完走と使用量・試行記録 (1.408583ms)
+✔ 予算上限超過時の安全な停止: 上限を超える試行は拒否される (0.234375ms)
+✔ 字幕同期検査: 許容誤差内の同期とドリフト超過の検出 (0.181542ms)
+✔ BGMダッキング計算: ナレーション発話区間と音量設定 (0.314417ms)
+✔ 音量検査: YouTube規格（-14 LUFS ± 1.0, True Peak <= -1.0 dBFS）の判定 (0.068625ms)
+✔ 人の試聴評価メタデータ（T125）の整合性確認 (0.059708ms)
+✖ 字幕同期検査: 音声長の欠測・NaN・負値は同期ずれ0として合格させない (0.373916ms)
+✖ 長尺ナレーションの合成: 接続が非有限の音声長を返したら失敗にする (0.242959ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 76.216875
+
+✖ failing tests:
+
+test at tests/audio-pipeline.test.ts:210:1
+✖ 字幕同期検査: 音声長の欠測・NaN・負値は同期ずれ0として合格させない (0.373916ms)
+  AssertionError [ERR_ASSERTION]: NaN
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/audio-pipeline.test.ts:217:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/audio-pipeline.test.ts:222:1
+✖ 長尺ナレーションの合成: 接続が非有限の音声長を返したら失敗にする (0.242959ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/audio-pipeline.test.ts:225:3)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /音声長/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+exit=1

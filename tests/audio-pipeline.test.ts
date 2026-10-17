@@ -205,3 +205,22 @@ test('人の試聴評価メタデータ（T125）の整合性確認', () => {
   assert.equal(validNoEval.linked, true);
   assert.equal(validNoEval.hasHumanReview, false);
 });
+
+// T127追加修正（T120再監査）: 測れていない音声長を同期合格にしない
+test('字幕同期検査: 音声長の欠測・NaN・負値は同期ずれ0として合格させない', () => {
+  const plan = makeLongFormPlan(10);
+  for (const bad of [Number.NaN, undefined, -1, Number.POSITIVE_INFINITY]) {
+    const slices = sliceScriptForNarration(plan);
+    slices.forEach(s => {s.actualDurationSec = s.expectedDurationSec;});
+    (slices[0] as any).actualDurationSec = bad;
+    const r = checkSubtitleSync(plan, slices);
+    assert.equal(r.ok, false, String(bad));
+    assert.ok(r.errors.some(e => e.includes('音声長')), String(bad));
+  }
+});
+
+test('長尺ナレーションの合成: 接続が非有限の音声長を返したら失敗にする', async () => {
+  const slices = sliceScriptForNarration(makeLongFormPlan(10));
+  const conn = new MockConnection<any, {audioPath: string; durationSec: number}>('audio', 'mock-tts', 'mock-voice', {audioPath: 'mock/path/audio.wav', durationSec: Number.NaN});
+  await assert.rejects(synthesizeLongFormAudio(slices, conn, new Budget(1.0), 0.01), /音声長/);
+});

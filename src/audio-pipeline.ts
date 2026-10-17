@@ -91,6 +91,8 @@ export async function synthesizeLongFormAudio(
         maxAttempts,
         attempts
       );
+      // 接続が測れなかった音声長（NaN・負値・無限大）を記録・合算しない（T127追加修正）。
+      if (!Number.isFinite(res.durationSec) || res.durationSec < 0) throw Error(`接続が返した音声長が不正（${res.durationSec}）`);
       slice.audioPath = res.audioPath;
       slice.actualDurationSec = res.durationSec;
       totalDurationSec += res.durationSec;
@@ -130,7 +132,12 @@ export function checkSubtitleSync(
 
   for (let i = 0; i < slices.length; i++) {
     const sl = slices[i];
-    const actual = sl.actualDurationSec ?? 0;
+    // 未測定・非有限・負の音声長は0扱いで同期合格にせず、検査の失敗にする（T127追加修正）。
+    if (typeof sl.actualDurationSec !== 'number' || !Number.isFinite(sl.actualDurationSec) || sl.actualDurationSec < 0) {
+      errors.push(`スライス[${i}]の音声長が未測定または不正（${sl.actualDurationSec}）`);
+      continue;
+    }
+    const actual = sl.actualDurationSec;
     expectedAcc += sl.expectedDurationSec;
     actualAcc += actual;
     totalActual += actual;
