@@ -1,0 +1,37 @@
+✔ T158: 遷移途中のレコードはreadabilitySample=falseとなりコントラスト判定から除外され、除外理由が残る (0.897ms)
+✔ T158: 完全表示中にコントラスト比4.5未満の文字があればreadability.ok=falseとなる (0.359333ms)
+✔ T158: SuperstarIllustrationのラベル描画は高コントラストな白文字とダーク縁取りを持つ (0.078042ms)
+✔ T158: 可読性検査または文字配置検査が不合格の場合、ジョブ完了・latest更新を阻止して安全停止する (0.472709ms)
+✖ checkReadability: 空の記録・判定用サンプルなし・測定値の欠測は不合格 (0.625084ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 70.105
+
+✖ failing tests:
+
+test at tests/readability-gate.test.ts:102:1
+✖ checkReadability: 空の記録・判定用サンプルなし・測定値の欠測は不合格 (0.625084ms)
+  AssertionError [ERR_ASSERTION]: 空
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/readability-gate.test.ts:116:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+exit=1

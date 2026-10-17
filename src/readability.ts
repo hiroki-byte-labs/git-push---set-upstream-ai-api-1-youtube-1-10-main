@@ -17,8 +17,15 @@ export function checkReadability(dir: string, scale: number): Readability {
   if (!existsSync(path)) throw Error('render-report.jsonがない');
   // Extra Remotion exit-fade snapshots retain their real contrast in the report.
   // Typography acceptance uses every cue's full-hold sample; layout checks still use all snapshots.
-  const recs: Rec[] = JSON.parse(readFileSync(path, 'utf8')).filter((r: Rec) => r.readabilitySample !== false);
+  const raw: unknown = JSON.parse(readFileSync(path, 'utf8'));
+  if (!Array.isArray(raw)) throw Error('render-report.jsonが配列ではない');
+  const all: Rec[] = raw.filter((r: Rec) => r.readabilitySample !== false);
   const issues: string[] = [];
+  // 測定がない・測定値が欠けた記録で見やすさを合格にしない（T158追加修正）。
+  if (!all.length) issues.push('見やすさの判定に使える文字の測定記録がない');
+  const missing = all.filter(r => !Number.isFinite(r?.pixelSize) || !Number.isFinite(r?.contrast));
+  if (missing.length) issues.push(`文字の大きさ・コントラスト比の測定値が欠落した記録 ${missing.length}件`);
+  const recs = all.filter(r => !missing.includes(r));
   const small = recs.filter(r => r.pixelSize / scale < MIN_FONT_720);
   const low = recs.filter(r => r.contrast < MIN_CONTRAST_TEXT);
   const uniq = (xs: Rec[], f: (r: Rec) => string) => [...new Set(xs.map(f))].slice(0, 5);

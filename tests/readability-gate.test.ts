@@ -97,3 +97,28 @@ test('T158: 可読性検査または文字配置検査が不合格の場合、�
   assert.ok(layoutPos < completedPos, 'layout検査はcompleted設定より前に実行されること');
   assert.ok(completedPos < latestPos, 'completed設定はlatest.json更新より前であること');
 });
+
+// T158追加修正（T120再監査）: 測定の欠測を見やすさの合格にしない
+test('checkReadability: 空の記録・判定用サンプルなし・測定値の欠測は不合格', () => {
+  const d = mkdtempSync(join(tmpdir(), 'readability-missing-'));
+  try {
+    const good = {file: 'a.png', role: 'subtitle', text: '字幕', size: 30, pixelSize: 30, contrast: 12};
+    const cases: [string, unknown[]][] = [
+      ['空', []],
+      ['判定用サンプルなし', [{...good, readabilitySample: false}]],
+      ['pixelSize欠測', [{...good, pixelSize: undefined}]],
+      ['contrast欠測', [{...good, contrast: null}]],
+      ['NaN', [{...good, pixelSize: Number.NaN}]],
+    ];
+    for (const [name, recs] of cases) {
+      writeFileSync(join(d, 'render-report.json'), JSON.stringify(recs));
+      const r = checkReadability(d, 1);
+      assert.equal(r.ok, false, name);
+      assert.ok(r.issues.length > 0, name);
+    }
+    writeFileSync(join(d, 'render-report.json'), JSON.stringify([good]));
+    assert.equal(checkReadability(d, 1).ok, true);
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});
