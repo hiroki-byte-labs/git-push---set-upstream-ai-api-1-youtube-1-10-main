@@ -1,0 +1,28 @@
+✖ サムネイルの明暗: 見出しの語句では変わらず、tone:lightの指定でだけ明背景になる（T163追加修正） (1040.52775ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1113.618917
+
+✖ failing tests:
+
+test at tests/thumbnail-tone.test.ts:16:1
+✖ サムネイルの明暗: 見出しの語句では変わらず、tone:lightの指定でだけ明背景になる（T163追加修正） (1040.52775ms)
+  AssertionError [ERR_ASSERTION]: 語句だけでは暗背景のまま
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/thumbnail-tone.test.ts:23:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+exit=1

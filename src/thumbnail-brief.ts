@@ -50,6 +50,7 @@ export type ThumbnailCandidate = {
   reason: string;               // 構図・文言の選択理由
   unknowns?: string[];          // 未確認事項
   status?: 'ready' | 'needs-review'; // 候補の状態
+  tone?: 'dark' | 'light';      // 背景の明暗（既定dark）。見出しの語句から推測しない（T163追加修正）
 };
 
 // サムネイル生成brief契約
@@ -224,6 +225,11 @@ export function validateThumbnailBrief(raw: unknown, plan?: Plan): ThumbnailBrie
     // 補足文字数検査（LIMITS.thumbSub = 30）
     if (c.sub !== undefined && c.sub !== '' && !isNonEmptyText(c.sub, LIMITS.thumbSub)) {
       throw Error(`${where}: subは${LIMITS.thumbSub}字以内である必要があります`);
+    }
+
+    // 背景の明暗（任意）
+    if (c.tone !== undefined && c.tone !== 'dark' && c.tone !== 'light') {
+      throw Error(`${where}: toneはdarkかlightである必要があります（実際: ${String(c.tone)}）`);
     }
 
     // 構図種別検査

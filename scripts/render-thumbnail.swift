@@ -33,6 +33,7 @@ struct Candidate: Codable {
     let reason: String
     let unknowns: [String]?
     let status: String?
+    let tone: String?
 }
 
 struct Typography: Codable {
@@ -200,7 +201,8 @@ for c in brief.candidates {
     let fileUrl = outDir.appendingPathComponent(fileName)
 
     // カラーパレット決定（構図・明暗）
-    let isLight = (c.composition == "scene" && c.headline.contains("差別")) // 明色例
+    // 背景の明暗はbriefの明示指定だけで決める（見出しの語句から推測しない。T163追加修正）
+    let isLight = c.tone == "light"
     let bgColor = isLight ? srgbColor(245, 243, 236) : srgbColor(14, 20, 30) // #0e141e
     let textColor = isLight ? srgbColor(26, 31, 44) : srgbColor(255, 255, 255)
     let subTextColor = isLight ? srgbColor(74, 85, 104) : srgbColor(160, 178, 200)

@@ -77,6 +77,7 @@ type ThumbnailCandidate = {
   reason: string;                     // 構図・文言の選定理由
   unknowns?: string[];                // 候補固有の未確認事項
   status?: 'ready' | 'needs-review';  // 候補の状態
+  tone?: 'dark' | 'light';            // 背景の明暗（任意、既定dark。2026-10-17 T163追加。見出しの語句から推測しない）
 };
 
 type ThumbnailComposition = 'contrast' | 'symbol' | 'scene' | 'relationship';
