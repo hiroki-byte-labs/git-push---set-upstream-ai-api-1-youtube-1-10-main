@@ -104,19 +104,22 @@ ${topicResults.map(tr => `
   <div class="grid">
     ${tr.brief.candidates.map((cand: any) => {
       const rep = tr.reports.find((r: any) => r.variant === cand.id);
+      // 判定は描画レポートのokではなく品質ゲート（checkThumbnailQuality）の結果を使う（T167訂正）
+      const qc = tr.quality.candidates.find((q: any) => q.variant === cand.id);
       const isA = cand.id === 'a';
       return `
         <div class="card ${isA ? 'selected' : ''}">
           <div class="card-header">
             <span>候補 ${cand.id.toUpperCase()}: ${cand.composition}型 ${isA ? '<b>(初期採用a)</b>' : ''}</span>
-            <span class="badge ${rep?.ok ? 'pass' : ''}">${rep?.ok ? '品質検査 OK' : '要確認'}</span>
+            <span class="badge ${qc?.status === 'pass' ? 'pass' : ''}">${qc?.status === 'pass' ? '品質検査 OK' : '要確認'}</span>
           </div>
           <table class="meta-table">
             <tr><td>主見出し</td><td><b>${cand.headline}</b></td></tr>
             <tr><td>補足</td><td>${cand.sub || 'なし'}</td></tr>
             <tr><td>構図 / モチーフ</td><td>${cand.composition} / ${cand.motifs.join(', ')}</td></tr>
             <tr><td>文字サイズ</td><td>${rep?.headlineSize.toFixed(0)} pt</td></tr>
-            <tr><td>コントラスト比</td><td>${rep?.contrast.toFixed(2)} : 1 (基準4.5以上)</td></tr>
+            <tr><td>コントラスト比（設計色の理論値）</td><td>${rep?.contrast.toFixed(2)} : 1 (基準4.5以上。画素の実測ではない)</td></tr>
+            <tr><td>160x90の文字領域コントラスト（画素の実測）</td><td>${qc?.scaledLegibility ? `${qc.scaledLegibility.contrast.toFixed(2)} : 1` : '未測定'}</td></tr>
             <tr><td>容量</td><td>${((rep?.bytes ?? 0) / 1024).toFixed(1)} KB (上限2MiB)</td></tr>
           </table>
 
@@ -162,7 +165,9 @@ ${topicResults.map(tr => `
     '- レビュー対象: 格差・名字・寛容の3題材（計9候補）',
     '- プレビューHTML: `work/thumbnail-evaluation-package/index.html`',
     '',
-    '## 1. 3題材の実生成物と実測一覧',
+    '## 1. 3題材の実生成物と検査一覧',
+    '',
+    '「設計色コントラスト」は描画に使った背景色と文字色から計算した理論値で、画素の実測ではない。画素の実測は160x90縮小画像の文字領域で測った値（縮小コントラスト）。判定は品質ゲート（checkThumbnailQuality）の結果。',
     '',
   ];
 
@@ -172,11 +177,13 @@ ${topicResults.map(tr => `
     docLines.push(`- 概要: ${tr.topic.description}`);
     docLines.push(`- Brief Input Hash: \`${tr.brief.inputHash}\``);
     docLines.push('');
-    docLines.push('| 候補 | 構図 | 主見出し | 補足 | モチーフ | フォント | コントラスト | 容量 | 判定 |');
-    docLines.push('| :---: | :---: | :--- | :--- | :--- | :---: | :---: | :---: | :---: |');
+    docLines.push('| 候補 | 構図 | 主見出し | 補足 | モチーフ | フォント | 設計色コントラスト | 縮小コントラスト | 容量 | 判定 |');
+    docLines.push('| :---: | :---: | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: |');
     for (const c of tr.brief.candidates) {
       const rep = tr.reports.find((r: any) => r.variant === c.id);
-      docLines.push(`| ${c.id.toUpperCase()} | ${c.composition} | **${c.headline}** | ${c.sub || '-'} | ${c.motifs.join(', ')} | ${rep?.headlineSize.toFixed(0)}pt | ${rep?.contrast.toFixed(2)} | ${((rep?.bytes ?? 0) / 1024).toFixed(1)}KB | ${rep?.ok ? 'PASS' : 'FAIL'} |`);
+      const qc = tr.quality.candidates.find((q: any) => q.variant === c.id);
+      const scaled = qc?.scaledLegibility ? qc.scaledLegibility.contrast.toFixed(2) : '未測定';
+      docLines.push(`| ${c.id.toUpperCase()} | ${c.composition} | **${c.headline}** | ${c.sub || '-'} | ${c.motifs.join(', ')} | ${rep?.headlineSize.toFixed(0)}pt | ${rep?.contrast.toFixed(2)} | ${scaled} | ${((rep?.bytes ?? 0) / 1024).toFixed(1)}KB | ${qc?.status === 'pass' ? 'PASS' : (qc?.status ?? 'FAIL').toUpperCase()} |`);
     }
     docLines.push('');
   }
