@@ -1,0 +1,3 @@
+["最初はそう思いました。\n\n次に調べると違いました。\n私はこう考えます。"]
+optimizeSubtitleLines callers:
+src/plan.ts:310:export {tokenizeJapanesePhrases, optimizeSubtitleLines, splitSmartCues} from './subtitle-optimizer.ts';

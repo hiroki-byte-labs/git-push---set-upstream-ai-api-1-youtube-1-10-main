@@ -1,0 +1,21 @@
+{
+  "task_id": "tsk_0mvbte7775d15fb760c6c",
+  "status": "completed",
+  "executions": [
+    {
+      "execution_id": "exe_0mvbte7ba06079865bc54",
+      "decision_id": "rdc_0mvbte7bb7d8879065078",
+      "provider": "claude",
+      "model_id": "claude-sonnet-5-5",
+      "tier": "standard",
+      "status": "completed",
+      "metering_status": "measured",
+      "failure_cause": null,
+      "message": null,
+      "retry_count": 0,
+      "escalation_count": 0
+    }
+  ],
+  "message": "完了",
+  "review": null
+}
