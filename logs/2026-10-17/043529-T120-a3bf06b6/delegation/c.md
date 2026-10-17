@@ -1,0 +1,20 @@
+# 共通指示（読取専用の抜き取り再監査）
+リポジトリ: /Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10
+あなたは親作業回（logs/2026-10-17/043529-T120-a3bf06b6、親が保持）の子作業。ファイルを変更しない。worklog start/finish、チケット・STATUS・ログの編集、他AIへの再委譲、動画生成、ネットワークアクセス、git操作（status/diff/log/show以外）をしない。
+
+目的: 担当チケットで「done」とされた主張（tickets/Txxx.md の受入条件・結果欄、該当logsのWORKLOG.md）が、現在のコード・試験と一致しているかを確かめ、実害のある乖離だけを報告する。背景: 同じリポジトリの直前の再監査（T160〜T176）では13件中5件で、「描画側の不合格を無視して合格」「キューが別ジョブを今回の設定で描画」「検査結果が画像と未結合で差替え後も承認可」などの実害が見つかった。
+
+確認観点（重要度順）:
+1. 受入条件の要求が実装に存在しない／制作経路（src/commands/sample.ts・produce.ts・production.ts 等）に接続されていない
+2. 失敗・欠測・不正入力を合格扱いにする経路（固定値の合格、例外の握りつぶし、未測定をpass）
+3. 試験が主張を実際には検証していない（自分で作った期待値の照合だけ、モックで本体を迂回）
+4. 文書・チケットの記載と実装の数値・パスの不一致
+一般的な好みやリファクタ提案は書かない。
+
+調べ方: rg/sed/cat で読み、必要なら `./scripts/run --test tests/<対象>.test.ts` や、/tmp 等の一時ディレクトリ内で `node -e` による最小の再現を実行してよい（リポジトリ内に書かない）。
+
+出力（日本語、Markdown）: 担当チケットごとに「判定: 問題なし／軽微／要修正」と、要修正・軽微なら各項目に (a) 主張 (b) 実際（ファイル:行）(c) 影響 (d) 再現手順またはコード上の根拠 (e) 確度（確認済み/仮説）。最後に全体の要約3行。
+
+## 担当: Remotion描画経路 T126, T152, T153, T154, T155, T156
+主な対象: src/remotion-visual.ts, src/remotion-layout.ts, src/remotion-media.ts, src/readability.ts, motion-lab/src/（PlanVideo.tsx, remotion-plan.ts, primitives/, layout-probe.tsx）, 関連tests（remotion-*, readability-gate）。
+特に: native経路と同じ情報（図解の全項目・数値・出典・架空表示・字幕モード）が欠けずに描画されるか、文字配置の実測（T155）が全cue・全場面を見ているか・測定欠測で合格しないか、媒体検査（T156）の期待フレーム数・尺・stream検査が実デコードで欠測時に不合格になるか、レポートに固定値が残っていないか。
