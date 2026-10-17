@@ -7,7 +7,7 @@
 import {existsSync, readdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {dirname, join} from 'node:path';
 import {createHash} from 'node:crypto';
-import {isAgentName, modeOf, projectState} from './production.ts';
+import {DEFAULT_REVIEWERS, isAgentName, modeOf, projectState} from './production.ts';
 import type {Mode, ProjectState} from './production.ts';
 
 export type Decision = 'approve' | 'reject';
@@ -166,6 +166,8 @@ export function recordReview(dir: string, decision: Decision, note: string, expe
   const mismatch = scriptMismatch(dir, job);
   if (mismatch) throw Error(`この動画は承認できない: ${mismatch}`);
   if (modeOf(job) === 'production' && isAgentName(reviewer)) throw Error(`本番の動画の確認をエージェント名（${reviewer}）で記録できない`);
+  // 名前を省略した既定名では、本番の確認を誰がしたか分からないため記録しない（T104追加修正）。
+  if (modeOf(job) === 'production' && (!reviewer.trim() || DEFAULT_REVIEWERS.includes(reviewer.trim()))) throw Error('本番の動画の確認には確認者名（本人の名前）が必要です（--reviewer / 確認画面の確認者名）');
   const bundle = reviewBundle(dir, job);
   if (!bundle.video || bundle.video !== job.outputHash) throw Error('完成ファイルがjob.jsonの記録と一致しない');
   if (decision === 'approve') {

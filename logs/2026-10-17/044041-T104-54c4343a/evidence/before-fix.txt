@@ -1,0 +1,54 @@
+✔ 題材候補の検証と案件の作成（デモ/本番のID・最初の工程） (2.43825ms)
+✔ 選択: 候補外のIDを拒否、未選択のまま考察へ進めない (0.724792ms)
+✔ 考察: 空白・未入力の目印・長すぎる文を拒否。整形版は本人執筆の版が元で、同一扱いしない (1.391417ms)
+✔ 本番の案件では本人の工程をエージェント名で記録できない（デモはtest-agentで可） (4.816709ms)
+✔ 台本: 考察が未入力なら作れない、考察の場面はちょうど1つ、本人の考察がそのまま入る (2.176125ms)
+✔ 考察の分割と尺: 長い文は55字以内のcueへ、本文は変えない (0.704208ms)
+✔ 下書きのまま（考察が未入力）はlintのerrorで制作しない (0.198541ms)
+✔ 考察に禁止表現・出典のない数値があれば、台本を確認に回さない (1.092208ms)
+✔ 台本の確認: 版の不一致・理由なしの差戻しを拒否。差戻し中は制作できず、承認後に制作できる (2.251625ms)
+✔ 承認後の変更で台本承認が失効: 考察の更新・題材の変更・台本ファイルの変更/欠落 (6.944167ms)
+✔ 運用記録（events・メモ・更新時刻）の追記だけでは台本承認は失効しない (1.717625ms)
+✔ 制作の開始条件: 未選択・考察未入力・台本未作成を不足として並べて拒否する (0.473792ms)
+✔ 完成動画: 台本の版に結び付き、台本が変わると失効し承認も拒否する (6.900625ms)
+✔ デモの承認は本番に転用できない。旧ジョブ（modeなし）もデモ扱い (10.140875ms)
+✔ 本番形式（一時ディレクトリ・架空の人名）: 全工程と動画承認で公開前判定が可。動画承認もエージェント名は拒否 (5.320875ms)
+✔ 確認画面（HTTP）: 案件ページ、選択・考察・台本承認の送信、古い版と本番のエージェント名は409 (25.063375ms)
+✔ CLI: produce の入口で、未入力なら制作を拒否し不足を表示する (1237.153292ms)
+✔ T118: produce script は --plan 省略時に確定構成（fixtures/draft-price-index.json）を既定として使う (537.616125ms)
+✔ 改行入りの考察: cueとnarrationから改行を除き、VTTに空行のcueを作らない（T174追加修正） (0.411709ms)
+✖ 本番の完成動画承認: 確認者名の省略（既定のcli-user/local-user）では記録しない。人名を誤ってエージェント扱いしない（T104追加修正） (1.7645ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 19
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1945.38425
+
+✖ failing tests:
+
+test at tests/production.test.ts:239:1
+✖ 本番の完成動画承認: 確認者名の省略（既定のcli-user/local-user）では記録しない。人名を誤ってエージェント扱いしない（T104追加修正） (1.7645ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(['Magenta','Talbot','Abbot','Reagent Lab'].every(n=>!isAgentName(n)))
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/production.test.ts:240:9
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/production.test.ts:19:126)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+exit=1

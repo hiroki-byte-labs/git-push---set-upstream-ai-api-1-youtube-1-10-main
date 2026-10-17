@@ -106,7 +106,7 @@ function detailPage(root: string, id: string, message = '') {
   const bundleHtml = approval.bundle ? `<ul><li>動画: ${short(approval.bundle.video)}</li><li>字幕: ${short(approval.bundle.subtitles)}</li><li>タイトル・概要欄・タグ・チャプター: ${approval.bundle.metadata ? 'あり' : 'なし'}</li><li>サムネイル案（全案）: ${approval.bundle.thumbnails.map(t => `${esc(t.file)} ${short(t.sha256)}`).join(', ') || 'なし'}</li></ul>` : '';
   const reviews = history(dir).map(r => `<li>${esc(r.at)} ${esc(r.decision === 'approve' ? '承認' : '差戻し')} ${esc(r.note)}（${r.bundleHash ? `一式の版 ${esc(r.bundleHash.slice(0, 12))}` : `旧形式: 動画の版 ${esc(r.outputHash.slice(0, 12))}`}、${esc(r.reviewer)}）</li>`).join('');
   const form = approval.state === 'not-reviewable' ? '' : `<form method="post" action="/job/${esc(id)}/review">
-<input type="hidden" name="bundleHash" value="${esc(approval.currentHash)}"><p><textarea name="note" rows="3" placeholder="メモ（差戻しは必須）"></textarea></p><p><label>確認者名 <input name="reviewer" maxlength="60" placeholder="local-user"></label></p>
+<input type="hidden" name="bundleHash" value="${esc(approval.currentHash)}"><p><textarea name="note" rows="3" placeholder="メモ（差戻しは必須）"></textarea></p><p><label>確認者名 <input name="reviewer" maxlength="60" placeholder="本人の名前（本番の動画は必須）"></label></p>
 <button name="decision" value="approve">この版を承認</button><button name="decision" value="reject">差戻し</button></form>`;
   const video = job.status === 'completed' ? `<video controls src="/job/${esc(id)}/sample.mp4"><track kind="subtitles" srclang="ja" label="日本語" src="/job/${esc(id)}/subtitles.vtt"${job.subtitles === 'soft' ? ' default' : ''}></video>` : '<p>動画なし</p>';
   return layout(id, `<p><a href="/">← 一覧</a></p><h1>${esc(plan.title ?? id)}</h1>${message ? `<p><b>${esc(message)}</b></p>` : ''}

@@ -33,7 +33,10 @@ export type ProjectState = {
 
 export const PROJECT_ID = /^production-(demo-)?[a-f0-9]{8}$/;
 // 本人の工程をエージェント名で記録させない（本番案件のみ）。自己申告の名前に対する安全網であり、認証ではない。
-export const AGENT_NAME = /agent|claude|codex|gpt|gemini|copilot|cursor|bot\b|\bai\b|エージェント/i;
+// agent/botは語頭・単語として一致させ、Magenta・Talbot等の人名を誤って拒否しない（T104追加修正）。
+export const AGENT_NAME = /\bagent|claude|codex|gpt|gemini|copilot|cursor|\bbot\b|\bai\b|エージェント/i;
+// 確認者名を省略したときにCLI/確認画面が入れる既定名。本人の確認として扱わない。
+export const DEFAULT_REVIEWERS = ['cli-user', 'local-user'];
 // 考察の差し込みで尺を決める読み上げ速度（字/秒）。落ち着いたゆっくりした声を想定した暫定値（T007の希望）。
 export const READ_CHARS_PER_SECOND = 6;
 export const REFLECTION_SECONDS = [4, 120] as const;

@@ -235,3 +235,11 @@ test('改行入りの考察: cueとnarrationから改行を除き、VTTに空行
  const vtt=buildVtt(validatePlanV2(plan));
  for(const block of vtt.split('\n\n').slice(1))assert.match(block,/^\d\d:\d\d:\d\d\.\d{3} --> \d\d:\d\d:\d\d\.\d{3}\n\S/,block);
 });
+
+test('本番の完成動画承認: 確認者名の省略（既定のcli-user/local-user）では記録しない。人名を誤ってエージェント扱いしない（T104追加修正）',tmp(root=>{
+ assert.ok(['Magenta','Talbot','Abbot','Reagent Lab'].every(n=>!isAgentName(n)));
+ assert.ok(['test-agent','agentctl','helper-bot','Claude Code','AI'].every(isAgentName));
+ const {id}=ready(root,false);const d=fakeRender(root,id,'job-prod-names');
+ for(const name of ['cli-user','local-user','',' '])assert.throws(()=>approveVideo(d,name),/確認者名/,name);
+ approveVideo(d,H);assert.equal(approvalOf(d).state,'approved');
+}));
