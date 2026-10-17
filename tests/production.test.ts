@@ -24,7 +24,7 @@ function fakeRender(root:string,id:string,jobId:string){
  const st=projectState(root,id);const d=join(root,jobId);mkdirSync(d,{recursive:true});const mp4=Buffer.from('fake-mp4-'+jobId);writeFileSync(join(d,'sample.mp4'),mp4);writeFileSync(join(d,'subtitles.vtt'),'WEBVTT\n');
  writeFileSync(join(d,'thumbnail-a.png'),Buffer.from('fake-thumb-a'));writeFileSync(join(d,'thumbnail-b.png'),Buffer.from('fake-thumb-b'));writeFileSync(join(d,'thumbnail-c.png'),Buffer.from('fake-thumb-c'));
  writeFileSync(join(d,'metadata.json'),JSON.stringify(buildMetadata(readScript(root,id,st.script!),{sources:'',stance:''})));
- writeFileSync(join(d,'job.json'),JSON.stringify({id:jobId,kind:'production-job',status:'completed',createdAt:new Date().toISOString(),inputHash:'in',outputHash:sha(mp4),mode:st.mode,project:id,scriptHash:st.script!.hash,scriptVersion:st.script!.version,events:[],thumbnails:[{file:'thumbnail-a.png',ok:true,issues:[]},{file:'thumbnail-b.png',ok:true,issues:[]},{file:'thumbnail-c.png',ok:true,issues:[]}],thumbnailQuality:{ok:true,canProceed:true,allPassed:true,selectedVariant:'a',reasons:[]}}));
+ writeFileSync(join(d,'job.json'),JSON.stringify({id:jobId,kind:'production-job',status:'completed',createdAt:new Date().toISOString(),inputHash:'in',outputHash:sha(mp4),mode:st.mode,project:id,scriptHash:st.script!.hash,scriptVersion:st.script!.version,events:[],thumbnails:['a','b','c'].map(v=>({file:`thumbnail-${v}.png`,ok:true,issues:[],sha256:sha(Buffer.from('fake-thumb-'+v))})),thumbnailQuality:{ok:true,canProceed:true,allPassed:true,selectedVariant:'a',reasons:[]}}));
  linkRender(root,id,jobId,st.script!.hash,st.script!.version);return d;
 }
 const approveVideo=(d:string,by=T)=>recordReview(d,'approve','',approvalOf(d).currentHash!,by);

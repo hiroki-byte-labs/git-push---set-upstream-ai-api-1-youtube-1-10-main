@@ -138,7 +138,7 @@ test('mock: production prerequisite enforcement and script expiry use existing r
     project: id,
     scriptHash: s.hash,
     scriptVersion: s.version,
-    thumbnails: [{file: 'thumbnail-a.png', ok: true, issues: []}],
+    thumbnails: [{file: 'thumbnail-a.png', ok: true, issues: [], sha256: createHash('sha256').update(Buffer.from('mock-thumb')).digest('hex')}],
     thumbnailQuality: {ok: true, canProceed: true, allPassed: true, selectedVariant: 'a', reasons: []},
   });
   writeFileSync(join(c.dir, 'job.json'), JSON.stringify(job));

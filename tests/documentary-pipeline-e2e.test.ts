@@ -73,7 +73,7 @@ function fakeRender(root: string, id: string, jobId: string) {
       project: id,
       scriptHash: st.script!.hash,
       scriptVersion: st.script!.version,
-      thumbnails: [{file: 'thumbnail-a.png', ok: true, issues: []}],
+      thumbnails: [{file: 'thumbnail-a.png', ok: true, issues: [], sha256: sha(Buffer.from('thumb-a'))}],
       thumbnailQuality: {ok: true, canProceed: true, allPassed: true, selectedVariant: 'a', reasons: []},
       events: ['rendered'],
     })

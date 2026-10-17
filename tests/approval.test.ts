@@ -13,7 +13,7 @@ function bundleJob(root:string,id:string){
  writeFileSync(join(d,'subtitles.vtt'),'WEBVTT\n\n00:00.000 --> 00:02.000\n字幕\n');
  const plan=loadPlan(JSON.parse(readFileSync('fixtures/sample-v2.json','utf8')));writeFileSync(join(d,'plan.json'),JSON.stringify(plan));
  writeFileSync(join(d,'metadata.json'),JSON.stringify(buildMetadata(plan,{sources:'出典: なし',stance:'免責'}),null,2));
- const thumbs=['a','b','c'].map(v=>{writeFileSync(join(d,`thumbnail-${v}.png`),'png-'+v);return {file:`thumbnail-${v}.png`,ok:true,issues:[]}});
+ const thumbs=['a','b','c'].map(v=>{writeFileSync(join(d,`thumbnail-${v}.png`),'png-'+v);return {file:`thumbnail-${v}.png`,ok:true,issues:[],sha256:sha('png-'+v)}});
  writeFileSync(join(d,'job.json'),JSON.stringify({id,status:'completed',createdAt:new Date().toISOString(),inputHash:'in',outputHash:sha(mp4),thumbnails:thumbs}));
  return d;
 }

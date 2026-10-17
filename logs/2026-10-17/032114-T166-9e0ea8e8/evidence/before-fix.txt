@@ -1,0 +1,72 @@
+✔ 採用a→bの変更で承認が失効し旧bundleHashを拒否（T166） (4.210125ms)
+✔ brief変更や画像差替えでbundleHashが変わり失効（T166） (2.186459ms)
+✔ 不合格・未検査・欠落のサムネイル候補の承認拒否（T166） (1.984541ms)
+✔ 公開前判定（publishReadiness）で不合格・未検査サムネイルを拒否（T166） (1.372167ms)
+✖ 検査後に採用サムネイルを差し替えると、新しい版のhashでも承認できない（T166追加修正） (1.726792ms)
+✖ 検査記録に画像hashがない旧形式は検査済みとみなさない（T166追加修正） (1.264042ms)
+✖ metadata.jsonがなくてもサムネイルの承認ガードを飛ばさない（T166追加修正） (1.158375ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 4
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 89.587167
+
+✖ failing tests:
+
+test at tests/review-thumbnail-integrity.test.ts:178:1
+✖ 検査後に採用サムネイルを差し替えると、新しい版のhashでも承認できない（T166追加修正） (1.726792ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/review-thumbnail-integrity.test.ts:183:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /検査後に.*変わ/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/review-thumbnail-integrity.test.ts:190:1
+✖ 検査記録に画像hashがない旧形式は検査済みとみなさない（T166追加修正） (1.264042ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/review-thumbnail-integrity.test.ts:196:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /画像hash/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/review-thumbnail-integrity.test.ts:202:1
+✖ metadata.jsonがなくてもサムネイルの承認ガードを飛ばさない（T166追加修正） (1.158375ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/review-thumbnail-integrity.test.ts:209:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /未検査/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+exit=1

@@ -242,7 +242,8 @@ export async function sample(opts: SampleOptions = {}) {
 
     // サムネイル案の検査（T073/T165）。実画像・全テキスト・欠測・NaNを検査し、不合格なら安全停止。
     const quality = checkThumbnailQuality(dir, thumbnailBrief, {selectedThumbnail: 'thumbnail-a.png'});
-    job.thumbnails = quality.candidates.map(c => ({file: c.file, ok: c.status === 'pass', issues: c.issues}));
+    // 検査した画像のhashを記録し、承認時に差替えを検出する（T166追加修正）。
+    job.thumbnails = quality.candidates.map(c => ({file: c.file, ok: c.status === 'pass', issues: c.issues, sha256: existsSync(join(dir, c.file)) ? createHash('sha256').update(readFileSync(join(dir, c.file))).digest('hex') : null}));
     job.thumbnailQuality = {
       ok: quality.ok,
       canProceed: quality.canProceed,

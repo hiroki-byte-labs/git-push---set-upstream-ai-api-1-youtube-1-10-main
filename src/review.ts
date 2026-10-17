@@ -108,6 +108,20 @@ export function approvalOf(dir: string): Approval {
 
 // 公開前の判定（T104）。投稿機能は無効のままだが、将来の投稿（T032）はこれを必須にする。
 // デモ・旧ジョブ・制作案件を経ていない動画・台本と一致しない動画・未承認の動画はすべて不可。
+// 採用サムネイルの検査記録が、いま置かれている画像そのものを検査した結果かを確かめる（T166追加修正）。
+// 検査後の差替え・hashのない旧形式の記録・未検査は合格とみなさない。問題がなければnull。
+export function thumbnailGuard(dir: string, job: any, selectedThumb: string): string | null {
+  if (!job.thumbnailQuality && !job.thumbnails) return 'サムネイルが未検査（品質検査記録なし）';
+  if (job.thumbnailQuality && !job.thumbnailQuality.canProceed) return '採用サムネイルが品質検査に不合格（安全停止）';
+  const item = (job.thumbnails ?? []).find((t: any) => t.file === selectedThumb);
+  if (!item || !item.ok) return `採用サムネイル（${selectedThumb}）が品質検査に不合格（${item?.issues?.join(' / ') || '未検査'}）`;
+  if (typeof item.sha256 !== 'string') return `採用サムネイル（${selectedThumb}）の検査記録に画像hashがない（旧形式）。再生成して検査する`;
+  const current = fileHash(dir, selectedThumb);
+  if (!current) return `採用サムネイル（${selectedThumb}）の画像ファイルが欠落している`;
+  if (current !== item.sha256) return `検査後に採用サムネイル（${selectedThumb}）の画像が変わった。再生成して検査する`;
+  return null;
+}
+
 export function publishReadiness(dir: string): {ok: boolean; reasons: string[]} {
   const job = readJob(dir);
   const reasons: string[] = [];
@@ -124,15 +138,8 @@ export function publishReadiness(dir: string): {ok: boolean; reasons: string[]} 
   }
   const metaPath = join(dir, 'metadata.json');
   const m = existsSync(metaPath) ? JSON.parse(readFileSync(metaPath, 'utf8')) : null;
-  const selectedThumb = m?.selectedThumbnail ?? 'thumbnail-a.png';
-  const thumbItem = (job.thumbnails ?? []).find((t: any) => t.file === selectedThumb);
-  if (!job.thumbnailQuality && !job.thumbnails) {
-    reasons.push('サムネイルが未検査（品質検査記録なし）');
-  } else if (job.thumbnailQuality && !job.thumbnailQuality.canProceed) {
-    reasons.push('採用サムネイルが品質検査に不合格（安全停止）');
-  } else if (!thumbItem || !thumbItem.ok) {
-    reasons.push(`採用サムネイル（${selectedThumb}）が品質検査に不合格`);
-  }
+  const thumbProblem = thumbnailGuard(dir, job, m?.selectedThumbnail ?? 'thumbnail-a.png');
+  if (thumbProblem) reasons.push(thumbProblem);
   const a = approvalOf(dir);
   if (a.state !== 'approved') reasons.push(`完成動画が承認済みでない（${a.reason}）`);
   return {ok: reasons.length === 0, reasons: [...new Set(reasons)]};
@@ -163,22 +170,11 @@ export function recordReview(dir: string, decision: Decision, note: string, expe
   if (!bundle.video || bundle.video !== job.outputHash) throw Error('完成ファイルがjob.jsonの記録と一致しない');
   if (decision === 'approve') {
     if (bundle.checklist?.some(f => !f.sha256)) throw Error('チェックリストの成果物が欠落しています。再生成して確認してください');
-    if (bundle.metadata) {
-      const selectedThumb = bundle.metadata.selectedThumbnail ?? 'thumbnail-a.png';
-      const thumbFile = bundle.thumbnails.find(t => t.file === selectedThumb);
-      if (!thumbFile?.sha256) throw Error(`採用サムネイル（${selectedThumb}）の画像ファイルが欠落しています`);
-      if (!job.thumbnailQuality && !job.thumbnails) {
-        throw Error('サムネイルが未検査です。再生成・検査してから承認してください');
-      }
-      if (job.thumbnailQuality && !job.thumbnailQuality.canProceed) {
-        throw Error('採用サムネイルが品質検査に不合格（安全停止）のため承認できません');
-      }
-      if (job.thumbnails) {
-        const checkedItem = job.thumbnails.find((t: any) => t.file === selectedThumb);
-        if (!checkedItem || !checkedItem.ok) {
-          throw Error(`採用サムネイル（${selectedThumb}）が品質検査に合格していません（${checkedItem?.issues?.join(' / ') || '未検査'}）`);
-        }
-      }
+    // 確認対象にサムネイルか概要欄があれば、metadata.jsonの有無にかかわらず検査する（T166追加修正）。
+    // どちらもないジョブ（サムネイルを作らない合成ジョブ等）は従来どおりで、公開前の判定（publishReadiness）が止める。
+    if (bundle.metadata || bundle.thumbnails.length || job.thumbnails || job.thumbnailQuality) {
+      const thumbProblem = thumbnailGuard(dir, job, bundle.metadata?.selectedThumbnail ?? 'thumbnail-a.png');
+      if (thumbProblem) throw Error(`この動画は承認できない: ${thumbProblem}`);
     }
   }
   const currentHash = bundleHash(bundle);

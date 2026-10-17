@@ -30,7 +30,7 @@ function fixture(fn: (dir: string, root: string) => Promise<void> | void) {
       writeFileSync(join(d, 'metadata.json'), JSON.stringify(buildMetadata(plan, {sources: '出典: なし', stance: '免責'}), null, 2));
       const thumbs = ['a', 'b', 'c'].map(v => {
         writeFileSync(join(d, `thumbnail-${v}.png`), 'png-' + v);
-        return {file: `thumbnail-${v}.png`, ok: true, issues: []};
+        return {file: `thumbnail-${v}.png`, ok: true, issues: [], sha256: sha('png-' + v)};
       });
       writeFileSync(join(d, 'job.json'), JSON.stringify({id, status: 'completed', createdAt: new Date().toISOString(), inputHash: 'in', outputHash: sha(mp4), thumbnails: thumbs}));
       await fn(d, root);

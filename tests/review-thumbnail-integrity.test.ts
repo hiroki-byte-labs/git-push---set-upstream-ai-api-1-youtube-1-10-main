@@ -21,10 +21,11 @@ function createMockJobDir(): string {
     status: 'completed',
     outputHash: videoHash,
     inputHash: 'hash-input-1',
+    // T166追加修正: 検査記録は検査した画像のhashを持つ
     thumbnails: [
-      {file: 'thumbnail-a.png', ok: true, issues: []},
-      {file: 'thumbnail-b.png', ok: true, issues: []},
-      {file: 'thumbnail-c.png', ok: false, issues: ['コントラスト不足']},
+      {file: 'thumbnail-a.png', ok: true, issues: [], sha256: sha256('image a')},
+      {file: 'thumbnail-b.png', ok: true, issues: [], sha256: sha256('image b')},
+      {file: 'thumbnail-c.png', ok: false, issues: ['コントラスト不足'], sha256: sha256('image c')},
     ],
     thumbnailQuality: {
       ok: true,
@@ -168,6 +169,44 @@ test('公開前判定（publishReadiness）で不合格・未検査サムネイ�
     const ready2 = publishReadiness(d);
     assert.equal(ready2.ok, false);
     assert.ok(ready2.reasons.some(r => r.includes('未検査')));
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});
+
+// T166追加修正（T120再監査）: 検査結果を検査した画像に結び付け、差替え・旧形式・metadataなしで承認を通さない
+test('検査後に採用サムネイルを差し替えると、新しい版のhashでも承認できない（T166追加修正）', () => {
+  const d = createMockJobDir();
+  try {
+    writeFileSync(join(d, 'thumbnail-a.png'), 'replaced image a');
+    const hash = bundleHash(reviewBundle(d));
+    assert.throws(() => recordReview(d, 'approve', '差替え後', hash, 'human-reviewer'), /検査後に.*変わ/);
+    assert.ok(publishReadiness(d).reasons.some(r => /検査後に.*変わ/.test(r)));
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});
+
+test('検査記録に画像hashがない旧形式は検査済みとみなさない（T166追加修正）', () => {
+  const d = createMockJobDir();
+  try {
+    const job = JSON.parse(readFileSync(join(d, 'job.json'), 'utf8'));
+    job.thumbnails = job.thumbnails.map(({sha256: _s, ...t}: any) => t);
+    writeFileSync(join(d, 'job.json'), JSON.stringify(job));
+    assert.throws(() => recordReview(d, 'approve', '旧形式', bundleHash(reviewBundle(d)), 'human-reviewer'), /画像hash/);
+  } finally {
+    rmSync(d, {recursive: true, force: true});
+  }
+});
+
+test('metadata.jsonがなくてもサムネイルの承認ガードを飛ばさない（T166追加修正）', () => {
+  const d = createMockJobDir();
+  try {
+    rmSync(join(d, 'metadata.json'));
+    const job = JSON.parse(readFileSync(join(d, 'job.json'), 'utf8'));
+    delete job.thumbnails; delete job.thumbnailQuality;
+    writeFileSync(join(d, 'job.json'), JSON.stringify(job));
+    assert.throws(() => recordReview(d, 'approve', 'metadataなし', bundleHash(reviewBundle(d)), 'human-reviewer'), /未検査/);
   } finally {
     rmSync(d, {recursive: true, force: true});
   }
