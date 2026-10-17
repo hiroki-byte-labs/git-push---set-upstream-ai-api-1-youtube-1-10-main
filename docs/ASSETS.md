@@ -26,3 +26,5 @@
 - 再現の描画: motion-lab/src/Reproduction.tsx のSVG図形（本作業で作成）。元動画の画素・音声は使わない。独自配色（house）の色も本作業で選んだもの。
 - Remotion公式Agent Skills: .agents/skills/remotion-best-practices/（remotion-dev/skills、コミット32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5）をRemotion社の文書として版固定で複製。取得元 https://github.com/remotion-dev/skills 。改変していない（SHA-256はmotion-lab/remotion-skills.lock.json）。
 - Remotion本体（4.0.534）とChrome for Testingはnpm・Remotionの公式手順で取得し、node_modules/に置く（Git対象外）。Remotionの利用条件は https://www.remotion.dev/docs/license/faq （2026-10-10確認。評価は無料、従業員4人以上の営利組織の商用利用はCompany License）。
+## T185追加（2026-10-16）
+Noto Serif JP / Noto Sans JPの可変TTFをassets/fontsに無改変で同梱。各OFL-1.1原文、出典・確認日・フォント/ライセンスSHA-256は同manifest.json。表示/再配布条件と使用方法はdocs/THUMBNAIL-TYPOGRAPHY.md。プロセス内登録のみでシステムフォントへの永続インストールは行わない。上記「フォントを複製しない」は従来経路の説明で、このオプトイン経路には本追記を適用する。

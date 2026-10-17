@@ -1,0 +1,14 @@
+✔ deterministic 5000+ character / 6 chapter draft preserves all text, directions, and human gate (57.396958ms)
+✔ citation gate binds exact paragraph text, source URL and status; never invents verification (28.547917ms)
+✔ rejects absent checks, fabricated reflection, bad visual intent, long or short scripts (128.46225ms)
+✔ intro source gate, inference notes, duplicate checks and invalid timing fail closed (0.167125ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 276.22925
+
+EXIT=0

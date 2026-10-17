@@ -1,0 +1,23 @@
+src/production.ts:11:import {readScriptFactCheck, factCheckReportHash} from './script-fact-check.ts';
+src/production.ts:20:export type ScriptReview = {decision: 'approve' | 'reject'; scriptHash: string; scriptVersion: number; note: string; by: string; at: string; via: Via; factCheckHash?: string};
+src/production.ts:227:          const report = readScriptFactCheck(root, id, script, readScript(root, id, script));
+src/production.ts:228:          if (scriptReview.factCheckHash !== factCheckReportHash(report)) throw Error('事実・権利確認レポートが承認時から変更されたため再承認が必要');
+src/production.ts:253:  const factCheckHash = decision === 'approve' ? factCheckReportHash(readScriptFactCheck(root, id, st.script, readScript(root, id, st.script))) : undefined;
+src/production.ts:254:  const r: ScriptReview = {decision, scriptHash: hash, scriptVersion: st.script.version, note, by, at: now(), via, ...(factCheckHash ? {factCheckHash} : {})};
+scripts/benchmark-longform.ts:37:  outcome: 'estimated' | 'passed' | 'failed';
+scripts/benchmark-longform.ts:313:    outcome: opts.dryRun ? 'estimated' : 'failed',
+src/commands/produce.ts:24:  '  produce render <id> [--subtitles burn|soft|both] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say|voicevox] [--queue] [--queue-dir ディレクトリ] [--concurrency 並行数]',
+src/commands/produce.ts:143:    if (opts.queue) {
+src/commands/produce.ts:144:      const {runProduceRenderWithQueue} = await import('../queue-adapter.ts');
+src/commands/produce.ts:145:      const out = await runProduceRenderWithQueue(root, id, opts);
+src/commands/sample.ts:10:import {voicevoxFromEnvironment} from '../voicevox-audio.ts';
+src/commands/sample.ts:97:    else if (args[i] === '--audio' && ['mock', 'say', 'voicevox'].includes(args[i + 1])) opts.audio = args[++i] as AudioMode;
+src/commands/sample.ts:98:    else if (args[i] === '--queue') opts.queue = true;
+src/commands/sample.ts:99:    else if (args[i] === '--queue-dir' && args[i + 1]) opts.queueDir = args[++i];
+src/commands/sample.ts:101:    else throw Error(`不明な引数: ${args[i]}（sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say|voicevox] [--queue] [--queue-dir ディレクトリ] [--concurrency 並行数]）`);
+src/commands/sample.ts:126:  if (opts.queue) {
+src/commands/sample.ts:133:  const audio = opts.audio === 'voicevox' ? voicevoxFromEnvironment() : opts.audio === 'say' ? new LocalSayAudio() : new CueAudio();
+src/commands/sample.ts:136:    : new NativeVisual(opts.subtitles, opts.resolution, opts.audio === 'say' || opts.audio === 'voicevox');
+src/commands/sample.ts:144:  const audioConn = new LocalConnection('audio', audio.kind, opts.audio === 'say' || opts.audio === 'voicevox' ? 'local' : 'mock', async (path: string) => {
+src/commands/sample.ts:210:    if (opts.audio === 'voicevox') {
+src/commands/sample.ts:215:      job.narration = {provider: audio.kind, report: 'voicevox-report.json', attribution, voiceEvaluation: 'pending-human'};

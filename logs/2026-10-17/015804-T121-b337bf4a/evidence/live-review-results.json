@@ -1,0 +1,18 @@
+[
+  {
+    "provider": "claude",
+    "model": "claude-sonnet-5-5",
+    "status": "completed",
+    "metering": "measured",
+    "totalTokens": 25026,
+    "output": "1. **Hookは推薦だけで実行しない**ので、親が独立した単位ごとに `agentctl run` へ渡さないと、新方針の配分は実際には行われず、推薦が実行結果と一致するかはログで確認する必要があります。\n2. **認証不在時の代替は同tierの他製品に限る**ため、代替先がない場合に品質tier下限やL4独立レビューを緩めず、停止または保留にして理由を記録する挙動を、テストで確認する必要があります。\n3. **API課金無効は維持する前提**なので、Claude・Antigravity向けの経路が課金なしの認証済みCLIだけで動くか、また Codex優先の「調整」を担う単位とそれ以外を境界で分けられるかを、実機で確認する必要があります。\n4. **旧方針の挙動を期待するテストや文書が残っていないか**(`orchestration/tests/router.test.ts`、`hooks.test.ts`、`routing-policy.json`、`docs/agent-routing/`)を、新方針の優先順位・フォールバック・L4独立性の観点で見直す必要があります。\n\n**判定:** 均等配分も費用削減も保証されません。新方針は役割別の優先順位を定めただけで、タスクの種類に偏りがあれば特定の製品に集中しますし、認証不在時のフォールバックでも偏ります。料金や性能の比較データはこちらで確認していないため、費用が下がるとは言えません。実績が蓄積した後に `routing-optimizer` と `token-monitor` の実測値で検証するのが妥当です。"
+  },
+  {
+    "provider": "antigravity",
+    "model": "gemini-3.8-flash-medium",
+    "status": "completed",
+    "metering": "measured",
+    "totalTokens": 18799,
+    "output": "昨日JSTの全体集計ではCodex21実行（管理CLI6/対話15）に対しAntigravity22実行（対話22、Claude0）が記録されていますが、このチャットに限っては調査時点の7回すべてがCodex対話でCLI委譲は0でした。\n\nRouterは候補を選択するだけで自動委譲は行わないため、モデルを配分するには親がその推奨結果に従って明示的に委譲を実行する行動が必要です。\n\nまた、API課金が無効な環境において、新Routerの役割優先方針を適用した場合でも、モデル間の均等比率やコスト削減が保証されているわけではありません。\n"
+  }
+]

@@ -1,3 +1,4 @@
+import {reviewWithCheckedFactsForTest, checkedReportForTest} from './helpers/checked-facts.ts';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync, rmSync, readFileSync, writeFileSync, mkdirSync, existsSync} from 'node:fs';
@@ -5,8 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {
-  createProject, selectTopic, addReflection, attachScript, reviewScript,
-  readProject, projectState, assertRenderable, linkRender, readScript
+  createProject, selectTopic, addReflection, attachScript, readProject, projectState, assertRenderable, linkRender, readScript
 } from '../src/production.ts';
 import {
   getPipelineManifest, assessStagePrerequisites, attachFactCheckReport,
@@ -102,7 +102,7 @@ test('E2E正常系: 題材候補選定から考察・台本作成・事実確認
   assert.equal(lintPlan(plan).ok, true);
 
   // 5. 事実確認・素材権利レポートの登録と検証（T124）
-  const factReport = attachFactCheckReport(root, id, factCheckSuperstar());
+  const factReport = attachFactCheckReport(root, id, checkedReportForTest(root, id));
   assert.equal(factReport.ok, true);
   assert.equal(factReport.escalations.length, 0);
 
@@ -158,7 +158,7 @@ test('E2E正常系: 題材候補選定から考察・台本作成・事実確認
 
   // 7. 本人が台本を確認・承認（produce script-review）
   assert.equal(projectState(root, id).stage, 'script-review');
-  reviewScript(root, id, 'approve', s.hash, '', T);
+  reviewWithCheckedFactsForTest(root, id, 'approve', s.hash, '', T);
   assert.equal(projectState(root, id).stage, 'render');
 
   // 8. 制作ジョブの実行とリンク
@@ -211,7 +211,7 @@ test('安全停止: 事実確認での未確認項目または権利不明素材
 
   // 未確認主張が含まれるレポート
   const badFactReport = {
-    ...factCheckSuperstar(),
+    ...checkedReportForTest(root, id),
     claims: [
       {
         claim: '西暦3000年には全人類がAIになる',
@@ -263,7 +263,7 @@ test('承認失効: 台本承認後に考察や題材が変更された場合、
   selectTopic(root, id, 'superstar-economics', T);
   addReflection(root, id, REFL, T);
   const s = attachScript(root, id, draft(), T);
-  reviewScript(root, id, 'approve', s.hash, '', T);
+  reviewWithCheckedFactsForTest(root, id, 'approve', s.hash, '', T);
 
   const jobId = 'prod-job-superstar-002';
   const renderDir = fakeRender(root, id, jobId);

@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+    "-hide_banner",
+    "-v",
+    "error",
+    "-i",
+    "/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/outputs/benchmark-longform-10m-3ed12cad/sample.mp4",
+    "-vf",
+    "select='eq(n,120)+eq(n,7200)+eq(n,14280)',scale=640:360,tile=3x1",
+    "-frames:v",
+    "1",
+    "-fps_mode",
+    "passthrough",
+    "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/logs/2026-10-17/005910-T175-05249640/evidence/frames.png"
+  ],
+  "exitCode": 0,
+  "stderr": "",
+  "times": [
+    5,
+    300,
+    595
+  ]
+}

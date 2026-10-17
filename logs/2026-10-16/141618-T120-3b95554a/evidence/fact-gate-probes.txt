@@ -1,0 +1,6 @@
+記録: 事実・権利確認 主張=2件 素材=2件 結果=合格（エスカレーションなし）
+PROBE 1 {"ok":true,"statuses":["verified","verified"],"urls":["https://unverified.invalid/rosen-1981","https://unverified.invalid/adler-1985"]}
+記録: 台本 v2 を承認（test-agent）
+PROBE 2 {"scriptChanged":true,"newScript":2,"state":"approved","oldReportAccepted":true}
+
+EXIT=0

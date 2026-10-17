@@ -16,10 +16,11 @@ const one=(sql:string,...a:(string|number)[])=>db.prepare(sql).get(...a) as Reco
 test('TEST-001: Codexで通常タスクを開始するとModel Routerの選択が記録される', ()=>{
  H('codex','SessionStart',{session_id:'cx-1',model:'gpt-6-astra',source:'startup',cwd:dir});
  const o=H('codex','UserPromptSubmit',{session_id:'cx-1',turn_id:'t1',model:'gpt-6-astra',prompt:'READMEを要約して'});
- assert.match(o.hookSpecificOutput.additionalContext,/L1\/summarization 推奨 codex:gpt-6-luna（現在 gpt-6-astra）/);
+ assert.match(o.hookSpecificOutput.additionalContext,/L1\/summarization 推奨 antigravity:gemini-3.8-flash-low（現在 gpt-6-astra）/);
+ assert.match(o.hookSpecificOutput.additionalContext,/別製品.*agentctl run/);
  const s=one("SELECT current_execution_id FROM sessions WHERE product='codex' AND session_id='cx-1'");
  const e=one('SELECT e.*,d.model_id AS rec,d.used_llm FROM executions e JOIN decisions d ON d.decision_id=e.decision_id WHERE e.execution_id=?',s.current_execution_id);
- assert.deepEqual([e.initiator,e.model_id,e.rec,e.route,e.used_llm,e.managed],['codex','gpt-6-astra','gpt-6-luna','interactive',0,0]);
+ assert.deepEqual([e.initiator,e.model_id,e.rec,e.route,e.used_llm,e.managed],['codex','gpt-6-astra','gemini-3.8-flash-low','interactive',0,0]);
  assert.equal(one('SELECT prompt_chars,prompt_sha256 IS NOT NULL AS h FROM tasks WHERE task_id=?',e.task_id).h,1,'本文ではなくハッシュだけ保存');
  assert.ok(!readFileSync(join(env.AGENTCTL_DATA_DIR!,'telemetry.db')).includes(Buffer.from('READMEを要約して')),'DBにプロンプト本文がない');
 });

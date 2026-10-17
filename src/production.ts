@@ -8,6 +8,7 @@ import {loadPlan, LIMITS, REFLECTION_PLACEHOLDER} from './plan.ts';
 import type {Plan} from './plan.ts';
 import {lintPlan, formatLint} from './lint.ts';
 import {splitSmartCues} from './subtitle-optimizer.ts';
+import {readScriptFactCheck, factCheckReportHash} from './script-fact-check.ts';
 
 export type Mode = 'production' | 'demo';
 export type Via = 'cli' | 'http';
@@ -16,7 +17,7 @@ export type Selection = {candidateId: string; by: string; at: string; via: Via};
 // authorship: self=本人が書いた原文、assisted=本人の原文（basedOn）をエージェント等が整えた版。同一扱いしない。
 export type Reflection = {version: number; text: string; sha256: string; authorship: 'self' | 'assisted'; basedOn?: number; by: string; at: string; via: Via};
 export type ScriptVersion = {version: number; file: string; hash: string; fileSha256: string; candidateId: string; candidateSha256: string; reflectionVersion: number; reflectionSha256: string; draft: string; by: string; at: string};
-export type ScriptReview = {decision: 'approve' | 'reject'; scriptHash: string; scriptVersion: number; note: string; by: string; at: string; via: Via};
+export type ScriptReview = {decision: 'approve' | 'reject'; scriptHash: string; scriptVersion: number; note: string; by: string; at: string; via: Via; factCheckHash?: string};
 export type RenderLink = {jobId: string; scriptHash: string; scriptVersion: number; at: string};
 export type Workflow = {schema: 1; candidates: Candidate[]; candidatesNote?: string; selections: Selection[]; reflections: Reflection[]; scripts: ScriptVersion[]; scriptReviews: ScriptReview[]; renders: RenderLink[]};
 export type Project = {id: string; kind: 'production-project'; mode: Mode; status: 'open'; createdAt: string; createdBy: string; workflow: Workflow; events: string[]};
@@ -221,7 +222,13 @@ export function projectState(root: string, id: string): ProjectState {
       const older = w.scriptReviews.some(r => r.scriptHash !== script.hash && r.decision === 'approve');
       if (!scriptReview) [scriptState, scriptReason] = ['pending', older ? '台本が変わったため以前の承認は失効。現在の版の確認待ち' : '台本の確認待ち'];
       else if (scriptReview.decision === 'reject') [scriptState, scriptReason] = ['rejected', `台本が差戻し中: ${scriptReview.note}`];
-      else [scriptState, scriptReason] = ['approved', `台本承認済み（v${script.version}、${scriptReview.by}）`];
+      else {
+        try {
+          const report = readScriptFactCheck(root, id, script, readScript(root, id, script));
+          if (scriptReview.factCheckHash !== factCheckReportHash(report)) throw Error('事実・権利確認レポートが承認時から変更されたため再承認が必要');
+          [scriptState, scriptReason] = ['approved', `台本承認済み（v${script.version}、${scriptReview.by}）`];
+        } catch (error) { [scriptState, scriptReason] = ['pending', String((error as Error).message)]; }
+      }
     }
   }
   const missing: string[] = [];
@@ -243,7 +250,8 @@ export function reviewScript(root: string, id: string, decision: 'approve' | 're
   if (!st.script || st.scriptState === 'none' || st.scriptState === 'stale' || st.scriptState === 'broken') throw Error(`確認できる台本がない: ${st.scriptReason}`);
   if (hash !== st.script.hash) throw Error('表示していた台本の版と現在の版が異なる。開き直して確認してください');
   if (decision === 'reject' && !note.trim()) throw Error('差戻しには理由のメモが必要');
-  const r: ScriptReview = {decision, scriptHash: hash, scriptVersion: st.script.version, note, by, at: now(), via};
+  const factCheckHash = decision === 'approve' ? factCheckReportHash(readScriptFactCheck(root, id, st.script, readScript(root, id, st.script))) : undefined;
+  const r: ScriptReview = {decision, scriptHash: hash, scriptVersion: st.script.version, note, by, at: now(), via, ...(factCheckHash ? {factCheckHash} : {})};
   p.workflow.scriptReviews.push(r);
   p.events.push(`script-${decision}`);
   save(root, p);

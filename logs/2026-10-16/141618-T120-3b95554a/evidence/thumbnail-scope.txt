@@ -1,0 +1,12 @@
+tickets/T167.md:13:格差・名字・月の3題材で各3案、合計9案を隔離生成する。T160〜T166の契約・描画・検査・通常制作を接続し、原寸/320×180/160×90の比較パッケージ、brief/素材/実測の対応表、差戻し手順を作る。担当は新規fixture、tests/thumbnail-pipeline.test.ts等のE2E、docsのレビュー文書。既存outputsを保全する。
+tickets/T167.md:18:- native/Remotion両経路の実出力で意味と文言の一致を確認し、通常制作の承認/差戻し/失効を検証する。
+tickets/T167.md:25:1. `scripts/generate-thumbnail-review-package.ts` を実装・実行し、3題材（格差・名字・寛容）×各3案（symbol/contrast/relationship）＝計9案の実PNG（原寸1280x720、320x180、160x90）および実測レポート、briefを隔離ディレクトリ `work/thumbnail-evaluation-package/` 配下に出力。
+tests/thumbnail-e2e.test.ts:16:  {key: 'tolerance', path: 'fixtures/sample-tolerance-illustration.json'},
+scripts/generate-thumbnail-review-package.ts:22:    name: '能力格差（スーパースターの経済学）',
+scripts/generate-thumbnail-review-package.ts:24:    description: 'わずかな能力差がテクノロジーや市場規模によって指数関数的な報酬格差へと拡大する現象',
+scripts/generate-thumbnail-review-package.ts:28:    name: '名字の収縮（数学的姓氏モデル）',
+scripts/generate-thumbnail-review-package.ts:30:    description: '夫婦同姓制度と確率過程によって何百年後に1つの名字へと集約していく不可逆な分岐・統合のメカニズム',
+scripts/generate-thumbnail-review-package.ts:33:    key: 'tolerance',
+scripts/generate-thumbnail-review-package.ts:34:    name: '不寛容のパラドックス（観測装置と月）',
+scripts/generate-thumbnail-review-package.ts:35:    fixture: 'fixtures/sample-tolerance-illustration.json',
+scripts/generate-thumbnail-review-package.ts:162:    '- レビュー対象: 格差・名字・寛容の3題材（計9候補）',

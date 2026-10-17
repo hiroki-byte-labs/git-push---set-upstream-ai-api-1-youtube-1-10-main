@@ -1,0 +1,6 @@
+Skill is valid!
+
+EXIT=0
+Skill is valid!
+
+EXIT=0

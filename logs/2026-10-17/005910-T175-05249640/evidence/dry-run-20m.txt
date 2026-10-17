@@ -1,0 +1,38 @@
+[benchmark] 長尺制作ベンチマーク開始: 20分 (renderer=native, dryRun=true)
+[benchmark] レポート出力完了:
+{
+  "schema": 2,
+  "timestamp": "2026-10-17T01:03:36.634Z",
+  "durationMinutes": 20,
+  "durationSeconds": 1200,
+  "totalFrames": 28800,
+  "renderer": "native",
+  "audio": "mock",
+  "dryRun": true,
+  "directory": "/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-tfWFyI",
+  "outcome": "estimated",
+  "resources": {
+    "peakRssMb": null,
+    "diskUsageMb": null,
+    "elapsedSeconds": null,
+    "fps": null,
+    "speedRatio": null,
+    "samplingIntervalMs": 100,
+    "samples": 0,
+    "processes": [],
+    "errors": []
+  },
+  "safetyThresholds": {
+    "maxRssMb": 3072,
+    "maxDiskMb": 500,
+    "passed": null,
+    "violations": []
+  },
+  "estimates": {
+    "rssMb": 350,
+    "diskMb": 308,
+    "withinThresholds": true
+  }
+}
+
+EXIT=0

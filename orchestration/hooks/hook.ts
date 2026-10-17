@@ -139,6 +139,7 @@ function onPrompt(db:DB,n:N,env:NodeJS.ProcessEnv):HookOut{
  const sel=d.selected;let hint='';
  if(sel&&actTier&&tierIndex(sel.tier)<tierIndex(actTier))hint=' 軽い作業はサブエージェント（Routerが選ぶモデル）か agentctl run へ委譲できる。';
  if(sel&&actTier&&tierIndex(sel.tier)>tierIndex(actTier))hint=' 難度が高い。agentctl run で推奨モデルへ委譲を検討。';
+ if(sel&&sel.provider!==n.product)hint=' 推奨先は別製品。切り出せる作業を agentctl run で委譲する。推奨表示だけでは実行されず、現在の親モデルも切り替わらない。';
  return context(n,`[agentctl] ${t.task_id} ${d.difficulty}/${d.task_type} 推奨 ${sel?`${sel.provider}:${sel.model_id}`:'なし'}（現在 ${actual??'不明'}）。${hint}`.trim());
 }
 function definitionModel(product:Product,agentType:string):string|null{

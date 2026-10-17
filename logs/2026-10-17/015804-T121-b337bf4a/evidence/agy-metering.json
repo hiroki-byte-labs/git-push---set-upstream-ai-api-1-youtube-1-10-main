@@ -1,0 +1,59 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mvbr2ti75b27159f1a65",
+    "parent_task_id": "tsk_0mvbqy8do4b5d7cb72497",
+    "execution_id": "exe_0mvbr2tm2548544eda0c3",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mvbr2tm301b33a1efe69",
+    "initiator": "codex",
+    "agent_name": "routing-analysis",
+    "provider": "antigravity",
+    "model_id": "gemini-3.8-flash-medium",
+    "reasoning_level": "medium",
+    "task_type": "analysis",
+    "difficulty": "L2",
+    "routing_reason": "L2/analysis/品質normal → standard枠の antigravity:gemini-3.8-flash-medium（antigravity>claude>codexの順で最初に条件を満たしたモデル）",
+    "status": "completed",
+    "managed": true,
+    "route": "cli",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-17T02:01:11.791Z",
+    "end_time": "2026-10-17T02:01:38.833Z",
+    "duration_ms": 27042,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "antigravity",
+      "session_id": "b5511038-b1db-4ffa-9ef9-5d076370151c",
+      "agent_id": null
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 18799,
+      "api_usd": 0.01913
+    },
+    "usage": [
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "source_kind": "cli_result",
+        "input_total": 17122,
+        "cache_read": 0,
+        "cache_write": null,
+        "output_total": 1677,
+        "reasoning": 1534,
+        "total": 18799,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"estimated\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.01913
+      }
+    ]
+  }
+]
+
+EXIT=0

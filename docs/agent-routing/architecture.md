@@ -41,7 +41,7 @@ Codex・Claude Code・Antigravityのどこから作業を始めても、管理�
 
 - 難易度: 明示 > プログラム指定ならL0 > エージェント名（`routing-policy.json` の `agents`）> タスク種別の既定 > 既定L2（`difficulty_source=default`）。対話のプロンプトは正規表現の規則（`prompt_rules` / `prompt_bumps`）で分類し、本文は保存しない。
 - tier: L0=なし（LLMを使わない）、L1=light、L2=standard、L3=品質要求high以上ならhigh・それ以外はstandard（能力不足時だけ上位へ）、L4=high＋別製品の独立レビュー。品質要求の下限（`quality_floor`）より下げない。改善で承認された上書き（`overrides`）があればそれを使う。
-- 製品の順序: タスク種別の `providers`（例: 動画解析はAntigravity、アニメーションはClaude、PM・設計はCodex。`initiator` は起動元の製品）。各モデルを、選択可能・能力・認証経路・API課金の可否・予算・トークン上限で検査し、指定tierから上位へだけ探す。候補ごとの除外理由を判断に残す。
+- 製品の順序: タスク種別の `providers`（2026-10-17から、分析/要約はAntigravity、実装/設計/レビューはClaude、全体調整はCodex優先。詳細は [委譲と配分](DELEGATION-DISTRIBUTION.md)。`initiator` は起動元を表すが、通常の委譲先の先頭には置かない）。各モデルを、選択可能・能力・認証経路・API課金の可否・予算・トークン上限で検査し、指定tierから上位へだけ探す。候補ごとの除外理由を判断に残す。
 - 失敗時（`nextAction`）: 能力・品質不足は1段上へ（上限 `max_escalations`=1）、一時的な失敗は同じモデルで再試行（上限 `max_retries`=2）、認証・予算・方針・入力・ツール・モデル不一致・不明は停止。
 - 判断が難しい場合のLLM分類（`llm_classifier`）は既定で無効。
 

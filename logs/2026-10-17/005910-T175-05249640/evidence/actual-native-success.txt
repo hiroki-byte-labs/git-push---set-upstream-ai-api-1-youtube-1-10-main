@@ -1,0 +1,437 @@
+[benchmark] 長尺制作ベンチマーク開始: 10分 (renderer=native, dryRun=false)
+[benchmark] レポート出力完了:
+{
+  "schema": 2,
+  "timestamp": "2026-10-17T01:03:28.768Z",
+  "durationMinutes": 10,
+  "durationSeconds": 600,
+  "totalFrames": 14400,
+  "renderer": "native",
+  "audio": "mock",
+  "dryRun": false,
+  "directory": "/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf",
+  "outcome": "passed",
+  "resources": {
+    "peakRssMb": 1463.6875,
+    "diskUsageMb": 310.59234619140625,
+    "elapsedSeconds": 67.52873641699999,
+    "fps": 213.24255071319354,
+    "speedRatio": 8.885106279716398,
+    "samplingIntervalMs": 100,
+    "samples": 666,
+    "processes": [
+      {
+        "pid": 34868,
+        "command": "(node)",
+        "peakRssMb": 133.203125
+      },
+      {
+        "pid": 34880,
+        "command": "/Library/Developer/CommandLineTools/usr/bin/swift-driver",
+        "peakRssMb": 33.734375
+      },
+      {
+        "pid": 34881,
+        "command": "/Library/Developer/CommandLineTools/usr/bin/swift-frontend",
+        "peakRssMb": 1326.015625
+      },
+      {
+        "pid": 36365,
+        "command": "/Library/Developer/CommandLineTools/usr/bin/clang",
+        "peakRssMb": 14.25
+      },
+      {
+        "pid": 36366,
+        "command": "/Library/Developer/CommandLineTools/usr/bin/ld",
+        "peakRssMb": 155.5
+      },
+      {
+        "pid": 36373,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/render",
+        "peakRssMb": 0.03125
+      },
+      {
+        "pid": 36405,
+        "command": "(render)",
+        "peakRssMb": 1334.203125
+      },
+      {
+        "pid": 37211,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 368.375
+      },
+      {
+        "pid": 39598,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 79.6875
+      },
+      {
+        "pid": 39687,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 78.5
+      },
+      {
+        "pid": 39785,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 23.140625
+      },
+      {
+        "pid": 39800,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 72
+      },
+      {
+        "pid": 39808,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.40625
+      },
+      {
+        "pid": 39817,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 84.171875
+      },
+      {
+        "pid": 39826,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.578125
+      },
+      {
+        "pid": 39835,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 39.703125
+      },
+      {
+        "pid": 39844,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 19.515625
+      },
+      {
+        "pid": 39853,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 19.734375
+      },
+      {
+        "pid": 39862,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.578125
+      },
+      {
+        "pid": 39873,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 16.375
+      },
+      {
+        "pid": 39882,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 80.625
+      },
+      {
+        "pid": 39892,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 73.34375
+      },
+      {
+        "pid": 39902,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 0.390625
+      },
+      {
+        "pid": 39911,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 16.359375
+      },
+      {
+        "pid": 39938,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 0.296875
+      },
+      {
+        "pid": 39948,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 0.71875
+      },
+      {
+        "pid": 39951,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 20.265625
+      },
+      {
+        "pid": 39961,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 2.671875
+      },
+      {
+        "pid": 39970,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 86.15625
+      },
+      {
+        "pid": 39980,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.796875
+      },
+      {
+        "pid": 39990,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 73.40625
+      },
+      {
+        "pid": 39999,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 27.671875
+      },
+      {
+        "pid": 40008,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.53125
+      },
+      {
+        "pid": 40035,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 0.25
+      },
+      {
+        "pid": 40039,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 12.5625
+      },
+      {
+        "pid": 40050,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 0.5
+      },
+      {
+        "pid": 40066,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 0.5625
+      },
+      {
+        "pid": 40070,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 16.375
+      },
+      {
+        "pid": 40079,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.25
+      },
+      {
+        "pid": 40089,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 73.640625
+      },
+      {
+        "pid": 40100,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 1.953125
+      },
+      {
+        "pid": 40111,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 19.515625
+      },
+      {
+        "pid": 40121,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 0
+      },
+      {
+        "pid": 40139,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 0.109375
+      },
+      {
+        "pid": 40143,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 66.25
+      },
+      {
+        "pid": 40153,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 74
+      },
+      {
+        "pid": 40163,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 73.53125
+      },
+      {
+        "pid": 40173,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 0.390625
+      },
+      {
+        "pid": 40183,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 19.515625
+      },
+      {
+        "pid": 40203,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 7.84375
+      },
+      {
+        "pid": 40213,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 1.25
+      },
+      {
+        "pid": 40223,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 9.6875
+      },
+      {
+        "pid": 40233,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 70.21875
+      },
+      {
+        "pid": 40243,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 73.65625
+      },
+      {
+        "pid": 40253,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 78.09375
+      },
+      {
+        "pid": 40263,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 84.546875
+      },
+      {
+        "pid": 40273,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 78.09375
+      },
+      {
+        "pid": 40283,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 74.03125
+      },
+      {
+        "pid": 40293,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 71.671875
+      },
+      {
+        "pid": 40303,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 9.171875
+      },
+      {
+        "pid": 40313,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 15.1875
+      },
+      {
+        "pid": 40323,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 73.609375
+      },
+      {
+        "pid": 40333,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 83.9375
+      },
+      {
+        "pid": 40343,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 68.375
+      },
+      {
+        "pid": 40353,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 20.109375
+      },
+      {
+        "pid": 40362,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.828125
+      },
+      {
+        "pid": 40372,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.703125
+      },
+      {
+        "pid": 40382,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 72.375
+      },
+      {
+        "pid": 40392,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 72.265625
+      },
+      {
+        "pid": 40403,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 7.9375
+      },
+      {
+        "pid": 40412,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 16.3125
+      },
+      {
+        "pid": 40421,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 86.25
+      },
+      {
+        "pid": 40431,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 75.09375
+      },
+      {
+        "pid": 40441,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 0.296875
+      },
+      {
+        "pid": 40451,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 85.359375
+      },
+      {
+        "pid": 40462,
+        "command": "(ffmpeg-macos-aar)",
+        "peakRssMb": 16.109375
+      },
+      {
+        "pid": 40469,
+        "command": "/private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/work/python-deps/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+        "peakRssMb": 81
+      },
+      {
+        "pid": 40552,
+        "command": "/Library/Developer/CommandLineTools/usr/bin/swift-frontend",
+        "peakRssMb": 321.046875
+      }
+    ],
+    "errors": []
+  },
+  "safetyThresholds": {
+    "maxRssMb": 3072,
+    "maxDiskMb": 500,
+    "passed": true,
+    "violations": []
+  },
+  "process": {
+    "exitCode": 0,
+    "signal": null
+  },
+  "mediaValidation": {
+    "videoFrames": 14400,
+    "expectedFrames": 14400,
+    "fullDecodePassed": true,
+    "videoDuration": 600,
+    "audioDuration": 600,
+    "artifactSha256": "2a6772b79cf39cf32fce953a81f0f1ea926822ac612a166a6d2c2fbb45e8b549",
+    "path": "/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-mbKYxf/workspace/outputs/benchmark-longform-10m-3ed12cad/sample.mp4"
+  }
+}
+
+EXIT=0

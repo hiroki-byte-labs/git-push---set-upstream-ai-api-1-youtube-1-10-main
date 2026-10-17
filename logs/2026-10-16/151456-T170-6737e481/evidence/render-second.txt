@@ -1,0 +1,8 @@
+Rendered 0 images
+
+Rendered 63 images
+
+生成完了: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/T170-safe-render-pi02td12/outputs/bias-check-demo-67c0dbda/sample.mp4
+（デモ: 本人の題材選定・考察・台本承認を経ていない。本番の制作は produce を使う）
+
+EXIT=0

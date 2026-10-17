@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import type {ThumbnailBrief} from './thumbnail-brief.ts';
 import {validateThumbnailBrief} from './thumbnail-brief.ts';
+import {verifyTypographyFonts} from './thumbnail-typography.ts';
 
 export type DrawnBox = {
   x: number;
@@ -14,6 +15,7 @@ export type DrawnBox = {
 };
 
 export type ThumbnailRenderReport = {
+  typography?: {family: string; fontName: string; weight: number; outline: boolean; glow: boolean; gradient: boolean};
   file: string;
   variant: string;
   headline: string;
@@ -40,6 +42,7 @@ export function renderThumbnails(options: RenderThumbnailOptions): ThumbnailRend
 
   // 入力briefの検証
   validateThumbnailBrief(brief);
+  if (brief.candidates.some(c => c.typography)) verifyTypographyFonts();
 
   mkdirSync(outputDir, {recursive: true});
 

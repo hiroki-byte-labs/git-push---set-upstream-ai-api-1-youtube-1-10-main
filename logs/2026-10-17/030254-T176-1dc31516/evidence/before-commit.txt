@@ -1,0 +1,16 @@
+$ git status --porcelain --untracked-files=all | wc -l
+     247
+$ git diff --stat | tail -1
+ 42 files changed, 701 insertions(+), 335 deletions(-)
+$ git rev-list --count origin/main..main
+2
+$ ./scripts/run src/worklog-cli.ts check --staged  (現在のindex=HEAD)
+  "latest": "072634-T173-122a77d7",
+  "mode": "staged"
+}
+exit=0
+# 一時index(GIT_INDEX_FILE)で部分コミットを模擬。実indexは変更しない
+$ GIT_INDEX_FILE=一時 git add logs/2026-10-16/151456-T170-6737e481 src/local-say-audio.ts tests/local-say-audio.test.ts tickets/T170.md
+$ GIT_INDEX_FILE=一時 worklog-cli check --staged
+終了記録後の変更（新しい作業ログが必要）: .agents/skills/sample-render-verification/SKILL.md, .agents/skills/script-drafting/SKILL.md, .agents/skills/task-work-units/SKILL.md
+exit=

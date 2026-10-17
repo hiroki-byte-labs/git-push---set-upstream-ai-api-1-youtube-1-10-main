@@ -165,6 +165,9 @@ export function synthesizeTextWithSay(
 
     const rawWav = readFileSync(tempOut);
     const parsed = extractWavPcm(rawWav);
+    if (parsed.sampleRate !== RATE || parsed.channels !== 1 || parsed.bitsPerSample !== 16 || !parsed.pcmData.length || parsed.pcmData.length % 2) {
+      throw Error('sayの応答は24kHz/mono/PCM16の非空WAVが必要です');
+    }
     const standardWav = buildWav(parsed.pcmData, parsed.sampleRate);
 
     return {
@@ -184,7 +187,8 @@ export function synthesizeTextWithSay(
  */
 export function synthesizePlanWithSay(
   plan: Plan,
-  options: SayAudioOptions = {}
+  options: SayAudioOptions = {},
+  synthesize: typeof synthesizeTextWithSay = synthesizeTextWithSay
 ): {
   audioBuffer: Buffer;
   slices: SynthesizedSlice[];
@@ -197,12 +201,17 @@ export function synthesizePlanWithSay(
   const totalPcm = Buffer.alloc(totalSamples * 2); // 16bit = 2 bytes per sample
 
   let sampleOffset = 0;
+  let elapsedSeconds = 0;
 
   for (let sIdx = 0; sIdx < plan.scenes.length; sIdx++) {
     const scene = plan.scenes[sIdx];
     for (let cIdx = 0; cIdx < scene.cues.length; cIdx++) {
       const cue = scene.cues[cIdx];
-      const cueSamples = Math.round(cue.seconds * RATE);
+      // Round absolute timeline boundaries rather than each duration. Summed
+      // rounding errors otherwise silently drop samples at the end of a plan.
+      elapsedSeconds += cue.seconds;
+      const endSample = Math.round(elapsedSeconds * RATE);
+      const cueSamples = endSample - sampleOffset;
       const cueText = cue.text.trim();
 
       let synthResult: {wavBuffer: Buffer; pcmData: Buffer; durationSec: number; sampleRate: number};
@@ -225,8 +234,14 @@ export function synthesizePlanWithSay(
           rateWpm = Math.min(260, Math.max(180, Math.round(charsPerSec * 40)));
         }
 
-        synthResult = synthesizeTextWithSay(cueText, {voice, rateWpm});
+        synthResult = synthesize(cueText, {voice, rateWpm});
       }
+
+      if (synthResult.sampleRate !== RATE || synthResult.pcmData.length % 2 || !Number.isFinite(synthResult.durationSec)) throw Error('sayのPCM形式/長さが不正です');
+      if (synthResult.pcmData.length > cueSamples * 2) {
+        throw Error(`場面${sIdx + 1}/cue${cIdx + 1}: 発話${(synthResult.pcmData.length / 2 / RATE).toFixed(3)}秒が字幕枠${cue.seconds}秒を超過。音声は切り捨てません。台本の尺を調整し、再承認してください。`);
+      }
+      if (endSample > totalSamples) throw Error('sayのcue時刻が台本の総尺を超過');
 
       slices.push({
         sceneIndex: sIdx,
@@ -238,12 +253,11 @@ export function synthesizePlanWithSay(
         wavBuffer: synthResult.wavBuffer,
       });
 
-      // cue の秒数枠に収まるよう配置（発話が cue 秒数より長ければ切り詰め、短ければ末尾パディング）
-      const copySamples = Math.min(synthResult.pcmData.length / 2, cueSamples);
+      // All speech samples are preserved; only the remainder is padded.
       const targetOffset = sampleOffset * 2;
-      synthResult.pcmData.copy(totalPcm, targetOffset, 0, copySamples * 2);
+      synthResult.pcmData.copy(totalPcm, targetOffset);
 
-      sampleOffset += cueSamples;
+      sampleOffset = endSample;
     }
   }
 

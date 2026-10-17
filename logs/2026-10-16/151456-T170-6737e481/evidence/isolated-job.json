@@ -1,0 +1,212 @@
+{
+  "id": "bias-check-demo-67c0dbda",
+  "kind": "production-job",
+  "status": "completed",
+  "createdAt": "2026-10-16T15:16:30.792Z",
+  "pid": 6408,
+  "mode": "demo",
+  "providers": [
+    "mock.fixture",
+    "local.say",
+    "local.appkit-ffmpeg",
+    "publisher.disabled"
+  ],
+  "cost": {
+    "currency": "USD",
+    "limit": 0,
+    "committed": 0,
+    "reserved": 0,
+    "unknown": 0,
+    "basis": "mock/local only（実API未接続）"
+  },
+  "usage": [
+    {
+      "domain": "script",
+      "provider": "mock.fixture",
+      "model": "none",
+      "mode": "mock",
+      "requestId": "mock-mock.fixture-1",
+      "inputUnits": 0,
+      "outputUnits": 0,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "audio",
+      "provider": "local.say",
+      "model": "none",
+      "mode": "local",
+      "requestId": "local-local.say-1",
+      "inputUnits": 0,
+      "outputUnits": 48,
+      "costUsd": 0,
+      "attempts": 1
+    },
+    {
+      "domain": "visual",
+      "provider": "local.appkit-ffmpeg",
+      "model": "none",
+      "mode": "local",
+      "requestId": "local-local.appkit-ffmpeg-1",
+      "inputUnits": 0,
+      "outputUnits": 48,
+      "costUsd": 0,
+      "attempts": 1
+    }
+  ],
+  "attempts": [
+    {
+      "attemptId": "att-a628c38a",
+      "domain": "script",
+      "provider": "mock.fixture",
+      "mode": "mock",
+      "attempt": 1,
+      "at": "2026-10-16T15:16:30.791Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "mock-mock.fixture-1"
+    },
+    {
+      "attemptId": "att-4cc84f82",
+      "domain": "audio",
+      "provider": "local.say",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-16T15:16:54.494Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "local-local.say-1"
+    },
+    {
+      "attemptId": "att-7bfe96d8",
+      "domain": "visual",
+      "provider": "local.appkit-ffmpeg",
+      "mode": "local",
+      "attempt": 1,
+      "at": "2026-10-16T15:17:01.073Z",
+      "estimateUsd": 0,
+      "outcome": "success",
+      "charge": "confirmed",
+      "costUsd": 0,
+      "providerRequestId": "local-local.appkit-ffmpeg-1"
+    }
+  ],
+  "inputHash": "d7fe6bf2f0c6f8cf984bdf97e5ee44348e3870b223a49ebde19d7f4cbdc12d04",
+  "input": "fixtures/sample-v2.json",
+  "durationSeconds": 48,
+  "subtitles": "burn",
+  "resolution": 720,
+  "versions": {
+    "planSchema": 2,
+    "plan": 1,
+    "rendererSource": "336f32f4ae2459511afd4404fc0a7119db7719d8b8029ed476348d386398a8f3",
+    "rendererKind": "local.appkit-ffmpeg",
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "node": "v24.19.0"
+  },
+  "events": [
+    "lint-checked",
+    "audio-ready",
+    "video-checked"
+  ],
+  "lint": {
+    "ok": true,
+    "errors": 0,
+    "warnings": 1
+  },
+  "checklist": {
+    "items": 0,
+    "files": [
+      "checklist.json",
+      "checklist.txt",
+      "checklist-1.png"
+    ],
+    "ok": true
+  },
+  "channelDecided": true,
+  "metadata": {
+    "ok": true,
+    "issues": [],
+    "chapters": 0
+  },
+  "thumbnailBrief": {
+    "schema": "thumbnail-brief@1",
+    "inputHash": "393fac1a5f48911a4bdee64ccf75fd99e3a83db1857588fc3f51e435cedd9fa8",
+    "overallStatus": "ready",
+    "candidates": [
+      {
+        "variant": "a",
+        "composition": "symbol",
+        "headline": "なぜ投資と心理｜判断の前に確かめること？",
+        "sub": "判断の前に考え方を確かめる3つの観点",
+        "motifs": [
+          "question-symbol"
+        ],
+        "status": "ready"
+      },
+      {
+        "variant": "b",
+        "composition": "contrast",
+        "headline": "事実と解釈",
+        "sub": "事実と解釈を分ける",
+        "motifs": [
+          "事実",
+          "解釈"
+        ],
+        "status": "ready"
+      },
+      {
+        "variant": "c",
+        "composition": "relationship",
+        "headline": "今日のメモを、次の判断へ。",
+        "sub": "判断の前に考え方を確かめる3つの観点",
+        "motifs": [
+          "mechanism-flow"
+        ],
+        "status": "ready"
+      }
+    ],
+    "selectedCandidate": "a"
+  },
+  "thumbnails": [
+    {
+      "file": "thumbnail-a.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-b.png",
+      "ok": true,
+      "issues": []
+    },
+    {
+      "file": "thumbnail-c.png",
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "thumbnailQuality": {
+    "ok": true,
+    "canProceed": true,
+    "allPassed": true,
+    "selectedVariant": "a",
+    "reasons": []
+  },
+  "readability": {
+    "ok": true,
+    "scale": 1,
+    "minFont720": 17,
+    "minContrast": 6.32,
+    "issues": []
+  },
+  "layout": {
+    "ok": true,
+    "checked": 708,
+    "issues": []
+  },
+  "outputHash": "bbfa5068b160c43aada3cc21523f21c1de822dfce640d00ffa5f0d064ab7b4ed"
+}

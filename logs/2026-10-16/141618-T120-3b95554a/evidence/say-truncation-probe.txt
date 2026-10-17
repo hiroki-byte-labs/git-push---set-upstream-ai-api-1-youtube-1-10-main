@@ -1,0 +1,9 @@
+{
+  "schemaValid": true,
+  "expectedSeconds": 2,
+  "actualSpeechSeconds": 4.52,
+  "outputSeconds": 2,
+  "speechTruncated": true
+}
+
+EXIT=0

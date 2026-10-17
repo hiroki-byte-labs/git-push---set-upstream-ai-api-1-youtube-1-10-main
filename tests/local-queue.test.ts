@@ -1,3 +1,4 @@
+import {reviewWithCheckedFactsForTest} from './helpers/checked-facts.ts';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync, readdirSync} from 'node:fs';
@@ -7,7 +8,7 @@ import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {LocalQueue} from '../src/local-queue.ts';
 import {ConnError} from '../src/connections.ts';
-import {createProject, selectTopic, addReflection, attachScript, reviewScript} from '../src/production.ts';
+import {createProject, selectTopic, addReflection, attachScript} from '../src/production.ts';
 const hash = (v: string) => createHash('sha256').update(v).digest('hex');
 function setup(t: {after(fn: () => void): void}, concurrency = 1) {
   const root = mkdtempSync(join(tmpdir(), 'T141-')); t.after(() => rmSync(root, {recursive: true, force: true}));
@@ -152,7 +153,7 @@ test('production bridge requires human approval, rechecks version before running
   selectTopic(production, id, 'price-index', 'test-agent'); addReflection(production, id, '身近な値段を比較して考えます。', 'test-agent');
   const draft = JSON.parse(readFileSync('fixtures/draft-price-index.json', 'utf8'));
   const script = attachScript(production, id, draft, 'test-agent'); assert.throws(() => q.enqueueProduction(production, id, ['audio']), /未承認/);
-  reviewScript(production, id, 'approve', script.hash, '', 'test-agent'); q.enqueueProduction(production, id, ['audio'], 'mock');
+  reviewWithCheckedFactsForTest(production, id, 'approve', script.hash, '', 'test-agent'); q.enqueueProduction(production, id, ['audio'], 'mock');
   addReflection(production, id, '考察を変更しました。', 'test-agent'); const original = readFileSync(join(production, id, 'job.json'));
   await q.drain(async () => assert.fail('stale approval ran')); assert.equal(q.snapshot().jobs[0].status, 'blocked');
   assert.deepEqual(readFileSync(join(production, id, 'job.json')), original); assert.equal(readdirSync(production).length, 1);
@@ -198,7 +199,7 @@ test('approved production mock queue completes without changing production workf
   const id = createProject(production, {schema: 1, candidates: [{id: 'price-index', title: '物価', hook: '価格とは', concept: '指数'}]}, {demo: true, by: 'test-agent'});
   selectTopic(production, id, 'price-index', 'test-agent'); addReflection(production, id, '身近な値段を比較して考えます。', 'test-agent');
   const script = attachScript(production, id, JSON.parse(readFileSync('fixtures/draft-price-index.json', 'utf8')), 'test-agent');
-  reviewScript(production, id, 'approve', script.hash, '', 'test-agent'); const before = readFileSync(join(production, id, 'job.json'));
+  reviewWithCheckedFactsForTest(production, id, 'approve', script.hash, '', 'test-agent'); const before = readFileSync(join(production, id, 'job.json'));
   q.enqueueProduction(production, id, ['audio', 'video', 'qa'], 'mock'); await q.drain(emit);
   assert.equal(q.snapshot().jobs[0].status, 'completed'); assert.deepEqual(readFileSync(join(production, id, 'job.json')), before);
 });

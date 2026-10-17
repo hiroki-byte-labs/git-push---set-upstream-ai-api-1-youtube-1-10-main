@@ -1,7 +1,8 @@
+import {reviewWithCheckedFactsForTest, checkScriptForTest} from './helpers/checked-facts.ts';
 // 本人が担う工程（T104、ADR-018）。題材の選択→考察→台本承認→制作→完成動画の承認。
 // 記録者: デモ案件はtest-agent（人ではない）。本番形式の試験は一時ディレクトリだけで、架空の人名「テスト利用者」を使う（実在の本人の入力ではない）。
 import {test} from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,rmSync,readFileSync,writeFileSync,unlinkSync,mkdirSync} from 'node:fs';import {tmpdir} from 'node:os';import {join,resolve} from 'node:path';import {createHash} from 'node:crypto';import {createServer} from 'node:http';import type {AddressInfo} from 'node:net';import {spawnSync} from 'node:child_process';
-import {createProject,selectTopic,addReflection,attachScript,reviewScript,projectState,assertRenderable,linkRender,injectReflection,splitCues,isAgentName,modeOf,readScript,authorshipLabel,REFLECTION_MAX_CHARS,READ_CHARS_PER_SECOND} from '../src/production.ts';
+import {createProject,selectTopic,addReflection,attachScript,projectState,assertRenderable,linkRender,injectReflection,splitCues,isAgentName,modeOf,readScript,authorshipLabel,REFLECTION_MAX_CHARS,READ_CHARS_PER_SECOND} from '../src/production.ts';
 import {approvalOf,recordReview,publishReadiness,workflowStatus,reviewBundle} from '../src/review.ts';
 import {listJobs} from '../src/jobs.ts';
 import {lintPlan} from '../src/lint.ts';
@@ -17,7 +18,7 @@ const REFL='値札の変化は目に入りやすいので、家計全体と分�
 const chars=(t:string)=>[...t].length;
 function tmp(fn:(root:string)=>Promise<void>|void){return async()=>{const root=mkdtempSync(join(tmpdir(),'prod-'));try{await fn(root)}finally{rmSync(root,{recursive:true,force:true})}}}
 // 承認済みの台本まで進める（demo=falseは本番形式。一時ディレクトリでのみ使う）。
-function ready(root:string,demo=true){const by=demo?T:H;const id=createProject(root,candidates(),{demo,by:T});selectTopic(root,id,'price-index',by);addReflection(root,id,REFL,by);const s=attachScript(root,id,draft(),T,{draft:'fixtures/draft-general-demo.json'});reviewScript(root,id,'approve',s.hash,'',by);return {id,s,by}}
+function ready(root:string,demo=true){const by=demo?T:H;const id=createProject(root,candidates(),{demo,by:T});selectTopic(root,id,'price-index',by);addReflection(root,id,REFL,by);const s=attachScript(root,id,draft(),T,{draft:'fixtures/draft-general-demo.json'});reviewWithCheckedFactsForTest(root,id,'approve',s.hash,'',by);return {id,s,by}}
 // 制作ジョブ（動画の代わりに小さなファイル）を作り、案件の現在の台本に結び付ける。
 function fakeRender(root:string,id:string,jobId:string){
  const st=projectState(root,id);const d=join(root,jobId);mkdirSync(d,{recursive:true});const mp4=Buffer.from('fake-mp4-'+jobId);writeFileSync(join(d,'sample.mp4'),mp4);writeFileSync(join(d,'subtitles.vtt'),'WEBVTT\n');
@@ -63,8 +64,8 @@ test('本番の案件では本人の工程をエージェント名で記録で�
  assert.throws(()=>addReflection(root,id,REFL,'codex'),/エージェント名/);
  addReflection(root,id,REFL,H);addReflection(root,id,REFL+'（整形）','Claude Code',{assistedFrom:1});
  const s=attachScript(root,id,draft(),'Claude Code');
- assert.throws(()=>reviewScript(root,id,'approve',s.hash,'','claude'),/エージェント名/);
- reviewScript(root,id,'approve',s.hash,'',H);assert.equal(projectState(root,id).scriptState,'approved');
+ assert.throws(()=>reviewWithCheckedFactsForTest(root,id,'approve',s.hash,'','claude'),/エージェント名/);
+ reviewWithCheckedFactsForTest(root,id,'approve',s.hash,'',H);assert.equal(projectState(root,id).scriptState,'approved');
 }));
 
 test('台本: 考察が未入力なら作れない、考察の場面はちょうど1つ、本人の考察がそのまま入る',tmp(root=>{
@@ -104,17 +105,17 @@ test('考察に禁止表現・出典のない数値があれば、台本を確�
 
 test('台本の確認: 版の不一致・理由なしの差戻しを拒否。差戻し中は制作できず、承認後に制作できる',tmp(root=>{
  const id=createProject(root,candidates(),{demo:true,by:T});selectTopic(root,id,'price-index',T);addReflection(root,id,REFL,T);const s=attachScript(root,id,draft(),T);
- assert.throws(()=>reviewScript(root,id,'approve',sha('other'),'',T),/異なる/);
- assert.throws(()=>reviewScript(root,id,'reject',s.hash,' ',T),/理由/);
- reviewScript(root,id,'reject',s.hash,'考察の位置を前に',T);
+ assert.throws(()=>reviewWithCheckedFactsForTest(root,id,'approve',sha('other'),'',T),/異なる/);
+ assert.throws(()=>reviewWithCheckedFactsForTest(root,id,'reject',s.hash,' ',T),/理由/);
+ reviewWithCheckedFactsForTest(root,id,'reject',s.hash,'考察の位置を前に',T);
  const st=projectState(root,id);assert.equal(st.scriptState,'rejected');assert.equal(st.stage,'script-review');
  assert.throws(()=>assertRenderable(root,id),/差戻し中/);
- reviewScript(root,id,'approve',s.hash,'',T);assert.equal(projectState(root,id).stage,'render');assert.equal(assertRenderable(root,id).state.script!.hash,s.hash);
+ reviewWithCheckedFactsForTest(root,id,'approve',s.hash,'',T);assert.equal(projectState(root,id).stage,'render');assert.equal(assertRenderable(root,id).state.script!.hash,s.hash);
 }));
 
 test('承認後の変更で台本承認が失効: 考察の更新・題材の変更・台本ファイルの変更/欠落',tmp(root=>{
  {const {id,s}=ready(root);addReflection(root,id,REFL+'追記。',T);const st=projectState(root,id);assert.equal(st.scriptState,'stale');assert.match(st.scriptReason,/考察が更新/);assert.throws(()=>assertRenderable(root,id),/考察が更新/);
-  assert.throws(()=>reviewScript(root,id,'approve',s.hash,'',T),/確認できる台本がない/);
+  assert.throws(()=>reviewWithCheckedFactsForTest(root,id,'approve',s.hash,'',T),/確認できる台本がない/);
   const s2=attachScript(root,id,draft(),T);assert.notEqual(s2.hash,s.hash);const st2=projectState(root,id);assert.equal(st2.scriptState,'pending');assert.match(st2.scriptReason,/以前の承認は失効/);
   assert.equal(readScript(root,id,s2).scenes.find(x=>x.role==='reflection')!.narration,REFL+'追記。');}
  {const {id}=ready(root);selectTopic(root,id,'real-wage',T);assert.equal(projectState(root,id).scriptState,'stale');assert.match(projectState(root,id).scriptReason,/題材/)}
@@ -138,7 +139,7 @@ test('完成動画: 台本の版に結び付き、台本が変わると失効し
  const a=approvalOf(d);assert.equal(a.state,'pending');assert.equal(a.bundle!.script,s.hash);assert.equal(a.mode,'demo');assert.equal(a.project,id);
  assert.equal(workflowStatus(root,id).stage,'video-review');
  approveVideo(d);assert.equal(approvalOf(d).state,'approved');assert.equal(workflowStatus(root,id).stage,'done');
- addReflection(root,id,REFL+'追記。',T);const s2=attachScript(root,id,draft(),T);reviewScript(root,id,'approve',s2.hash,'',T);
+ addReflection(root,id,REFL+'追記。',T);const s2=attachScript(root,id,draft(),T);reviewWithCheckedFactsForTest(root,id,'approve',s2.hash,'',T);
  const old=approvalOf(d);assert.equal(old.state,'expired');assert.match(old.reason,/台本が変わった/);
  assert.throws(()=>approveVideo(d),/承認できない/);
  const w=workflowStatus(root,id);assert.equal(w.stage,'render');assert.match(w.missing.join(),/未制作/);
@@ -176,6 +177,8 @@ test('確認画面（HTTP）: 案件ページ、選択・考察・台本承認�
   addReflection(root,id,REFL,T);const s=attachScript(root,id,draft(),T);
   const page3=await (await fetch(`${base}/job/${id}`)).text();const shown=page3.match(/name="scriptHash" value="([a-f0-9]{64})"/)![1];assert.equal(shown,s.hash);assert.match(page3,/本人の考察/);
   assert.equal((await post(id,'script-review',{decision:'approve',scriptHash:sha('old'),by:T})).status,409);
+  assert.equal((await post(id,'script-review',{decision:'approve',scriptHash:shown,by:T})).status,409,'HTTP approval must reject missing fact report');
+  checkScriptForTest(root,id);
   assert.equal((await post(id,'script-review',{decision:'approve',scriptHash:shown,by:T})).status,303);assert.equal(projectState(root,id).scriptState,'approved');
   const denied=await post(prod,'select',{candidateId:'price-index',by:'Claude Code'});assert.equal(denied.status,409);assert.match(await denied.text(),/エージェント名/);
   const d=fakeRender(root,id,'price-index-draft-eeeeeeee');const vpage=await (await fetch(`${base}/job/price-index-draft-eeeeeeee`)).text();assert.match(vpage,/デモ/);assert.match(vpage,/公開前の判定: 不可/);
@@ -197,6 +200,8 @@ test('CLI: produce の入口で、未入力なら制作を拒否し不足を表�
  const r1=run('render',id);assert.equal(r1.status,1);assert.match(r1.stderr,/台本が未承認/);
  assert.equal(run('script-review',id,'approve','--hash',hash,'--by',T).status,1);
  assert.equal(run('fact-check',id,'--by',T).status,0);
+ assert.equal(run('script-review',id,'approve','--hash',hash,'--by',T).status,1);
+ checkScriptForTest(join(root,'outputs'),id);
  assert.equal(run('script-review',id,'approve','--hash',hash,'--by',T).status,0);
  const st=run('status',id);assert.match(st.stdout,/制作待ち/);assert.match(st.stdout,/デモ用の仮文（本人の考察ではない）/);assert.doesNotMatch(st.stdout,/本人執筆/);
  assert.match(run('render',id,'--plan','x.json').stderr,/--plan は指定できない/);
@@ -215,6 +220,7 @@ test('T118: produce script は --plan 省略時に確定構成（fixtures/draft-
  assert.equal(p.scenes.filter(s=>s.role==='reflection').length,1);
  assert.ok(p.scenes.some(s=>s.diagram.type==='meter'));
  assert.equal(run('fact-check',id,'--by',T).status,0);
+ checkScriptForTest(join(root,'outputs'),id);
  assert.equal(run('script-review',id,'approve','--hash',hash,'--by',T).status,0);
  assert.equal(projectState(join(root,'outputs'),id).stage,'render');
 }));

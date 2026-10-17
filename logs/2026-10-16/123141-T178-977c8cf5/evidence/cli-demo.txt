@@ -1,0 +1,67 @@
+{
+  "draft": true,
+  "chars": 5345,
+  "seconds": 1060,
+  "chapters": 6,
+  "checksUsed": 0,
+  "lint": {
+    "ok": false,
+    "errors": 1,
+    "warnings": 6,
+    "findings": [
+      {
+        "level": "error",
+        "rule": "reflection-missing",
+        "where": "場面133",
+        "text": "本人の考察",
+        "message": "本人の考察が未入力（produce reflection → produce scriptで差し込む）。エージェントが代筆しない"
+      },
+      {
+        "level": "warning",
+        "rule": "chapter-recap",
+        "where": "第2章「直感の鏡」",
+        "text": "",
+        "message": "章の中にまとめ（recap）か問い（question）の場面を入れる"
+      },
+      {
+        "level": "warning",
+        "rule": "chapter-recap",
+        "where": "第3章「仕組みの歯車」",
+        "text": "",
+        "message": "章の中にまとめ（recap）か問い（question）の場面を入れる"
+      },
+      {
+        "level": "warning",
+        "rule": "chapter-recap",
+        "where": "第4章「日常への窓」",
+        "text": "",
+        "message": "章の中にまとめ（recap）か問い（question）の場面を入れる"
+      },
+      {
+        "level": "warning",
+        "rule": "chapter-recap",
+        "where": "第6章「結びの余白」",
+        "text": "",
+        "message": "章の中にまとめ（recap）か問い（question）の場面を入れる"
+      },
+      {
+        "level": "warning",
+        "rule": "unused-source",
+        "where": "出典musiclab-2006",
+        "text": "Salganik, Dodds & Watts (2006), Science 311, 854–856",
+        "message": "どの場面からも参照されていない"
+      },
+      {
+        "level": "warning",
+        "rule": "unused-source",
+        "where": "出典musiclab-2008",
+        "text": "Salganik & Watts (2008), Leading the Herd Astray",
+        "message": "どの場面からも参照されていない"
+      }
+    ]
+  },
+  "readyForProduction": false
+}
+
+OUTPUT=/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/T178-demo-8TTzsR
+EXIT=0

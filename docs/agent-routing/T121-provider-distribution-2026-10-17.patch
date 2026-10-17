@@ -1,0 +1,221 @@
+diff -ruN -x node_modules a/orchestration/hooks/hook.ts b/orchestration/hooks/hook.ts
+--- a/orchestration/hooks/hook.ts	2026-10-12 15:54:57
++++ b/orchestration/hooks/hook.ts	2026-10-17 11:00:06
+@@ -139,6 +139,7 @@
+  const sel=d.selected;let hint='';
+  if(sel&&actTier&&tierIndex(sel.tier)<tierIndex(actTier))hint=' 軽い作業はサブエージェント（Routerが選ぶモデル）か agentctl run へ委譲できる。';
+  if(sel&&actTier&&tierIndex(sel.tier)>tierIndex(actTier))hint=' 難度が高い。agentctl run で推奨モデルへ委譲を検討。';
++ if(sel&&sel.provider!==n.product)hint=' 推奨先は別製品。切り出せる作業を agentctl run で委譲する。推奨表示だけでは実行されず、現在の親モデルも切り替わらない。';
+  return context(n,`[agentctl] ${t.task_id} ${d.difficulty}/${d.task_type} 推奨 ${sel?`${sel.provider}:${sel.model_id}`:'なし'}（現在 ${actual??'不明'}）。${hint}`.trim());
+ }
+ function definitionModel(product:Product,agentType:string):string|null{
+diff -ruN -x node_modules a/orchestration/model-registry/routing-policy.json b/orchestration/model-registry/routing-policy.json
+--- a/orchestration/model-registry/routing-policy.json	2026-10-12 11:37:58
++++ b/orchestration/model-registry/routing-policy.json	2026-10-17 10:59:38
+@@ -1,7 +1,7 @@
+ {
+   "schema_version": "1",
+-  "version": "2026-10-12.1",
+-  "description": "Model Routerのルール（LLMを使わない）。変更は agentctl optimize apply（Codex PMの確認つき）だけで行い、旧版は data/policy-history/ とDBに残す。",
++  "version": "2026-10-17.1",
++  "description": "利用者の分担希望（2026-10-17）により、委譲先は起動元優先から役割別優先へ変更。能力・品質tier・認証・API課金制限は維持。費用対効果の最適化が実証された変更ではない。保護対象の変更はmaintenance apply、実績ベースの変更はoptimizerの確認手順に従う。",
+   "difficulty_tiers": {
+     "L0": "none",
+     "L1": "light",
+@@ -36,40 +36,36 @@
+     "extraction": {
+       "default_difficulty": "L1",
+       "providers": [
+-        "initiator",
+-        "codex",
++        "antigravity",
+         "claude",
+-        "antigravity"
++        "codex"
+       ],
+       "capabilities": []
+     },
+     "classification": {
+       "default_difficulty": "L1",
+       "providers": [
+-        "initiator",
+-        "codex",
++        "antigravity",
+         "claude",
+-        "antigravity"
++        "codex"
+       ],
+       "capabilities": []
+     },
+     "summarization": {
+       "default_difficulty": "L1",
+       "providers": [
+-        "initiator",
++        "antigravity",
+         "claude",
+-        "codex",
+-        "antigravity"
++        "codex"
+       ],
+       "capabilities": []
+     },
+     "analysis": {
+       "default_difficulty": "L2",
+       "providers": [
+-        "initiator",
+-        "codex",
++        "antigravity",
+         "claude",
+-        "antigravity"
++        "codex"
+       ],
+       "capabilities": [
+         "analysis"
+@@ -78,10 +74,9 @@
+     "implementation": {
+       "default_difficulty": "L2",
+       "providers": [
+-        "initiator",
+-        "codex",
+         "claude",
+-        "antigravity"
++        "antigravity",
++        "codex"
+       ],
+       "capabilities": [
+         "code"
+@@ -90,8 +85,9 @@
+     "design": {
+       "default_difficulty": "L3",
+       "providers": [
+-        "codex",
+-        "claude"
++        "claude",
++        "antigravity",
++        "codex"
+       ],
+       "capabilities": [
+         "analysis"
+@@ -100,8 +96,9 @@
+     "review": {
+       "default_difficulty": "L2",
+       "providers": [
++        "claude",
+         "codex",
+-        "claude"
++        "antigravity"
+       ],
+       "capabilities": [
+         "analysis"
+@@ -121,6 +118,7 @@
+       "default_difficulty": "L2",
+       "providers": [
+         "claude",
++        "antigravity",
+         "codex"
+       ],
+       "capabilities": [
+@@ -131,6 +129,7 @@
+       "default_difficulty": "L1",
+       "providers": [
+         "claude",
++        "antigravity",
+         "codex"
+       ],
+       "capabilities": [
+@@ -141,7 +140,8 @@
+       "default_difficulty": "L2",
+       "providers": [
+         "codex",
+-        "claude"
++        "claude",
++        "antigravity"
+       ],
+       "capabilities": [
+         "analysis"
+@@ -150,10 +150,9 @@
+     "general": {
+       "default_difficulty": "L2",
+       "providers": [
+-        "initiator",
+-        "codex",
++        "antigravity",
+         "claude",
+-        "antigravity"
++        "codex"
+       ],
+       "capabilities": []
+     }
+diff -ruN -x node_modules a/orchestration/tests/hooks.test.ts b/orchestration/tests/hooks.test.ts
+--- a/orchestration/tests/hooks.test.ts	2026-10-12 15:54:03
++++ b/orchestration/tests/hooks.test.ts	2026-10-17 11:00:06
+@@ -16,10 +16,11 @@
+ test('TEST-001: Codexで通常タスクを開始するとModel Routerの選択が記録される', ()=>{
+  H('codex','SessionStart',{session_id:'cx-1',model:'gpt-6-astra',source:'startup',cwd:dir});
+  const o=H('codex','UserPromptSubmit',{session_id:'cx-1',turn_id:'t1',model:'gpt-6-astra',prompt:'READMEを要約して'});
+- assert.match(o.hookSpecificOutput.additionalContext,/L1\/summarization 推奨 codex:gpt-6-luna（現在 gpt-6-astra）/);
++ assert.match(o.hookSpecificOutput.additionalContext,/L1\/summarization 推奨 antigravity:gemini-3.8-flash-low（現在 gpt-6-astra）/);
++ assert.match(o.hookSpecificOutput.additionalContext,/別製品.*agentctl run/);
+  const s=one("SELECT current_execution_id FROM sessions WHERE product='codex' AND session_id='cx-1'");
+  const e=one('SELECT e.*,d.model_id AS rec,d.used_llm FROM executions e JOIN decisions d ON d.decision_id=e.decision_id WHERE e.execution_id=?',s.current_execution_id);
+- assert.deepEqual([e.initiator,e.model_id,e.rec,e.route,e.used_llm,e.managed],['codex','gpt-6-astra','gpt-6-luna','interactive',0,0]);
++ assert.deepEqual([e.initiator,e.model_id,e.rec,e.route,e.used_llm,e.managed],['codex','gpt-6-astra','gemini-3.8-flash-low','interactive',0,0]);
+  assert.equal(one('SELECT prompt_chars,prompt_sha256 IS NOT NULL AS h FROM tasks WHERE task_id=?',e.task_id).h,1,'本文ではなくハッシュだけ保存');
+  assert.ok(!readFileSync(join(env.AGENTCTL_DATA_DIR!,'telemetry.db')).includes(Buffer.from('READMEを要約して')),'DBにプロンプト本文がない');
+ });
+diff -ruN -x node_modules a/orchestration/tests/provider-distribution.test.ts b/orchestration/tests/provider-distribution.test.ts
+--- a/orchestration/tests/provider-distribution.test.ts	1970-01-01 09:00:00
++++ b/orchestration/tests/provider-distribution.test.ts	2026-10-17 10:59:25
+@@ -0,0 +1,33 @@
++import {test} from 'node:test';
++import assert from 'node:assert/strict';
++import {sandbox,task} from './helpers.ts';
++import {loadPolicy,loadRegistry} from '../gateway/config.ts';
++import {route,type Env} from '../router/router.ts';
++import type {TaskType,Initiator} from '../gateway/config.ts';
++sandbox();
++const {policy,sha256}=loadPolicy(),registry=loadRegistry();
++const all:Env={authenticated:{claude:['subscription'],codex:['subscription'],antigravity:['subscription']},allowMock:false};
++const choose=(type:TaskType,initiator:Initiator='codex',env:Env=all,extra:Record<string,unknown>={})=>route({task:{...task({preferred_provider:null,task_type:type,initiator}),...extra,task_id:'tsk_0000000000bb'},execution_id:'exe_0000000000bb',policy,policy_sha256:sha256,registry,env});
++test('delegated tasks use provider roles instead of inheriting the initiator',()=>{
++ for(const initiator of ['codex','claude','antigravity'] as const){
++  assert.equal(choose('implementation',initiator).selected?.provider,'claude');
++  assert.equal(choose('analysis',initiator).selected?.provider,'antigravity');
++  assert.equal(choose('summarization',initiator).selected?.provider,'antigravity');
++  assert.equal(choose('orchestration',initiator).selected?.provider,'codex');
++ }
++});
++test('missing authentication falls back without reducing tier or enabling billed APIs',()=>{
++ const noClaude:Env={...all,authenticated:{codex:['subscription'],antigravity:['subscription']}};
++ const d=choose('implementation','codex',noClaude);
++ assert.equal(d.selected?.provider,'antigravity');assert.equal(d.selected?.tier,'standard');
++ const codexOnly:Env={...all,authenticated:{codex:['subscription'],'gemini-api':['api_key']}};
++ assert.equal(choose('analysis','codex',codexOnly).selected?.provider,'codex');
++ assert.equal(choose('video_analysis','codex',{...all,authenticated:{'gemini-api':['api_key']}}).selected,null);
++});
++test('native provider restrictions, explicit preferences and L4 independent review remain enforced',()=>{
++ assert.equal(choose('implementation','codex',{...all,route:'native_subagent',restrictProvider:'codex'}).selected?.provider,'codex');
++ assert.equal(choose('analysis','codex',all,{preferred_provider:'claude'}).selected?.provider,'claude');
++ const critical=choose('design','codex',all,{difficulty:'L4',quality_requirement:'critical'});
++ assert.equal(critical.selected?.tier,'high');assert.equal(critical.review.required,true);
++ assert.notEqual(critical.review.provider,critical.selected?.provider);
++});
+diff -ruN -x node_modules a/orchestration/tests/router.test.ts b/orchestration/tests/router.test.ts
+--- a/orchestration/tests/router.test.ts	2026-10-11 20:53:43
++++ b/orchestration/tests/router.test.ts	2026-10-17 10:59:38
+@@ -16,12 +16,12 @@
+  validate('routing-decision',d);
+ });
+ test('L1は軽量、L2は標準、L3は品質要求で標準/高性能、L4は高性能と独立レビュー', ()=>{
+- assert.equal(r({task_type:'summarization',initiator:'claude'}).selected?.model_id,'claude-haiku-5-5');
+- assert.equal(r({task_type:'implementation',initiator:'codex'}).selected?.model_id,'gpt-6.1-sol');
++ assert.equal(r({task_type:'summarization',initiator:'claude'}).selected?.model_id,'gemini-3.8-flash-low');
++ assert.equal(r({task_type:'implementation',initiator:'codex'}).selected?.model_id,'claude-sonnet-5-5');
+  assert.equal(r({task_type:'design',quality_requirement:'normal'}).selected?.tier,'standard');
+  assert.equal(r({task_type:'design',quality_requirement:'high'}).selected?.tier,'high');
+  const l4=r({task_type:'design',difficulty:'L4',initiator:'codex'});
+- assert.equal(l4.selected?.model_id,'gpt-6-astra');assert.equal(l4.review.required,true);assert.notEqual(l4.review.provider,'codex');
++ assert.equal(l4.selected?.model_id,'claude-opus-5-5');assert.equal(l4.review.required,true);assert.notEqual(l4.review.provider,l4.selected?.provider);
+  for(const d of [l4])validate('routing-decision',d);
+ });
+ test('動画解析は動画を扱える製品（Antigravity）を選ぶ', ()=>{

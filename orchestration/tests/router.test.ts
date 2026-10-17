@@ -16,12 +16,12 @@ test('L0はLLMを使わずプログラムで処理する', ()=>{
  validate('routing-decision',d);
 });
 test('L1は軽量、L2は標準、L3は品質要求で標準/高性能、L4は高性能と独立レビュー', ()=>{
- assert.equal(r({task_type:'summarization',initiator:'claude'}).selected?.model_id,'claude-haiku-5-5');
- assert.equal(r({task_type:'implementation',initiator:'codex'}).selected?.model_id,'gpt-6.1-sol');
+ assert.equal(r({task_type:'summarization',initiator:'claude'}).selected?.model_id,'gemini-3.8-flash-low');
+ assert.equal(r({task_type:'implementation',initiator:'codex'}).selected?.model_id,'claude-sonnet-5-5');
  assert.equal(r({task_type:'design',quality_requirement:'normal'}).selected?.tier,'standard');
  assert.equal(r({task_type:'design',quality_requirement:'high'}).selected?.tier,'high');
  const l4=r({task_type:'design',difficulty:'L4',initiator:'codex'});
- assert.equal(l4.selected?.model_id,'gpt-6-astra');assert.equal(l4.review.required,true);assert.notEqual(l4.review.provider,'codex');
+ assert.equal(l4.selected?.model_id,'claude-opus-5-5');assert.equal(l4.review.required,true);assert.notEqual(l4.review.provider,l4.selected?.provider);
  for(const d of [l4])validate('routing-decision',d);
 });
 test('動画解析は動画を扱える製品（Antigravity）を選ぶ', ()=>{

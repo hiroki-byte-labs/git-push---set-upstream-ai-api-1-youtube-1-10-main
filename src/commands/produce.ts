@@ -5,8 +5,7 @@ import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {addReflection, assertRenderable, attachScript, authorshipLabel, createProject, linkRender, projectState, readProject, readScript, reviewScript, selectTopic} from '../production.ts';
-import {checkFactAndRights} from '../fact-check.ts';
-import type {ClaimRecord, AssetRightRecord, FactCheckReport} from '../fact-check.ts';
+import {draftScriptFactCheck, validateScriptFactCheck} from '../script-fact-check.ts';
 import {getPipelineManifest, savePipelineManifest} from '../orchestration-pipeline.ts';
 import {workflowStatus} from '../review.ts';
 import {sample, parseSampleArgs} from './sample.ts';
@@ -22,7 +21,7 @@ export const PRODUCE_USAGE = [
   '  produce script <id> [--plan 下書き.json] --by 名前',
   '  produce fact-check <id> [--report レポート.json] [--by 名前]',
   '  produce script-review <id> approve|reject --hash 台本の版 --by 本人の名前 [--note 理由]',
-  '  produce render <id> [--subtitles burn|soft|both] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say] [--queue] [--queue-dir ディレクトリ] [--concurrency 並行数]',
+  '  produce render <id> [--subtitles burn|soft|both] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say|voicevox] [--queue] [--queue-dir ディレクトリ] [--concurrency 並行数]',
 ].join('\n');
 
 const STAGE_LABEL: Record<string, string> = {
@@ -47,9 +46,9 @@ export function printStatus(root: string, id: string) {
   let factStr = '未確認';
   if (factPath) {
     try {
-      const fc = JSON.parse(readFileSync(join(root, id, factPath), 'utf8'));
+      const fc = validateScriptFactCheck(JSON.parse(readFileSync(join(root, id, factPath), 'utf8')), id, st.script!, readScript(root, id, st.script!));
       factStr = fc.ok ? '合格（エスカレーション0件）' : `要確認（エスカレーション${fc.escalations?.length ?? 0}件）`;
-    } catch {}
+    } catch {factStr = '要再確認（台本の版・レポート形式が不一致）';}
   }
   const lines = [
     `${id}（${st.mode === 'demo' ? 'デモ: 試験用。本番の承認に転用できない' : '本番'}）`,
@@ -93,6 +92,7 @@ export async function produce(args: string[], root = 'outputs') {
   } else if (sub === 'fact-check' && id) {
     const st = projectState(root, id);
     if (!st.script) throw Error('台本がありません。先に produce script を実行してください');
+    if (['stale', 'broken'].includes(st.scriptState)) throw Error('現在の台本の版が無効です。produce scriptで作り直してください');
     const plan = readScript(root, id, st.script);
     const reportFile = option(args, '--report');
     let reportRaw: any;
@@ -100,53 +100,9 @@ export async function produce(args: string[], root = 'outputs') {
       if (!existsSync(reportFile)) throw Error(`指定されたレポートファイルがありません: ${reportFile}`);
       reportRaw = JSON.parse(readFileSync(reportFile, 'utf8'));
     } else {
-      const claims: ClaimRecord[] = plan.sources.map(s => ({
-        claim: `${s.title}の記載に基づく説明`,
-        sourceId: s.id,
-        citation: s.title,
-        url: s.url,
-        status: 'verified' as const,
-        checkedAt: s.accessedAt || new Date().toISOString().slice(0, 10),
-      }));
-      if (claims.length === 0) {
-        claims.push({
-          claim: plan.title,
-          sourceId: 'none',
-          citation: '出典なし',
-          url: 'https://example.com/unverified',
-          status: 'unverified' as const,
-          checkedAt: new Date().toISOString().slice(0, 10),
-          note: '台本に出典が未登録です',
-        });
-      }
-      const assets = [
-        {
-          assetId: 'project-in-house-svg',
-          type: 'svg' as const,
-          origin: 'original' as const,
-          license: 'Project In-house',
-          attributionRequired: false,
-          commercialUseAllowed: true,
-          checkedAt: new Date().toISOString().slice(0, 10),
-        },
-        {
-          assetId: 'system-font',
-          type: 'font' as const,
-          origin: 'licensed' as const,
-          license: 'System Font License',
-          attributionRequired: false,
-          commercialUseAllowed: true,
-          checkedAt: new Date().toISOString().slice(0, 10),
-        },
-      ];
-      reportRaw = {
-        schema: 1,
-        planId: plan.id,
-        claims,
-        assets,
-      };
+      reportRaw = draftScriptFactCheck(id, st.script, plan);
     }
-    const report = checkFactAndRights(reportRaw);
+    const report = validateScriptFactCheck(reportRaw, id, st.script, plan);
     const factJsonPath = join(root, id, 'fact-check.json');
     writeFileSync(factJsonPath, JSON.stringify(report, null, 2));
 
@@ -168,20 +124,6 @@ export async function produce(args: string[], root = 'outputs') {
   } else if (sub === 'script-review' && id) {
     const decision = args[2];
     if (decision !== 'approve' && decision !== 'reject') throw Error(`approve か reject を指定\n${PRODUCE_USAGE}`);
-    if (decision === 'approve') {
-      const factPath = existsSync(join(root, id, 'fact-check.json'))
-        ? join(root, id, 'fact-check.json')
-        : existsSync(join(root, id, 'fact-check-report.json'))
-        ? join(root, id, 'fact-check-report.json')
-        : null;
-      if (!factPath) {
-        throw Error('事実・権利確認レポート（fact-check.json）がありません。produce fact-check を先に実行してください');
-      }
-      const factReport: FactCheckReport = JSON.parse(readFileSync(factPath, 'utf8'));
-      if (!factReport.ok || (factReport.escalations && factReport.escalations.length > 0)) {
-        throw Error(`事実・権利確認にエスカレーション項目（${factReport.escalations?.length ?? 0}件）があるため承認できません:\n- ${(factReport.escalations ?? []).join('\n- ')}`);
-      }
-    }
     const r = reviewScript(root, id, decision, need(option(args, '--hash'), '--hash'), option(args, '--note') ?? '', need(by, '--by'));
     if (decision === 'approve') {
       const manifest = getPipelineManifest(root, id);

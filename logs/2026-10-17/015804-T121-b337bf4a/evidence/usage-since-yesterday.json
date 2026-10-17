@@ -1,0 +1,28 @@
+[
+  {
+    "group": "codex",
+    "executions": 27,
+    "usage_rows": 741,
+    "input_total": 106979794,
+    "cache_read": 103907328,
+    "cache_write": 0,
+    "output_total": 410419,
+    "reasoning": 93008,
+    "total": 107390213,
+    "api_equivalent_usd": 12.894392,
+    "unmetered": 5
+  },
+  {
+    "group": "antigravity",
+    "executions": 22,
+    "usage_rows": 917,
+    "input_total": 3561252,
+    "cache_read": 113968728,
+    "cache_write": 0,
+    "output_total": 525550,
+    "reasoning": 0,
+    "total": 4086802,
+    "api_equivalent_usd": 87.996326,
+    "unmetered": 1
+  }
+]

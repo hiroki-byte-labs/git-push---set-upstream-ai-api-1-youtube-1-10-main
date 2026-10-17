@@ -1,0 +1,114 @@
+✔ Claude -p json: modelUsageのモデル別使用量を記録し、承認モデルとの一致を確認する (0.839083ms)
+✔ Codex exec --json: turn.completed.usageはスレッド累積値として扱う (0.246958ms)
+✔ agy -p json: usageを正規化し、モデルIDが結果にないため照合不能を明示する (0.15725ms)
+✔ 子プロセスの環境: 購読認証ではAPIキーを渡さない (0.06475ms)
+✔ 会話記録のステップ使用量: total=input+output、cache_readは入力の内数、思考の内数は取得不可 (1.457208ms)
+✔ Gateway: 同じ実行の承認で動いた別の会話を子とみなし、その会話記録の使用量を子の実行に記録する (91.228791ms)
+✔ 承認は実行ID・モデル・推論レベル・実行主体に紐付き、1回だけ使える (63.358042ms)
+✔ 承認と異なるモデル・実行ID・実行主体は拒否（Fail Closed） (2.290875ms)
+✔ 承認なし・改変・期限切れ・DBにない発行は拒否 (1.591833ms)
+✔ 鍵がない・形式不正なら検証できない (2.294708ms)
+✔ 別プロセスが書込みロックを持っていても、openDbと書込みは待ってから成功する (1245.074ms)
+✔ AI CLIの直接起動を検出する（TEST-015の判定部分） (12.203416ms)
+✔ LLMを動かさない参照系と、文字列としての言及は許可する (0.454125ms)
+✔ 参照系コマンドはリダイレクトや出力形式の指定があっても許可する（2026-10-11の実機で見つけた誤判定） (12.003ms)
+✔ ヒアドキュメントの本文は文章として扱い、シェルへ流す本文だけ判定する（2026-10-11の誤判定） (2.385792ms)
+✔ agentctl経由は管理対象、人専用のサブコマンドは拒否 (0.185917ms)
+✔ Hook無効化・設定書換え・鍵とDBへの直接アクセスを検出する（TEST-014の判定部分） (0.4075ms)
+✔ 引用符を考慮して区切る (0.050583ms)
+✔ 保護ファイルとapply_patchの対象 (0.505125ms)
+✔ Codexの信頼の記録が .codex/hooks.json より古ければ再信頼を求める (4917.539917ms)
+✔ 版の変化: 能力を確認した版と違えば警告し、前回のdoctorからの変化も報告する (7.9965ms)
+✔ Codexのデスクトップアプリの版を、このリポジトリの直近のrolloutから読む (442.804959ms)
+✔ 通常の実行: ルーティング判断・承認・計測が記録され、execution.schemaを満たす (242.778084ms)
+✔ TEST-007: 未承認の直接実行・承認と異なるモデルは拒否される (209.380333ms)
+✔ TEST-008: Token Monitorを無効にすると実行しない／使用量が取れなければ正常完了にしない (214.920584ms)
+✔ TEST-010: 途中で失敗しても失敗状況と取得できた消費量を記録する (111.749416ms)
+✔ TEST-011: 軽量モデルの能力不足だけ上位へ切り替え、一時的な失敗は同じモデルで再試行する (654.980084ms)
+✔ 成果物と試験で品質を判定し、評価を記録する (188.232834ms)
+✔ L0はLLMを使わずにプログラムを実行し、計測は対象外 (109.311458ms)
+✔ L4は独立レビューを別の実行として記録する (157.775375ms)
+✔ 従量課金（Gemini API）は方針で無効、有効化しても人の承認がなければ実行しない (3.453042ms)
+✔ 再帰防止: 入れ子の深さが上限なら拒否 (0.282542ms)
+✔ 判断後に方針が変わったら実行しない (0.762708ms)
+✔ 結果にモデルIDがない製品は、子セッションのHookの照合結果で判定する（Antigravityの実機試験で追加） (183.699166ms)
+✔ 評価の記録はevaluation.schemaで検査する (0.303875ms)
+✖ TEST-001: Codexで通常タスクを開始するとModel Routerの選択が記録される (12.108208ms)
+✔ TEST-002: Claude Codeで通常タスクを開始するとRouterとToken Monitorが適用される (75.222667ms)
+✔ セッション開始のHookを観測できなかった対話は、トランスクリプトの実モデルで補う (5.281458ms)
+✔ TEST-003: Antigravityの対話: 会話記録から使用量を実測し、実行ループの終了ごとにタスクを区切り、直前の発言で分類する (5.86075ms)
+✔ TEST-004: Codexのサブエージェント起動を識別し、子の使用量を親子関係つきで記録する (8.543583ms)
+✔ Codexの名前空間付きspawn_agent（collaboration）も判定し、modelだけを入れる (4.89825ms)
+✔ Codex: モデル指定は確認済み（enforced）のため、子が別のモデルで起動したら失敗にして子のツールを拒否する (3.358833ms)
+✔ 能力が未確認（unverified）の製品では、子が別のモデルで起動しても止めずに記録する (5.726375ms)
+✔ TEST-005: Claude Codeのサブエージェントは親子関連付けと計測ができ、承認と異なるモデルを検知する (8.742083ms)
+✔ TEST-006: Antigravityのサブエージェント: モデルを指定できないため、推奨が親のモデルと同じなら許可、違えば拒否してagentctl runへ案内 (9.680834ms)
+✔ Antigravityの対話中のサブエージェント: 子の会話を親の未着手の子に結び付け、入れ子として止めず、子の会話記録から実測する (6.166041ms)
+✔ Antigravityの対話中のサブエージェント（実機の順序）: 親のStopで親の会話記録の子IDから結び付け、子の使用量を移して実測する (13.433084ms)
+✔ Antigravity: 拒否しないコマンドは常に許可し、AI CLIの直接起動は拒否する (2.0125ms)
+✔ TEST-014: Hookの無効化・設定変更を拒否し、拒否を記録する (4.187833ms)
+✔ TEST-015: ルーティングなしのCLI直接起動を拒否し、入れ子の未承認セッションも止める (4.618917ms)
+✔ 改善案の確認・適用はCodexのPMだけHookを通す（approveは全製品で拒否） (2.242417ms)
+✔ Gatewayが起動した子セッションは承認とモデルを照合する（一致なら通し、異なれば止める） (2.429792ms)
+✔ Hookの内部エラー時: AI起動に関わる判定は拒否、それ以外は妨げない (1.346167ms)
+✔ 一時コピーで試験に合格したパッチだけを本体に適用し、記録する (167.742542ms)
+✔ 一時コピーの試験が失敗したら本体を変えない (54.863125ms)
+✔ 適用できないパッチは何もしない／.codex/hooks.json を含むと再信頼が必要と返す (15.788333ms)
+✔ Anthropic: input_tokensはキャッシュを含まず、思考は出力の内数（二重加算しない） (1.120917ms)
+✔ OpenAI/Codex: input_tokensはキャッシュを含み、outputは推論を含む (0.089125ms)
+✔ Antigravity: total_tokensとの算術一致で包含関係を判定し、合わなければ推定扱い (0.127875ms)
+✔ Gemini API: promptはキャッシュを含み、thoughtsはcandidatesと別 (0.08725ms)
+✔ API相当額は単価から推定し、単価が不明ならnull (0.251959ms)
+✔ TEST-009: 同じ実行結果を2回送っても二重計上しない (67.492042ms)
+✔ セッション累積値は差分を計上し、同じ累積値の再送は0として扱う (1.3365ms)
+✔ トランスクリプト: 同じmessage.idの複数行を1件にし、サイドチェーンを除外できる (2.348334ms)
+✔ Codex rollout: 応答ごとのtoken_usage_recordと親スレッド・モデル・購読枠を取り出す (0.330875ms)
+✔ 取得できない使用量はunavailableで記録し、計測済みにしない（TEST-008の記録部分） (2.044708ms)
+✔ 親子の使用量は子の実行に記録し、木で合計する（二重計上しない） (1.845042ms)
+✔ 単価を後から登録したら、API相当額が未計算の記録だけを計算し直す (1.479875ms)
+✔ TEST-012: 実績が不足している段階では提案せず、設定を変更しない (371.137792ms)
+✔ 費用対効果: 安くても失敗が多い戦略は効率的と判断しない (1535.041333ms)
+✔ TEST-013: PM確認後に適用し、品質が悪化したら以前の設定へ復元できる (704.950916ms)
+✔ CLI: 改善案の確認はAIのツール実行（TTYなし・Codex以外）からは拒否、CodexのPMは可能 (851.5375ms)
+✔ delegated tasks use provider roles instead of inheriting the initiator (2.729625ms)
+✔ missing authentication falls back without reducing tier or enabling billed APIs (0.224916ms)
+✔ native provider restrictions, explicit preferences and L4 independent review remain enforced (0.226333ms)
+✔ L0はLLMを使わずプログラムで処理する (36.5ms)
+✔ L1は軽量、L2は標準、L3は品質要求で標準/高性能、L4は高性能と独立レビュー (0.5105ms)
+✔ 動画解析は動画を扱える製品（Antigravity）を選ぶ (0.099041ms)
+✔ 認証のない製品・選択対象外・API課金は選ばない（勝手に従量課金へ切り替えない） (0.185666ms)
+✔ 上限トークンを超える見込みのタスクは選ばない (0.071917ms)
+✔ 判断が難しい場合は既定L2とdifficulty_source=defaultを記録する（LLMは呼ばない） (0.056875ms)
+✔ プロンプトの規則分類（本文は保存しない） (0.390459ms)
+✔ 失敗原因で再試行・上位切替え・停止を決め、上限で止まる（TEST-011の判断部分） (0.091584ms)
+ℹ tests 83
+ℹ suites 0
+ℹ pass 82
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5568.018458
+
+✖ failing tests:
+
+test at ../../../../../../private/tmp/T121-routing-ecV9YZ/b/orchestration/tests/hooks.test.ts:16:1
+✖ TEST-001: Codexで通常タスクを開始するとModel Routerの選択が記録される (12.108208ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /L1\/summarization 推奨 codex:gpt-6-luna（現在 gpt-6-astra）/. Input:
+  
+  '[agentctl] tsk_0mvbr0u158e906755758a L1/summarization 推奨 antigravity:gemini-3.8-flash-low（現在 gpt-6-astra）。 軽い作業はサブエージェント（Routerが選ぶモデル）か agentctl run へ委譲できる。'
+  
+      at TestContext.<anonymous> (file:///private/tmp/T121-routing-ecV9YZ/b/orchestration/tests/hooks.test.ts:19:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '[agentctl] tsk_0mvbr0u158e906755758a L1/summarization 推奨 antigravity:gemini-3.8-flash-low（現在 gpt-6-astra）。 軽い作業はサブエージェント（Routerが選ぶモデル）か agentctl run へ委譲できる。',
+    expected: /L1\/summarization 推奨 codex:gpt-6-luna（現在 gpt-6-astra）/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+EXIT=1

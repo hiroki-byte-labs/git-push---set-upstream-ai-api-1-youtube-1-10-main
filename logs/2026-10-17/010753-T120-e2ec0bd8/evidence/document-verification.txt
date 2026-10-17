@@ -1,0 +1,14 @@
+[
+  {
+    "file": "README.md",
+    "localLinks": 21,
+    "missing": []
+  },
+  {
+    "file": "docs/SPEC.md",
+    "localLinks": 5,
+    "missing": []
+  }
+]
+T156 existing evidence inspected; this is not a new render.
+EXIT=0

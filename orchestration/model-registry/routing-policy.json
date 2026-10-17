@@ -1,7 +1,7 @@
 {
   "schema_version": "1",
-  "version": "2026-10-12.1",
-  "description": "Model Routerのルール（LLMを使わない）。変更は agentctl optimize apply（Codex PMの確認つき）だけで行い、旧版は data/policy-history/ とDBに残す。",
+  "version": "2026-10-17.1",
+  "description": "利用者の分担希望（2026-10-17）により、委譲先は起動元優先から役割別優先へ変更。能力・品質tier・認証・API課金制限は維持。費用対効果の最適化が実証された変更ではない。保護対象の変更はmaintenance apply、実績ベースの変更はoptimizerの確認手順に従う。",
   "difficulty_tiers": {
     "L0": "none",
     "L1": "light",
@@ -36,40 +36,36 @@
     "extraction": {
       "default_difficulty": "L1",
       "providers": [
-        "initiator",
-        "codex",
+        "antigravity",
         "claude",
-        "antigravity"
+        "codex"
       ],
       "capabilities": []
     },
     "classification": {
       "default_difficulty": "L1",
       "providers": [
-        "initiator",
-        "codex",
+        "antigravity",
         "claude",
-        "antigravity"
+        "codex"
       ],
       "capabilities": []
     },
     "summarization": {
       "default_difficulty": "L1",
       "providers": [
-        "initiator",
+        "antigravity",
         "claude",
-        "codex",
-        "antigravity"
+        "codex"
       ],
       "capabilities": []
     },
     "analysis": {
       "default_difficulty": "L2",
       "providers": [
-        "initiator",
-        "codex",
+        "antigravity",
         "claude",
-        "antigravity"
+        "codex"
       ],
       "capabilities": [
         "analysis"
@@ -78,10 +74,9 @@
     "implementation": {
       "default_difficulty": "L2",
       "providers": [
-        "initiator",
-        "codex",
         "claude",
-        "antigravity"
+        "antigravity",
+        "codex"
       ],
       "capabilities": [
         "code"
@@ -90,8 +85,9 @@
     "design": {
       "default_difficulty": "L3",
       "providers": [
-        "codex",
-        "claude"
+        "claude",
+        "antigravity",
+        "codex"
       ],
       "capabilities": [
         "analysis"
@@ -100,8 +96,9 @@
     "review": {
       "default_difficulty": "L2",
       "providers": [
+        "claude",
         "codex",
-        "claude"
+        "antigravity"
       ],
       "capabilities": [
         "analysis"
@@ -121,6 +118,7 @@
       "default_difficulty": "L2",
       "providers": [
         "claude",
+        "antigravity",
         "codex"
       ],
       "capabilities": [
@@ -131,6 +129,7 @@
       "default_difficulty": "L1",
       "providers": [
         "claude",
+        "antigravity",
         "codex"
       ],
       "capabilities": [
@@ -141,7 +140,8 @@
       "default_difficulty": "L2",
       "providers": [
         "codex",
-        "claude"
+        "claude",
+        "antigravity"
       ],
       "capabilities": [
         "analysis"
@@ -150,10 +150,9 @@
     "general": {
       "default_difficulty": "L2",
       "providers": [
-        "initiator",
-        "codex",
+        "antigravity",
         "claude",
-        "antigravity"
+        "codex"
       ],
       "capabilities": []
     }

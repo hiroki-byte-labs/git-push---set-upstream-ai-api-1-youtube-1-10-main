@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "canProceed": true,
+  "allPassed": true,
+  "selectedVariant": "a",
+  "selectedOk": true,
+  "candidates": [
+    {
+      "variant": "a",
+      "file": "thumbnail-a.png",
+      "status": "pass",
+      "bytes": 121800,
+      "width": 1280,
+      "height": 720,
+      "contrast": 18.46,
+      "headlineSize": 84,
+      "fitted": true,
+      "issues": [],
+      "scaledLegibility": {
+        "width": 160,
+        "height": 90,
+        "contrast": 15.04,
+        "retention": 0.81,
+        "avgEdge": 0.649,
+        "topEdge": 2.436,
+        "legible": true,
+        "issues": []
+      }
+    },
+    {
+      "variant": "b",
+      "file": "thumbnail-b.png",
+      "status": "pass",
+      "bytes": 159024,
+      "width": 1280,
+      "height": 720,
+      "contrast": 18.46,
+      "headlineSize": 72,
+      "fitted": true,
+      "issues": [],
+      "scaledLegibility": {
+        "width": 160,
+        "height": 90,
+        "contrast": 16.7,
+        "retention": 0.9,
+        "avgEdge": 1.018,
+        "topEdge": 2.704,
+        "legible": true,
+        "issues": []
+      }
+    },
+    {
+      "variant": "c",
+      "file": "thumbnail-c.png",
+      "status": "pass",
+      "bytes": 121479,
+      "width": 1280,
+      "height": 720,
+      "contrast": 18.46,
+      "headlineSize": 78,
+      "fitted": true,
+      "issues": [],
+      "scaledLegibility": {
+        "width": 160,
+        "height": 90,
+        "contrast": 17.04,
+        "retention": 0.92,
+        "avgEdge": 1.165,
+        "topEdge": 2.816,
+        "legible": true,
+        "issues": []
+      }
+    }
+  ],
+  "reasons": []
+}
+
+EXIT=0

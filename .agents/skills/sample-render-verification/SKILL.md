@@ -8,12 +8,13 @@ description: このリポジトリ（scripts/runとsrc/cli.ts sampleでMP4を生
 
 ## 1. 隔離コピーで生成する
 - T139/T145のoutputs保護検査とT156のcwd誤指定を踏まえ、実行前に元outputsの相対パス・サイズ・mtime・SHA-256とlatest.jsonの内容を小さな証跡へ保存する。隔離先に置いたスクリプトでも、起動元のcwdは変わらない。生成コマンドは隔離先をcwdに明示し、ハーネスは開始時に実cwdと予定した隔離ルートを照合して、不一致なら書込み前に停止する。実行後は元outputsとマニフェストを照合する。
-- 利用者のoutputs/を増やさない・整理しない。作業用ディレクトリ（エージェントの一時領域など）へ `src scripts fixtures config prompts package.json` を複製し、`work/python-deps` だけはリポジトリへのsymlinkにする（FFmpegの再取得を避ける）。
+- 利用者のoutputs/を増やさない・整理しない。作業用ディレクトリ（エージェントの一時領域など）へ `src scripts fixtures config prompts assets package.json` と `motion-lab/src`・`motion-lab/shared` を複製し、`work/python-deps` だけはリポジトリへのsymlinkにする（FFmpegの再取得を避ける）。nativeでもprovidersのimport経由でRemotionの変換モジュールを参照するため、そのソースは必要。
 - `work/swift-cache`・`work/render`・`work/render-source` はコピーしない。Swiftのモジュールキャッシュは作成時のパスを覚えており、別パスで使うとswiftcが「compiled with module cache path …」で失敗する（T104で発生）。描画プログラムはコピー先で再コンパイルされる（約20秒）。
 - Node 24以上を `NODE_BIN` で明示し、コピー先で `./scripts/run src/cli.ts sample --plan <台本>`（必要なら `--subtitles` `--resolution`）を実行する。終了コードと「生成完了」の行を保存する。
 - 人の工程を通す経路（制作案件）を試す場合も、コピー先のoutputsで行い、記録者はtest-agent等にして本番の人の入力と混同しない。デモ案件の流れ: `produce new --demo --candidates fixtures/topic-candidates-demo.json --by test-agent` → `select` → `reflection --text 'デモ用の仮の考察です（本人の考察ではありません）…'` → `script --plan fixtures/draft-general-demo.json` → `script-review approve --hash <表示された台本の版>` → `render`。考察が未入力・台本が未承認の段階で `render` が拒否されることも記録する。
 
 ## 2. 自動検査を読む
+実ナレーションでは、合成した各cueのPCM長が割当て枠以下で、超過時に切り捨てず停止することも確認する。MP4の全デコード・総尺一致だけでは途中の発話切捨てを検出できない（T170/T179）。
 `outputs/<job>/media-check.json`（フレーム数一致、全デコード、PSNR最小、音声長、字幕ストリーム、narration）と `job.json`（lint、metadata、readability、thumbnails）、`metadata.json` を確認し、値を記録する。自動検査の合格を実再生の代わりにしない。
 
 ## 3. ブラウザーで実再生する

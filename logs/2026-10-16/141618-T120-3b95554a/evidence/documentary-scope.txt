@@ -1,0 +1,5 @@
+9:    intro: {text: '架空の街の音楽選びを使った長尺構造の検証です。公開用台本ではありません。', fictional: true},
+12:    sources: [
+17:    ], checks: [],
+19:      title, paragraphs: [{text: text.repeat(7) + (i === 5 ? 'この説明は効果や結果を保証するものではありません。' : ''),
+20:        kind: 'fictional', metaphor: i % 2 ? 'CausalFlow' : 'Spotlight', purpose: '架空の選択の前後関係を示す',

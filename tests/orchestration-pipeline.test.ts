@@ -1,11 +1,11 @@
+import {reviewWithCheckedFactsForTest, checkedReportForTest} from './helpers/checked-facts.ts';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync, rmSync, readFileSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {
-  createProject, selectTopic, addReflection, attachScript, reviewScript,
-  readProject, projectState
+  createProject, selectTopic, addReflection, attachScript, readProject, projectState
 } from '../src/production.ts';
 import {
   getPipelineManifest, savePipelineManifest, assessStagePrerequisites,
@@ -94,7 +94,7 @@ test('段階連携: 事実・権利確認レポートの登録とエスカレー
   const s = attachScript(root, id, draft(), T);
 
   // 正常な事実確認レポートの登録
-  const validReport = attachFactCheckReport(root, id, factCheckSuperstar());
+  const validReport = attachFactCheckReport(root, id, checkedReportForTest(root, id));
   assert.equal(validReport.ok, true);
 
   const manifest = getPipelineManifest(root, id);
@@ -103,7 +103,7 @@ test('段階連携: 事実・権利確認レポートの登録とエスカレー
 
   // 未確認・エスカレーション項目を含むレポートは拒否される
   const badReportData = {
-    ...factCheckSuperstar(),
+    ...checkedReportForTest(root, id),
     claims: [
       {
         claim: '未確認の主張',
@@ -160,7 +160,7 @@ test('段階連携: 台本承認から制作可能判定への遷移', tmp(async
   assert.equal(assessStagePrerequisites(root, id).canProceed, false);
 
   // 本人が承認
-  reviewScript(root, id, 'approve', s.hash, '', T);
+  reviewWithCheckedFactsForTest(root, id, 'approve', s.hash, '', T);
 
   // 承認後は制作可能（render）
   const assess = assessStagePrerequisites(root, id);

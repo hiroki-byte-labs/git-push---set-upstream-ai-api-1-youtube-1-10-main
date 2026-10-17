@@ -1,3 +1,4 @@
+import {reviewWithCheckedFactsForTest} from './helpers/checked-facts.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync, existsSync} from 'node:fs';
@@ -5,8 +6,7 @@ import {join} from 'node:path';
 import {loadPlan, REFLECTION_PLACEHOLDER} from '../src/plan.ts';
 import {lintPlan} from '../src/lint.ts';
 import {
-  createProject, selectTopic, addReflection, attachScript, reviewScript,
-  readProject, projectState, injectReflection
+  createProject, selectTopic, addReflection, attachScript, readProject, projectState, injectReflection
 } from '../src/production.ts';
 
 test('script-drafting: SKILL.md exists and has valid front matter', () => {
@@ -89,7 +89,7 @@ test('script-drafting: works end-to-end with produce workflow', () => {
   assert.equal(st1.scriptState, 'pending');
 
   // 5. Human approves script
-  reviewScript(testRoot, projectId, 'approve', scriptVer.hash, '台本の内容を確認し承認します', 'test-human');
+  reviewWithCheckedFactsForTest(testRoot, projectId, 'approve', scriptVer.hash, '台本の内容を確認し承認します', 'test-human');
 
   // Verify project state is now approved and ready for render
   const st2 = projectState(testRoot, projectId);

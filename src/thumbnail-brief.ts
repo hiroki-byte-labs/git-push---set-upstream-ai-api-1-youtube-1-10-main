@@ -3,6 +3,8 @@
 import {createHash} from 'node:crypto';
 import {LIMITS, thumbnailText} from './plan.ts';
 import type {Plan} from './plan.ts';
+import {validateTypography} from './thumbnail-typography.ts';
+import type {ThumbnailTypography} from './thumbnail-typography.ts';
 
 // スキーマ識別子
 export const THUMBNAIL_BRIEF_SCHEMA = 'thumbnail-brief@1' as const;
@@ -37,6 +39,7 @@ export type ThumbnailGrounding = {
 
 // サムネイル候補
 export type ThumbnailCandidate = {
+  typography?: ThumbnailTypography;
   id: string;                   // 候補id（通常 'a' | 'b' | 'c'）
   headline: string;             // 主見出し（1〜20字）
   sub?: string;                 // 補足見出し（最大30字）
@@ -119,6 +122,7 @@ export function calculatePlanThumbnailInputHash(plan: Plan): string {
       scene: plan.thumbnail.scene ?? null,
       keyword: plan.thumbnail.keyword ?? '',
       contrast: plan.thumbnail.contrast ?? null,
+      ...(plan.thumbnail.typography ? {typography: plan.thumbnail.typography} : {}),
     } : null,
     scenes: plan.scenes.map((s, idx) => ({
       index: idx + 1,
@@ -215,6 +219,7 @@ export function validateThumbnailBrief(raw: unknown, plan?: Plan): ThumbnailBrie
     if (!isNonEmptyText(c.headline, LIMITS.thumbHeadline)) {
       throw Error(`${where}: headlineは1〜${LIMITS.thumbHeadline}字である必要があります（実際: ${typeof c.headline === 'string' ? [...c.headline].length : '不正値'}字）`);
     }
+    if (c.typography !== undefined) validateTypography(c.typography, c.headline);
 
     // 補足文字数検査（LIMITS.thumbSub = 30）
     if (c.sub !== undefined && c.sub !== '' && !isNonEmptyText(c.sub, LIMITS.thumbSub)) {

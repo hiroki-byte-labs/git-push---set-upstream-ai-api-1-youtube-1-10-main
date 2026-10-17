@@ -1,3 +1,4 @@
+import {reviewWithCheckedFactsForTest} from './helpers/checked-facts.ts';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync, readdirSync} from 'node:fs';
@@ -14,7 +15,7 @@ import {
   processQueue,
 } from '../src/queue-adapter.ts';
 import {LocalQueue} from '../src/local-queue.ts';
-import {createProject, selectTopic, addReflection, attachScript, reviewScript} from '../src/production.ts';
+import {createProject, selectTopic, addReflection, attachScript} from '../src/production.ts';
 
 function createTempDir(prefix: string) {
   return mkdtempSync(join(tmpdir(), prefix));
@@ -101,18 +102,7 @@ test('runProduceRenderWithQueue checks prerequisites and links render on complet
   const draft = JSON.parse(readFileSync('fixtures/draft-price-index.json', 'utf8'));
   const script = attachScript(prodRoot, id, draft, 'test-agent');
 
-  // 事実確認レポートを用意
-  const factReport = {
-    schema: 1,
-    planId: draft.id,
-    ok: true,
-    checkedAt: new Date().toISOString(),
-    claims: [],
-    assets: [],
-    escalations: [],
-  };
-  writeFileSync(join(prodRoot, id, 'fact-check.json'), JSON.stringify(factReport));
-  reviewScript(prodRoot, id, 'approve', script.hash, '', 'test-reviewer');
+  reviewWithCheckedFactsForTest(prodRoot, id, 'approve', script.hash, '', 'test-reviewer');
 
   let produceRunnerCalled = false;
   const mockProduceRunner = async (root: string, projId: string, opts: any) => {

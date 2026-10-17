@@ -1,7 +1,7 @@
 // macOS標準音声（sayコマンド）を活用した無課金ローカル実ナレーション音声合成プロバイダーのテスト（T170）
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, readFileSync, rmSync} from 'node:fs';
+import {mkdtempSync, readFileSync, rmSync, existsSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {loadPlan, totalSeconds} from '../src/plan.ts';
@@ -138,4 +138,36 @@ test('parseSampleArgs: --audio mock|say 引数のパースとバリデーショ�
   assert.equal(o3.audio, undefined);
 
   assert.throws(() => parseSampleArgs(['--audio', 'invalid']), /不明な引数.*--audio/);
+});
+
+test('T170 regression: valid short cue with longer real speech fails without writing a truncated WAV', async () => {
+  if (!isSayAvailable()) return;
+  const raw = JSON.parse(readFileSync('fixtures/sample-v2.json', 'utf8'));
+  raw.scenes = [{...raw.scenes[0], seconds: 2, narration: '説明を確認しましょう。',
+    cues: [{text: '私たちは問いと説明の関係を、落ち着いて丁寧に確認していきましょう。', seconds: 2}]}];
+  const plan = loadPlan(raw), dir = mkdtempSync(join(tmpdir(), 'say-overflow-'));
+  const original = JSON.stringify(plan);
+  try {
+    await assert.rejects(new LocalSayAudio().create(plan, join(dir, 'audio.wav')), /場面1.*cue1.*超過/);
+    assert.equal(existsSync(join(dir, 'audio.wav')), false);
+    assert.equal(JSON.stringify(plan), original, 'approved input timing must not be changed implicitly');
+  } finally {rmSync(dir, {recursive: true, force: true});}
+});
+
+test('cue placement preserves all PCM and uses absolute fractional boundaries', () => {
+  const raw = JSON.parse(readFileSync('fixtures/sample-v2.json', 'utf8'));
+  raw.scenes = [{...raw.scenes[0], seconds: 2, narration: '音声の配置を確認します。',
+    cues: [{text: 'あ', seconds: 0.50003}, {text: 'い', seconds: 0.50003}, {text: 'う', seconds: 0.99994}]}];
+  const plan = loadPlan(raw);
+  const speech = [1000, -2000, 3000].map((sample, i) => {
+    const pcmData = Buffer.alloc([12000, 12000, 23998][i] * 2);
+    for (let j = 0; j < pcmData.length; j += 2) pcmData.writeInt16LE(sample, j);
+    return {pcmData, sampleRate: RATE, durationSec: pcmData.length / 2 / RATE, wavBuffer: buildWav(pcmData)};
+  });
+  let calls = 0;
+  const result = synthesizePlanWithSay(plan, {}, () => speech[calls++]);
+  assert.equal(calls, 3);
+  const pcm = extractWavPcm(result.audioBuffer).pcmData;
+  assert.equal(pcm.length, 2 * RATE * 2);
+  for (const [i, start] of [0, 12001, 24001].entries()) assert.deepEqual(pcm.subarray(start * 2, start * 2 + speech[i].pcmData.length), speech[i].pcmData);
 });

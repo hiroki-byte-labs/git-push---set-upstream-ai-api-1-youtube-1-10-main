@@ -7,6 +7,7 @@ import {encode, ffmpegVersion} from '../media.ts';
 import type {SubtitleMode} from '../media.ts';
 import {FixtureScript, CueAudio} from '../providers.ts';
 import {LocalSayAudio} from '../local-say-audio.ts';
+import {voicevoxFromEnvironment} from '../voicevox-audio.ts';
 import type {VisualProvider, Plan} from '../providers.ts';
 import {totalSeconds} from '../plan.ts';
 import {lintPlan, formatLint} from '../lint.ts';
@@ -69,7 +70,7 @@ export class NativeVisual implements VisualProvider {
 
 // job: 制作案件から作るときの記録（T104）。省略時（cli.ts sample）は常にデモ。
 export type JobLink = {mode: 'production' | 'demo'; project?: string; scriptHash?: string; scriptVersion?: number};
-export type AudioMode = 'mock' | 'say';
+export type AudioMode = 'mock' | 'say' | 'voicevox';
 export type VisualRendererType = 'native' | 'remotion';
 export type SampleOptions = {
   plan?: string;
@@ -93,11 +94,11 @@ export function parseSampleArgs(args: string[]): SampleOptions {
     else if (args[i] === '--resolution' && ['720', '1080'].includes(args[i + 1])) opts.resolution = Number(args[++i]) as 720 | 1080;
     else if (args[i] === '--budget-usd' && /^\d+(\.\d+)?$/.test(args[i + 1] ?? '')) opts.budgetUsd = Number(args[++i]);
     else if (args[i] === '--renderer' && ['native', 'remotion'].includes(args[i + 1])) opts.renderer = args[++i] as VisualRendererType;
-    else if (args[i] === '--audio' && ['mock', 'say'].includes(args[i + 1])) opts.audio = args[++i] as AudioMode;
+    else if (args[i] === '--audio' && ['mock', 'say', 'voicevox'].includes(args[i + 1])) opts.audio = args[++i] as AudioMode;
     else if (args[i] === '--queue') opts.queue = true;
     else if (args[i] === '--queue-dir' && args[i + 1]) opts.queueDir = args[++i];
     else if (args[i] === '--concurrency' && /^\d+$/.test(args[i + 1] ?? '')) opts.concurrency = Number(args[++i]);
-    else throw Error(`不明な引数: ${args[i]}（sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say] [--queue] [--queue-dir ディレクトリ] [--concurrency 並行数]）`);
+    else throw Error(`不明な引数: ${args[i]}（sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say|voicevox] [--queue] [--queue-dir ディレクトリ] [--concurrency 並行数]）`);
   }
   return opts;
 }
@@ -129,10 +130,10 @@ export async function sample(opts: SampleOptions = {}) {
   const isRemotion = opts.renderer === 'remotion';
   if (!isRemotion && process.platform !== 'darwin') throw Error('M1 rendererはmacOS専用です');
   const script = new FixtureScript(opts.plan);
-  const audio = opts.audio === 'say' ? new LocalSayAudio() : new CueAudio();
+  const audio = opts.audio === 'voicevox' ? voicevoxFromEnvironment() : opts.audio === 'say' ? new LocalSayAudio() : new CueAudio();
   const visual: VisualProvider & {scale?: number} = isRemotion
     ? new (await import('../remotion-visual.ts')).RemotionVisual(opts.subtitles, opts.resolution, 24, opts.job ?? {mode: 'demo'})
-    : new NativeVisual(opts.subtitles, opts.resolution, opts.audio === 'say');
+    : new NativeVisual(opts.subtitles, opts.resolution, opts.audio === 'say' || opts.audio === 'voicevox');
   // 接続抽象と費用上限（T024）。M1の接続はすべて模擬・手元処理で費用0だが、実APIと同じ経路（見積り→予約→再試行→精算）を通す。
   const budget = new Budget(opts.budgetUsd ?? 0);
   const usage: Usage[] = [];
@@ -140,7 +141,7 @@ export async function sample(opts: SampleOptions = {}) {
   const attempts: Attempt[] = [];
   const scriptConn = new LocalConnection('script', script.kind, 'mock', async (_: void) => ({output: await script.create()}));
   const plan = await callWithBudget(scriptConn, undefined, budget, 0, usage, 3, attempts);
-  const audioConn = new LocalConnection('audio', audio.kind, opts.audio === 'say' ? 'local' : 'mock', async (path: string) => {
+  const audioConn = new LocalConnection('audio', audio.kind, opts.audio === 'say' || opts.audio === 'voicevox' ? 'local' : 'mock', async (path: string) => {
     await audio.create(plan, path);
     return {output: path, outputUnits: totalSeconds(plan)};
   });
@@ -206,6 +207,13 @@ export async function sample(opts: SampleOptions = {}) {
     if (checklist.items.length && Buffer.byteLength(metadata.description, 'utf8') > YT.descriptionBytes) throw Error('チェックリストを含む概要欄が5000バイトを超えています。項目か概要欄を短くしてください（自動切り捨てなし）');
     if (!channel.decided) job.events.push('channel-undecided');
     await callWithBudget(audioConn, join(dir, 'audio.wav'), budget, 0, usage, 3, attempts);
+    if (opts.audio === 'voicevox') {
+      const attribution = readFileSync(join(dir, 'voicevox-attribution.txt'), 'utf8').trim();
+      metadata.description += '\n\n' + attribution;
+      if (Buffer.byteLength(metadata.description, 'utf8') > YT.descriptionBytes) throw Error('VOICEVOXクレジットを含む概要欄が上限を超えています');
+      writeFileSync(join(dir, 'metadata.json'), JSON.stringify(metadata, null, 2));
+      job.narration = {provider: audio.kind, report: 'voicevox-report.json', attribution, voiceEvaluation: 'pending-human'};
+    }
     job.events.push('audio-ready');
     save();
     // ソフト字幕は書出し時に多重化するため、描画より前に書く（T044）。

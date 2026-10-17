@@ -1,0 +1,28 @@
+COMMAND: ./scripts/run scripts/benchmark-longform.ts --minutes 10 --dry-run --dir /var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/T120-benchmark-2z09jjth
+[benchmark] 長尺制作ベンチマーク開始: 10分 (renderer=native, dryRun=true)
+[benchmark] レポート出力完了:
+{
+  "schema": 1,
+  "timestamp": "2026-10-16T11:06:15.152Z",
+  "durationMinutes": 10,
+  "durationSeconds": 600,
+  "totalFrames": 14400,
+  "renderer": "native",
+  "audio": "mock",
+  "dryRun": true,
+  "resources": {
+    "peakRssMb": 350,
+    "diskUsageMb": 164,
+    "elapsedSeconds": 0,
+    "fps": 0,
+    "speedRatio": 0
+  },
+  "safetyThresholds": {
+    "maxRssMb": 3072,
+    "maxDiskMb": 500,
+    "passed": true,
+    "violations": []
+  }
+}
+
+EXIT=0

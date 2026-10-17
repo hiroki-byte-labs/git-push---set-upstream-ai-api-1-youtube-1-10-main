@@ -1,0 +1,72 @@
+[benchmark] 長尺制作ベンチマーク開始: 10分 (renderer=native, dryRun=false)
+[benchmark] レポート出力完了:
+{
+  "schema": 2,
+  "timestamp": "2026-10-17T01:01:02.527Z",
+  "durationMinutes": 10,
+  "durationSeconds": 600,
+  "totalFrames": 14400,
+  "renderer": "native",
+  "audio": "mock",
+  "dryRun": false,
+  "directory": "/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-CdoJoV",
+  "outcome": "failed",
+  "resources": {
+    "peakRssMb": 1464.828125,
+    "diskUsageMb": 178.83472156524658,
+    "elapsedSeconds": 19.472554249999998,
+    "fps": null,
+    "speedRatio": null,
+    "samplingIntervalMs": 100,
+    "samples": 193,
+    "processes": [
+      {
+        "pid": 26447,
+        "command": "/Users/hongj/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "peakRssMb": 99.828125
+      },
+      {
+        "pid": 26455,
+        "command": "/Library/Developer/CommandLineTools/usr/bin/swift-driver",
+        "peakRssMb": 33.640625
+      },
+      {
+        "pid": 26462,
+        "command": "/Library/Developer/CommandLineTools/usr/bin/swift-frontend",
+        "peakRssMb": 1331.359375
+      }
+    ],
+    "errors": [
+      "Error: ENOENT: no such file or directory, stat '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-CdoJoV/workspace/work/swift-cache/simd-2RL2JT9411JWE.swiftmodule.lock-a10cc787'"
+    ]
+  },
+  "safetyThresholds": {
+    "maxRssMb": 3072,
+    "maxDiskMb": 500,
+    "passed": false,
+    "violations": [
+      "リソース実測失敗",
+      "生成失敗: {\"exitCode\":null,\"signal\":\"SIGKILL\"}",
+      "媒体検査失敗: Error: ENOENT: no such file or directory, open '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-CdoJoV/workspace/outputs/latest.json'",
+      "媒体検査未合格"
+    ]
+  },
+  "process": {
+    "exitCode": null,
+    "signal": "SIGKILL"
+  },
+  "mediaValidation": {
+    "videoFrames": 0,
+    "expectedFrames": 14400,
+    "fullDecodePassed": false,
+    "error": "Error: ENOENT: no such file or directory, open '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-CdoJoV/workspace/outputs/latest.json'"
+  }
+}
+[benchmark] 安全限界違反: [
+  'リソース実測失敗',
+  '生成失敗: {"exitCode":null,"signal":"SIGKILL"}',
+  "媒体検査失敗: Error: ENOENT: no such file or directory, open '/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/benchmark-longform-CdoJoV/workspace/outputs/latest.json'",
+  '媒体検査未合格'
+]
+
+EXIT=1

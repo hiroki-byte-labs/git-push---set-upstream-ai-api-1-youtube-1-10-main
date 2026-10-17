@@ -1,0 +1,23 @@
+{
+  "task_id": "tsk_0mvbr2ti75b27159f1a65",
+  "status": "completed",
+  "executions": [
+    {
+      "execution_id": "exe_0mvbr2tm2548544eda0c3",
+      "decision_id": "rdc_0mvbr2tm301b33a1efe69",
+      "provider": "antigravity",
+      "model_id": "gemini-3.8-flash-medium",
+      "tier": "standard",
+      "status": "completed",
+      "metering_status": "measured",
+      "failure_cause": null,
+      "message": null,
+      "retry_count": 0,
+      "escalation_count": 0
+    }
+  ],
+  "message": "完了",
+  "review": null
+}
+
+EXIT=0

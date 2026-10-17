@@ -1,0 +1,66 @@
+{
+  "tickets": 155,
+  "agentReady": [],
+  "cases": [
+    {
+      "id": "T170",
+      "status": "done",
+      "dependencies": [
+        {
+          "id": "T127",
+          "status": "done"
+        },
+        {
+          "id": "T138",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": "T171",
+      "status": "done",
+      "dependencies": [
+        {
+          "id": "T124",
+          "status": "done"
+        },
+        {
+          "id": "T128",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": "T175",
+      "status": "done",
+      "dependencies": [
+        {
+          "id": "T139",
+          "status": "done"
+        },
+        {
+          "id": "T156",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": "T179",
+      "status": "review",
+      "dependencies": [
+        {
+          "id": "T125",
+          "status": "done"
+        },
+        {
+          "id": "T170",
+          "status": "done"
+        },
+        {
+          "id": "T177",
+          "status": "done"
+        }
+      ]
+    }
+  ]
+}

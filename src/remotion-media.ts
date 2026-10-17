@@ -18,7 +18,7 @@ export function remotionFfprobePath(): string {
   } catch { return 'ffprobe'; }
 }
 
-type Expectations = {duration: number; fps: number; width: number; height: number; subtitles: SubtitleMode; ffprobe?: string; ffmpeg?: string};
+type Expectations = {duration: number; fps: number; width: number; height: number; subtitles: SubtitleMode; ffprobe?: string; ffmpeg?: string; rendererName?: string; narration?: boolean};
 type Command = {executable: string; args: string[]; exitCode: number | null; signal: string | null; stdout: string; stderr: string; error?: string; env: {DYLD_LIBRARY_PATH?: string}};
 type Stream = {codec_type: string; codec_name: string; width?: number; height?: number; avg_frame_rate?: string; duration?: string; sample_rate?: string; channels?: number};
 type Report = {
@@ -28,7 +28,7 @@ type Report = {
   subtitleStreams?: number; streams?: Stream[]; containerDuration?: number;
   audio?: {sampleRate: number; channels: number; samples: number; peak: number; rms: number; nonzeroSamples: number};
   unmeasured: string[]; tolerances: {durationSeconds: number}; commands: Command[]; error?: string;
-  artifact?: {sha256: string}; subtitles: SubtitleMode; narration: false; renderer: string;
+  artifact?: {sha256: string}; subtitles: SubtitleMode; narration: boolean; renderer: string;
 };
 
 export function inspectRemotionMedia(dir: string, expected: Expectations): Report {
@@ -36,7 +36,7 @@ export function inspectRemotionMedia(dir: string, expected: Expectations): Repor
   const report: Report = {
     status: 'failed', fullDecode: 'not_run', expectedDuration: expected.duration,
     expectedFrames: Math.round(expected.duration * expected.fps), expected,
-    subtitles: expected.subtitles, narration: false, renderer: 'Remotion + FFmpeg H264/AAC',
+    subtitles: expected.subtitles, narration: expected.narration ?? false, renderer: expected.rendererName ?? 'Remotion + FFmpeg H264/AAC',
     // AAC末尾paddingとframe量子化を許容。フレーム数は別途厳密一致。
     tolerances: {durationSeconds: 0.1}, commands: [],
     unmeasured: ['LUFS / true peak', '場面ごとの確認音・自然音声品質', 'PSNR（native固有）', '字幕表示内容・時刻'],

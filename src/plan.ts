@@ -1,6 +1,8 @@
 // 台本形式 v2（T041）。長尺・ナレーション・字幕cue・図解4種・出典を表現する。
 // v1（fixtures/sample.json の形式、schema欄なし）は toV2() で自動変換する。
 // v1の型と検証（M1のfixture形式。T041でproviders.tsから移設）。
+import {validateTypography} from './thumbnail-typography.ts';
+import type {ThumbnailTypography} from './thumbnail-typography.ts';
 export type SceneV1={title:string;subtitle:string;nodes:string[];seconds:number};
 export type PlanV1={id:string;title:string;version:number;scenes:SceneV1[]};
 export function validateV1(p:PlanV1):PlanV1{
@@ -58,7 +60,7 @@ export type Source = {id: string; title: string; url: string; accessedAt: string
 // promise: この動画で視聴者が得られること（タイトル・冒頭で約束する内容。T075）。glossary: 先に説明する用語（T083）。
 export type Term = {term: string; definition: string};
 // thumbnail: サムネイルの見出し（T073）。省略時は台本の題名。keyword・contrastはT106の案a（問い型）・c（対比型）で使う。
-export type Thumbnail = {headline: string; sub?: string; scene?: number; keyword?: string; contrast?: [string, string]};
+export type Thumbnail = {headline: string; sub?: string; scene?: number; keyword?: string; contrast?: [string, string]; typography?: ThumbnailTypography};
 // サムネイルに描く最終文言（T096）。見出しは省略時に題名、補足は省略時にpromise。
 // 描画（buildThumbSpecs）と安全検査（lintPlan）はこの関数だけを使い、代替ルールを別に持たない。
 export function thumbnailText(plan: Pick<Plan, 'title' | 'promise' | 'thumbnail'>) {
@@ -181,6 +183,7 @@ export function validatePlanV2(p: any): Plan {
   if (p.thumbnail !== undefined) {
     const t = p.thumbnail;
     if (!isText(t?.headline, LIMITS.thumbHeadline) || (t.sub !== undefined && !isText(t.sub, LIMITS.thumbSub))) throw Error(`thumbnailの見出しは${LIMITS.thumbHeadline}字、補足は${LIMITS.thumbSub}字以内`);
+    if (t.typography !== undefined) validateTypography(t.typography, t.headline);
     if (t.scene !== undefined && (!Number.isInteger(t.scene) || t.scene < 1 || t.scene > p.scenes.length)) throw Error('thumbnail.sceneは場面番号（1始まり）');
     if (t.keyword !== undefined && !isText(t.keyword, LIMITS.thumbKeyword)) throw Error(`thumbnail.keywordは${LIMITS.thumbKeyword}字以内`);
     if (t.contrast !== undefined && !(Array.isArray(t.contrast) && t.contrast.length === 2 && t.contrast.every((x: unknown) => isText(x, LIMITS.thumbContrast)))) throw Error(`thumbnail.contrastは2つの文言（各${LIMITS.thumbContrast}字以内）`);

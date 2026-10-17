@@ -1,0 +1,17 @@
+✔ isSayAvailable と getAvailableJapaneseVoices の動作確認 (335.904667ms)
+✔ extractWavPcm と buildWav の往復整合性検証 (1.663833ms)
+✔ synthesizeTextWithSay: 日本語テキストから実音声WAVを合成しPCM・秒数を取得 (533.183083ms)
+✔ synthesizePlanWithSay と LocalSayAudio: 台本から全体のaudio.wavを生成し所要時間・冒頭音声を検証 (13054.592125ms)
+✔ parseSampleArgs: --audio mock|say 引数のパースとバリデーション (0.515917ms)
+✔ T170 regression: valid short cue with longer real speech fails without writing a truncated WAV (550.328458ms)
+✔ cue placement preserves all PCM and uses absolute fractional boundaries (0.93575ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14547.109667
+
+EXIT=0

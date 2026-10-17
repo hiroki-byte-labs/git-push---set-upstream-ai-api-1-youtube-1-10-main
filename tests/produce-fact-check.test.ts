@@ -7,6 +7,7 @@ import {join} from 'node:path';
 import {produce} from '../src/commands/produce.ts';
 import {createProject, selectTopic, addReflection, attachScript, projectState} from '../src/production.ts';
 import {getPipelineManifest} from '../src/orchestration-pipeline.ts';
+import {checkedReportForTest} from './helpers/checked-facts.ts';
 
 const T = 'test-agent';
 const candidates = () => JSON.parse(readFileSync('fixtures/candidates-documentary.json', 'utf8'));
@@ -46,8 +47,7 @@ test('produce fact-check: 事実確認レポート生成、エスカレーショ
 
   // 3. エスカレーション（未確認主張）を含むレポートファイルを指定して produce fact-check を実行
   const invalidReport = {
-    schema: 1,
-    planId: 'superstar-economics-demo',
+    ...checkedReportForTest(root, id),
     claims: [
       {
         claim: '未確認の重大な経済的主張',
@@ -94,8 +94,10 @@ test('produce fact-check: 事実確認レポート生成、エスカレーショ
     /事実・権利確認にエスカレーション項目.*があるため承認できません/
   );
 
-  // 5. 正常なレポート（fixtures/fact-check-superstar.json）を指定して produce fact-check を実行
-  await produce(['fact-check', id, '--report', 'fixtures/fact-check-superstar.json', '--by', T], root);
+  // 5. Explicit synthetic certificate scoped to this test script.
+  const validPath = join(root, 'checked-test-report.json');
+  writeFileSync(validPath, JSON.stringify(checkedReportForTest(root, id)));
+  await produce(['fact-check', id, '--report', validPath, '--by', T], root);
 
   const savedValid = JSON.parse(readFileSync(factJsonPath, 'utf8'));
   assert.equal(savedValid.ok, true);
@@ -126,5 +128,6 @@ test('produce fact-check: 事実確認レポート生成、エスカレーショ
   assert.equal(factAuto.schema, 1);
   assert.ok(factAuto.claims.length > 0);
   assert.ok(factAuto.assets.length > 0);
-  assert.equal(factAuto.ok, true);
+  assert.equal(factAuto.ok, false);
+  assert.ok(factAuto.claims.every((c: any) => c.status === 'unverified'));
 }));

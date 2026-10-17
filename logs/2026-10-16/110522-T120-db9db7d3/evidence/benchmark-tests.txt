@@ -1,0 +1,15 @@
+COMMAND: ./scripts/run --test tests/benchmark-longform.test.ts
+✔ generateLongformPlan produces valid plans for 10m, 15m, and 20m with balanced diagrams and chapters (4.532875ms)
+✔ parseBenchmarkArgs parses CLI arguments correctly (0.1895ms)
+✔ runLongformBenchmark dry-run generates plan and safety threshold report without executing render (1.4935ms)
+✔ calculateDirSize measures directory byte size recursively (0.541292ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.394416
+
+EXIT=0

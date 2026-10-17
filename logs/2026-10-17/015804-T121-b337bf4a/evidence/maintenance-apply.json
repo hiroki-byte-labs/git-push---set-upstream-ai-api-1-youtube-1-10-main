@@ -1,0 +1,57 @@
+{
+  "applied": true,
+  "patch": "docs/agent-routing/T121-provider-distribution-2026-10-17.patch",
+  "sha256": "98f2d084bba449c86eb2c09cd6fc55dfe0da1dab1a36eb9d2af0fc7e70e6dcff",
+  "files": [
+    "orchestration/hooks/hook.ts",
+    "orchestration/model-registry/routing-policy.json",
+    "orchestration/tests/hooks.test.ts",
+    "orchestration/tests/provider-distribution.test.ts",
+    "orchestration/tests/router.test.ts"
+  ],
+  "steps": [
+    {
+      "step": "check",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "copy-apply",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "copy-test:node --test（12ファイル）",
+      "ok": true,
+      "detail": "ℹ skipped 0 / ℹ todo 0 / ℹ duration_ms 3876.980667"
+    },
+    {
+      "step": "copy-test:node_modules/typescript/bin/tsc --noEmit -p orchestration/ag",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "apply",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "test:node --test（12ファイル）",
+      "ok": true,
+      "detail": "ℹ skipped 0 / ℹ todo 0 / ℹ duration_ms 3923.183083"
+    },
+    {
+      "step": "test:node_modules/typescript/bin/tsc --noEmit -p orchestration/ag",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "baseline",
+      "ok": true,
+      "detail": "Hook基準ハッシュを更新 2026-10-17T02:00:31.775Z"
+    }
+  ],
+  "codex_retrust_required": false
+}
+
+EXIT=0

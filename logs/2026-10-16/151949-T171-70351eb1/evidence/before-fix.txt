@@ -1,0 +1,106 @@
+記録: 事実・権利確認 主張=2件 素材=2件 結果=合格（エスカレーションなし）
+記録: 台本 v2 を承認（test-agent）
+記録: 台本 v1 を承認（test-agent）
+✖ T171 regression: automatic report never marks unchecked URLs verified (6.540875ms)
+✖ T171 regression: new script cannot reuse the previous script certificate (2.508667ms)
+✖ T171 regression: shared approval and HTTP path require a valid report (1.727083ms)
+✖ T171 regression: malformed claimed-ok JSON cannot authorize approval (2.338625ms)
+✖ valid certificate works, but changing its contents invalidates previous approval (1.866708ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 91.197333
+
+✖ failing tests:
+
+test at tests/fact-check-binding.test.ts:21:1
+✖ T171 regression: automatic report never marks unchecked URLs verified (6.540875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:24:10
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:17:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/fact-check-binding.test.ts:27:1
+✖ T171 regression: new script cannot reuse the previous script certificate (2.508667ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:31:3
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:17:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /版|hash|結合/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/fact-check-binding.test.ts:33:1
+✖ T171 regression: shared approval and HTTP path require a valid report (1.727083ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:34:10
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:17:13)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /事実|確認/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/fact-check-binding.test.ts:36:1
+✖ T171 regression: malformed claimed-ok JSON cannot authorize approval (2.338625ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:38:3
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:17:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /schema|結合|レポート/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/fact-check-binding.test.ts:40:1
+✖ valid certificate works, but changing its contents invalidates previous approval (1.866708ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:45:10
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/fact-check-binding.test.ts:17:13)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /事実|確認|承認/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+EXIT=1

@@ -1,0 +1,38 @@
+scripts/benchmark-longform.ts
+45:   mediaValidation?: {
+49:     avPlayerEnded?: boolean;
+266:   let peakRss = process.memoryUsage().rss;
+270:     const currentRss = process.memoryUsage().rss;
+275:   const outDir = join(baseDir, 'outputs');
+280:     await sample({
+329:   const mp4Path = join(outDir, 'sample.mp4');
+330:   if (existsSync(mp4Path)) {
+343:     report.mediaValidation = {
+src/commands/sample.ts
+152:   const dir = resolve('outputs', id);
+260:     writeFileSync('outputs/latest.json', JSON.stringify({id}));
+scripts/generate-thumbnail-review-package.ts
+13:   key: string;
+15:   fixture: string;
+21:     key: 'superstar',
+23:     fixture: 'fixtures/sample-superstar-illustration.json',
+27:     key: 'surname',
+29:     fixture: 'fixtures/sample-surname-illustration.json',
+33:     key: 'tolerance',
+35:     fixture: 'fixtures/sample-tolerance-illustration.json',
+tests/thumbnail-e2e.test.ts
+9: import {renderThumbnails} from '../src/thumbnail-renderer.ts';
+10: import {checkThumbnailQuality, readPngDimensions} from '../src/thumbnails.ts';
+14:   {key: 'superstar', path: 'fixtures/sample-superstar-illustration.json'},
+15:   {key: 'surname', path: 'fixtures/sample-surname-illustration.json'},
+16:   {key: 'tolerance', path: 'fixtures/sample-tolerance-illustration.json'},
+30:       const reports = renderThumbnails({brief, outputDir: subDir});
+50:       const quality = checkThumbnailQuality(subDir, brief, {selectedThumbnail: 'thumbnail-a.png'});
+src/tickets.ts
+27: export function available(ts:Ticket[],owner:string){return ts.filter(t=>t.owner===owner&&t.status==='ready'&&t.depends.every(d=>ts.find(x=>x.id===d)?.status==='done'))}
+src/audio.ts: exists=False
+src/assets.ts: exists=False
+src/providers.ts: exists=True
+work/T145-smooth-review-2026-10-15/before-after.mp4: exists=True
+work/thumbnail-evaluation-package/index.html: exists=True
+EXIT=0

@@ -1,0 +1,19 @@
+42:    passed: boolean;
+45:  mediaValidation?: {
+227:  const baseDir = opts.dir ? resolve(opts.dir) : join(tmpdir(), `benchmark-longform-${Date.now()}`);
+228:  mkdirSync(baseDir, {recursive: true});
+230:  const planPath = join(baseDir, 'plan.json');
+256:        passed: estRssMb <= maxRssMb && estDiskMb <= maxDiskMb,
+260:    writeFileSync(join(baseDir, 'benchmark-report.json'), JSON.stringify(report, null, 2));
+266:  let peakRss = process.memoryUsage().rss;
+270:    const currentRss = process.memoryUsage().rss;
+275:  const outDir = join(baseDir, 'outputs');
+280:    await sample({
+294:  const diskBytes = calculateDirSize(baseDir);
+323:      passed: violations.length === 0,
+329:  const mp4Path = join(outDir, 'sample.mp4');
+330:  if (existsSync(mp4Path)) {
+337:      mp4Path,
+341:    const decodeCheck = spawnSync('ffmpeg', ['-v', 'error', '-i', mp4Path, '-f', 'null', '-'], {encoding: 'utf8'});
+343:    report.mediaValidation = {
+350:  writeFileSync(join(baseDir, 'benchmark-report.json'), JSON.stringify(report, null, 2));

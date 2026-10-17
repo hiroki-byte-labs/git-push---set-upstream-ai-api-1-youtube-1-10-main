@@ -78,6 +78,7 @@ description: 台本の個々の主張・提示数値と一次文献の1対1対�
 ## 4. 成果物仕様
 
 エージェントは事実確認の実施結果を、機械可読なJSONデータ（`src/fact-check.ts` 準拠）および人が確認しやすいMarkdownレポートとして保存します。
+制作案件へ渡すときは `docs/FACT-CHECK-APPROVAL.md` に従い、`produce fact-check` の未確認ひな型から現在の案件/台本版のbindingを取得し、実照合したレポートを取り込む。ひな型を自動でverifiedにせず、台本変更後はbindingだけを書き換えて流用しない。以下の汎用schema例には案件bindingがないため、そのまま本番承認用には使えない。
 
 ### 4.1 データ形式（`fact-check-report.json`）
 ```json

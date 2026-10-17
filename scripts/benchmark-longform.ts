@@ -1,14 +1,17 @@
 // scripts/benchmark-longform.ts
 // T175: 長尺（10〜20分）制作ジョブにおけるリソース消費・メモリリーク・プロセス耐久性ベンチマーク
 
-import {existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync, readdirSync} from 'node:fs';
-import {join, resolve} from 'node:path';
+import {existsSync, mkdirSync, readFileSync, statSync, writeFileSync, readdirSync, cpSync, symlinkSync, mkdtempSync, realpathSync, lstatSync, createWriteStream} from 'node:fs';
+import {finished} from 'node:stream/promises';
+import {join, resolve, dirname, basename, sep} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {tmpdir} from 'node:os';
-import {spawnSync} from 'node:child_process';
+import {spawn, spawnSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
 import {validatePlanV2, totalSeconds} from '../src/plan.ts';
 import type {Plan, Scene, Diagram} from '../src/plan.ts';
 import {lintPlan, formatLint} from '../src/lint.ts';
+import {inspectRemotionMedia} from '../src/remotion-media.ts';
 
 export type BenchmarkOptions = {
   minutes: number;
@@ -18,10 +21,11 @@ export type BenchmarkOptions = {
   dryRun?: boolean;
   maxRssMb?: number;
   maxDiskMb?: number;
+  timeoutSeconds?: number;
 };
 
 export type BenchmarkReport = {
-  schema: 1;
+  schema: 2;
   timestamp: string;
   durationMinutes: number;
   durationSeconds: number;
@@ -29,17 +33,25 @@ export type BenchmarkReport = {
   renderer: string;
   audio: string;
   dryRun: boolean;
+  directory: string;
+  outcome: 'estimated' | 'passed' | 'failed';
+  estimates?: {rssMb: number; diskMb: number; withinThresholds: boolean};
+  process?: {exitCode: number | null; signal: string | null; error?: string};
   resources: {
-    peakRssMb: number;
-    diskUsageMb: number;
-    elapsedSeconds: number;
-    fps: number;
-    speedRatio: number;
+    peakRssMb: number | null;
+    diskUsageMb: number | null;
+    elapsedSeconds: number | null;
+    fps: number | null;
+    speedRatio: number | null;
+    samplingIntervalMs: number;
+    samples: number;
+    processes: ProcessPeak[];
+    errors: string[];
   };
   safetyThresholds: {
     maxRssMb: number;
     maxDiskMb: number;
-    passed: boolean;
+    passed: boolean | null;
     violations: string[];
   };
   mediaValidation?: {
@@ -48,8 +60,18 @@ export type BenchmarkReport = {
     fullDecodePassed: boolean;
     avPlayerEnded?: boolean;
     error?: string;
+    videoDuration?: number;
+    audioDuration?: number;
+    artifactSha256?: string;
+    path?: string;
   };
 };
+
+type ProcessSample = {pid: number; ppid: number; rssKb: number; command: string};
+type ProcessPeak = {pid: number; command: string; peakRssMb: number};
+// Test commands run in the same isolated workspace; production always uses the real sample CLI.
+export type BenchmarkDependencies = {renderCommand?: (workspace: string, planPath: string) => {executable: string; args: string[]}};
+const sourceRoot = realpathSync(fileURLToPath(new URL('../', import.meta.url)));
 
 export const DEFAULT_MAX_RSS_MB = 3072; // 3 GiB
 export const DEFAULT_MAX_DISK_MB = 500;  // 500 MB
@@ -153,7 +175,7 @@ export function generateLongformPlan(targetMinutes: number): Plan {
   const plan: any = {
     schema: 2,
     id: `benchmark-longform-${targetMinutes}m`,
-    title: `長尺制作耐久性ベンチマーク（${targetMinutes}分）`,
+    title: `${targetMinutes}分の長尺耐久検証`,
     version: 1,
     theme: 'general',
     sources,
@@ -178,15 +200,20 @@ export function generateLongformPlan(targetMinutes: number): Plan {
  * ディスク使用量を再帰的に計算する（バイト）
  */
 export function calculateDirSize(dirPath: string): number {
-  if (!existsSync(dirPath)) return 0;
   let total = 0;
-  for (const entry of readdirSync(dirPath, {withFileTypes: true})) {
-    const full = join(dirPath, entry.name);
-    if (entry.isDirectory()) {
-      total += calculateDirSize(full);
-    } else if (entry.isFile()) {
-      total += statSync(full).size;
+  try {
+    for (const entry of readdirSync(dirPath, {withFileTypes: true})) {
+      const full = join(dirPath, entry.name);
+      try {
+        if (entry.isDirectory()) total += calculateDirSize(full);
+        else if (entry.isFile()) total += statSync(full).size;
+      } catch (e) {
+        // Swift/Chrome delete lock and temporary files between readdir and stat.
+        if ((e as NodeJS.ErrnoException).code !== 'ENOENT') throw e;
+      }
     }
+  } catch (e) {
+    if ((e as NodeJS.ErrnoException).code !== 'ENOENT') throw e;
   }
   return total;
 }
@@ -207,148 +234,172 @@ export function parseBenchmarkArgs(args: string[]): BenchmarkOptions {
     else if (arg === '--audio' && ['mock', 'say'].includes(args[i + 1])) opts.audio = args[++i] as any;
     else if (arg === '--dir' && args[i + 1]) opts.dir = args[++i];
     else if (arg === '--dry-run') opts.dryRun = true;
+    else if (arg === '--timeout' && args[i + 1]) opts.timeoutSeconds = Number(args[++i]);
     else if (arg === '--max-rss' && args[i + 1]) opts.maxRssMb = Number(args[++i]);
     else if (arg === '--max-disk' && args[i + 1]) opts.maxDiskMb = Number(args[++i]);
     else throw Error(`不明な引数: ${arg}`);
   }
+  validateOptions(opts);
   return opts;
 }
 
-/**
- * ベンチマーク実行エンジン
- */
-export async function runLongformBenchmark(opts: BenchmarkOptions): Promise<BenchmarkReport> {
+function validateOptions(opts: BenchmarkOptions) {
+  if (![10, 15, 20].includes(opts.minutes)) throw Error('minutesは10/15/20分を指定してください');
+  if (!['native', 'remotion'].includes(opts.renderer) || !['mock', 'say'].includes(opts.audio)) throw Error('renderer/audio不正');
+  for (const [name, value] of Object.entries({maxRss: opts.maxRssMb, maxDisk: opts.maxDiskMb, timeout: opts.timeoutSeconds})) {
+    if (value !== undefined && (!Number.isFinite(value) || value <= 0)) throw Error(`${name}は有限の正数が必要`);
+  }
+}
+
+function isolatedDirectory(requested?: string): string {
+  if (!requested) return mkdtempSync(join(tmpdir(), 'benchmark-longform-'));
+  const path = resolve(requested);
+  // Resolve symlink parents before checking boundaries; never create anything under the source tree.
+  const canonical = existsSync(path) ? realpathSync(path) : join(realpathSync(dirname(path)), basename(path));
+  if (canonical === sourceRoot || canonical.startsWith(sourceRoot + sep)) throw Error('隔離先はリポジトリ外に指定してください');
+  if (existsSync(path)) {
+    if (lstatSync(path).isSymbolicLink() || !statSync(path).isDirectory() || readdirSync(path).length) throw Error('隔離先には空の実ディレクトリが必要');
+  } else mkdirSync(canonical);
+  return canonical;
+}
+
+export function processTree(snapshot: ProcessSample[], rootPid: number): ProcessSample[] {
+  const ids = new Set([rootPid]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const p of snapshot) if (ids.has(p.ppid) && !ids.has(p.pid)) {ids.add(p.pid); changed = true;}
+  }
+  return snapshot.filter(p => ids.has(p.pid));
+}
+
+function snapshotProcesses(): ProcessSample[] {
+  const p = spawnSync('ps', ['-axo', 'pid=,ppid=,rss=,comm='], {encoding: 'utf8', timeout: 5000});
+  if (p.error || p.status !== 0) throw Error(`ps failed: ${p.error?.message ?? p.stderr}`);
+  return p.stdout.split('\n').flatMap(line => {
+    const m = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/);
+    return m ? [{pid: Number(m[1]), ppid: Number(m[2]), rssKb: Number(m[3]), command: m[4]}] : [];
+  });
+}
+
+function copyWorkspace(base: string) {
+  const workspace = join(base, 'workspace');
+  mkdirSync(workspace);
+  for (const name of ['src', 'scripts', 'fixtures', 'config', 'prompts', 'assets', 'package.json']) {
+    if (existsSync(join(sourceRoot, name))) cpSync(join(sourceRoot, name), join(workspace, name), {recursive: true});
+  }
+  mkdirSync(join(workspace, 'motion-lab'));
+  for (const name of ['src', 'shared', 'package.json']) cpSync(join(sourceRoot, 'motion-lab', name), join(workspace, 'motion-lab', name), {recursive: true});
+  // Dependencies are shared; all compilation caches, renders and outputs remain local to workspace.
+  for (const name of ['node_modules', 'motion-lab/node_modules', 'work/python-deps']) {
+    if (existsSync(join(sourceRoot, name))) {
+      mkdirSync(dirname(join(workspace, name)), {recursive: true});
+      symlinkSync(join(sourceRoot, name), join(workspace, name));
+    }
+  }
+  return workspace;
+}
+
+export async function runLongformBenchmark(opts: BenchmarkOptions, deps: BenchmarkDependencies = {}): Promise<BenchmarkReport> {
+  validateOptions(opts);
   const plan = generateLongformPlan(opts.minutes);
-  const durationSec = totalSeconds(plan);
-  const totalFrames = durationSec * 24;
-  const maxRssMb = opts.maxRssMb ?? DEFAULT_MAX_RSS_MB;
-  const maxDiskMb = opts.maxDiskMb ?? DEFAULT_MAX_DISK_MB;
-
-  const baseDir = opts.dir ? resolve(opts.dir) : join(tmpdir(), `benchmark-longform-${Date.now()}`);
-  mkdirSync(baseDir, {recursive: true});
-
-  const planPath = join(baseDir, 'plan.json');
-  writeFileSync(planPath, JSON.stringify(plan, null, 2));
-
-  // Dry-run の場合: 見積もりと整合性検査のみ実行して即時復帰
-  if (opts.dryRun) {
-    const estDiskMb = (totalFrames * 0.01) + 20; // 概算推定
-    const estRssMb = opts.renderer === 'remotion' ? 850 : 350;
-    const report: BenchmarkReport = {
-      schema: 1,
-      timestamp: new Date().toISOString(),
-      durationMinutes: opts.minutes,
-      durationSeconds: durationSec,
-      totalFrames,
-      renderer: opts.renderer,
-      audio: opts.audio,
-      dryRun: true,
-      resources: {
-        peakRssMb: estRssMb,
-        diskUsageMb: estDiskMb,
-        elapsedSeconds: 0,
-        fps: 0,
-        speedRatio: 0,
-      },
-      safetyThresholds: {
-        maxRssMb,
-        maxDiskMb,
-        passed: estRssMb <= maxRssMb && estDiskMb <= maxDiskMb,
-        violations: [],
-      },
-    };
-    writeFileSync(join(baseDir, 'benchmark-report.json'), JSON.stringify(report, null, 2));
-    return report;
-  }
-
-  // 実際のレンダリング実行
-  const startTime = performance.now();
-  let peakRss = process.memoryUsage().rss;
-
-  // 定期的なRSSサンプリングタイマー
-  const sampleTimer = setInterval(() => {
-    const currentRss = process.memoryUsage().rss;
-    if (currentRss > peakRss) peakRss = currentRss;
-  }, 100);
-
-  let renderError: unknown;
-  const outDir = join(baseDir, 'outputs');
-  mkdirSync(outDir, {recursive: true});
-
-  try {
-    const {sample} = await import('../src/commands/sample.ts');
-    await sample({
-      plan: planPath,
-      renderer: opts.renderer,
-      audio: opts.audio,
-      queue: false,
-    });
-  } catch (e) {
-    renderError = e;
-  } finally {
-    clearInterval(sampleTimer);
-  }
-
-  const elapsedSec = (performance.now() - startTime) / 1000;
-  const peakRssMb = Math.round((peakRss / (1024 * 1024)) * 10) / 10;
-  const diskBytes = calculateDirSize(baseDir);
-  const diskUsageMb = Math.round((diskBytes / (1024 * 1024)) * 10) / 10;
-  const fps = elapsedSec > 0 ? Math.round((totalFrames / elapsedSec) * 10) / 10 : 0;
-  const speedRatio = elapsedSec > 0 ? Math.round((durationSec / elapsedSec) * 10) / 10 : 0;
-
-  const violations: string[] = [];
-  if (peakRssMb > maxRssMb) violations.push(`最大RSS超過: ${peakRssMb}MB > ${maxRssMb}MB`);
-  if (diskUsageMb > maxDiskMb) violations.push(`ディスク使用量超過: ${diskUsageMb}MB > ${maxDiskMb}MB`);
-  if (renderError) violations.push(`実行時エラー: ${String(renderError)}`);
-
+  const durationSec = totalSeconds(plan), totalFrames = Math.round(durationSec * 24);
+  const maxRssMb = opts.maxRssMb ?? DEFAULT_MAX_RSS_MB, maxDiskMb = opts.maxDiskMb ?? DEFAULT_MAX_DISK_MB;
+  const baseDir = isolatedDirectory(opts.dir);
+  writeFileSync(join(baseDir, 'plan.json'), JSON.stringify(plan, null, 2));
   const report: BenchmarkReport = {
-    schema: 1,
-    timestamp: new Date().toISOString(),
-    durationMinutes: opts.minutes,
-    durationSeconds: durationSec,
-    totalFrames,
-    renderer: opts.renderer,
-    audio: opts.audio,
-    dryRun: false,
-    resources: {
-      peakRssMb,
-      diskUsageMb,
-      elapsedSeconds: Math.round(elapsedSec * 100) / 100,
-      fps,
-      speedRatio,
-    },
-    safetyThresholds: {
-      maxRssMb,
-      maxDiskMb,
-      passed: violations.length === 0,
-      violations,
-    },
+    schema: 2, timestamp: new Date().toISOString(), durationMinutes: opts.minutes, durationSeconds: durationSec,
+    totalFrames, renderer: opts.renderer, audio: opts.audio, dryRun: Boolean(opts.dryRun), directory: baseDir,
+    outcome: opts.dryRun ? 'estimated' : 'failed',
+    resources: {peakRssMb: null, diskUsageMb: null, elapsedSeconds: null, fps: null, speedRatio: null, samplingIntervalMs: 100, samples: 0, processes: [], errors: []},
+    safetyThresholds: {maxRssMb, maxDiskMb, passed: opts.dryRun ? null : false, violations: []},
   };
-
-  // 媒体検査
-  const mp4Path = join(outDir, 'sample.mp4');
-  if (existsSync(mp4Path)) {
-    const ffprobe = spawnSync('ffprobe', [
-      '-v', 'error',
-      '-select_streams', 'v:0',
-      '-count_packets',
-      '-show_entries', 'stream=nb_read_packets',
-      '-of', 'csv=p=0',
-      mp4Path,
-    ], {encoding: 'utf8'});
-
-    const actualFrames = Number(ffprobe.stdout.trim()) || 0;
-    const decodeCheck = spawnSync('ffmpeg', ['-v', 'error', '-i', mp4Path, '-f', 'null', '-'], {encoding: 'utf8'});
-
-    report.mediaValidation = {
-      videoFrames: actualFrames,
-      expectedFrames: totalFrames,
-      fullDecodePassed: decodeCheck.status === 0,
-    };
+  const save = () => writeFileSync(join(baseDir, 'benchmark-report.json'), JSON.stringify(report, null, 2));
+  if (opts.dryRun) {
+    const rssMb = opts.renderer === 'remotion' ? 850 : 350, diskMb = totalFrames * 0.01 + 20;
+    report.estimates = {rssMb, diskMb, withinThresholds: rssMb <= maxRssMb && diskMb <= maxDiskMb};
+    save(); return report;
   }
-
-  writeFileSync(join(baseDir, 'benchmark-report.json'), JSON.stringify(report, null, 2));
-  return report;
+  const violations = report.safetyThresholds.violations;
+  const startTime = performance.now();
+  const workspace = copyWorkspace(baseDir);
+  const command = deps.renderCommand?.(workspace, join(baseDir, 'plan.json')) ?? {
+    executable: process.execPath,
+    args: ['src/cli.ts', 'sample', '--plan', join(baseDir, 'plan.json'), '--renderer', opts.renderer, '--audio', opts.audio, '--subtitles', 'burn'],
+  };
+  writeFileSync(join(baseDir, 'render-command.json'), JSON.stringify({...command, cwd: workspace}, null, 2));
+  const child = spawn(command.executable, command.args, {cwd: workspace, detached: true, stdio: ['ignore', 'pipe', 'pipe']});
+  // Streaming to disk avoids buffering a long renderer's output in memory.
+  const output = createWriteStream(join(baseDir, 'render-stdout.txt'));
+  const errors = createWriteStream(join(baseDir, 'render-stderr.txt'));
+  const flushed = Promise.all([finished(output), finished(errors)]);
+  child.stdout.pipe(output); child.stderr.pipe(errors);
+  let peakKb = 0, diskBytes = 0, stopped = false;
+  const peaks = new Map<number, ProcessPeak>();
+  const stop = (reason: string) => {
+    if (stopped) return;
+    stopped = true; violations.push(reason);
+    try { if (child.pid) process.kill(-child.pid, 'SIGKILL'); } catch { /* already exited */ }
+  };
+  const sample = () => {
+    try {
+      const tree = processTree(snapshotProcesses(), child.pid ?? -1);
+      if (tree.length) {
+        report.resources.samples++;
+        peakKb = Math.max(peakKb, tree.reduce((n, p) => n + p.rssKb, 0));
+        for (const p of tree) peaks.set(p.pid, {pid: p.pid, command: p.command, peakRssMb: Math.max(peaks.get(p.pid)?.peakRssMb ?? 0, p.rssKb / 1024)});
+        if (peakKb / 1024 > maxRssMb) stop(`最大RSS超過: ${peakKb / 1024}MB > ${maxRssMb}MB`);
+      }
+      diskBytes = Math.max(diskBytes, calculateDirSize(workspace));
+      if (diskBytes / 1048576 > maxDiskMb) stop(`ディスク使用量超過: ${diskBytes / 1048576}MB > ${maxDiskMb}MB`);
+    } catch (e) {
+      report.resources.errors.push(String(e)); stop('リソース実測失敗');
+    }
+  };
+  // Attach listeners before the first synchronous ps call (spawn failure can emit immediately).
+  const done = new Promise<void>(resolveDone => {
+    child.once('error', e => {report.process = {exitCode: null, signal: null, error: e.message};});
+    child.once('close', (code, signal) => {report.process = {...report.process, exitCode: code, signal}; resolveDone();});
+  });
+  sample();
+  const timer = setInterval(sample, 100);
+  const timeout = setTimeout(() => stop(`タイムアウト: ${opts.timeoutSeconds ?? 1800}秒`), (opts.timeoutSeconds ?? 1800) * 1000);
+  try {await done;} finally {clearInterval(timer); clearTimeout(timeout);}
+  // The child close event follows closure of its stdio; wait for destination flush as well.
+  await flushed;
+  const elapsedSec = (performance.now() - startTime) / 1000;
+  diskBytes = Math.max(diskBytes, calculateDirSize(workspace));
+  report.resources = {...report.resources, peakRssMb: report.resources.samples ? peakKb / 1024 : null,
+    diskUsageMb: diskBytes / 1048576, elapsedSeconds: elapsedSec,
+    fps: null, speedRatio: null, processes: [...peaks.values()]};
+  if (!report.resources.samples) violations.push('子プロセスRSS未測定');
+  if (report.process?.exitCode !== 0 || report.process?.error) violations.push(`生成失敗: ${JSON.stringify(report.process)}`);
+  if (diskBytes / 1048576 > maxDiskMb && !violations.some(v => v.includes('ディスク'))) violations.push('ディスク使用量超過');
+  report.mediaValidation = {videoFrames: 0, expectedFrames: totalFrames, fullDecodePassed: false};
+  try {
+    // latest is only a locator; job status, containment and independent decoding must all pass.
+    const outputRoot = join(workspace, 'outputs');
+    const latest = JSON.parse(readFileSync(join(outputRoot, 'latest.json'), 'utf8'));
+    if (typeof latest.id !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(latest.id)) throw Error('latestのjob ID不正');
+    const jobDir = join(outputRoot, latest.id);
+    const canonicalOutput = realpathSync(outputRoot), canonicalJob = realpathSync(jobDir);
+    if (dirname(canonicalJob) !== canonicalOutput || lstatSync(jobDir).isSymbolicLink()) throw Error('jobが隔離先外');
+    const mp4 = join(jobDir, 'sample.mp4');
+    if (lstatSync(mp4).isSymbolicLink()) throw Error('動画symlinkは不可');
+    const job = JSON.parse(readFileSync(join(jobDir, 'job.json'), 'utf8'));
+    if (job.status !== 'completed') throw Error(`job未完了: ${job.status}`);
+    const inspectionDir = join(baseDir, 'independent-media'); mkdirSync(inspectionDir);
+    symlinkSync(mp4, join(inspectionDir, 'sample.mp4'));
+    const media = inspectRemotionMedia(inspectionDir, {duration: durationSec, fps: 24, width: 1280, height: 720, subtitles: 'burn', rendererName: `${opts.renderer} benchmark / independent FFmpeg`, narration: opts.audio === 'say'});
+    report.mediaValidation = {videoFrames: media.videoFrames!, expectedFrames: totalFrames, fullDecodePassed: media.fullDecode === 'passed',
+      videoDuration: media.videoDuration, audioDuration: media.audioDuration, artifactSha256: media.artifact?.sha256, path: mp4};
+    report.resources.fps = totalFrames / elapsedSec;
+    report.resources.speedRatio = durationSec / elapsedSec;
+  } catch (e) { report.mediaValidation.error = String(e); violations.push(`媒体検査失敗: ${e}`); }
+  if (!report.mediaValidation.fullDecodePassed || report.mediaValidation.videoFrames !== totalFrames) violations.push('媒体検査未合格');
+  report.safetyThresholds.passed = violations.length === 0;
+  report.outcome = report.safetyThresholds.passed ? 'passed' : 'failed';
+  save(); return report;
 }
 
 // 直接実行時のエントリポイント
@@ -359,7 +410,7 @@ if (process.argv[1] && process.argv[1].endsWith('benchmark-longform.ts')) {
     const report = await runLongformBenchmark(opts);
     console.log('[benchmark] レポート出力完了:');
     console.log(JSON.stringify(report, null, 2));
-    if (!report.safetyThresholds.passed) {
+    if (report.outcome === 'failed' || report.estimates?.withinThresholds === false) {
       console.error('[benchmark] 安全限界違反:', report.safetyThresholds.violations);
       process.exitCode = 1;
     }

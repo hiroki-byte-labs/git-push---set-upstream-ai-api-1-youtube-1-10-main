@@ -1,0 +1,20 @@
+記録: 事実・権利確認 主張=2件 素材=1件 結果=要確認（エスカレーション 3件）
+要確認事項:
+  - 未確認の主張: 「未照合: Sherwin Rosen (1981) 'The Economics of Superstars', American Economic Reviewに対応する主張を原文で記入してください」（出典未照合または要調査）
+  - 未確認の主張: 「未照合: Adler, Moshe (1985) 'Stardom and Talent', American Economic Reviewに対応する主張を原文で記入してください」（出典未照合または要調査）
+  - 素材利用権の要確認: 「production-assets-unreviewed」（ライセンス: 未確認, 商用利用可否: false）
+✔ T171 regression: automatic report never marks unchecked URLs verified (5.971167ms)
+✔ T171 regression: new script cannot reuse the previous script certificate (2.203875ms)
+✔ T171 regression: shared approval and HTTP path require a valid report (1.366917ms)
+✔ T171 regression: malformed claimed-ok JSON cannot authorize approval (1.421125ms)
+✔ valid certificate works, but changing its contents invalidates previous approval (2.136917ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 86.942666
+
+EXIT=0

@@ -1,6 +1,7 @@
 // 台本の意味に対応するサムネイル3候補の自動構成（T161）
 // 問い（question/symbol）、対比（contrast）、メカニズム・関係（relationship/scene）の3案を決定的に構成する。
 import type {Plan, Scene} from './plan.ts';
+import type {ThumbnailTypography} from './thumbnail-typography.ts';
 import {LIMITS} from './plan.ts';
 import {FORBIDDEN, NUMERIC_CLAIM} from './lint.ts';
 import {
@@ -59,6 +60,7 @@ function areHeadlinesEffectivelyIdentical(a: string, b: string): boolean {
 }
 
 export type CandidateGenerationOptions = {
+  typography?: ThumbnailTypography;
   allowNeedsReview?: boolean;
 };
 
@@ -226,6 +228,9 @@ export function buildThumbnailCandidates(plan: Plan, options: CandidateGeneratio
   };
 
   candidates.push(candidateA, candidateB, candidateC);
+  const typography = options.typography ?? plan.thumbnail?.typography;
+  if (typography) for (const c of candidates) c.typography = {...structuredClone(typography),
+    emphasis: typography.emphasis?.filter(word => c.headline.includes(word))};
 
   // ----------------------------------------------------
   // 安全性検査・重複排除・禁止表現検査

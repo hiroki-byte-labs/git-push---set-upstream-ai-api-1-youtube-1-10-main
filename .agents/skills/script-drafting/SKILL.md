@@ -118,6 +118,7 @@ description: AIエージェントが承認済み題材と本人の考察から�
 ## 4. 制作パイプラインへの受け渡しと修正手順
 
 ### 4.1 下書きの適用フロー
+長尺（6〜8章/5,000字以上）の構造化入力を使う場合は `prompts/documentary.md` と `src/documentary.ts` を参照し、`./scripts/run src/documentary-cli.ts <chapters.json> <draft-plan.json>` でPlan v2へ変換する。未照合の主張は停止し、本人考察は未入力のまま保持する。構造検証fixtureの反復文を公開台本として使わない。
 1. エージェントが下書きJSONを `fixtures/draft-<topic>.json` に保存。
 2. 制作案件に下書きを投入（本人の考察が自動注入される）:
    ```bash

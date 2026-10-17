@@ -1,0 +1,134 @@
+{
+  "checks": [
+    {
+      "id": "node",
+      "status": "ok",
+      "detail": "Node 24.19.0（SQLite 3.53.3）"
+    },
+    {
+      "id": "db",
+      "status": "ok",
+      "detail": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/telemetry.db integrity=ok"
+    },
+    {
+      "id": "approval_key",
+      "status": "ok",
+      "detail": "/Users/hongj/.config/agentctl/approval.key mode=600"
+    },
+    {
+      "id": "policy",
+      "status": "ok",
+      "detail": "routing-policy 2026-10-17.1 sha256=cb45a981c39d overrides=1"
+    },
+    {
+      "id": "registry",
+      "status": "ok",
+      "detail": "models.json 17モデル（確認日 2026-10-11）"
+    },
+    {
+      "id": "cli_claude",
+      "status": "ok",
+      "detail": "2.1.293 (Claude Code)"
+    },
+    {
+      "id": "cli_codex",
+      "status": "ok",
+      "detail": "codex-cli 0.162.1"
+    },
+    {
+      "id": "cli_agy",
+      "status": "ok",
+      "detail": "1.4.0:"
+    },
+    {
+      "id": "cli_gemini",
+      "status": "ok",
+      "detail": "0.46.0"
+    },
+    {
+      "id": "version_claude",
+      "status": "ok",
+      "detail": "2.1.293（確認した版 2.1.293）"
+    },
+    {
+      "id": "version_codex",
+      "status": "ok",
+      "detail": "0.162.1（確認した版 0.162.1）"
+    },
+    {
+      "id": "version_antigravity",
+      "status": "warn",
+      "detail": "能力を確認した版 1.3.3 と現在の版 1.4.0 が異なる: Hookの入力形式とサブエージェントの能力（models.json の native_subagents）を再確認する"
+    },
+    {
+      "id": "version_codex_app",
+      "status": "warn",
+      "detail": "能力を確認した版 0.162.0-alpha.2 と現在の版 0.162.0-alpha.17.2 が異なる: Hookの入力形式とサブエージェントの能力（models.json の native_subagents）を再確認する"
+    },
+    {
+      "id": "auth_claude",
+      "status": "ok",
+      "detail": "subscription"
+    },
+    {
+      "id": "auth_codex",
+      "status": "ok",
+      "detail": "subscription"
+    },
+    {
+      "id": "auth_antigravity",
+      "status": "ok",
+      "detail": "subscription"
+    },
+    {
+      "id": "auth_gemini-api",
+      "status": "warn",
+      "detail": "GEMINI_API_KEY未設定（従量課金経路は無効のまま）"
+    },
+    {
+      "id": "hooks_claude",
+      "status": "ok",
+      "detail": ".claude/settings.json: SessionStart,UserPromptSubmit,PreToolUse,PostToolUse,SubagentStart,SubagentStop,Stop"
+    },
+    {
+      "id": "hooks_codex_file",
+      "status": "ok",
+      "detail": ".codex/hooks.json"
+    },
+    {
+      "id": "hooks_codex_project_trust",
+      "status": "ok",
+      "detail": "プロジェクトは信頼済み"
+    },
+    {
+      "id": "hooks_codex_hook_trust",
+      "status": "ok",
+      "detail": "信頼済みHook 7件"
+    },
+    {
+      "id": "hooks_antigravity",
+      "status": "ok",
+      "detail": ".agents/hooks.json agentctl: PreToolUse,PostToolUse,PreInvocation,PostInvocation,Stop（フォルダの信頼は agy -p \"/hooks\" で確認）"
+    },
+    {
+      "id": "hook_baseline",
+      "status": "ok",
+      "detail": "基準（2026-10-17T02:00:31.774Z）と一致"
+    },
+    {
+      "id": "events_7d",
+      "status": "info",
+      "detail": "managed_call=223, child_session_verified=91, gateway_next=13, agy_payload_keys=12, maintenance_patch_applied=9, spawn_args=7, usage_unavailable=7, agent_tool_seen=5, audit=5, deny_ai_invocation=5, optimizer_proposal=5, agy_child_usage_linked=4, deny_protected_access=4, unmanaged_subagent=4, model_unverifiable=3, subagent_parent_model_allowed=3, deny_hook_tamper=2, optimizer_review=2, pm_command_allowed=2, subagent_denied_unenforceable=2, agy_child_session_bound=1, deny_protected_file=1, initiator_mismatch=1, maintenance_patch_rejected=1, optimizer_regression_check=1, policy_applied=1, stop_with_unmetered=1, subagent_model_denied=1, subagent_model_unenforced=1"
+    },
+    {
+      "id": "hook_errors",
+      "status": "warn",
+      "detail": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/hook-errors.log: 7行"
+    },
+    {
+      "id": "unmetered_managed",
+      "status": "ok",
+      "detail": "記録漏れ（missing）0件、製品の制約で取得不可（unavailable）0件。missingは agentctl status で調べる"
+    }
+  ]
+}

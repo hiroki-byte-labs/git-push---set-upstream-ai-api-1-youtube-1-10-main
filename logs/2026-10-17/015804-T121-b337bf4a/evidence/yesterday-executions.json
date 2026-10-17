@@ -1,0 +1,3 @@
+[{"provider":"antigravity","route":"interactive","managed":0,"executions":22},
+{"provider":"codex","route":"cli","managed":1,"executions":6},
+{"provider":"codex","route":"interactive","managed":0,"executions":15}]

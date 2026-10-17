@@ -1,0 +1,4 @@
+未完了34件（agent27/human7）: 全件掲載、一意、余分なし
+表の列数・空欄: OK
+参照パス: OK（明示した未存在 src/audio.ts, src/assets.ts を除く）
+EXIT=0

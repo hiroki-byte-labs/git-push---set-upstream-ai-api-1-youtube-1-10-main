@@ -1,0 +1,18 @@
+✔ generateLongformPlan produces valid plans for 10m, 15m, and 20m with balanced diagrams and chapters (4.272292ms)
+✔ parseBenchmarkArgs parses CLI arguments correctly (0.219958ms)
+✔ runLongformBenchmark dry-run generates plan and safety threshold report without executing render (1.890167ms)
+✔ benchmark rejects unsafe inputs and existing output directories before writing (1.928125ms)
+✔ RSS process tree includes nested children and excludes unrelated processes (0.10175ms)
+✔ successful child exit without a completed video fails; descendant RSS is actually sampled (797.361916ms)
+✔ invalid completed MP4, nonzero exit, timeout and RSS limit are failures (650.907334ms)
+✔ calculateDirSize measures directory byte size recursively (0.736625ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1516.66075
+
+EXIT=0

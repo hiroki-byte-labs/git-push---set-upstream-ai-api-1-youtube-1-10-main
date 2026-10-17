@@ -1,0 +1,3 @@
+docs/ASSETS.md:31: new blank line at EOF.
+
+EXIT=2

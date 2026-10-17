@@ -1,3 +1,4 @@
+import {reviewWithCheckedFactsForTest} from './helpers/checked-facts.ts';
 // All approvals and media here are synthetic fixtures in temporary directories.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,7 +10,7 @@ import {FileMockPublisher, MockPublishFailure, simulatePublish, readMockLedger, 
 import type {MockPublisherContract, MockOutcome} from '../src/mock-publisher.ts';
 import {approvalOf, recordReview} from '../src/review.ts';
 import {DisabledPublisher} from '../src/providers.ts';
-import {createProject, selectTopic, addReflection, attachScript, reviewScript, linkRender} from '../src/production.ts';
+import {createProject, selectTopic, addReflection, attachScript, linkRender} from '../src/production.ts';
 
 function fixture(fn: (c: ReturnType<typeof setup>) => Promise<void>) {
   return async () => { const c = setup(); try { await fn(c); } finally { rmSync(c.root, {recursive: true, force: true}); } };
@@ -129,7 +130,7 @@ test('mock: production prerequisite enforcement and script expiry use existing r
   const id = createProject(c.root, JSON.parse(readFileSync('fixtures/topic-candidates-demo.json', 'utf8')), {by: 'test-agent'});
   selectTopic(c.root, id, 'price-index', H); addReflection(c.root, id, '試験用の本人考察です。実在の本人の承認ではありません。', H);
   const s = attachScript(c.root, id, JSON.parse(readFileSync('fixtures/draft-general-demo.json', 'utf8')), 'test-agent');
-  reviewScript(c.root, id, 'approve', s.hash, '', H);
+  reviewWithCheckedFactsForTest(c.root, id, 'approve', s.hash, '', H);
   const job = JSON.parse(readFileSync(join(c.dir, 'job.json'), 'utf8'));
   writeFileSync(join(c.dir, 'thumbnail-a.png'), Buffer.from('mock-thumb'));
   Object.assign(job, {

@@ -1,0 +1,96 @@
+{
+  "decision": {
+    "schema_version": "1",
+    "decision_id": "rdc_0mvbr2k71a828aa23a7f5",
+    "task_id": "tsk_0mvbr2k3381f6689935dd",
+    "parent_task_id": "tsk_0mvbqy8do4b5d7cb72497",
+    "execution_id": "exe_0mvbr2k71a8d66abc7172",
+    "policy_version": "2026-10-17.1",
+    "policy_sha256": "cb45a981c39dab7e3de100642cf6ffae753dcaddf4cdc59325d1397d4348a5cd",
+    "task_type": "analysis",
+    "difficulty": "L2",
+    "difficulty_source": "explicit",
+    "quality_requirement": "normal",
+    "used_llm": false,
+    "created_at": "2026-10-17T02:00:59.581Z",
+    "escalation": {
+      "from_decision_id": null,
+      "attempt": 0,
+      "cause": null
+    },
+    "selected": {
+      "provider": "antigravity",
+      "model_id": "gemini-3.8-flash-medium",
+      "reasoning_level": "medium",
+      "tier": "standard",
+      "route": "cli",
+      "auth_mode": "subscription"
+    },
+    "review": {
+      "required": false,
+      "provider": null,
+      "model_id": null
+    },
+    "candidates": [
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "tier": "standard",
+        "eligible": true,
+        "reasons": []
+      },
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-high",
+        "tier": "standard",
+        "eligible": false,
+        "reasons": [
+          "自動選択の対象外"
+        ]
+      },
+      {
+        "provider": "claude",
+        "model_id": "claude-sonnet-5-5",
+        "tier": "standard",
+        "eligible": true,
+        "reasons": []
+      },
+      {
+        "provider": "codex",
+        "model_id": "gpt-6.1-sol",
+        "tier": "standard",
+        "eligible": true,
+        "reasons": []
+      },
+      {
+        "provider": "codex",
+        "model_id": "gpt-6-sol",
+        "tier": "standard",
+        "eligible": false,
+        "reasons": [
+          "自動選択の対象外"
+        ]
+      }
+    ],
+    "checks": {
+      "available": true,
+      "capable": true,
+      "within_budget": true,
+      "quality_expected": true,
+      "permitted": true
+    },
+    "estimate": {
+      "total_tokens": 120000,
+      "api_equivalent_usd": 0.162,
+      "billing": "subscription_quota"
+    },
+    "routing_reason": "L2/analysis/品質normal → standard枠の antigravity:gemini-3.8-flash-medium（antigravity>claude>codexの順で最初に条件を満たしたモデル）",
+    "rule_ids": [
+      "D-explicit",
+      "R-tier:L2->standard"
+    ],
+    "requires_human_approval": false,
+    "human_approval_reason": null
+  },
+  "validation": "ok"
+}

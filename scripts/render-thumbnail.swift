@@ -3,6 +3,7 @@
 import AppKit
 import Foundation
 import CryptoKit
+import CoreText
 
 // ----------------------------------------------------
 // 型定義
@@ -21,6 +22,7 @@ struct Grounding: Codable {
 }
 
 struct Candidate: Codable {
+    let typography: Typography?
     let id: String
     let headline: String
     let sub: String?
@@ -31,6 +33,23 @@ struct Candidate: Codable {
     let reason: String
     let unknowns: [String]?
     let status: String?
+}
+
+struct Typography: Codable {
+    let family: String
+    let weight: Int
+    let emphasis: [String]?
+    let outline: Bool?
+    let glow: Bool?
+    let gradient: Bool?
+}
+struct TypographyReport: Codable {
+    let family: String
+    let fontName: String
+    let weight: Int
+    let outline: Bool
+    let glow: Bool
+    let gradient: Bool
 }
 
 struct ThumbnailBrief: Codable {
@@ -50,6 +69,7 @@ struct DrawnRect: Codable {
 }
 
 struct ThumbReportItem: Codable {
+    let typography: TypographyReport?
     let file: String
     let variant: String
     let headline: String
@@ -61,6 +81,56 @@ struct ThumbReportItem: Codable {
     let drawnBox: DrawnRect
     let ok: Bool
     let issues: [String]
+}
+
+var fontDescriptors: [String: CTFontDescriptor] = [:]
+var fontCache: [String: NSFont] = [:]
+func typographyFont(_ style: Typography, _ size: CGFloat) -> NSFont {
+    let key = "\(style.family)-\(style.weight)-\(size)"
+    if let cached = fontCache[key] { return cached }
+    let directory = style.family == "mincho" ? "noto-serif-jp" : "noto-sans-jp"
+    let filename = style.family == "mincho" ? "NotoSerifJP.ttf" : "NotoSansJP.ttf"
+    let url = URL(fileURLWithPath: "assets/fonts/\(directory)/\(filename)")
+    if fontDescriptors[style.family] == nil {
+        var error: Unmanaged<CFError>?
+        // Process scope only: no installation into the user's font collection.
+        CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error)
+        guard let descriptors = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL) as? [CTFontDescriptor], let descriptor = descriptors.first else {
+            fail("同梱フォントを読み込めません")
+        }
+        fontDescriptors[style.family] = descriptor
+    }
+    let descriptor = fontDescriptors[style.family]!
+    let variation = [NSNumber(value: 0x77676874): NSNumber(value: style.weight)]
+    let varied = CTFontDescriptorCreateCopyWithAttributes(descriptor, [kCTFontVariationAttribute: variation] as CFDictionary)
+    let font = CTFontCreateWithFontDescriptor(varied, size, nil)
+    fontCache[key] = font as NSFont
+    return font as NSFont
+}
+
+func headlineString(_ text: String, _ style: Typography, _ size: CGFloat, _ color: NSColor, _ para: NSParagraphStyle) -> NSMutableAttributedString {
+    let font = typographyFont(style, size)
+    let string = NSMutableAttributedString(string: text, attributes: [.font: font, .foregroundColor: color, .paragraphStyle: para])
+    let nsText = text as NSString
+    var location = 0
+    for char in text {
+        let s = String(char), length = (s as NSString).length
+        var factor: CGFloat = 1
+        if s.range(of: "[一-龯]", options: .regularExpression) != nil { factor = 1.10 }
+        if s.range(of: "[ぁ-ゖ、。？！?!]", options: .regularExpression) != nil { factor = 0.78 }
+        string.addAttribute(.font, value: typographyFont(style, size * factor), range: NSRange(location: location, length: length))
+        location += length
+    }
+    for word in style.emphasis ?? [] {
+        var search = NSRange(location: 0, length: nsText.length)
+        while search.length > 0 {
+            let range = nsText.range(of: word, options: [], range: search)
+            if range.location == NSNotFound { break }
+            string.addAttribute(.font, value: typographyFont(style, size * 1.22), range: range)
+            search = NSRange(location: NSMaxRange(range), length: nsText.length - NSMaxRange(range))
+        }
+    }
+    return string
 }
 
 // ----------------------------------------------------
@@ -234,10 +304,15 @@ for c in brief.candidates {
         minFontSize = 52
         align = .left
     }
+    if c.typography != nil && c.composition != "symbol" && c.composition != "contrast" {
+        headlineBox = NSRect(x: 80, y: 500, width: 1120, height: 170)
+    }
 
     var fitted = false
     var finalFontSize = maxFontSize
     var drawnRect = DrawnRect(x: 0, y: 0, width: 0, height: 0)
+    var typographyReport: TypographyReport? = nil
+    let contentBox = c.typography == nil ? headlineBox : headlineBox.insetBy(dx: 10, dy: 10)
 
     for fs in stride(from: maxFontSize, through: minFontSize, by: -2) {
         let para = NSMutableParagraphStyle()
@@ -250,16 +325,53 @@ for c in brief.candidates {
             .foregroundColor: textColor,
             .paragraphStyle: para
         ]
-        let attrStr = NSAttributedString(string: c.headline, attributes: attrs)
-        let rect = attrStr.boundingRect(with: headlineBox.size, options: [.usesLineFragmentOrigin])
+        let attrStr: NSAttributedString = c.typography.map { headlineString(c.headline, $0, fs, textColor, para) } ?? NSAttributedString(string: c.headline, attributes: attrs)
+        let rect = attrStr.boundingRect(with: contentBox.size, options: [.usesLineFragmentOrigin, .usesFontLeading])
+        // Variable CJK fonts need trailing line descent space when mixed-size
+        // runs wrap; reserve it before fitting rather than clipping the glyphs.
+        let descentSpace: CGFloat = c.typography != nil && rect.height > fs * 2 ? fs * 0.6 : 0
+        let layoutHeight = rect.height + descentSpace
 
-        if rect.width <= headlineBox.width && rect.height <= headlineBox.height {
+        if rect.width <= contentBox.width && layoutHeight <= contentBox.height {
             fitted = true
             finalFontSize = fs
-            let drawX = (align == .center) ? headlineBox.origin.x + (headlineBox.width - rect.width) / 2 : headlineBox.origin.x
-            let drawY = headlineBox.origin.y + (headlineBox.height - rect.height) / 2
-            attrStr.draw(in: NSRect(x: drawX, y: drawY, width: rect.width, height: rect.height))
-            drawnRect = DrawnRect(x: Double(drawX), y: Double(drawY), width: Double(rect.width), height: Double(rect.height))
+            let drawX = (align == .center) ? contentBox.origin.x + (contentBox.width - rect.width) / 2 : contentBox.origin.x
+            let drawY = contentBox.origin.y + (contentBox.height - layoutHeight) / 2
+            // Keep the exact layout width used for measurement. Shrinking to
+            // usedRect.width causes another wrap and clips multiline glyphs.
+            let drawBox = c.typography == nil
+                ? NSRect(x: drawX, y: drawY, width: ceil(rect.width) + 1, height: ceil(rect.height) + 1)
+                : NSRect(x: contentBox.origin.x, y: drawY, width: contentBox.width, height: ceil(layoutHeight) + 4)
+            if let style = c.typography {
+                let range = NSRange(location: 0, length: attrStr.length)
+                let outer = NSMutableAttributedString(attributedString: attrStr)
+                if style.outline == true { outer.addAttributes([.strokeWidth: 7, .strokeColor: srgbColor(4, 8, 15)], range: range) }
+                if style.glow == true {
+                    let shadow = NSShadow(); shadow.shadowColor = accentColor.withAlphaComponent(0.55)
+                    shadow.shadowBlurRadius = 5; shadow.shadowOffset = NSSize(width: 0, height: -1)
+                    outer.addAttribute(.shadow, value: shadow, range: range)
+                }
+                outer.draw(in: drawBox)
+                let fill = NSMutableAttributedString(attributedString: attrStr)
+                if style.outline == true { fill.addAttributes([.strokeWidth: -1.5, .strokeColor: srgbColor(245, 230, 196)], range: range) }
+                fill.draw(in: drawBox)
+                if style.gradient == true {
+                    ctx.saveGState(); ctx.beginTransparencyLayer(auxiliaryInfo: nil)
+                    attrStr.draw(in: drawBox)
+                    ctx.setBlendMode(.sourceIn)
+                    NSGradient(starting: textColor, ending: isLight ? textColor : srgbColor(242, 217, 163))!.draw(in: drawBox, angle: 90)
+                    ctx.endTransparencyLayer(); ctx.restoreGState()
+                }
+                let selected = typographyFont(style, fs)
+                let variation = CTFontCopyVariation(selected as CTFont) as? [NSNumber: NSNumber]
+                let actualWeight = variation?[NSNumber(value: 0x77676874)]?.intValue ?? 0
+                if actualWeight != style.weight { issues.append("要求したfont weightと実フォントが不一致") }
+                typographyReport = TypographyReport(family: style.family, fontName: selected.fontName, weight: actualWeight,
+                    outline: style.outline == true, glow: style.glow == true, gradient: style.gradient == true)
+                let familyDir = style.family == "mincho" ? "noto-serif-jp/NotoSerifJP.ttf" : "noto-sans-jp/NotoSansJP.ttf"
+                if let hash = fileSha256(URL(fileURLWithPath: "assets/fonts/" + familyDir)) { assetHashes["font:" + style.family] = hash }
+            } else { attrStr.draw(in: drawBox) }
+            drawnRect = DrawnRect(x: Double(drawX), y: Double(drawY), width: Double(rect.width), height: Double(layoutHeight))
             break
         }
     }
@@ -277,6 +389,8 @@ for c in brief.candidates {
             subBox = NSRect(x: 80, y: 180, width: 680, height: 60)
         } else if c.composition == "contrast" {
             subBox = NSRect(x: 80, y: 470, width: 1120, height: 50)
+        } else if c.typography != nil {
+            subBox = NSRect(x: 80, y: 430, width: 1120, height: 50)
         }
 
         let subPara = NSMutableParagraphStyle()
@@ -293,14 +407,20 @@ for c in brief.candidates {
         if subRect.height <= subBox.height {
             let sx = (align == .center) ? subBox.origin.x + (subBox.width - subRect.width) / 2 : subBox.origin.x
             let sy = subBox.origin.y + (subBox.height - subRect.height) / 2
-            subAttrStr.draw(in: NSRect(x: sx, y: sy, width: subRect.width, height: subRect.height))
+            let subDrawBox = NSRect(x: sx, y: sy, width: subRect.width, height: subRect.height)
+            subAttrStr.draw(in: subDrawBox)
+            if c.typography != nil && subDrawBox.intersects(NSRect(x: drawnRect.x, y: drawnRect.y, width: drawnRect.width, height: drawnRect.height).insetBy(dx: -6, dy: -6)) {
+                issues.append("主見出しと補足見出しの描画領域が衝突")
+            }
         } else {
             issues.append("補足見出しが枠内に収まりません")
         }
     }
 
     // コントラスト比計算
-    let cr = contrastRatio(bgColor, textColor)
+    let cr = c.typography?.gradient == true && !isLight
+        ? min(contrastRatio(bgColor, textColor), contrastRatio(bgColor, srgbColor(242, 217, 163)))
+        : contrastRatio(bgColor, textColor)
     if cr < 4.5 {
         issues.append("コントラスト比(\(String(format: "%.2f", cr)))が4.5未満です")
     }
@@ -338,6 +458,7 @@ for c in brief.candidates {
 
     let ok = issues.isEmpty && fitted
     let item = ThumbReportItem(
+        typography: typographyReport,
         file: fileName,
         variant: c.id,
         headline: c.headline,

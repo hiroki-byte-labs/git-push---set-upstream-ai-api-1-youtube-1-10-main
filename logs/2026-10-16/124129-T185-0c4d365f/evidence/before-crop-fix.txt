@@ -1,0 +1,35 @@
+✔ typography validates family/weight, effects and emphasis without adding unseen words (0.424417ms)
+✔ font and OFL files are hash-bound; tampered font rejected (20.044791ms)
+✔ Plan typography changes input hash and propagates to normal production candidates (5.879125ms)
+✔ mincho: actual embedded variable font, decorated PNG and both scaled image gates (1061.64275ms)
+✖ gothic: actual embedded variable font, decorated PNG and both scaled image gates (1116.311625ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2263.996166
+
+✖ failing tests:
+
+test at tests/thumbnail-typography.test.ts:41:3
+✖ gothic: actual embedded variable font, decorated PNG and both scaled image gates (1116.311625ms)
+  AssertionError [ERR_ASSERTION]: last line must not end in an abrupt wide horizontal crop
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/thumbnail-typography.test.ts:71:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+EXIT=1

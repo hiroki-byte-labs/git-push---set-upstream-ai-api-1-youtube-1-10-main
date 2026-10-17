@@ -1,0 +1,155 @@
+[
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mvbqy8do4b5d7cb72497",
+    "parent_task_id": null,
+    "execution_id": "exe_0mvbqy8dpbbf713af1fe5",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mvbqy8dp7c32002a2925",
+    "initiator": "codex",
+    "agent_name": "main",
+    "provider": "codex",
+    "model_id": "gpt-6.1-sol",
+    "reasoning_level": "medium",
+    "task_type": "implementation",
+    "difficulty": "L2",
+    "routing_reason": "L2/implementation/品質normal → standard枠の codex:gpt-6.1-sol（codex>claude>antigravityの順で最初に条件を満たしたモデル）",
+    "status": "running",
+    "managed": false,
+    "route": "interactive",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-17T01:57:37.646Z",
+    "end_time": null,
+    "duration_ms": null,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "missing",
+    "session_ref": {
+      "product": "codex",
+      "session_id": "01a14462-6c9a-7743-82b8-0ca8b13537cb",
+      "agent_id": null
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 0,
+      "api_usd": null
+    },
+    "usage": []
+  },
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mvbr2ti22a458c392756",
+    "parent_task_id": "tsk_0mvbqy8do4b5d7cb72497",
+    "execution_id": "exe_0mvbr2tm12232c3f00f41",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mvbr2tm1702a4ad4f4fd",
+    "initiator": "codex",
+    "agent_name": "routing-review",
+    "provider": "claude",
+    "model_id": "claude-sonnet-5-5",
+    "reasoning_level": "medium",
+    "task_type": "review",
+    "difficulty": "L2",
+    "routing_reason": "L2/review/品質normal → standard枠の claude:claude-sonnet-5-5（claude>codex>antigravityの順で最初に条件を満たしたモデル）",
+    "status": "completed",
+    "managed": true,
+    "route": "cli",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-17T02:01:11.790Z",
+    "end_time": "2026-10-17T02:01:22.687Z",
+    "duration_ms": 10897,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "claude",
+      "session_id": "51799ebb-21b8-4114-bdd6-59d43e551c2b",
+      "agent_id": null
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 25026,
+      "api_usd": 0.041665
+    },
+    "usage": [
+      {
+        "provider": "claude",
+        "model_id": "claude-sonnet-5-5",
+        "source_kind": "cli_result",
+        "input_total": 24334,
+        "cache_read": 11343,
+        "cache_write": 12989,
+        "output_total": 692,
+        "reasoning": null,
+        "total": 25026,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"measured\",\"cache_read\":\"measured\",\"cache_write\":\"measured\",\"output_total\":\"measured\",\"reasoning\":\"unavailable\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.041665
+      }
+    ]
+  },
+  {
+    "schema_version": "1",
+    "task_id": "tsk_0mvbr2ti75b27159f1a65",
+    "parent_task_id": "tsk_0mvbqy8do4b5d7cb72497",
+    "execution_id": "exe_0mvbr2tm2548544eda0c3",
+    "parent_execution_id": null,
+    "decision_id": "rdc_0mvbr2tm301b33a1efe69",
+    "initiator": "codex",
+    "agent_name": "routing-analysis",
+    "provider": "antigravity",
+    "model_id": "gemini-3.8-flash-medium",
+    "reasoning_level": "medium",
+    "task_type": "analysis",
+    "difficulty": "L2",
+    "routing_reason": "L2/analysis/品質normal → standard枠の antigravity:gemini-3.8-flash-medium（antigravity>claude>codexの順で最初に条件を満たしたモデル）",
+    "status": "completed",
+    "managed": true,
+    "route": "cli",
+    "auth_mode": "subscription",
+    "start_time": "2026-10-17T02:01:11.791Z",
+    "end_time": "2026-10-17T02:01:38.833Z",
+    "duration_ms": 27042,
+    "retry_count": 0,
+    "escalation_count": 0,
+    "artifacts": [],
+    "test_results": [],
+    "metering_status": "measured",
+    "session_ref": {
+      "product": "antigravity",
+      "session_id": "b5511038-b1db-4ffa-9ef9-5d076370151c",
+      "agent_id": null
+    },
+    "error": null,
+    "tree": {
+      "executions": 1,
+      "total": 18799,
+      "api_usd": 0.01913
+    },
+    "usage": [
+      {
+        "provider": "antigravity",
+        "model_id": "gemini-3.8-flash-medium",
+        "source_kind": "cli_result",
+        "input_total": 17122,
+        "cache_read": 0,
+        "cache_write": null,
+        "output_total": 1677,
+        "reasoning": 1534,
+        "total": 18799,
+        "methods_json": "{\"input_total\":\"measured\",\"input_uncached\":\"estimated\",\"cache_read\":\"measured\",\"cache_write\":\"unavailable\",\"output_total\":\"measured\",\"reasoning\":\"measured\",\"total\":\"measured\"}",
+        "billing_mode": "subscription",
+        "api_equivalent_usd": 0.01913
+      }
+    ]
+  }
+]
+未計測: exe_0mvbqy8dpbbf713af1fe5
+
+EXIT=4

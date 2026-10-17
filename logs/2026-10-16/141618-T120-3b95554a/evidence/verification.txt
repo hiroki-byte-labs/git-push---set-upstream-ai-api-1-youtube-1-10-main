@@ -1,0 +1,3 @@
+候補10単位の列数/空欄/証跡実在: OK
+既存Skill front matter/追加指示の今回適用: OK
+EXIT=0

@@ -1,0 +1,30 @@
+✔ generateLongformPlan produces valid plans for 10m, 15m, and 20m with balanced diagrams and chapters (16.201125ms)
+✔ parseBenchmarkArgs parses CLI arguments correctly (0.229333ms)
+✔ runLongformBenchmark dry-run generates plan and safety threshold report without executing render (1.642792ms)
+✔ benchmark rejects unsafe inputs and existing output directories before writing (1.397542ms)
+✔ RSS process tree includes nested children and excludes unrelated processes (0.096334ms)
+✔ successful child exit without a completed video fails; descendant RSS is actually sampled (800.969542ms)
+✔ invalid completed MP4, nonzero exit, timeout and RSS limit are failures (681.844916ms)
+✔ calculateDirSize measures directory byte size recursively (0.75875ms)
+記録: 事実・権利確認 主張=2件 素材=1件 結果=要確認（エスカレーション 3件）
+要確認事項:
+  - 未確認の主張: 「未照合: Sherwin Rosen (1981) 'The Economics of Superstars', American Economic Reviewに対応する主張を原文で記入してください」（出典未照合または要調査）
+  - 未確認の主張: 「未照合: Adler, Moshe (1985) 'Stardom and Talent', American Economic Reviewに対応する主張を原文で記入してください」（出典未照合または要調査）
+  - 素材利用権の要確認: 「production-assets-unreviewed」（ライセンス: 未確認, 商用利用可否: false）
+✔ T171 regression: automatic report never marks unchecked URLs verified (7.6765ms)
+✔ import rejects stale/other-project/other-plan reports without rebinding or overwriting evidence (3.652417ms)
+✔ approval recomputes claimed-ok flags and checks source correspondence (2.468459ms)
+✔ T171 regression: new script cannot reuse the previous script certificate (2.240417ms)
+✔ T171 regression: shared approval and HTTP path require a valid report (1.654708ms)
+✔ T171 regression: malformed claimed-ok JSON cannot authorize approval (1.907167ms)
+✔ valid certificate works, but changing its contents invalidates previous approval (2.5795ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1571.79325
+
+EXIT=0

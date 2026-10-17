@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "fonts": [
+    {
+      "family": "mincho",
+      "file": "noto-serif-jp/NotoSerifJP.ttf",
+      "sha256": "2fd527ba12b6a44ec30d796d633360da0aeba6c5d4af1304ce12bb4dc15a7dfc",
+      "license": "OFL-1.1",
+      "licenseFile": "noto-serif-jp/OFL.txt",
+      "licenseSha256": "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6",
+      "source": "https://github.com/google/fonts/tree/main/ofl/notoserifjp",
+      "checkedAt": "2026-10-16"
+    },
+    {
+      "family": "gothic",
+      "file": "noto-sans-jp/NotoSansJP.ttf",
+      "sha256": "c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f",
+      "license": "OFL-1.1",
+      "licenseFile": "noto-sans-jp/OFL.txt",
+      "licenseSha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+      "source": "https://github.com/google/fonts/tree/main/ofl/notosansjp",
+      "checkedAt": "2026-10-16"
+    }
+  ]
+}

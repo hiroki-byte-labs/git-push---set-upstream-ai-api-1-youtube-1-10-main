@@ -1,0 +1,27 @@
+✖ T170 regression: valid short cue with longer real speech fails without writing a truncated WAV (546.575917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 615.15475
+
+✖ failing tests:
+
+test at tests/local-say-audio.test.ts:143:1
+✖ T170 regression: valid short cue with longer real speech fails without writing a truncated WAV (546.575917ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/local-say-audio.test.ts:151:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /場面1.*cue1.*超過/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+EXIT=1

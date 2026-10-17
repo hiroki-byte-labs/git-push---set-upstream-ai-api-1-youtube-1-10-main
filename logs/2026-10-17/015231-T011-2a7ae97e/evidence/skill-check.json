@@ -1,0 +1,15 @@
+{
+  "references": [
+    "docs/SPEC.md",
+    "docs/STATUS.md",
+    "docs/AGENT-WORKFLOW.md",
+    ".agents/skills/task-work-units/SKILL.md",
+    "tickets/templates/TICKET.md",
+    ".agents/skills/sample-render-verification/SKILL.md",
+    ".agents/skills/repository-task-closeout/SKILL.md"
+  ],
+  "missing": [],
+  "sharedPersonalSameFile": true,
+  "sha256": "f65d56d2855a0d95aebff9225f32bbfba61c6bd1d4536646c88caaefa66611e2",
+  "yamlDependency": "existing work/skill-validation, PyYAML 6.0.2"
+}

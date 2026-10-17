@@ -1,0 +1,16 @@
+✔ VOICEVOX is opt-in, requires rights/credit and forbids remote endpoints/redirect destinations (0.825375ms)
+✔ strict PCM rejects truncated, missing, stereo, silent or clipped responses (3.936792ms)
+✔ real PCM duration drives bounded speed correction without assuming query speed equals speech rate (12.457334ms)
+✔ unavailable engines and bad queries fail clearly; no mock fallback (0.264959ms)
+✔ PCM placement never truncates speech to fit a cue (3.078167ms)
+✔ synthetic transport integration emits actual PCM/LUFS, text hashes, pending evaluation and credit (94.335875ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 190.040042
+
+EXIT=0

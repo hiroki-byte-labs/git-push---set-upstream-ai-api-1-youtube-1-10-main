@@ -21,6 +21,8 @@ PYTHON_BIN=/path/to/python3 ./scripts/setup-media
 ./scripts/verify   # check・テスト・型検査を一括実行（コミット前）
 ```
 
+10・15・20分のダミー台本による資源計測は [長尺ベンチマーク手順](docs/LONGFORM-BENCHMARK.md) を参照。実生成はリポジトリ外の隔離コピーで行い、子プロセスを含むRSSと完成MP4を検査します。`--dry-run` は推計だけで、実生成の合格を意味しません。
+
 ## 動画生成と再生
 ```sh
 ./scripts/run src/cli.ts sample                                   # M1の36秒（v1台本）
@@ -35,7 +37,7 @@ PYTHON_BIN=/path/to/python3 ./scripts/setup-media
 
 台本の`theme`は`general`（日常の知識）か`investment`（投資）。未指定は旧形式として投資扱いで、最終場面に推奨・保証を否定する免責が必要です。一般テーマは「結果を保証しない」旨の否定文が必要で、投資の語（銘柄・株価・NISA等）を含めば投資の免責も必要です。`intro`（導入文）は概要欄の先頭に入り、出典は文献名・URL・確認日と使用場面を`metadata.json`の`sources`に保存します（URLの記載は主張の検証済みを意味しません）。詳細はprompts/script.mdとADR-017。
 
-`outputs/<job-id>/sample.mp4` が完成動画。字幕は既定で映像に焼き込み、別ファイル `subtitles.vtt` も作成します（`--subtitles soft` で切り替え式の字幕トラック、`both` で両方）。文字配置の検査結果は `job.json` の `layout`（T106）。`plan.json`、`job.json`、`lint.json`、`metadata.json`、`media-check.json`、サムネイル3案、全場面の確認画像も出力。`outputs/latest.json` は最後に正常完了したジョブを指します。2回実行しても既存出力は上書きせず新しいジョブになります。視聴する確認音は各場面の冒頭だけです。字幕を読み上げる機能はまだありません。
+`outputs/<job-id>/sample.mp4` が完成動画。字幕は既定で映像に焼き込み、別ファイル `subtitles.vtt` も作成します（`--subtitles soft` で切り替え式の字幕トラック、`both` で両方）。文字配置の検査結果は `job.json` の `layout`（T106）。`plan.json`、`job.json`、`lint.json`、`metadata.json`、`media-check.json`、サムネイル3案、全場面の確認画像も出力。`outputs/latest.json` は最後に正常完了したジョブを指します。2回実行しても既存出力は上書きせず新しいジョブになります。既定の `--audio mock` は各場面の確認音です。`--audio say` はmacOS標準音声でcueを読み上げ、指定時間を超える発話は切り捨てず停止します（[時間調整の手順](docs/SAY-AUDIO-TIMING.md)）。`--audio voicevox` はローカルエンジン向けアダプターを実装済みですが、実エンジンの発音・声質・再生検証は未完了です（[必要条件と実行手順](docs/VOICEVOX-LOCAL-AUDIO.md)、T179 review）。
 
 ## 本人の工程を通す制作（T104）
 T084の判断前チェックリストは、台本の`practice`で指定した原文から各ジョブのテキスト・PNGと概要欄を生成します。末尾の案内は`role: action`。形式と検証制約は [チェックリストの使い方](docs/T084-CHECKLIST.md) を参照。隔離デモMP4の全編AVPlayer再生を確認済みで、T084はdone（ブラウザーUI/textTracks固有確認は未実施）。
@@ -52,6 +54,8 @@ T084の判断前チェックリストは、台本の`practice`で指定した原
 # 4. エージェントが下書き（role: reflectionの場面を1つ持つ台本）から台本を作る
 ./scripts/run src/cli.ts produce script production-xxxxxxxx --plan 下書き.json --by 'エージェント名'
 # 5. 本人が台本を読み、表示された「台本の版」で承認（または理由つきで差戻し）
+# 先に produce fact-check <案件ID> で未確認のひな型を作り、原本・素材条件を照合したレポートを --report で取り込む
+# 詳細: docs/FACT-CHECK-APPROVAL.md。自動ひな型だけでは承認できない
 ./scripts/run src/cli.ts produce script-review production-xxxxxxxx approve --hash 台本の版 --by '本人の名前'
 # 6. 制作（台本が承認済みでなければ不足を表示して拒否）
 ./scripts/run src/cli.ts produce render production-xxxxxxxx --subtitles burn
@@ -72,13 +76,18 @@ T084の判断前チェックリストは、台本の`practice`で指定した原
 
 秘密値はGitにも会話にも保存しません。.env.exampleは将来の設定名だけ。
 
-実装の範囲（2026-10-14、詳細と最新は [docs/STATUS.md](docs/STATUS.md) の先頭）:
-- **実装済み（ローカル）**: 確認画面での承認・差戻し。承認は確認対象一式（動画、採用タイトル・概要欄・タグ・チャプター、字幕、サムネイル全案）の版に結び付き、変更で失効します（T033、T095）。予算制御は見積り・上限（既定0 USD）・試行ごとの予約と精算・費用不明額の保持と再送判定・全試行の記録まで（T023、T024、T098）。ただし実接続がないため、費用は常にmock/localの0 USDです。
-- **未接続・未完了**: 外部の実API（台本・音声・映像の生成）とYouTube投稿（通常制作のPublisherは無効）。通常制作の予算永続化・ジョブ横断管理・実サービスでの費用照合、実接続を伴う無人運用（M5）、自然なナレーション（現在は確認音）。T140のmock投稿台帳とT141のローカル/mock永続キューは独立モジュールで、通常制作CLIや実投稿への接続完了ではありません。
+実装と検証の現在地（2026-10-17、詳細は [現在地](docs/STATUS.md) と各tickets）:
 
-Geminiによる台本生成T025/T026は今回は不採用として終了し、API実装の完了を意味しません。下書きはT123のエージェント用Skillと`produce script`で扱います。T116は別用途の動画理解リクエスト/応答処理で、mock transport限定、実動画解析・実API送信は未検証です。
+- ローカル制作は本人の題材選択・考察・台本承認・完成動画承認を通します。T171の事実・権利確認は現在の案件/台本版に結合し、レポート変更でも再承認が必要です。自動ひな型は未確認のままです（[確認手順](docs/FACT-CHECK-APPROVAL.md)）。
+- 音声の既定は合成確認音。T170のmacOS sayは実発話を組み込め、48秒の実MP4生成・独立デコード・等速全編再生を確認しました。T179のVOICEVOXはアダプターと注入transport試験までで、実エンジン接続・本人の声色採用は未完了です。
+- T172で `sample` / `produce render` にローカル永続キューを接続済みです。`--queue`、`--queue-dir`、`--concurrency` で選択し、未承認の制作案件の投入を拒否します。既定の直接実行と、常駐の無人運用は区別します。
+- T156は30秒/720フレームの実Remotion生成・独立媒体検査を2026-10-16に完了済みです。過去のChrome起動失敗は当時の記録です。ただし可読性等の受入れはT158、見せ方の確認はT150のreviewが残り、媒体検査の合格だけで作品の品質合格にはなりません。
+- T175は隔離したnative/mockの10分/14400フレームを実生成・全デコードし、子プロセスを含むRSSを計測、AVPlayerで8倍速全編再生を確認しました。実ナレーション付きの10〜20分番組、15/20分とRemotionの今回の資源実測、全編等速の視聴品質は別に残ります（[計測手順](docs/LONGFORM-BENCHMARK.md)）。
+- 外部の有料生成APIと実YouTube投稿は未接続。通常制作のPublisherは無効です。予算制御は見積り・上限・予約/精算・費用不明額の保持まであり、実サービスの費用照合・無人運用の受入れは未完了です。T140のmock投稿台帳は実投稿の成功を示しません。
 
-T129のE2Eはmock音声パスと偽MP4による工程・承認検査です。実MP4の媒体検査とは区別します。T126には48秒のRemotion実MP4の過去生成記録がありますが、T156以前のRemotion媒体レポートにある全デコード成功・フレーム数は固定値/期待値で、単独では実検査の証明になりません。T156で独立ffprobe・全映像/音声デコード・実フレーム数・PCM測定へ置き換え、失敗時は生成を拒否します。ただし今回の実Remotion再生成はChrome起動失敗のため未検証で、T156は未完了です。T139では隔離したnative経路で合成音の72秒・604秒MP4を生成し、独立ffprobe・全デコード・字幕同期・代表フレーム目視・AVPlayerでの全編再生を確認しました。Remotion経路はChrome Headless Shellの起動タイムアウトで未検証です。T127は音声スライスのパス・秒数集計と同期/音量値の判定までで、WAVを結合しません。実WAVの結合・BGMミックス・再デコードはT138の隔離された合成トーン専用mock経路にあります。実TTS・人の声質評価・通常制作への統合完了を示しません。行単位の照合とRunway依存案は[T142の調査記録](logs/2026-10-13/232152-T142-b79bc42b/evidence/AUDIT.md)を参照。既存dependsは変更していません。
+Geminiによる台本生成T025/T026は不採用という判断の終了です。下書きはT123のエージェント用Skillと `produce script` で扱います。T116は別用途の動画理解リクエスト/応答処理で、mock transport限定、実動画解析・実API送信は未検証です。
+
+T129のE2Eはmock音声パスと偽MP4による工程検査です。T156以前のRemotionレポートの固定fullDecode/期待フレーム値は実デコードの証拠に使いません。実媒体の根拠はT156の独立FFprobe/FFmpeg検査と各作業回の証跡を参照してください。T138の合成WAV/BGMミックス・LUFS実測、T139のnativeによる72秒/604秒MP4・字幕同期・実再生も、自然TTSの声質受入れとは区別します。
 
 静的型検査は導入済み。型除去は型検査ではありません。これまで契約・有料API・クラウド・push・YouTube操作は行っていません。
 
@@ -100,6 +109,9 @@ node tools/lab.ts --run demo --theme both   # 自作の合成動画で、解析�
 ```
 
 ## 定型作業のSkill化
+
+課題の確認から改善まで続ける場合は [issue-to-improvement](.agents/skills/issue-to-improvement/SKILL.md) を使います。「改善サイクルを回して。課題を調べてチケット化し、ローカルで進められる修正と検証まで行って」と依頼できます。調査だけなら「今回は候補一覧まで」と指定します。既存チケットを再利用し、重複起票を避け、1件ずつ検証・記録して残件を見直す手順です。
+
 共通原本は `.agents/skills/`。`routine-to-skill` が実績から候補を評価し、既存Skillの更新または新規作成・検証・試用を行います。最初の抽出例（T011）は `repository-task-closeout`（検証・チケット・ログの終了順序）です。どのAIもSKILL.mdを明示的に読んで使えます。自動検出の対応は実行環境ごとに異なります。
 
 ## 静的型検査

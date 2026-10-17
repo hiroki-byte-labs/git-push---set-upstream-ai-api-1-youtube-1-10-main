@@ -1,0 +1,15 @@
+✔ typography validates family/weight, effects and emphasis without adding unseen words (0.445833ms)
+✔ font and OFL files are hash-bound; tampered font rejected (24.979542ms)
+✔ Plan typography changes input hash and propagates to normal production candidates (6.091583ms)
+✔ mincho: actual embedded variable font, decorated PNG and both scaled image gates (1155.04ms)
+✔ gothic: actual embedded variable font, decorated PNG and both scaled image gates (1079.773667ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2331.098125
+
+EXIT=0

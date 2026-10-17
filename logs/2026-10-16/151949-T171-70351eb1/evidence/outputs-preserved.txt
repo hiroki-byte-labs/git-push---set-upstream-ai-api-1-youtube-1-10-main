@@ -1,0 +1,7 @@
+{
+  "baseline": "T170 outputs-before.json",
+  "files": 2253,
+  "same_paths": true,
+  "changed": []
+}
+EXIT=0

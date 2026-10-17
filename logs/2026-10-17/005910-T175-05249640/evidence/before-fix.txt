@@ -1,0 +1,48 @@
+✔ generateLongformPlan produces valid plans for 10m, 15m, and 20m with balanced diagrams and chapters (4.187584ms)
+✔ parseBenchmarkArgs parses CLI arguments correctly (0.196125ms)
+✖ runLongformBenchmark dry-run generates plan and safety threshold report without executing render (2.251042ms)
+✖ benchmark rejects unsafe inputs and existing output directories before writing (1.117167ms)
+✔ calculateDirSize measures directory byte size recursively (0.630375ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 67.74375
+
+✖ failing tests:
+
+test at tests/benchmark-longform.test.ts:52:1
+✖ runLongformBenchmark dry-run generates plan and safety threshold report without executing render (2.251042ms)
+  AssertionError [ERR_ASSERTION]: 推計を実測合格にしない
+  
+  true !== null
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/benchmark-longform.test.ts:68:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/benchmark-longform.test.ts:77:1
+✖ benchmark rejects unsafe inputs and existing output directories before writing (1.117167ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/benchmark-longform.test.ts:82:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /空|empty/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+EXIT=1

@@ -1,0 +1,18 @@
+{
+  "method": "Codex in-app browser via cua_repl native video controls; read-only DOM observations",
+  "url": "http://127.0.0.1:4173/job/benchmark-longform-10m-3ed12cad",
+  "duration": 600,
+  "width": 1280,
+  "height": 720,
+  "readyState": 4,
+  "playbackRate": 1,
+  "observedCurrentTimes": [7.341072, 31.569797, 56.425625, 114.799539],
+  "ended": false,
+  "pausedAtEndOfPartialVerification": true,
+  "stoppedCurrentTime": 115.234275,
+  "mutedAfter56Seconds": true,
+  "reportedVideoError": null,
+  "fullBrowserPlayback": "not performed",
+  "fullPlaybackEvidence": "avplayer.txt (8x muted)",
+  "cleanup": "test tab closed; isolated server stopped separately"
+}

@@ -1,0 +1,69 @@
+{
+  "proposal_id": "prp_0mvbqzpjo595a5dc66dc6",
+  "status": "no_change",
+  "changes": [],
+  "insufficient": [
+    {
+      "task_type": "analysis",
+      "difficulty": "L2",
+      "model": "antigravity:gemini-3.8-flash-medium",
+      "evaluated": 1
+    },
+    {
+      "task_type": "analysis",
+      "difficulty": "L2",
+      "model": "codex:gpt-6.1-sol",
+      "evaluated": 1
+    },
+    {
+      "task_type": "analysis",
+      "difficulty": "L3",
+      "model": "antigravity:gemini-3.1-pro-high",
+      "evaluated": 1
+    },
+    {
+      "task_type": "animation",
+      "difficulty": "L3",
+      "model": "codex:gpt-6-astra",
+      "evaluated": 0
+    },
+    {
+      "task_type": "extraction",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "general",
+      "difficulty": "L2",
+      "model": "antigravity:gemini-3.8-flash-medium",
+      "evaluated": 0
+    },
+    {
+      "task_type": "implementation",
+      "difficulty": "L2",
+      "model": "codex:gpt-6.1-sol",
+      "evaluated": 13
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "codex:gpt-6-luna",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "antigravity:gemini-3.8-flash-low",
+      "evaluated": 0
+    },
+    {
+      "task_type": "summarization",
+      "difficulty": "L1",
+      "model": "claude:claude-haiku-5-5",
+      "evaluated": 0
+    }
+  ],
+  "notes": [],
+  "report": "/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/data/optimizer/prp_0mvbqzpjo595a5dc66dc6.md"
+}

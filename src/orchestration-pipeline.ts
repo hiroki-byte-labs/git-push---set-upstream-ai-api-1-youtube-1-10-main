@@ -11,7 +11,7 @@ import {
   reviewScript, assertRenderable, linkRender, readScript, authorshipLabel
 } from './production.ts';
 import type {FactCheckReport} from './fact-check.ts';
-import {checkFactAndRights} from './fact-check.ts';
+import {validateScriptFactCheck} from './script-fact-check.ts';
 import type {NarrationMetadata} from './narration.ts';
 import {validateNarrationMetadata} from './narration.ts';
 import {verifyNarrationLink, checkSubtitleSync, sliceScriptForNarration} from './audio-pipeline.ts';
@@ -147,7 +147,11 @@ export function attachFactCheckReport(
   projectId: string,
   reportRaw: unknown
 ): FactCheckReport {
-  const report = checkFactAndRights(reportRaw);
+  const state = projectState(root, projectId);
+  const script = state.script;
+  if (!script) throw Error('事実確認の対象台本がありません');
+  if (['stale', 'broken'].includes(state.scriptState)) throw Error('事実確認の対象台本の版が無効です');
+  const report = validateScriptFactCheck(reportRaw, projectId, script, readScript(root, projectId, script));
   if (!report.ok) {
     throw new Error(`事実・権利確認にエスカレーション項目があるため台本承認へ進めません:\n- ${report.escalations.join('\n- ')}`);
   }
