@@ -119,7 +119,7 @@ test('runProduceRenderWithQueue checks prerequisites and links render on complet
 
   assert.equal(produceRunnerCalled, true);
   assert.equal(result.id, 'render-job-999');
-  assert.equal(result.jobId, id);
+  assert.ok(result.jobId.startsWith(`${id}-`));
 
   // 制作プロジェクト側の job.json にレンダリング履歴が紐付いていることを確認
   const prodJob = JSON.parse(readFileSync(join(prodRoot, id, 'job.json'), 'utf8'));
@@ -220,4 +220,46 @@ test('failure records error and updates state safely', async t => {
   assert.ok(failedJob.error?.includes('故意のレンダリング障害'));
   assert.equal(failedJob.stages[0].attempts.length, 1);
   assert.equal(failedJob.stages[0].attempts[0].status, 'failed');
+});
+
+test('先に積まれたジョブは自分の台本・実行条件で描画する（今回の呼出しの設定を流用しない。T172追加修正）', async t => {
+  const tempDir = createTempDir('queue-own-opts-');
+  t.after(() => rmSync(tempDir, {recursive: true, force: true}));
+  const queue = await openQueue({queueDir: tempDir, concurrency: 1});
+  const first = enqueueSample(queue, {plan: 'fixtures/sample.json', subtitles: 'soft', resolution: 1080});
+  queue.close();
+  const calls: any[] = [];
+  const result = await runSampleWithQueue(
+    {plan: 'fixtures/draft-price-index.json', subtitles: 'burn', queue: true, queueDir: tempDir, concurrency: 1},
+    {sampleRunner: async (o: any) => {calls.push(o); return {id: `out-${calls.length}`, dir: tempDir};}}
+  );
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].plan, first.planPath);
+  assert.equal(calls[0].subtitles, 'soft');
+  assert.equal(calls[0].resolution, 1080);
+  assert.match(calls[1].plan, /draft-price-index\.json$/);
+  assert.equal(calls[1].subtitles, 'burn');
+  assert.equal(calls[1].resolution, undefined);
+  assert.equal(result.id, 'out-2');
+});
+
+test('描画済みの制作案件を同じキューで再描画できる（T172追加修正）', async t => {
+  const tempDir = createTempDir('queue-rerender-');
+  t.after(() => rmSync(tempDir, {recursive: true, force: true}));
+  const queueDir = join(tempDir, 'queue');
+  const prodRoot = join(tempDir, 'projects');
+  const id = createProject(prodRoot, {schema: 1, candidates: [{id: 'price-index', title: '物価の決まり方', hook: '価格とは', concept: '指数'}]}, {demo: true, by: 'test-agent'});
+  selectTopic(prodRoot, id, 'price-index', 'test-agent');
+  addReflection(prodRoot, id, '身近な価格変動から考えます。', 'test-agent');
+  const script = attachScript(prodRoot, id, JSON.parse(readFileSync('fixtures/draft-price-index.json', 'utf8')), 'test-agent');
+  reviewWithCheckedFactsForTest(prodRoot, id, 'approve', script.hash, '', 'test-reviewer');
+  const seen: any[] = [];
+  const runner = {produceRunner: async (root: string, projId: string, o: any) => {seen.push(o); return {id: `render-${seen.length}`, dir: join(root, projId)};}};
+  const r1 = await runProduceRenderWithQueue(prodRoot, id, {queueDir, concurrency: 1, subtitles: 'soft'}, runner);
+  const r2 = await runProduceRenderWithQueue(prodRoot, id, {queueDir, concurrency: 1, subtitles: 'burn'}, runner);
+  assert.notEqual(r1.jobId, r2.jobId);
+  assert.ok(r1.jobId.startsWith(id) && r2.jobId.startsWith(id));
+  assert.deepEqual(seen.map(o => o.subtitles), ['soft', 'burn']);
+  const prodJob = JSON.parse(readFileSync(join(prodRoot, id, 'job.json'), 'utf8'));
+  assert.deepEqual(prodJob.workflow.renders.map((r: any) => r.jobId), ['render-1', 'render-2']);
 });

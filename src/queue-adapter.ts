@@ -1,5 +1,5 @@
 // T172: sample/produce コマンドと LocalQueue のオプトイン接続アダプター
-import {existsSync, lstatSync, readFileSync, realpathSync} from 'node:fs';
+import {existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {LocalQueue} from './local-queue.ts';
@@ -42,25 +42,54 @@ export async function openQueue(options: QueueOptions = {}): Promise<LocalQueue>
   }
 }
 
+// 投入時の描画条件。ジョブの入力として保存・ハッシュ照合し、drainした呼出し側の設定を他のジョブへ流用しない（T172追加修正）。
+type RenderRequest = Pick<SampleOptions, 'subtitles' | 'budgetUsd' | 'resolution' | 'renderer' | 'audio'>;
+const REQUEST_KEYS = ['subtitles', 'budgetUsd', 'resolution', 'renderer', 'audio'] as const;
+
+function writeRequest(queue: LocalQueue, jobId: string, opts: SampleOptions): string {
+  const request: RenderRequest = {};
+  for (const k of REQUEST_KEYS) if (opts[k] !== undefined) (request as any)[k] = opts[k];
+  const dir = join(queue.root, 'requests');
+  mkdirSync(dir, {recursive: true});
+  const path = join(dir, `${jobId}.json`);
+  writeFileSync(path, JSON.stringify({schema: 1, job: jobId, request}) + '\n', {flag: 'wx', mode: 0o600});
+  return path;
+}
+
+function readRequest(job: QueueJob): RenderRequest {
+  const file = job.inputs[1]?.file;
+  if (!file || !file.endsWith(`/requests/${job.id}.json`)) throw Error(`ジョブ ${job.id} に投入時の描画条件の記録がない（旧形式）。今回の設定で代わりに描画しないため、再投入してください`);
+  const data = JSON.parse(readFileSync(file, 'utf8'));
+  if (data?.schema !== 1 || data.job !== job.id || typeof data.request !== 'object') throw Error(`ジョブ ${job.id} の描画条件の記録が不正`);
+  const request: RenderRequest = {};
+  for (const k of REQUEST_KEYS) if (data.request[k] !== undefined) (request as any)[k] = data.request[k];
+  return request;
+}
+
 export function enqueueSample(queue: LocalQueue, opts: SampleOptions = {}): {jobId: string; planPath: string} {
   const rawPlan = opts.plan ?? 'fixtures/sample.json';
   if (!existsSync(rawPlan)) throw Error(`台本ファイルが見つかりません: ${rawPlan}`);
   const planPath = realpathSync(rawPlan);
   if (!lstatSync(planPath).isFile()) throw Error(`台本は通常ファイルである必要があります: ${planPath}`);
   const jobId = `sample-${randomUUID().slice(0, 8)}`;
-  queue.enqueue({
+  const request = writeRequest(queue, jobId, opts);
+  try {queue.enqueue({
     id: jobId,
     mode: 'local',
-    inputs: [planPath],
+    inputs: [planPath, request],
     stages: ['render'],
     maxAttempts: opts.maxAttempts ?? DEFAULT_MAX_ATTEMPTS,
-  });
+  });} catch (e) {rmSync(request, {force: true}); throw e;}
   return {jobId, planPath};
 }
 
-export function enqueueProduce(queue: LocalQueue, root: string, id: string, maxAttempts = DEFAULT_MAX_ATTEMPTS): {jobId: string} {
-  queue.enqueueProduction(root, id, ['render'], 'local', maxAttempts);
-  return {jobId: id};
+// 同じ案件の再描画（差戻し・台本更新後など）もキューで扱えるよう、ジョブIDは案件ID＋一意の接尾辞にする。
+export function enqueueProduce(queue: LocalQueue, root: string, id: string, maxAttempts = DEFAULT_MAX_ATTEMPTS, opts: SampleOptions = {}): {jobId: string} {
+  const jobId = `${id}-${randomUUID().slice(0, 8)}`;
+  const request = writeRequest(queue, jobId, opts);
+  try {queue.enqueueProduction(root, id, ['render'], 'local', maxAttempts, {jobId, extraInputs: [request]});}
+  catch (e) {rmSync(request, {force: true}); throw e;}
+  return {jobId};
 }
 
 export function createQueueExecutor(
@@ -82,14 +111,14 @@ export function createQueueExecutor(
           job: {mode: state.mode, project: id, scriptHash: state.script!.hash, scriptVersion: state.script!.version},
         });
       });
-      const res = await runProduce(prod.root, prod.id, defaultOpts);
+      const res = await runProduce(prod.root, prod.id, {...readRequest(j)});
       context.writeArtifact('result.json', JSON.stringify(res));
     } else {
       const runSample = overrides?.sampleRunner ?? (async (o) => {
         const {sample} = await import('./commands/sample.ts');
         return sample({...o, queue: false});
       });
-      const res = await runSample(defaultOpts);
+      const res = await runSample({...readRequest(j), plan: j.inputs[0].file});
       context.writeArtifact('result.json', JSON.stringify(res));
     }
   };
@@ -141,7 +170,7 @@ export async function runProduceRenderWithQueue(
     maxAttempts: opts.maxAttempts,
   });
   try {
-    const {jobId} = enqueueProduce(queue, root, id, opts.maxAttempts ?? DEFAULT_MAX_ATTEMPTS);
+    const {jobId} = enqueueProduce(queue, root, id, opts.maxAttempts ?? DEFAULT_MAX_ATTEMPTS, opts);
     console.log(`[queue] 制作案件 ${id} のレンダリングジョブをキューに登録しました (キュー: ${queue.root}, 並行数: ${opts.concurrency ?? DEFAULT_CONCURRENCY})`);
     const executor = createQueueExecutor(opts, overrides);
     await queue.drain(executor);

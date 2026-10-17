@@ -1,0 +1,43 @@
+✔ mock multiple jobs: FIFO starts, concurrency bound, states persist, completions are reused (604.09ms)
+✔ duplicate ids, invalid configuration and real connections are rejected before writes (26.801208ms)
+✔ failure isolation, retryable none errors bounded across reopen, fatal never retried (317.6205ms)
+✔ transient failures succeed within limit and retain isolated attempt outputs (168.506458ms)
+✔ unknown cost at zero dollars blocks all resends but other jobs continue (206.697916ms)
+✔ changed input and completed artifacts block reuse, never overwrite files (154.403ms)
+✔ malformed JSON, checksum, and semantically invalid state stop before mutation (40.536125ms)
+✔ actual process kill: exclusive dead-owner recovery and completed-stage reuse (183.889375ms)
+✔ actual process kill: preserve completed output, isolate interrupted output, resume next attempt (202.236208ms)
+✔ interrupted attempt uses cumulative cap, no reset on recovery (166.102333ms)
+✔ restore receipt after snapshot loss; corrupt receipt blocks without overwriting (89.149791ms)
+✔ artifact writes refuse collisions, traversal, late writes; failed output preserved (63.240084ms)
+✔ production bridge requires human approval, rechecks version before running, preserves project (38.056042ms)
+✔ orphaned attempt directory collision is isolated before writes (94.464958ms)
+✔ symlinked artifact directory rejected without writing outside queue (42.25875ms)
+✔ snapshot persistence failure stops queue; verified receipt restores completion (127.579708ms)
+✔ stage input version tampering blocks completed reuse (75.65975ms)
+✔ approved production mock queue completes without changing production workflow (148.673125ms)
+✔ missing snapshot cannot silently initialize over old evidence (72.051208ms)
+✔ missing completed output blocks even a direct drain (75.5185ms)
+✔ active drain refuses another drain, enqueue and close; names may contain extensions (69.915208ms)
+[queue] ジョブ sample-06e657f1 をキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-sample-WWNdSW, 並行数: 1)
+[queue] 制作案件 production-demo-fb0d3954 のレンダリングジョブをキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-prod-ctdO44/queue, 並行数: 1)
+✔ parseSampleArgs parses --queue, --queue-dir, and --concurrency correctly (0.426667ms)
+✔ runSampleWithQueue executes sample via LocalQueue and persists verified state (141.8785ms)
+✔ runProduceRenderWithQueue checks prerequisites and links render on completion (183.2065ms)
+✔ FIFO queue serializes execution when concurrency is 1 (362.343125ms)
+[queue] ジョブ sample-d70431c1 をキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-own-opts-ETnNtf, 並行数: 1)
+[queue] 制作案件 production-demo-f4a663c1 のレンダリングジョブをキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-rerender-Z5HBgd/queue, 並行数: 1)
+[queue] 制作案件 production-demo-f4a663c1 のレンダリングジョブをキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-rerender-Z5HBgd/queue, 並行数: 1)
+✔ concurrent queue respects concurrency limit of 2 (417.489667ms)
+✔ failure records error and updates state safely (93.841125ms)
+✔ 先に積まれたジョブは自分の台本・実行条件で描画する（今回の呼出しの設定を流用しない。T172追加修正） (243.103792ms)
+✔ 描画済みの制作案件を同じキューで再描画できる（T172追加修正） (197.316708ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3065.306084
+exit=0

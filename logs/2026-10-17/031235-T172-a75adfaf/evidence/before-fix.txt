@@ -1,0 +1,52 @@
+[queue] ジョブ sample-8102e274 をキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-sample-iqFRlT, 並行数: 1)
+[queue] 制作案件 production-demo-3ebed35b のレンダリングジョブをキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-prod-tpyAf3/queue, 並行数: 1)
+✔ parseSampleArgs parses --queue, --queue-dir, and --concurrency correctly (0.81825ms)
+✔ runSampleWithQueue executes sample via LocalQueue and persists verified state (74.79425ms)
+✔ runProduceRenderWithQueue checks prerequisites and links render on completion (76.927ms)
+✔ FIFO queue serializes execution when concurrency is 1 (239.352167ms)
+[queue] ジョブ sample-4dabf1e6 をキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-own-opts-fpHTAR, 並行数: 1)
+[queue] 制作案件 production-demo-9ad6f97e のレンダリングジョブをキューに登録しました (キュー: /private/var/folders/v2/5q6htn2930lf0p9xc671cc2w0000gn/T/queue-rerender-MIDiah/queue, 並行数: 1)
+✔ concurrent queue respects concurrency limit of 2 (244.893792ms)
+✔ failure records error and updates state safely (49.961875ms)
+✖ 先に積まれたジョブは自分の台本・実行条件で描画する（今回の呼出しの設定を流用しない。T172追加修正） (124.590667ms)
+✖ 描画済みの制作案件を同じキューで再描画できる（T172追加修正） (82.739875ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1015.093333
+
+✖ failing tests:
+
+test at tests/queue-adapter.test.ts:225:1
+✖ 先に積まれたジョブは自分の台本・実行条件で描画する（今回の呼出しの設定を流用しない。T172追加修正） (124.590667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'fixtures/draft-price-index.json'
+  - '/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/fixtures/sample.json'
+  
+      at TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/queue-adapter.test.ts:237:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'fixtures/draft-price-index.json',
+    expected: '/Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/fixtures/sample.json',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/queue-adapter.test.ts:246:1
+✖ 描画済みの制作案件を同じキューで再描画できる（T172追加修正） (82.739875ms)
+  Error: production is waiting for human review
+      at LocalQueue.enqueueProduction (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/local-queue.ts:122:79)
+      at enqueueProduce (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/queue-adapter.ts:62:9)
+      at runProduceRenderWithQueue (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/src/queue-adapter.ts:144:21)
+      at async TestContext.<anonymous> (file:///Users/hongj/Documents/Codex/2026-10-08/ai-api-1-youtube-1-10/tests/queue-adapter.test.ts:259:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+exit=1

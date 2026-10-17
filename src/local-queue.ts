@@ -18,6 +18,13 @@ export type StageContext = {job: Readonly<QueueJob>; stage: string; attempt: num
 export type QueueExecutor = (context: StageContext) => Promise<void>;
 const hash = (v: string | Buffer) => createHash('sha256').update(v).digest('hex');
 const digest = (v: unknown) => hash(JSON.stringify(v));
+// 直接の produce render と同じく承認済みの現在の台本を要求する。描画済み（video-review）の再描画は直接実行と同様に許す（T172追加修正）。
+function assertQueueRenderable(root: string, id: string) {
+  const out = assertRenderable(root, id);
+  const assessment = assessStagePrerequisites(root, id);
+  if (assessment.currentStage === 'render' ? !assessment.canProceed : assessment.currentStage !== 'video-review') throw Error('production is waiting for human review');
+  return out;
+}
 const token = (v: unknown): v is string => typeof v === 'string' && /^[a-zA-Z0-9_-]{1,80}$/.test(v);
 const sha = (v: unknown) => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v);
 const integer = (v: unknown, max: number): v is number => Number.isInteger(v) && Number(v) >= 1 && Number(v) <= max;
@@ -116,11 +123,11 @@ export class LocalQueue {
     const j: QueueJob = {id: task.id, mode: task.mode, inputs, maxAttempts: task.maxAttempts ?? 3, stages: task.stages.map(name => ({name, status: 'queued', outputs: [], attempts: []})), status: 'queued', ...(production ? {production} : {})};
     this.state.jobs.push(j); this.event(j, 'enqueued'); this.save();
   }
-  enqueueProduction(root: string, id: string, stages: string[], mode: 'local' | 'mock' = 'local', maxAttempts = 3) {
-    const {state, planPath} = assertRenderable(root, id);
-    const assessment = assessStagePrerequisites(root, id);
-    if (!assessment.canProceed || assessment.currentStage !== 'render') throw Error('production is waiting for human review');
-    this.enqueueTask({id, mode, inputs: [planPath], stages, maxAttempts}, {root: realpathSync(root), id, scriptHash: state.script!.hash});
+  enqueueProduction(root: string, id: string, stages: string[], mode: 'local' | 'mock' = 'local', maxAttempts = 3, opts: {jobId?: string; extraInputs?: string[]} = {}) {
+    const {state, planPath} = assertQueueRenderable(root, id);
+    const jobId = opts.jobId ?? id;
+    if (jobId !== id && !jobId.startsWith(`${id}-`)) throw Error('production job id must start with the project id');
+    this.enqueueTask({id: jobId, mode, inputs: [planPath, ...(opts.extraInputs ?? [])], stages, maxAttempts}, {root: realpathSync(root), id, scriptHash: state.script!.hash});
   }
   private outputPath(file: string) {
     if (isAbsolute(file) || file.split('/').some(p => !p || p === '.' || p === '..')) throw Error('unsafe artifact path');
@@ -142,10 +149,8 @@ export class LocalQueue {
   private verify(j: QueueJob) {
     for (const a of j.inputs) if (hash(readFileSync(a.file)) !== a.sha256) throw Error('input hash mismatch');
     if (j.production) {
-      const {state} = assertRenderable(j.production.root, j.production.id);
+      const {state} = assertQueueRenderable(j.production.root, j.production.id);
       if (state.script!.hash !== j.production.scriptHash) throw Error('production input version changed');
-      const assessment = assessStagePrerequisites(j.production.root, j.production.id);
-      if (!assessment.canProceed || assessment.currentStage !== 'render') throw Error('production is waiting for human review');
     }
     for (const st of j.stages) {
       if (st.attempts.some(a => a.charge === 'unknown')) throw Error('unknown cost; automatic resend disabled');

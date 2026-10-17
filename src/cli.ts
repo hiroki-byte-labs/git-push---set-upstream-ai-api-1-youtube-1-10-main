@@ -18,7 +18,7 @@ const usage = [
   'scripts/run src/cli.ts <command>',
   '  tickets | next | check',
   '  lint [--plan 台本.json]',
-  '  sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say] [--queue]',
+  '  sample [--plan 台本.json] [--subtitles burn|soft|both] [--budget-usd 上限] [--resolution 720|1080] [--renderer native|remotion] [--audio mock|say|voicevox] [--queue] [--queue-dir ディレクトリ] [--concurrency 並行数]',
   '  serve                                  127.0.0.1:4173 でジョブ一覧・確認画面',
   '  jobs | jobs abandon <id> [--note 文] | jobs clean [--apply]',
   '  review <id> | review <id> approve|reject --hash <sha256> [--note 文] [--reviewer 名前]',
